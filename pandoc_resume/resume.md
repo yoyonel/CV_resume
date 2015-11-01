@@ -1,4 +1,4 @@
-Johnny Coder
+Lionel ATTY
 ============
 
 ----
@@ -9,8 +9,8 @@ Johnny Coder
 
 ----
 
-Education
----------
+Études et diplômes
+------------------
 
 2010-2014 (expected)
 :   **PhD, Computer Science**; Awesome University (MyTown)
@@ -24,8 +24,8 @@ Education
 
     *Minor: Awesomeology*
 
-Experience
-----------
+Expérience professionnelle
+--------------------------
 
 **Your Most Recent Work Experience:**
 
