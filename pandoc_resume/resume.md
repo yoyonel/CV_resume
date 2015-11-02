@@ -24,8 +24,8 @@ Lionel ATTY
 
     *Minor: Awesomeology*
 
-Expérience professionnelle
---------------------------
+Expériences professionnelles
+----------------------------
 
 **Your Most Recent Work Experience:**
 
@@ -35,7 +35,7 @@ links:
 
 * First item
 
-* Item with [link](http://www.example.com). Links will work both in
+* Item with [link](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf). Links will work both in
   the html and pdf versions.
 
 **That Other Job You Had**
@@ -81,18 +81,16 @@ Programming Languages
 
 [ref]: https://github.com/githubuser/superlongprojectname
 
-Extra Section, Call it Whatever You Want
-----------------------------------------
+Langues & Divers
+----------------
+  * Langues
+    * Francais (langue natale)
+    * Anglais (technique)
+    * Allemand (scolaire)
 
-* Human Languages:
-
-     * English (native speaker)
-     * ???
-     * This is what a nested list looks like.
-
-* Random tidbit
-
-* Other sort of impressive-sounding thing you did
+  * Musiques : World (Africaines, Sud-Américaines), Guitare-Basse (8 ans)
+  * Percussions traditionnelles Africaines (2 ans)
+  * Sports: Volley (Compétitif - 10 ans), Football, BasketBall, SnowBoard
 
 ----
 
