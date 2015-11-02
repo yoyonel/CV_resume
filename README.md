@@ -1,3 +1,7 @@
+<p align="center">
+  ![Image of MarkDown](data/ico/md.ico)
+</p>
+
 # Depot pour CVs/Resumes
 * Depot par rapport a la production de CV (resume) par MarkDown.
 * Possibilites de versionner les CV (ou sources des CVs).
@@ -11,7 +15,10 @@ coommentaire HTML style
 [](Commentaire GitHub style)
 [comment]: # (This actually is the most platform independent comment)
 
-![Image of MarkDown](data/ico/md.ico)
+<p align="center">
+  ![Image of MarkDown](data/img/atom-small.jpg)
+</p>
+
 # Editeur pour MarkDown
 Pour l'editeur MarkDown, on peut utiliser: [ATOM Text Editor](https://atom.io/)
 
@@ -29,3 +36,5 @@ sudo apt-get install atom
 * [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
 * [commentaires en syntaxe markdown](http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 * [Liens relatifs dans un README.md GitHub - util pour les images](https://help.github.com/articles/relative-links-in-readmes/)
+* [GitHub's Atom Editor: Git Integration](https://www.youtube.com/watch?v=4PhNIaQn5Xg)
+* [Centrer/Aligner du text/img en MarkDown](https://coderwall.com/p/iftc1q/centered-text-and-images-in-github-markdown)
