@@ -1,5 +1,6 @@
+[comment]: # (![Image of MarkDown](data/ico/md.ico))
 <p align="center">
-  ![Image of MarkDown](data/ico/md.ico)
+  ![](https://raw.githubusercontent.com/yoyonel/CV_resume/master/data/ico/md.ico)
 </p>
 
 # Depot pour CVs/Resumes
@@ -15,8 +16,9 @@ coommentaire HTML style
 [](Commentaire GitHub style)
 [comment]: # (This actually is the most platform independent comment)
 
+[comment]: # (![Image of MarkDown](data/img/atom-small.jpg))
 <p align="center">
-  ![Image of MarkDown](data/img/atom-small.jpg)
+  ![](https://raw.githubusercontent.com/yoyonel/CV_resume/master/data/img/atom-small.jpg)
 </p>
 
 # Editeur pour MarkDown
