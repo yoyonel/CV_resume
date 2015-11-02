@@ -4,9 +4,7 @@
   ![](https://github.com/yoyonel/CV_resume/raw/master/data/ico/md.ico)
 </p>
 -->
-<p align="center">
-  ![](https://github.com/yoyonel/CV_resume/raw/master/data/ico/md.ico)
-</p>
+![](https://github.com/yoyonel/CV_resume/raw/master/data/ico/md.ico)
 
 # Depot pour CVs/Resumes
 * Depot par rapport a la production de CV (resume) par MarkDown.
@@ -22,9 +20,12 @@ coommentaire HTML style
 [comment]: # (This actually is the most platform independent comment)
 
 [comment]: # (![Image of MarkDown](data/img/atom-small.jpg))
+<!---
 <p align="center">
   ![](https://raw.githubusercontent.com/yoyonel/CV_resume/master/data/img/atom-small.jpg)
 </p>
+-->
+![](https://raw.githubusercontent.com/yoyonel/CV_resume/master/data/img/atom-small.jpg)
 
 # Editeur pour MarkDown
 Pour l'editeur MarkDown, on peut utiliser: [ATOM Text Editor](https://atom.io/)
