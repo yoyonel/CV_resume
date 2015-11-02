@@ -4,7 +4,9 @@
   ![](https://github.com/yoyonel/CV_resume/raw/master/data/ico/md.ico)
 </p>
 -->
-![](https://github.com/yoyonel/CV_resume/raw/master/data/ico/md.ico)
+<p align="center">
+  ![](https://github.com/yoyonel/CV_resume/raw/master/data/ico/md.ico)
+</p>
 
 # Depot pour CVs/Resumes
 * Depot par rapport a la production de CV (resume) par MarkDown.
