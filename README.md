@@ -47,3 +47,4 @@ sudo apt-get install atom
 * [How to embed a video into GitHub README.md?](http://stackoverflow.com/questions/4279611/how-to-embed-a-video-into-github-readme-md)
 [![GitHub's Atom Editor: Git Integration](http://img.youtube.com/vi/4PhNIaQn5Xg/0.jpg)](http://www.youtube.com/watch?v=4PhNIaQn5Xg)
 * [Centrer/Aligner du text/img en MarkDown](https://coderwall.com/p/iftc1q/centered-text-and-images-in-github-markdown)
+* [Markdown + Urls with Parentheses](http://ext.raneous.net/post/14580141233/markdown-urls-with-parentheses)

@@ -9,88 +9,59 @@ Lionel ATTY
 
 ----
 
-Études et diplômes
-------------------
-
-2010-2014 (expected)
-:   **PhD, Computer Science**; Awesome University (MyTown)
-
-    *Thesis title: Deep Learning Approaches to the Self-Awesomeness
-     Estimation Problem*
-
-2007-2010
-:   **BSc, Computer Science and Electrical Engineering**; University of
-    HomeTown (HomeTown)
-
-    *Minor: Awesomeology*
-
 Expériences professionnelles
 ----------------------------
 
-**Your Most Recent Work Experience:**
+2011-2015
+:   **Ingénieur d'étude R&D** (IGN, Saint-Mandé);
 
-Short text containing the type of work done, results obtained,
-lessons learned and other remarks. Can also include lists and
-links:
+* TrafiPollu: [Développement sur le WorkPackage 4 - Relation Modèles / données](https://sites.google.com/site/trafipollu/workpackages/wp4---donnees)
 
-* First item
+  *Production de données géographiques pour alimenter un ensemble des outils de modélisation. \
+  Résultats obtenus intégrés dans un SIG (QGIS) pour produire les cartographies des polluants.*
 
-* Item with [link](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf). Links will work both in
-  the html and pdf versions.
+* iSpace&Time: [Cartographie et rendu 4D de l'espace public avec simulations de flux piétons/voitures pour l'aménagement urbain](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf)
 
-**That Other Job You Had**
+  *Intégration des données issues de différents simulateurs (piétons, trafic auto (SYMUVIA)). \
+  Rendu, animation des données via OpenSceneGraph (OpenGL + Graph Scene)*
 
-Also with a short description.
+2005-2008
+:   **Ingénieur R&D** (Eden Studios, LYON);
+* [Alone in the Dark](https://en.wikipedia.org/wiki/Alone_in_the_Dark_%282008_video_game%29):
+  *Intégration dans un moteur de jeu vidéo multi-plateformes propriétaire d'un système d'ombres temps réel*
 
-Technical Experience
---------------------
+Expériences Techniques
+----------------------
 
-My Cool Side Project
-:   For items which don't have a clear time ordering, a definition
-    list can be used to have named items.
+* Programmation: C, C++, STL, Interface Qt (4.8)
+* API Graphiques: OpenGL(2.x->4.x), DirectX(9.x), OpenSceneGraph(3.x)
+* Shaders: GLSL, Cg, HLSL, Open-CL, CUDA
+* Logiciels: Blender, MakeHuman, AutoDesk FBX
+* Modelling, Low poly, Textures Baking, Lighting, Animation (MoCap)
+* Multi-Threads : PC (Unix,Windows), Consoles (XBox360, PS3)
 
-    * These items can also contain lists, but you need to mind the
-      indentation levels in the markdown source.
-    * Second item.
+Études et Diplômes
+------------------
 
-Open Source
-:   List open source contributions here, perhaps placing emphasis on
-    the project names, for example the **Linux Kernel**, where you
-    implemented multithreading over a long weekend, or **node.js**
-    (with [link](http://nodejs.org)) which was actually totally
-    your idea...
+2004-2005
+:   **Master2 (Recherche), Image Vision Robotique**;
+:   UJF - GRAVIR, ARTIS - GRENOBLE
 
-Programming Languages
-:   **first-lang:** Here, we have an itemization, where we only want
-    to add descriptions to the first few items, but still want to
-    mention some others together at the end. A format that works well
-    here is a description list where the first few items have their
-    first word emphasized, and the last item contains the final few
-    emphasized terms. Notice the reasonably nice page break in the pdf
-    version, which wouldn't happen if we generated the pdf via html.
+    *Génération d'ombre douces temps réel: Conception et réalisation
+    de nouveaux algorithmes de génération d'ombres douces temps réel*
 
-:   **second-lang:** Description of your experience with second-lang,
-    perhaps again including a [link] [ref], this time placing the url
-    reference elsewhere in the document to reduce clutter (see source
-    file).
+2003-2004
+:   **Master1/Magistère2, Informatique et Mathématiques Appliquées**;
+:   UJF - GRAVIR, ARTIS - GRENOBLE
 
-:   **obscure-but-impressive-lang:** We both know this one's pushing
-    it.
-
-:   Basic knowledge of **C**, **x86 assembly**, **forth**, **Common Lisp**
-
-[ref]: https://github.com/githubuser/superlongprojectname
+    *Eclairage Surfacique en temps réel: Utilisation avancée des cartes graphiques 3D
+    programmables dans le cadre de la gestion d'une surface de lumière en temps réel*
 
 Langues & Divers
-----------------
-  * Langues
-    * Francais (langue natale)
-    * Anglais (technique)
-    * Allemand (scolaire)
-
-  * Musiques : World (Africaines, Sud-Américaines), Guitare-Basse (8 ans)
-  * Percussions traditionnelles Africaines (2 ans)
-  * Sports: Volley (Compétitif - 10 ans), Football, BasketBall, SnowBoard
+----------------  
+  * Anglais (technique)
+  * Musiques : Guitare-Basse (10 ans), Percussions Africaines (2 ans)
+  * Sports: Volley (Compétitif - 10 ans), Football
 
 ----
 
