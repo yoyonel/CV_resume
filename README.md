@@ -48,3 +48,4 @@ sudo apt-get install atom
 [![GitHub's Atom Editor: Git Integration](http://img.youtube.com/vi/4PhNIaQn5Xg/0.jpg)](http://www.youtube.com/watch?v=4PhNIaQn5Xg)
 * [Centrer/Aligner du text/img en MarkDown](https://coderwall.com/p/iftc1q/centered-text-and-images-in-github-markdown)
 * [Markdown + Urls with Parentheses](http://ext.raneous.net/post/14580141233/markdown-urls-with-parentheses)
+* [pagebreak in markdown while creating pdf](http://stackoverflow.com/questions/22601053/pagebreak-in-markdown-while-creating-pdf)

@@ -1,0 +1,47 @@
+Installing autocomplete-bibtex to /home/latty/.atom/packages REQUEST { url: 'https://atom.io/api/packages/autocomplete-bibtex',
+  json: true,
+  retries: 4,
+  proxy: '192.168.4.9:3128/',
+  strictSSL: false,
+  headers: { 'User-Agent': 'npm/2.13.3 node/v0.10.40 linux x64' },
+  callback: [Function],
+  method: 'GET' }
+REQUEST make request https://atom.io/api/packages/autocomplete-bibtex
+REQUEST { url: 'https://atom.io/api/packages/autocomplete-bibtex',
+  json: true,
+  retries: 4,
+  proxy: '192.168.4.9:3128/',
+  strictSSL: false,
+  headers: { 'User-Agent': 'npm/2.13.3 node/v0.10.40 linux x64' },
+  callback: [Function],
+  method: 'GET' }
+REQUEST make request https://atom.io/api/packages/autocomplete-bibtex
+REQUEST { url: 'https://atom.io/api/packages/autocomplete-bibtex',
+  json: true,
+  retries: 4,
+  proxy: '192.168.4.9:3128/',
+  strictSSL: false,
+  headers: { 'User-Agent': 'npm/2.13.3 node/v0.10.40 linux x64' },
+  callback: [Function],
+  method: 'GET' }
+REQUEST make request https://atom.io/api/packages/autocomplete-bibtex
+REQUEST { url: 'https://atom.io/api/packages/autocomplete-bibtex',
+  json: true,
+  retries: 4,
+  proxy: '192.168.4.9:3128/',
+  strictSSL: false,
+  headers: { 'User-Agent': 'npm/2.13.3 node/v0.10.40 linux x64' },
+  callback: [Function],
+  method: 'GET' }
+REQUEST make request https://atom.io/api/packages/autocomplete-bibtex
+REQUEST { url: 'https://atom.io/api/packages/autocomplete-bibtex',
+  json: true,
+  retries: 4,
+  proxy: '192.168.4.9:3128/',
+  strictSSL: false,
+  headers: { 'User-Agent': 'npm/2.13.3 node/v0.10.40 linux x64' },
+  callback: [Function],
+  method: 'GET' }
+REQUEST make request https://atom.io/api/packages/autocomplete-bibtex
+[31m✗
+[39m[31mRequest for package information failed: tunneling socket could not be established, cause=connect EINVAL (5 attempts) (ECONNRESET)[39m

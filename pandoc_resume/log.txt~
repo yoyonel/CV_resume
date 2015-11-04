@@ -1,0 +1,197 @@
+Installing autocomplete-bibtex to /home/latty/.atom/packages REQUEST { url: 'https://atom.io/api/packages/autocomplete-bibtex',
+  json: true,
+  retries: 4,
+  proxy: 'http://192.168.4.9:3128/',
+  strictSSL: false,
+  headers: { 'User-Agent': 'npm/2.13.3 node/v0.10.40 linux x64' },
+  callback: [Function],
+  method: 'GET' }
+REQUEST make request https://atom.io/api/packages/autocomplete-bibtex
+REQUEST onRequestResponse https://atom.io/api/packages/autocomplete-bibtex 200 { server: 'Cowboy',
+  connection: 'close',
+  date: 'Wed, 04 Nov 2015 11:17:08 GMT',
+  status: '200 OK',
+  'strict-transport-security': 'max-age=631152000',
+  'x-frame-options': 'DENY',
+  'x-xss-protection': '1; mode=block',
+  'x-content-type-options': 'nosniff',
+  'content-security-policy': 'default-src \'self\'; connect-src \'self\'; font-src \'self\'; frame-src \'self\' https://www.youtube.com; img-src https://* \'self\' data:; media-src \'none\'; object-src \'self\'; script-src \'self\' \'unsafe-inline\' https://ssl.google-analytics.com https://www.google-analytics.com https://platform.twitter.com; style-src \'self\' \'unsafe-inline\';',
+  'content-type': 'application/json; charset=utf-8',
+  etag: 'W/"5a5b973392f2bdee46a47debafc793ad"',
+  'cache-control': 'max-age=0, private, must-revalidate',
+  'x-request-id': 'b33d703a-dbb2-4cd1-a5ad-82e29d477f94',
+  'x-runtime': '0.015576',
+  'x-rack-cache': 'miss',
+  via: '1.1 vegur' }
+REQUEST finish init function https://atom.io/api/packages/autocomplete-bibtex
+REQUEST response end https://atom.io/api/packages/autocomplete-bibtex 200 { server: 'Cowboy',
+  connection: 'close',
+  date: 'Wed, 04 Nov 2015 11:17:08 GMT',
+  status: '200 OK',
+  'strict-transport-security': 'max-age=631152000',
+  'x-frame-options': 'DENY',
+  'x-xss-protection': '1; mode=block',
+  'x-content-type-options': 'nosniff',
+  'content-security-policy': 'default-src \'self\'; connect-src \'self\'; font-src \'self\'; frame-src \'self\' https://www.youtube.com; img-src https://* \'self\' data:; media-src \'none\'; object-src \'self\'; script-src \'self\' \'unsafe-inline\' https://ssl.google-analytics.com https://www.google-analytics.com https://platform.twitter.com; style-src \'self\' \'unsafe-inline\';',
+  'content-type': 'application/json; charset=utf-8',
+  etag: 'W/"5a5b973392f2bdee46a47debafc793ad"',
+  'cache-control': 'max-age=0, private, must-revalidate',
+  'x-request-id': 'b33d703a-dbb2-4cd1-a5ad-82e29d477f94',
+  'x-runtime': '0.015576',
+  'x-rack-cache': 'miss',
+  via: '1.1 vegur' }
+REQUEST end event https://atom.io/api/packages/autocomplete-bibtex
+REQUEST has body https://atom.io/api/packages/autocomplete-bibtex 17494
+REQUEST emitting complete https://atom.io/api/packages/autocomplete-bibtex
+REQUEST { url: 'https://www.atom.io/api/packages/autocomplete-bibtex/versions/0.6.1/tarball',
+  proxy: 'http://192.168.4.9:3128/',
+  strictSSL: false,
+  headers: { 'User-Agent': 'npm/2.13.3 node/v0.10.40 linux x64' },
+  method: 'GET',
+  callback: undefined }
+REQUEST make request https://www.atom.io/api/packages/autocomplete-bibtex/versions/0.6.1/tarball
+REQUEST onRequestResponse https://www.atom.io/api/packages/autocomplete-bibtex/versions/0.6.1/tarball 302 { server: 'Cowboy',
+  connection: 'close',
+  date: 'Wed, 04 Nov 2015 11:17:09 GMT',
+  status: '302 Found',
+  'strict-transport-security': 'max-age=631152000',
+  'x-frame-options': 'DENY',
+  'x-xss-protection': '1; mode=block',
+  'x-content-type-options': 'nosniff',
+  'content-security-policy': 'default-src \'self\'; connect-src \'self\'; font-src \'self\'; frame-src \'self\' https://www.youtube.com; img-src https://* \'self\' data:; media-src \'none\'; object-src \'self\'; script-src \'self\' \'unsafe-inline\' https://ssl.google-analytics.com https://www.google-analytics.com https://platform.twitter.com; style-src \'self\' \'unsafe-inline\';',
+  location: 'https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1',
+  'content-type': 'text/html; charset=utf-8',
+  'cache-control': 'no-cache',
+  'x-request-id': '645a7065-53ce-4fef-b8f2-fb7acf323806',
+  'x-runtime': '0.079863',
+  'x-rack-cache': 'miss',
+  via: '1.1 vegur' }
+REQUEST redirect https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1
+REQUEST redirect to https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1
+REQUEST {}
+REQUEST response end https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1 302 { server: 'Cowboy',
+  connection: 'close',
+  date: 'Wed, 04 Nov 2015 11:17:09 GMT',
+  status: '302 Found',
+  'strict-transport-security': 'max-age=631152000',
+  'x-frame-options': 'DENY',
+  'x-xss-protection': '1; mode=block',
+  'x-content-type-options': 'nosniff',
+  'content-security-policy': 'default-src \'self\'; connect-src \'self\'; font-src \'self\'; frame-src \'self\' https://www.youtube.com; img-src https://* \'self\' data:; media-src \'none\'; object-src \'self\'; script-src \'self\' \'unsafe-inline\' https://ssl.google-analytics.com https://www.google-analytics.com https://platform.twitter.com; style-src \'self\' \'unsafe-inline\';',
+  location: 'https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1',
+  'content-type': 'text/html; charset=utf-8',
+  'cache-control': 'no-cache',
+  'x-request-id': '645a7065-53ce-4fef-b8f2-fb7acf323806',
+  'x-runtime': '0.079863',
+  'x-rack-cache': 'miss',
+  via: '1.1 vegur' }
+REQUEST make request https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1
+REQUEST onRequestResponse https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1 200 { 'content-length': '7907',
+  'access-control-allow-origin': 'https://render.githubusercontent.com',
+  'content-security-policy': 'default-src \'none\'',
+  'x-xss-protection': '1; mode=block',
+  'x-frame-options': 'deny',
+  'x-content-type-options': 'nosniff',
+  'strict-transport-security': 'max-age=31536000',
+  vary: 'Authorization,Accept-Encoding',
+  etag: '"db5c324c7d642046c05301fab2b3abf25064c58f"',
+  'content-type': 'application/x-gzip',
+  'content-disposition': 'attachment; filename=apcshields-autocomplete-bibtex-v0.6.1-0-gdb5c324.tar.gz',
+  date: 'Wed, 04 Nov 2015 11:17:09 GMT',
+  'x-github-request-id': 'C0868509:509A:EEE691A:5639E935' }
+REQUEST finish init function https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1
+REQUEST response end https://codeload.github.com/apcshields/autocomplete-bibtex/legacy.tar.gz/v0.6.1 200 { 'content-length': '7907',
+  'access-control-allow-origin': 'https://render.githubusercontent.com',
+  'content-security-policy': 'default-src \'none\'',
+  'x-xss-protection': '1; mode=block',
+  'x-frame-options': 'deny',
+  'x-content-type-options': 'nosniff',
+  'strict-transport-security': 'max-age=31536000',
+  vary: 'Authorization,Accept-Encoding',
+  etag: '"db5c324c7d642046c05301fab2b3abf25064c58f"',
+  'content-type': 'application/x-gzip',
+  'content-disposition': 'attachment; filename=apcshields-autocomplete-bibtex-v0.6.1-0-gdb5c324.tar.gz',
+  date: 'Wed, 04 Nov 2015 11:17:09 GMT',
+  'x-github-request-id': 'C0868509:509A:EEE691A:5639E935' }
+gyp info it worked if it ends with ok
+gyp verb cli [ '/opt/atom/resources/app/apm/bin/node',
+gyp verb cli   '/opt/atom/resources/app/apm/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js',
+gyp verb cli   'install',
+gyp verb cli   '--target=0.30.7',
+gyp verb cli   '--dist-url=https://atom.io/download/atom-shell',
+gyp verb cli   '--arch=x64',
+gyp verb cli   '--ensure',
+gyp verb cli   '--verbose',
+gyp verb cli   '--proxy=http://192.168.4.9:3128/' ]
+gyp info using node-gyp@2.0.2
+gyp info using node@0.10.40 | linux | x64
+gyp verb command install []
+gyp verb install input version string "0.30.7"
+gyp verb install installing version: 0.30.7
+gyp verb install --ensure was passed, so won't reinstall if already installed
+gyp verb install version not already installed, continuing with install 0.30.7
+gyp verb ensuring nodedir is created /home/latty/.atom/.node-gyp/.node-gyp/0.30.7
+gyp verb created nodedir /home/latty/.atom/.node-gyp/.node-gyp/0.30.7
+gyp http GET https://atom.io/download/atom-shell/v0.30.7/node-v0.30.7.tar.gz
+gyp verb download using proxy url: "http://192.168.4.9:3128/"
+REQUEST { uri: 'https://atom.io/download/atom-shell/v0.30.7/node-v0.30.7.tar.gz',
+  headers: { 'User-Agent': 'node-gyp v2.0.2 (node v0.10.40)' },
+  proxy: 'http://192.168.4.9:3128/',
+  callback: undefined }
+REQUEST make request https://atom.io/download/atom-shell/v0.30.7/node-v0.30.7.tar.gz
+REQUEST onRequestResponse https://atom.io/download/atom-shell/v0.30.7/node-v0.30.7.tar.gz 302 { server: 'Cowboy',
+  connection: 'close',
+  date: 'Wed, 04 Nov 2015 11:17:11 GMT',
+  status: '302 Found',
+  'strict-transport-security': 'max-age=631152000',
+  'x-frame-options': 'DENY',
+  'x-xss-protection': '1; mode=block',
+  'x-content-type-options': 'nosniff',
+  'content-security-policy': 'default-src \'self\'; connect-src \'self\'; font-src \'self\'; frame-src \'self\' https://www.youtube.com; img-src https://* \'self\' data:; media-src \'none\'; object-src \'self\'; script-src \'self\' \'unsafe-inline\' https://ssl.google-analytics.com https://www.google-analytics.com https://platform.twitter.com; style-src \'self\' \'unsafe-inline\';',
+  location: 'http://gh-contractor-zcbenz.s3.amazonaws.com/atom-shell/dist/v0.30.7/node-v0.30.7.tar.gz',
+  'content-type': 'text/html; charset=utf-8',
+  'cache-control': 'no-cache',
+  'x-request-id': 'a498a91e-e364-4510-8f38-a8e5973f0ad4',
+  'x-runtime': '0.054849',
+  'x-rack-cache': 'miss',
+  via: '1.1 vegur' }
+REQUEST redirect http://gh-contractor-zcbenz.s3.amazonaws.com/atom-shell/dist/v0.30.7/node-v0.30.7.tar.gz
+REQUEST redirect to http://gh-contractor-zcbenz.s3.amazonaws.com/atom-shell/dist/v0.30.7/node-v0.30.7.tar.gz
+REQUEST {}
+REQUEST make request http://gh-contractor-zcbenz.s3.amazonaws.com/atom-shell/dist/v0.30.7/node-v0.30.7.tar.gz
+REQUEST response end http://gh-contractor-zcbenz.s3.amazonaws.com/atom-shell/dist/v0.30.7/node-v0.30.7.tar.gz 302 { server: 'Cowboy',
+  connection: 'close',
+  date: 'Wed, 04 Nov 2015 11:17:11 GMT',
+  status: '302 Found',
+  'strict-transport-security': 'max-age=631152000',
+  'x-frame-options': 'DENY',
+  'x-xss-protection': '1; mode=block',
+  'x-content-type-options': 'nosniff',
+  'content-security-policy': 'default-src \'self\'; connect-src \'self\'; font-src \'self\'; frame-src \'self\' https://www.youtube.com; img-src https://* \'self\' data:; media-src \'none\'; object-src \'self\'; script-src \'self\' \'unsafe-inline\' https://ssl.google-analytics.com https://www.google-analytics.com https://platform.twitter.com; style-src \'self\' \'unsafe-inline\';',
+  location: 'http://gh-contractor-zcbenz.s3.amazonaws.com/atom-shell/dist/v0.30.7/node-v0.30.7.tar.gz',
+  'content-type': 'text/html; charset=utf-8',
+  'cache-control': 'no-cache',
+  'x-request-id': 'a498a91e-e364-4510-8f38-a8e5973f0ad4',
+  'x-runtime': '0.054849',
+  'x-rack-cache': 'miss',
+  via: '1.1 vegur' }
+gyp WARN install got an error, rolling back install
+gyp verb command remove [ '0.30.7' ]
+gyp verb remove using node-gyp dir: /home/latty/.atom/.node-gyp/.node-gyp
+gyp verb remove removing target version: 0.30.7
+gyp verb remove removing development files for version: 0.30.7
+gyp ERR! install error 
+gyp ERR! stack Error: tunneling socket could not be established, cause=Parse Error
+gyp ERR! stack     at ClientRequest.onError (/opt/atom/resources/app/apm/node_modules/npm/node_modules/request/node_modules/tunnel-agent/index.js:174:17)
+gyp ERR! stack     at ClientRequest.g (events.js:180:16)
+gyp ERR! stack     at ClientRequest.emit (events.js:95:17)
+gyp ERR! stack     at Socket.socketOnData (http.js:1589:9)
+gyp ERR! stack     at TCP.onread (net.js:528:27)
+gyp ERR! System Linux 3.13.0-67-generic
+gyp ERR! command "/opt/atom/resources/app/apm/bin/node" "/opt/atom/resources/app/apm/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "install" "--target=0.30.7" "--dist-url=https://atom.io/download/atom-shell" "--arch=x64" "--ensure" "--verbose" "--proxy=http://192.168.4.9:3128/"
+gyp ERR! cwd /home/latty/.atom
+gyp ERR! node -v v0.10.40
+gyp ERR! node-gyp -v v2.0.2
+gyp ERR! not ok 
+[31m
+[39m

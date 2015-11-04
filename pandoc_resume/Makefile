@@ -5,8 +5,10 @@ resume.pdf: resume.md
 	pandoc --standalone --template style_chmduquesne.tex \
 	--from markdown --to context \
 	-V papersize=A4 \
+	--biblio ../data/bib/bibtex.bib --csl ../data/csl/ieee.csl \
 	-o resume.tex resume.md; \
 	context resume.tex
+#
 
 html: resume.html
 resume.html: style_chmduquesne.css resume.md
