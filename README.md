@@ -49,3 +49,20 @@ sudo apt-get install atom
 * [Centrer/Aligner du text/img en MarkDown](https://coderwall.com/p/iftc1q/centered-text-and-images-in-github-markdown)
 * [Markdown + Urls with Parentheses](http://ext.raneous.net/post/14580141233/markdown-urls-with-parentheses)
 * [pagebreak in markdown while creating pdf](http://stackoverflow.com/questions/22601053/pagebreak-in-markdown-while-creating-pdf)
+
+
+Installation du package:
+sudo apt-get install pandoc-citeproc
+Pour la gestion des références.
+
+[Installation du package Debian pour Atom](https://github.com/atom/atom): il y avait des problèmes pour installer les packages par la suite !
+
+Debian Linux (Ubuntu)
+
+Currently only a 64-bit version is available.
+
+* Download atom-amd64.deb from the [Atom releases page](https://github.com/atom/atom/releases/tag/v1.1.0).
+* Run sudo dpkg --install atom-amd64.deb on the downloaded package.
+* Launch Atom using the installed atom command.
+
+*The Linux version does not currently automatically update so you will need to repeat these steps to upgrade to future releases.*
