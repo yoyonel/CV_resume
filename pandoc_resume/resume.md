@@ -23,7 +23,8 @@ Expériences Professionnelles
   *Production de données géographiques pour alimenter un ensemble des outils de modélisation. \
   Résultats obtenus intégrés dans un SIG (QGIS) pour produire les cartographies des polluants.*
 
-  *> Outils/Technologies*: Post[GreSQL|GIS], QGIS, Python/PyQt, git/GitHub
+  *> Outils/Technologies*: Post[GreSQL|GIS], QGIS, Python/PyQt, git/GitHub  
+  *> OpenSource/Articles*: **Interactive map tracking** -> [GitHub](http://remi-c.github.io/interactive_map_tracking/) - [QGIS-Plugin](https://plugins.qgis.org/plugins/interactive_map_tracking-master/) - [*GEO*TRIBU](http://geotribu.net/node/801)
 
 * **iSpace&Time**: [Cartographie et rendu 4D de l'espace public avec simulations de flux piétons/voitures pour l'aménagement urbain](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf)
 
