@@ -15,8 +15,21 @@ Lionel ATTY
 Expériences Professionnelles
 ----------------------------
 
-2011-2015
+2011-2016
 :   **Ingénieur d'étude R&D** (IGN, Saint-Mandé);
+
+* **LI3DS**: [Large Input 3D System]()
+
+  *Conception et développement d'un logiciel pilotant des acquisitions de différents capteurs (caméras, Laser Lidar, centrale inertielle, ...).*
+
+  *Principaux objectifs du logiciel:*
+    - Synchronisation des différents capteurs
+    - Etablissement des protocoles de communication portables souples et modulaires permettant d'interfacer le système d’acquisition avec un entrepôt de données dynamique (hébergé sur base de donnée).
+
+  *> Outils/Technologies*: C++, Python, ROS, Qt, PostGresSQL/PostGIS, Docker, GIT  
+  *> OpenSource/Articles*: **Projet LI3DS**
+  [GitHub](https://github.com/LI3DS) -
+  [Conférence *Foss4GFr*](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf)
 
 * **TrafiPollu**: [Développement sur le WorkPackage 4 - Relation Modèles / données](https://sites.google.com/site/trafipollu/workpackages/wp4---donnees)
 
