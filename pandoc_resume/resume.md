@@ -53,6 +53,8 @@ Expériences Professionnelles
 
   *> Outils/Technologies*: C++, DirectX/Shaders, PERFORCE
 
+\pagebreak
+
 Outils et Technologies
 ----------------------
 
@@ -61,8 +63,6 @@ Outils et Technologies
      * Shaders: GLSL, OpenCL, HLSL, Cg, CUDA
 * Multi-Threads : PC (Unix,Windows), Consoles (XBox360, PS3)
 * Gestion de Version/Configuration: git/GitHub, SVN, PERFORCE
-
-\pagebreak
 
 Études et Diplômes
 ------------------
