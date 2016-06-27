@@ -2,7 +2,7 @@
 Lionel ATTY
 ============
 
-> <lionel.atty@gmail.com> • +33 6 59 00 23 • 34 ans\
+> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 34 ans\
 > 16 rue de Wattignies - PARIS, FRANCE
 
 ----
@@ -26,7 +26,7 @@ Expériences Professionnelles
     - Synchronisation des différents capteurs
     - Etablissement des protocoles de communication portables souples et modulaires permettant d'interfacer le système d’acquisition avec un entrepôt de données dynamique (hébergé sur base de donnée).
 
-  *> Outils/Technologies*: C++, Python, ROS, Qt, PostGresSQL/PostGIS, Docker, GIT  
+  *> Outils/Technologies*: C++, Python, ROS, Qt, PostGresSQL/PostGIS, Docker, GIT, Android JDK/NDK
   *> OpenSource/Articles*: **Projet LI3DS**
   [GitHub](https://github.com/LI3DS) -
   [Conférence *Foss4GFr*](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf)
