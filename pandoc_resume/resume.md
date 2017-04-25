@@ -2,7 +2,7 @@
 Lionel ATTY
 ============
 
-> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 34 ans\
+> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 35 ans\
 > 16 rue de Wattignies - PARIS, FRANCE
 
 ----
@@ -15,8 +15,8 @@ Lionel ATTY
 Expériences Professionnelles
 ----------------------------
 
-2011-2017
-:   **Ingénieur d'étude R&D** (IGN, Saint-Mandé);
+2011-2017(Avril)
+:   **Chargé de recherche (R&D)** (IGN, Saint-Mandé);
 
 * **LI3DS**: [Large Input 3D System]()
 
@@ -26,7 +26,8 @@ Expériences Professionnelles
     - Synchronisation des différents capteurs
     - Etablissement des protocoles de communication portables souples et modulaires permettant d'interfacer le système d’acquisition avec un entrepôt de données dynamique (hébergé sur base de donnée).
 
-  *> Outils/Technologies*: C++, Python, ROS, Qt, PostGresSQL/PostGIS, Docker, GIT, Android JDK/NDK
+  *> Outils/Technologies*: C++, Python, **ROS**, Qt, PostGresSQL/PostGIS, **Docker**, GIT, Android JDK/NDK, **Arduino**, **Raspberry**
+
   *> OpenSource/Articles*: **Projet LI3DS**
   [GitHub](https://github.com/LI3DS) -
   [Conférence *Foss4GFr*](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf)
@@ -58,11 +59,17 @@ Expériences Professionnelles
 Outils et Technologies
 ----------------------
 
-* Programmation: C, C++, Python(2.7), STL, Qt(4.8)
+* Programmation
+     * Langages: C, C++ (98, 11), Python(2.7, 3.x), STL, Qt(4.8)
+     * Embarquée: Arduino, Raspberry, Android NDK/JDK
+     * Temps réel: FreeRTOS
 * API Graphiques: OpenGL(2.x->4.x), DirectX(9&10), OpenSceneGraph(3.x)
      * Shaders: GLSL, OpenCL, HLSL, Cg, CUDA
 * Multi-Threads : PC (Unix,Windows), Consoles (XBox360, PS3)
-* Gestion de Version/Configuration: git/GitHub, SVN, PERFORCE
+* Gestion de Version/Configuration: GIT/GitHub, SVN, PERFORCE
+* Environnements virtuels: **Docker**, VirtualBox
+* AGILE: Scrum
+* Open Source
 
 Études et Diplômes
 ------------------
