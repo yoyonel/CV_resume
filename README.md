@@ -6,19 +6,6 @@
 
 Ca ressemble beaucoup a ce qu'on peut produire avec LaTex en terme de rapports/documents.
 
-<!---
-coommentaire HTML style
-![Image of MarkDown](http://hyrtwol.dk/icons/md.ico)
--->
-[](Commentaire GitHub style)
-[comment]: # (This actually is the most platform independent comment)
-
-[comment]: # (![Image of MarkDown](data/img/atom-small.jpg))
-<!---
-<p align="center">
-  ![](https://raw.githubusercontent.com/yoyonel/CV_resume/master/data/img/atom-small.jpg)
-</p>
--->
 ![](https://raw.githubusercontent.com/yoyonel/CV_resume/master/data/img/atom-small.jpg)
 
 # Editeur pour MarkDown
