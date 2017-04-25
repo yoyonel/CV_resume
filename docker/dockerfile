@@ -5,7 +5,9 @@ RUN apt-get update && \
 		make \
 		context \
 		pandoc \
-		pandoc-citeproc
+		pandoc-citeproc \
+		texlive-xetex \
+		git
 
 # Host mounted volume
 WORKDIR /source
