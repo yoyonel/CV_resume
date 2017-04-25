@@ -66,3 +66,12 @@ Currently only a 64-bit version is available.
 * Launch Atom using the installed atom command.
 
 *The Linux version does not currently automatically update so you will need to repeat these steps to upgrade to future releases.*
+
+-----------
+
+# Docker
+
+Mise en place d'un container Docker pour effectuer la compilation des documents Mardown -> PDF (via pandoc).
+
+Exemple d'utilisation:
+[![asciicast](https://asciinema.org/a/ccwaisf63els636ijdgc9mso9.png)](https://asciinema.org/a/ccwaisf63els636ijdgc9mso9)
