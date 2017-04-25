@@ -15,7 +15,7 @@ Lionel ATTY
 Expériences Professionnelles
 ----------------------------
 
-2011-2016
+2011-2017
 :   **Ingénieur d'étude R&D** (IGN, Saint-Mandé);
 
 * **LI3DS**: [Large Input 3D System]()
