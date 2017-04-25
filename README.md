@@ -1,9 +1,3 @@
-[comment]: # (![Image of MarkDown](data/ico/md.ico))
-<!---
-<p align="center">
-  ![](https://github.com/yoyonel/CV_resume/raw/master/data/ico/md.ico)
-</p>
--->
 ![](https://github.com/yoyonel/CV_resume/raw/master/data/ico/md.ico)
 
 # Depot pour CVs/Resumes
