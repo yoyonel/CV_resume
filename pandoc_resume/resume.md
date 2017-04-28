@@ -10,9 +10,7 @@ Lionel ATTY
 > **Développeur R&D** \
 > Spécialités: **3D Temps-Réel**, **SIG**, **C++**, **Python**
 
-> Localisation: **Hors** Île-de-France (Paris) 
-
->> Province: Lyon, Marseille, Bordeaux, Nantes, Rennes, ...
+> Mobilité: Lyon, Marseille, Bordeaux, Nantes, Rennes, Toulouse, Lilles, Strasbourg ...
 
 ----
 
