@@ -56,3 +56,5 @@ Mise en place d'un container Docker pour effectuer la compilation des documents 
 
 Exemple d'utilisation:
 [![asciicast](https://asciinema.org/a/ccwaisf63els636ijdgc9mso9.png)](https://asciinema.org/a/ccwaisf63els636ijdgc9mso9)
+
+TODO: refaire la vidéo avec le nouveau qui utilise Makefile
