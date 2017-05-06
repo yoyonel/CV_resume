@@ -77,7 +77,7 @@ Outils et Technologies
 ------------------
 
 2005-2009
-:   **Thèse (CIFRE)**;
+:   **Thèse (CIFRE -  non soutenue)**;
 :   UJF - GRAVIR, ARTIS - Eden Games/ATARI - GRENOBLE/LYON
 
     *Génération d'ombre douces temps réel : Conception de nouveaux algorithmes de génération d'ombres douces temps réel*
