@@ -2,8 +2,8 @@
 Lionel ATTY
 ============
 
-> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 35 ans\
-> 16 rue de Wattignies - PARIS, FRANCE
+> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 37 ans\
+> 122 bis rue du Commandant Charcot - LYON, FRANCE
 
 ----
 
@@ -16,6 +16,17 @@ Lionel ATTY
 
 Expériences Professionnelles
 ----------------------------
+
+2017-2018
+:   **Ingénieur Logiciel (R&D)** (Holimetrix, Lyon);
+
+* **PYTHIE**: [CRAWLER TV]()
+
+  *Technologie pour mettre en place une chaîne automatisée permettant de détecter et d'extraire certaines informations relatives à des publicités TV.*
+
+  ref: [Ingénieur Crawler TV](https://afia.asso.fr/?job_offer=ingenieur-crawler-tv)
+
+  *> Outils/Technologies*: Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask(-admin), Plotly(python/js)
 
 2011-2017(Avril)
 :   **Chargé de recherche (R&D)** (IGN, Saint-Mandé);
@@ -42,6 +53,8 @@ Expériences Professionnelles
   *> Outils/Technologies*: Post[GreSQL|GIS], QGIS, Python/PyQt, git/GitHub  
   *> OpenSource/Articles*: **Interactive map tracking** -> [GitHub](http://remi-c.github.io/interactive_map_tracking/) - [QGIS-Plugin](https://plugins.qgis.org/plugins/interactive_map_tracking-master/) - [*GEO*TRIBU](http://geotribu.net/node/801)
 
+\pagebreak
+
 * **iSpace&Time**: [Cartographie et rendu 4D de l'espace public avec simulations de flux piétons/voitures pour l'aménagement urbain](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf)
 
   *Intégration des données issues de différents simulateurs (piétons, trafic auto (SYMUVIA)). \
@@ -56,8 +69,6 @@ Expériences Professionnelles
 
   *> Outils/Technologies*: C++, DirectX/Shaders, PERFORCE
 
-\pagebreak
-
 Outils et Technologies
 ----------------------
 
@@ -65,6 +76,8 @@ Outils et Technologies
      * Langages: C, C++ (98, 11), Python(2.7, 3.x), STL, Qt(4.8)
      * Embarquée: Arduino, Raspberry, Android NDK/JDK
      * Temps réel: FreeRTOS
+     * MicroServices: gRPC (Python, C++)
+     * Base de données: PostgreSQL, MongoDB
 * API Graphiques: OpenGL(2.x->4.x), DirectX(9&10), OpenSceneGraph(3.x)
      * Shaders: GLSL, OpenCL, HLSL, Cg, CUDA
 * Multi-Threads : PC (Unix,Windows), Consoles (XBox360, PS3)
@@ -72,6 +85,8 @@ Outils et Technologies
 * Environnements virtuels: **Docker**, VirtualBox
 * AGILE: Scrum
 * Open Source
+
+\pagebreak
 
 Études et Diplômes
 ------------------
