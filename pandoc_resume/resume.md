@@ -18,7 +18,13 @@ Expériences Professionnelles
 ----------------------------
 
 2017-2018
-:   **Ingénieur Logiciel (R&D)** (Holimetrix, Lyon);
+:   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
+
+* **Concurrence**: [Agreggation datas for concurrence analysis]()
+
+  *Agrégation de données à travers une base de données extérieures (partenaire) et notre propre base de données de clients (MySQL, MariaDB). Le but de l’agrégation étant d'établir un champs de concurrence pour un client (marque => produits => campagnes publicitaires) par rapport à sa catégorisation ([*SNPTV*](https://www.snptv.org/)).*
+
+  *> Outils/Technologies*: Python 3.x, MariaDB/MySQL, **HDFS**, **ORM**/SQLAlchemy, **Pandas**, **Apache Airflow**, Jupyter Notebook
 
 * **PYTHIE**: [CRAWLER TV]()
 
@@ -45,6 +51,8 @@ Expériences Professionnelles
   [GitHub](https://github.com/LI3DS) -
   [Conférence *Foss4GFr*](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf)
 
+\pagebreak
+
 * **TrafiPollu**: [Développement sur le WorkPackage 4 - Relation Modèles / données](https://sites.google.com/site/trafipollu/workpackages/wp4---donnees)
 
   *Production de données géographiques pour alimenter un ensemble des outils de modélisation. \
@@ -52,8 +60,6 @@ Expériences Professionnelles
 
   *> Outils/Technologies*: Post[GreSQL|GIS], QGIS, Python/PyQt, git/GitHub  
   *> OpenSource/Articles*: **Interactive map tracking** -> [GitHub](http://remi-c.github.io/interactive_map_tracking/) - [QGIS-Plugin](https://plugins.qgis.org/plugins/interactive_map_tracking-master/) - [*GEO*TRIBU](http://geotribu.net/node/801)
-
-\pagebreak
 
 * **iSpace&Time**: [Cartographie et rendu 4D de l'espace public avec simulations de flux piétons/voitures pour l'aménagement urbain](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf)
 
