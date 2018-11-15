@@ -7,6 +7,8 @@ CURRENT_YEAR = $(shell date +"%Y")
 
 TARGET_PDF = data/pdf/${CURRENT_YEAR}/${CURRENT_YEAR}_ATTY_Resume.pdf
 
+DOCKER_ID_USER ?= yoyonel
+
 all: cv_resume
 
 cv_resume: pdf
