@@ -9,6 +9,8 @@ TARGET_PDF = data/pdf/${CURRENT_YEAR}/${CURRENT_YEAR}_ATTY_Resume.pdf
 
 DOCKER_ID_USER ?= yoyonel
 
+DIR := $(shell realpath .)
+
 all: cv_resume
 
 cv_resume: pdf
@@ -35,7 +37,7 @@ ${TARGET_PDF}: pandoc_resume/resume.md
 
 	docker run \
 		-it --rm \
-		-v `pwd`:/source \
+		-v ${DIR}:/source \
 		-v /etc/group:/etc/group:ro \
 		-v /etc/passwd:/etc/passwd:ro \
 		${DOCKER_ID_USER}/pandoc \
