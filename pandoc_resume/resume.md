@@ -17,6 +17,13 @@ Lionel ATTY
 Expériences Professionnelles
 ----------------------------
 
+2019(Janvier) (en cours)
+:   **Ingénieur Modèlisateur + Industrialisation** (Forcity, Lyon);
+
+* **Waste, Waste Vision**: []()
+
+* **Industrialisation**: []()
+
 2017-2018
 :   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
 

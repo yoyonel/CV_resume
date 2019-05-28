@@ -30,6 +30,9 @@ ${TARGET_PDF}: pandoc_resume/resume.md
 	# Probleme avec font latex => https://github.com/sharelatex/sharelatex/issues/450
 	# utilisation d'un workaround, comme on connait la cible, on peut effectuer manuellement
 	# et directement le changement d'owner.
+
+	# chown ${USER}:${USER} resume.pdf; \
+
 	docker run \
 		-it --rm \
 		-v `pwd`:/source \
@@ -39,8 +42,7 @@ ${TARGET_PDF}: pandoc_resume/resume.md
 		bash -c "\
 			cd /source/pandoc_resume; \
 			make pdf; \
-			chown ${USER}:${USER} resume.pdf; \
-			"	
+			"
 
 	cp pandoc_resume/resume.pdf ${TARGET_PDF}
 
