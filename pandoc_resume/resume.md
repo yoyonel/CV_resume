@@ -17,8 +17,8 @@ Lionel ATTY
 Expériences Professionnelles
 ----------------------------
 
-2019(Janvier)
-:   **Ingénieur Modèlisateur + Industrialisation** (Forcity, Lyon);
+2019(Janvier) (en cours)
+:   **Ingénieur Modèle + Industrialisation** (Forcity, Lyon);
 
 * **Waste, Waste Vision**: []()
 
