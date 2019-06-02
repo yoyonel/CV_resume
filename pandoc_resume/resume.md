@@ -22,7 +22,11 @@ Expériences Professionnelles
 
 * **Waste, Waste Vision**: []()
 
+ *> Outils/Technologies*: **Python** 2.7/**3.6**, PostGreSQL/**PostGIS**/**JSONB**, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest, Docker, GIT, **GitFlow**
+
 * **Industrialisation**: []()
+
+ *> Outils/Technologies*: **Python>=3.6**, **GitlabCI**, Docker, Grafana, Design/Architecture codes, Design patterns
 
 2017-2018
 :   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
@@ -41,6 +45,8 @@ Expériences Professionnelles
 
   *> Outils/Technologies*: Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask(-admin), Plotly(python/js)
 
+\pagebreak
+
 2011-2017(Avril)
 :   **Chargé de recherche (R&D)** (IGN, Saint-Mandé);
 
@@ -57,8 +63,6 @@ Expériences Professionnelles
   *> OpenSource/Articles*: **Projet LI3DS**
   [GitHub](https://github.com/LI3DS) -
   [Conférence *Foss4GFr*](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf)
-
-\pagebreak
 
 * **TrafiPollu**: [Développement sur le WorkPackage 4 - Relation Modèles / données](https://sites.google.com/site/trafipollu/workpackages/wp4---donnees)
 
@@ -86,11 +90,11 @@ Outils et Technologies
 ----------------------
 
 * Programmation
-     * Langages: C, C++ (98, 11), Python(2.7, 3.x), STL, Qt(4.8)
+     * Langages: C, C++ (98, 11), Python(2.7, >=3.6), STL, Qt(4.8)
      * Embarquée: Arduino, Raspberry, Android NDK/JDK
      * Temps réel: FreeRTOS
      * MicroServices: gRPC (Python, C++)
-     * Base de données: PostgreSQL, MongoDB
+     * Base de données: PostgreSQL, PostGIS, MongoDB
 * API Graphiques: OpenGL(2.x->4.x), DirectX(9&10), OpenSceneGraph(3.x)
      * Shaders: GLSL, OpenCL, HLSL, Cg, CUDA
 * Multi-Threads : PC (Unix,Windows), Consoles (XBox360, PS3)
