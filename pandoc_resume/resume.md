@@ -2,13 +2,13 @@
 Lionel ATTY
 ============
 
-> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 37 ans\
+> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 38 ans\
 > 122 bis rue du Commandant Charcot - LYON, FRANCE
 
 ----
 
 > **Développeur R&D** \
-> Spécialités: **3D Temps-Réel**, **SIG**, **C++**, **Python**
+> Spécialités: **SIG**, **3D Temps-Réel**, **Python**, **C++**
 
 > Mobilité: Lyon, Marseille, Bordeaux, Nantes, Rennes, Toulouse, Lilles, Strasbourg ...
 
@@ -20,13 +20,12 @@ Expériences Professionnelles
 2019(Janvier) (en cours)
 :   **Ingénieur Modèle + Industrialisation** (Forcity, Lyon);
 
-* **Waste, Waste Vision**: []()
+* **Waste, Waste Vision**: [Industrialisation de modèles python d'évolution de population et d'emploi ]()
 
- *> Outils/Technologies*: **Python** 2.7/**3.6**, PostGreSQL/**PostGIS**/**JSONB**, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest, Docker, GIT, **GitFlow**
+     *ForCity Waste Vision est un logiciel de gestion des déchêts qui s'appuie sur la simulation urbaine pour optimiser la collecte et le traitement.* (     produit: [Waste Vision](https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets))
 
-* **Industrialisation**: []()
-
- *> Outils/Technologies*: **Python>=3.6**, **GitlabCI**, Docker, Grafana, Design/Architecture codes, Design patterns
+ *> Outils/Technologies*: **Python** 2.7/**3.6**, PostGreSQL/**PostGIS**/**JSONB**, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest, GIT/**GitFlow**
+     **GitlabCI**, Docker, Grafana, Design patterns, Architecture codes
 
 2017-2018
 :   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
