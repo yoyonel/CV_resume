@@ -24,8 +24,10 @@ Expériences Professionnelles
 
      *ForCity Waste Vision est un logiciel de gestion des déchêts qui s'appuie sur la simulation urbaine pour optimiser la collecte et le traitement.* (     produit: [Waste Vision](https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets))
 
- *> Outils/Technologies*: **Python** 2.7/**3.6**, PostGreSQL/**PostGIS**/**JSONB**, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest, GIT/**GitFlow**
-     **GitlabCI**, Docker, Grafana, Design patterns, Architecture codes
+ *> Outils/Technologies*: **Python** 2.7/**3.6**, PostGreSQL/**PostGIS**/**JSONB**, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest
+     GIT/**GitFlow**, Docker, Grafana, Design patterns, Architecture codes
+
+ *> SCM/Issues Tracking*: **GitlabCI**, YouTrack
 
 2017-2018
 :   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
@@ -36,6 +38,8 @@ Expériences Professionnelles
 
   *> Outils/Technologies*: Python 3.x, MariaDB/MySQL, **HDFS**, **ORM**/SQLAlchemy, **Pandas**, **Apache Airflow**, Jupyter Notebook
 
+  *> SCM/Issues Tracking*: Asana, Github
+
 * **PYTHIE**: [CRAWLER TV]()
 
   *Technologie pour mettre en place une chaîne automatisée permettant de détecter et d'extraire certaines informations relatives à des publicités TV.*
@@ -43,6 +47,8 @@ Expériences Professionnelles
   ref: [Ingénieur Crawler TV](https://afia.asso.fr/?job_offer=ingenieur-crawler-tv)
 
   *> Outils/Technologies*: Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask(-admin), Plotly(python/js)
+  
+  *> SCM/Issues Tracking*: Trello, Github
 
 \pagebreak
 
