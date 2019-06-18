@@ -3,7 +3,8 @@ all: html pdf docx rtf
 # --biblio ../data/bib/bibtex.bib \
 # --csl ../data/csl/ieee.csl \
 
-pdf: resume.pdf
+pdf: resume.pdf references.pdf
+
 resume.pdf: resume.md
 	pandoc 	--standalone --template style_chmduquesne.tex \
 			--from markdown --to context \
@@ -12,6 +13,13 @@ resume.pdf: resume.md
 			-o resume.tex resume.md; \
 			context resume.tex
 #
+
+references.pdf: references.md
+	pandoc 	--standalone --template style_chmduquesne.tex \
+			--from markdown --to context \
+			-V papersize=A4 \
+			-o references.tex references.md; \
+			context references.tex
 
 html: resume.html
 resume.html: style_chmduquesne.css resume.md
@@ -42,4 +50,11 @@ clean:
 			resume.log \
 			resume.pdf \
 			resume.docx \
-			resume.rtf
+			resume.rtf \
+			references.html \
+			references.tex \
+			references.tuc \
+			references.log \
+			references.pdf \
+			references.docx \
+			references.rtf
