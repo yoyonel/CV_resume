@@ -18,8 +18,19 @@ cv_resume: pdf
 
 clean:
 	rm -rf ${TARGET_PDF}
-	rm pandoc_resume/resume.pdf
+	rm -f pandoc_resume/resume.pdf
+	rm -f pandoc_resume/references.pdf
 
+	docker run \
+		-it --rm \
+		-v ${DIR}:/source \
+		-v /etc/group:/etc/group:ro \
+		-v /etc/passwd:/etc/passwd:ro \
+		${DOCKER_ID_USER}/pandoc \
+		bash -c "\
+			cd /source/pandoc_resume; \
+			make clean; \
+			"
 
 pdf: ${TARGET_PDF}
 
@@ -49,6 +60,5 @@ ${TARGET_PDF}: pandoc_resume/resume.md pandoc_resume/references.md
 
 	cp pandoc_resume/resume.pdf ${TARGET_PDF}
 	cp pandoc_resume/references.pdf ${ROOT_TARGET_PDF}_ATTY_References.pdf
-
 
 .PHONY: all cv_resume clean pdf

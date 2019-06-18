@@ -34,7 +34,7 @@
 	- annuaire IGN: [http://recherche.ign.fr/labos/matis/~bredif](http://recherche.ign.fr/labos/matis/~bredif)
 		- mail: mathieu.bredif(at)ign.fr
 		- téléphone: +33 1 43 98 83 19
-	- linkedin: [https://www.linkedin.com/in/mathieu-br%C3%A9dif-2167821/?ppe=1](https://www.linkedin.com/in/mathieu-br%C3%A9dif-2167821/)
+	- linkedin: [https://www.linkedin.com/in/mathieu-br%C3%A9dif-2167821](https://www.linkedin.com/in/mathieu-br%C3%A9dif-2167821/)
 
 ### Projet: TrafiPollu
 
@@ -42,13 +42,13 @@
 	- contact IGN
 		- mail: Stephane.Chataigner(at)ign.fr
 		- téléphone: +33 1 43 98 85 52
-	- linkedin: [https://www.linkedin.com/in/stephane-chataigner-63aa32130/?pe=1](https://www.linkedin.com/in/stephane-chataigner-63aa32130/)
+	- linkedin: [https://www.linkedin.com/in/stephane-chataigner-63aa32130](https://www.linkedin.com/in/stephane-chataigner-63aa32130/)
 
 - Responsable Scientifique (Équipe MATIS): Bahman Soheilian (Dr)
 	- annuaire IGN: [http://recherche.ign.fr/labos/matis/~soheilian](http://recherche.ign.fr/labos/matis/~soheilian)
 		- mail: bahman.soheilian(at)gmail.com
 		- téléphone: +33 1 43 98 84 29
-	- linkedin: [https://www.linkedin.com/in/bahman-soheilian-4107a914/?ppe=1](https://www.linkedin.com/in/bahman-soheilian-4107a914/)
+	- linkedin: [https://www.linkedin.com/in/bahman-soheilian-4107a914](https://www.linkedin.com/in/bahman-soheilian-4107a914/)
 
 ###  Projet: iSpace&Time
 
@@ -57,7 +57,7 @@
 	- annuaire IGN: [http://recherche.ign.fr/labos/matis/cv.php?nom=Paparoditis](http://recherche.ign.fr/labos/matis/cv.php?nom=Paparoditis)
 		- mail: nicolas.paparoditis(at)ign.fr
 		- téléphone: +33 1 43 98 83 92
-	- linkedin: [https://www.linkedin.com/in/nicolas-paparoditis-9b7a4429/?ppe=1](https://www.linkedin.com/in/nicolas-paparoditis-9b7a4429/)
+	- linkedin: [https://www.linkedin.com/in/nicolas-paparoditis-9b7a4429](https://www.linkedin.com/in/nicolas-paparoditis-9b7a4429/)
 
 - Responsable Scientifique (Équipe MATIS): Mathieu Brédif (Dr)
 	- voir la référence sur [LI3DS](#projet-li3ds)
