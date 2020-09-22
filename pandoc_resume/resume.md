@@ -2,22 +2,35 @@
 Lionel ATTY
 ============
 
-> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 38 ans\
-> 122 bis rue du Commandant Charcot - LYON, FRANCE
+> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 39 ans\
+> 43 rue Thomas Blanchet - LYON, FRANCE
 
 ----
 
-> **Développeur R&D** \
-> Spécialités: **SIG**, **3D Temps-Réel**, **Python**, **C++**
+> **Sénior Développeur** \
+> Spécialités: **Architecture**, **SIG**, **3D Temps-Réel**, **Python**, **C++**
 
-> Mobilité: Lyon, Marseille, Bordeaux, Nantes, Rennes, Toulouse, Lilles, Strasbourg ...
+> Mobilité: Lyon
 
 ----
 
 Expériences Professionnelles
 ----------------------------
 
-2019(Janvier) (en cours)
+2019(Juin) (en poste)
+:   **DATA ENGINEER SENIOR** (365Talents, Lyon);
+
+* **365TALENTS**: [Data Processing & Architecture]()
+
+  *Faire parler les données -- structurées ou non -- issues des outils business et RH des clients par des recommandations pertinentes et du matching et contribuer à l'avancée technique de la solution. Concevoir, développer et intégrer les algorithmes alimentant la plateforme de détection et mobilisation de talents.*
+
+  *> Outils/Technologies*: **Python 3.6.9**, **ElasticSearch**, **Redis**, **FastAPI/Pydantic**, **gRPC**, Dependency-Injector, NLP (spaCy/Gensim, TensorFlow), **Pytest**/Mocks, GIT/GitFlow, **Docker**, Celery, Ansible
+  
+  Design patterns, Architecture codes, Clean Architecture, Micro-services, API-REST, Infra
+
+  *> SCM/Issues Tracking*: Asana, **TravisCI**/**Github Action**, Slack, Kibana
+
+2019 (4 mois)
 :   **Ingénieur Modèle + Industrialisation** (Forcity, Lyon);
 
 * **Waste, Waste Vision**: [Industrialisation de modèles python d'évolution de population et d'emploi ]()
@@ -47,10 +60,8 @@ Expériences Professionnelles
   ref: [Ingénieur Crawler TV](https://afia.asso.fr/?job_offer=ingenieur-crawler-tv)
 
   *> Outils/Technologies*: Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask(-admin), Plotly(python/js)
-  
-  *> SCM/Issues Tracking*: Trello, Github
 
-\pagebreak
+  *> SCM/Issues Tracking*: Trello, Github
 
 2011-2017(Avril)
 :   **Chargé de recherche (R&D)** (IGN, Saint-Mandé);
@@ -74,7 +85,7 @@ Expériences Professionnelles
   *Production de données géographiques pour alimenter un ensemble des outils de modélisation. \
   Résultats obtenus intégrés dans un SIG (QGIS) pour produire les cartographies des polluants.*
 
-  *> Outils/Technologies*: Post[GreSQL|GIS], QGIS, Python/PyQt, git/GitHub  
+  *> Outils/Technologies*: Post[GreSQL|GIS], QGIS, Python/PyQt, git/GitHub
   *> OpenSource/Articles*: **Interactive map tracking** -> [GitHub](http://remi-c.github.io/interactive_map_tracking/) - [QGIS-Plugin](https://plugins.qgis.org/plugins/interactive_map_tracking-master/) - [*GEO*TRIBU](http://geotribu.net/node/801)
 
 * **iSpace&Time**: [Cartographie et rendu 4D de l'espace public avec simulations de flux piétons/voitures pour l'aménagement urbain](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf)
@@ -91,6 +102,8 @@ Expériences Professionnelles
 
   *> Outils/Technologies*: C++, DirectX/Shaders, PERFORCE
 
+\pagebreak
+
 Outils et Technologies
 ----------------------
 
@@ -99,16 +112,16 @@ Outils et Technologies
      * Embarquée: Arduino, Raspberry, Android NDK/JDK
      * Temps réel: FreeRTOS
      * MicroServices: gRPC (Python, C++)
-     * Base de données: PostgreSQL, PostGIS, MongoDB
+     * Base de données: PostgreSQL, PostGIS, MongoDB, ElasticSearch, Redis
 * API Graphiques: OpenGL(2.x->4.x), DirectX(9&10), OpenSceneGraph(3.x)
      * Shaders: GLSL, OpenCL, HLSL, Cg, CUDA
-* Multi-Threads : PC (Unix,Windows), Consoles (XBox360, PS3)
-* Gestion de Version/Configuration: GIT/GitHub, SVN, PERFORCE
-* Environnements virtuels: **Docker**, VirtualBox
+* Multi-Threads : PC (Unix/Linux,Windows), Consoles (XBox360, PS3)
+* Gestion de Version/Configuration: GIT/GitHub/Gitlab, SVN, PERFORCE
+* CI: TravisCI, GitlabCI, Github Actions
+* Monitoring, logs: ELK Stack, Prometheus, Grafana
+* Environnements virtuels: **Docker**, VirtualBox, Vagrant
 * AGILE: Scrum
 * Open Source
-
-\pagebreak
 
 Études et Diplômes
 ------------------
@@ -134,9 +147,23 @@ Outils et Technologies
     *Eclairage Surfacique en temps réel: Utilisation avancée des cartes graphiques 3D
     programmables dans le cadre de la gestion d'une surface de lumière en temps réel*
 
+\pagebreak
+
+Conférences
+-----------
+
+2019
+:   **Pycon.FR Bordeaux 2019**;
+    
+    *gRPC/Python - Exemple pratique d'utilisation de micro-services pour une (mini) application d'analyse sémantiques de textes (NLP).*
+
+    - [Programme - Présensation du talk](https://www.pycon.fr/2019/fr/talks/conference.html#grpc%2Fpython%E2%80%AF%3A%20exemple%20pratique%20d%27utilisation%20de%20micro-services%20pour%20une%20%28mini%29%20application%20d%27analyse%20s%C3%A9mantique%20de%20textes%20%28npl%29)
+    - [Vidéo](https://youtu.be/99uF4pfXmDI)
+    - [Slides](https://docs.google.com/presentation/d/1taQVHdxZWcQIcI84e8H9y8GBPD8LHtt1ALGXvJZgVxo/edit?usp=sharing)
+
 Langues & Divers
-----------------  
+----------------
   * Anglais(technique), Allemand(scolaire)
-  * Musiques : Guitare-Basse(10 ans), Percussions Africaines(2 ans)
-  * Sports: Volley(Compétitif - 10 ans), Football(Loisir)
+  * Musiques : Guitare-Basse(15 ans), Percussions Africaines(2 ans)
+  * Sports: Volley(Compétitif - 15 ans), Football(Loisir)
   * Lecture/Cinéma: Science-Fiction, Fantastique
