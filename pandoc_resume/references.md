@@ -16,8 +16,8 @@
 - Co-fondateur: Olivier Rivet
 	- mail: olivier.rivet(at)holimetrix.com
 	- linkedin: [https://www.linkedin.com/in/olivierrivet/](https://www.linkedin.com/in/olivierrivet/)
-- CTO: Benoit Matthieu
-	- linkedin: [https://www.linkedin.com/in/mazben/]([https://www.linkedin.com/in/mazben/)
+- CTO: Sebastien Brochet
+	- linkedin: [https://www.linkedin.com/in/s%C3%A9bastien-brochet-6a957777/]([https://www.linkedin.com/in/s%C3%A9bastien-brochet-6a957777/)
 - Deputy CTO: Thibault Ketterer
 	- linkedin: [https://www.linkedin.com/in/thibaultk/](https://www.linkedin.com/in/thibaultk/)
 
