@@ -1,4 +1,4 @@
-
+>
 Lionel ATTY
 ============
 
@@ -24,9 +24,9 @@ Expériences Professionnelles
 
   *Faire parler les données -- structurées ou non -- issues des outils business et RH des clients par des recommandations pertinentes et du matching et contribuer à l'avancée technique de la solution. Concevoir, développer et intégrer les algorithmes alimentant la plateforme de détection et mobilisation de talents.*
 
-  *> Outils/Technologies*: **Python 3.6.9**, **ElasticSearch**, **Redis**, **FastAPI/Pydantic**, **gRPC**, Dependency-Injector, NLP (spaCy/Gensim, TensorFlow), **Pytest**/Mocks, GIT/GitFlow, **Docker**, Celery, Ansible
+  *> Outils/Technologies*: **Python 3.6.9**, **ElasticSearch**, **Redis**, **FastAPI/Pydantic**, **gRPC**, Dependency-Injector, NLP (spaCy/Gensim, TensorFlow), **Pytest**/Mocks, GIT/GitFlow, **Docker**, Celery, Ansible, **Terraform**, **Google Cloud Platform**, **Github Actions**
   
-  Design patterns, Architecture codes, Clean Architecture, Micro-services, API-REST, Infra
+  Design patterns, Architecture codes, Clean Architecture, Micro-services, API-REST, Infra, **Cloud** (Google)
 
   *> SCM/Issues Tracking*: Asana, **TravisCI**/**Github Action**, Slack, Kibana
 
@@ -117,7 +117,8 @@ Outils et Technologies
      * Shaders: GLSL, OpenCL, HLSL, Cg, CUDA
 * Multi-Threads : PC (Unix/Linux,Windows), Consoles (XBox360, PS3)
 * Gestion de Version/Configuration: GIT/GitHub/Gitlab, SVN, PERFORCE
-* CI: TravisCI, GitlabCI, Github Actions
+* CI: TravisCI, GitlabCI, Github Actions (with self-hosted runners)
+* Cloud: Terraform, Google Cloud Platform (Compute Engine, Cloud Functions, Cloud Scheduler, Pub/Sub, ...)
 * Monitoring, logs: ELK Stack, Prometheus, Grafana
 * Environnements virtuels: **Docker**, VirtualBox, Vagrant
 * AGILE: Scrum
