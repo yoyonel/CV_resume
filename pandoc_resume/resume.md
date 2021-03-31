@@ -150,8 +150,16 @@ Outils et Technologies
 
 \pagebreak
 
-Conférences
------------
+Conférences, Open Source
+------------------------
+
+2021
+:   **DocString, Présentations 2021**
+
+    *Application CLI avec Python et processus de CI / CD.*
+
+    - Vidéos: [Partie 1](https://youtu.be/aaim2oCGedk) - [Partie 2](https://youtu.be/KtBzABluHlQ)
+    - Slides: [Partie 1](http://bit.ly/36mb5Ez) - [Partie 2](http://bit.ly/39n7JDg)
 
 2019
 :   **Pycon.FR Bordeaux 2019**;
