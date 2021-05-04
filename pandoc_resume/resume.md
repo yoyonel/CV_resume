@@ -1,4 +1,4 @@
-
+>
 Lionel ATTY
 ============
 
@@ -10,25 +10,27 @@ Lionel ATTY
 > **Sénior Développeur** \
 > Spécialités: **Architecture**, **SIG**, **3D Temps-Réel**, **Python**, **C++**
 
-> Mobilité: Lyon
+> Mobilité: Lyon - Télétravail
 
 ----
 
 Expériences Professionnelles
 ----------------------------
 
-2019(Juin) (en poste)
-:   **DATA ENGINEER SENIOR** (365Talents, Lyon);
+2019-2021(Juin)
+:   **DATA ENGINEER SENIOR** (365Talents, Lyon/Télétravail);
 
 * **365TALENTS**: [Data Processing & Architecture]()
 
   *Faire parler les données -- structurées ou non -- issues des outils business et RH des clients par des recommandations pertinentes et du matching et contribuer à l'avancée technique de la solution. Concevoir, développer et intégrer les algorithmes alimentant la plateforme de détection et mobilisation de talents.*
 
-  *> Outils/Technologies*: **Python 3.6.9**, **ElasticSearch**, **Redis**, **FastAPI/Pydantic**, **gRPC**, Dependency-Injector, NLP (spaCy/Gensim, TensorFlow), **Pytest**/Mocks, GIT/GitFlow, **Docker**, Celery, Ansible
+  *> Outils/Technologies*: **Dev** -> **Python 3.6.9**, **ElasticSearch**, **Redis**/Redis Streams, **FastAPI/Pydantic**, **gRPC**, Dependency-Injector, NLP (spaCy/Gensim, TensorFlow), **Pytest**/Mocks, Celery;  
+  **Infra/DevOps** -> **Docker/docker-compose**, Ansible, **Terraform**, Prometheus: Exporters, ELK Stack: ES, Kibana, APM, LogStash, Filebeat;
+  **Cloud** -> **Google Cloud Platform**: Compute Engine, Cloud Storage, Cloud Function, Cloud Pub/Sub, Cloud Scheduler; **Github Actions**: Pipelines de CI/CD, Self-hosted runner
   
-  Design patterns, Architecture codes, Clean Architecture, Micro-services, API-REST, Infra
+  Design patterns, Architecture codes, Clean Architecture, Micro-services, API-REST, Infra, **Cloud** (Google)
 
-  *> SCM/Issues Tracking*: Asana, **TravisCI**/**Github Action**, Slack, Kibana
+  *> SCM/Issues Tracking*: GIT/GitFlow, Asana, Slack, Slite, Github Issues
 
 2019 (4 mois)
 :   **Ingénieur Modèle + Industrialisation** (Forcity, Lyon);
@@ -41,6 +43,8 @@ Expériences Professionnelles
      GIT/**GitFlow**, Docker, Grafana, Design patterns, Architecture codes
 
  *> SCM/Issues Tracking*: **GitlabCI**, YouTrack
+
+\pagebreak
 
 2017-2018
 :   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
@@ -102,8 +106,6 @@ Expériences Professionnelles
 
   *> Outils/Technologies*: C++, DirectX/Shaders, PERFORCE
 
-\pagebreak
-
 Outils et Technologies
 ----------------------
 
@@ -117,7 +119,8 @@ Outils et Technologies
      * Shaders: GLSL, OpenCL, HLSL, Cg, CUDA
 * Multi-Threads : PC (Unix/Linux,Windows), Consoles (XBox360, PS3)
 * Gestion de Version/Configuration: GIT/GitHub/Gitlab, SVN, PERFORCE
-* CI: TravisCI, GitlabCI, Github Actions
+* CI: TravisCI, GitlabCI, Github Actions (with self-hosted runners)
+* Cloud: Terraform, Google Cloud Platform (Compute Engine, Cloud Functions, Cloud Scheduler, Pub/Sub, ...)
 * Monitoring, logs: ELK Stack, Prometheus, Grafana
 * Environnements virtuels: **Docker**, VirtualBox, Vagrant
 * AGILE: Scrum
@@ -149,8 +152,16 @@ Outils et Technologies
 
 \pagebreak
 
-Conférences
------------
+Conférences, Open Source
+------------------------
+
+2021
+:   **DocString, Présentations 2021**
+
+    *Application CLI avec Python et processus de CI / CD.*
+
+    - Vidéos: [Partie 1](https://youtu.be/aaim2oCGedk) - [Partie 2](https://youtu.be/KtBzABluHlQ)
+    - Slides: [Partie 1](http://bit.ly/36mb5Ez) - [Partie 2](http://bit.ly/39n7JDg)
 
 2019
 :   **Pycon.FR Bordeaux 2019**;
