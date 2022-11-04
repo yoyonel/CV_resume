@@ -2,22 +2,35 @@
 Lionel ATTY
 ============
 
-> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 39 ans\
-> 43 rue Thomas Blanchet - LYON, FRANCE
+> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 41 ans\
+> 25 Boulevard Bouès - MARSEILLE, FRANCE
 
 ----
 
 > **Sénior Développeur** \
-> Spécialités: **Architecture**, **SIG**, **3D Temps-Réel**, **Python**, **C++**
+> Spécialités: **Backend**, **Architecture**, **SIG**, **3D Temps-Réel**, **Python**, **C++**
 
-> Mobilité: Lyon - Télétravail
+> Mobilité: Marseille - Télétravail
 
 ----
 
 Expériences Professionnelles
 ----------------------------
 
-2019-2021(Juin)
+2021(Juin)
+:   **Développeur Back End Python** (Unowhy, Paris/Télétravail);
+* **UNOWHY**: [Développeur Back End Python]()
+  
+  *> Méthodologies*: SCRUM, KANBAN (selon les périodes/projets);  
+  *> Développements*: WS Python 3.[8.9].x -> **FastAPI**, GraphQL, OpenAPI, Asyncpg, Click, CookieCutter, Jinja2, **Pydantic**, **Pytest**;  
+  *> Stockage*: **PostgreSQL**, **Eventstore**, MQTT;  
+  *> Environnement technique*: Linux (Debian), Uvicorn, **Kubernetes**, **Docker**, Notion, MinIO, Argo Workflows, Fluentd, LDAP, **EventStore**, Traefik, **Keycloak(SSO)**;  
+  *> CI/CD*: Gitlab, Kubernetes, **Ansible**;  
+  *> Cloud*: Digital Ocean
+    
+  *>SCM/Issues Tracking*: GIT/GitFlow, **Notion**, Jira, Swagger (API), Teams, Gitlab Issues/Merge Requests
+
+2019-2021
 :   **DATA ENGINEER SENIOR** (365Talents, Lyon/Télétravail);
 
 * **365TALENTS**: [Data Processing & Architecture]()
@@ -43,8 +56,6 @@ Expériences Professionnelles
      GIT/**GitFlow**, Docker, Grafana, Design patterns, Architecture codes
 
  *> SCM/Issues Tracking*: **GitlabCI**, YouTrack
-
-\pagebreak
 
 2017-2018
 :   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
@@ -150,10 +161,15 @@ Outils et Technologies
     *Eclairage Surfacique en temps réel: Utilisation avancée des cartes graphiques 3D
     programmables dans le cadre de la gestion d'une surface de lumière en temps réel*
 
-\pagebreak
+<!-- \pagebreak -->
 
 Conférences, Open Source
 ------------------------
+
+2022
+:   **DocString, Mentorats 2022**
+
+    *Sessions de mentorat dans le cadre de l'accompagnement DocString.*
 
 2021
 :   **DocString, Présentations 2021**

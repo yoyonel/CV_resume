@@ -1,5 +1,18 @@
 # Références
 
+## DocString (2022)
+- CEO: Thibault Houdon
+    - linkedin: [https://www.linkedin.com/in/thibaulthoudon/](https://www.linkedin.com/in/thibaulthoudon/)
+    - mail: houdon.thibault(at)gmail.com
+
+## 365Talents (2021)
+- CTO: Paul Mougel
+    - linkedin: [https://www.linkedin.com/in/paulmougel/](https://www.linkedin.com/in/paulmougel/)
+    - mail: paul.mougel(at)365talents.com
+- Director of Engineering: Lou Fedon
+    - linkedin: [https://www.linkedin.com/in/loufedon/](https://www.linkedin.com/in/loufedon/)
+    - mail: lou.fedon(at)365talents.com
+
 ## ForCity (2019)
 - CTO: Jean-Marc Kerisit
 	- linkedin: [https://www.linkedin.com/in/jkerisit/](https://www.linkedin.com/in/jkerisit/)
