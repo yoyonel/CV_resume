@@ -1,0 +1,22 @@
+name: build-pdf-cv_resume
+
+on:
+  push:
+
+jobs:
+  build-pdf:
+    name: Build PDF CV Resume
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Run the build process with docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: yoyonel/pandoc:latest
+          options: -v ${{ github.workspace }}:/source
+          run: |
+            cd /source/pandoc_resume
+            make pdf
+      - name: debug - find on current directory
+        run: find .
