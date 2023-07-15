@@ -11,7 +11,7 @@ jobs:
       - name: "Set current date as env variable"
         run: |
           echo "builddate=$(date +'%Y')" >> $GITHUB_OUTPUT
-        id: version  # this is used on variable path
+        id: version # this is used on variable path
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Run the build process with docker
@@ -24,15 +24,13 @@ jobs:
             make pdf
       - name: rename builds
         run: |
-          cp pandoc_resume/resume.pdf "ATTY_Resume-${{ steps.version.outputs.builddate }}.pdf"
-	        cp pandoc_resume/references.pdf "ATTY_References-${{ steps.version.outputs.builddate }}.pdf"
+          cp pandoc_resume/resume.pdf "${{ steps.version.outputs.builddate }}-ATTY_Resume.pdf"
+          cp pandoc_resume/references.pdf "${{ steps.version.outputs.builddate }}-ATTY_References.pdf"
       - name: Publishing Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.version.outputs.builddate }}-resume
-          name: ${{ steps.version.outputs.builddate }}-resume
-          # body: "your date"
-          with:
-            files: ATTY*.pdf
-      # - name: debug - find on current directory
-      #   run: find .
+          tag_name: ${{ steps.version.outputs.builddate }}
+          name: ${{ steps.version.outputs.builddate }}
+          files: |
+            ${{ steps.version.outputs.builddate }}-ATTY_Resume.pdf
+            ${{ steps.version.outputs.builddate }}-ATTY_References.pdf
