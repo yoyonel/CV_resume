@@ -25,12 +25,12 @@ jobs:
       - name: rename builds
         run: |
           cp pandoc_resume/resume.pdf "${{ steps.version.outputs.builddate }}-ATTY_Resume.pdf"
-          cp pandoc_resume/references.pdf "${{ steps.version.outputs.builddate }}-ATTY_References.pdf"
+          cp pandoc_resume/references.pdf "${{ github.event.repository.updated_at}}-ATTY_References.pdf"
       - name: Publishing Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.version.outputs.builddate }}
-          name: ${{ steps.version.outputs.builddate }}
-          files: |
-            ${{ steps.version.outputs.builddate }}-ATTY_Resume.pdf
-            ${{ steps.version.outputs.builddate }}-ATTY_References.pdf
+          tag_name: ${{ steps.version.outputs.builddate }}-resume
+          name: ${{ steps.version.outputs.builddate }}-resume
+          files: ATTY*.pdf
+      # - name: debug - find on current directory
+      #   run: find .
