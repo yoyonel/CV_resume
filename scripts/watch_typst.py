@@ -47,6 +47,19 @@ def calculate_age(birthdate_val: str | date | datetime) -> int:
     return today.year - bdate.year - ((today.month, today.day) < (bdate.month, bdate.day))
 
 
+def process_profile_data(profile: dict) -> dict:
+    current_year = datetime.now(tz=timezone.utc).year
+    if "birthdate" in profile:
+        profile["age"] = calculate_age(profile["birthdate"])
+    if "email" in profile:
+        profile["email_escaped"] = profile["email"].replace("@", "\\@")
+    if "skills_seniority" in profile:
+        for item in profile["skills_seniority"]:
+            end = item.get("end_year") or current_year
+            item["years"] = max(1, end - item["start_year"])
+    return profile
+
+
 class TypstWatcher:
 
     def __init__(self):
@@ -64,10 +77,7 @@ class TypstWatcher:
         with open(PROFILE_PATH, "r", encoding="utf-8") as f:
             profile = json.load(f)
 
-        if "birthdate" in profile:
-            profile["age"] = calculate_age(profile["birthdate"])
-        if "email" in profile:
-            profile["email_escaped"] = profile["email"].replace("@", "\\@")
+        profile = process_profile_data(profile)
 
         rendered = self.template.render(profile=profile)
         with open(OUTPUT_TYP_PATH, "w", encoding="utf-8") as f:

@@ -1,15 +1,15 @@
 #set page(
   paper: "a4",
-  margin: (x: 14mm, top: 11mm, bottom: 11mm),
+  margin: (x: 14mm, top: 9.5mm, bottom: 9.5mm),
 )
 #set text(
   font: ("Inter", "Liberation Sans", "DejaVu Sans"),
-  size: 9.3pt,
+  size: 9.0pt,
   fill: rgb("#0F172A"),
   spacing: 120%,
   lang: "fr"
 )
-#set par(justify: true, leading: 0.54em)
+#set par(justify: true, leading: 0.50em)
 
 // Theme Colors
 #let color-title = rgb("#0F172A")
@@ -19,7 +19,7 @@
 #let color-muted = rgb("#64748B")
 
 // Vector Icon Helper
-#let icon(path, height: 8.8pt, baseline: 18%) = box(
+#let icon(path, height: 8.5pt, baseline: 18%) = box(
   baseline: baseline,
   height: height,
 )[#image("icons/" + path)]
@@ -70,71 +70,153 @@
     fill: c.bg,
     stroke: 0.5pt + c.border,
     radius: 3pt,
-    inset: (x: 3.5pt, y: 1.8pt),
+    inset: (x: 3.5pt, y: 1.6pt),
     outset: 0pt,
     baseline: 0%,
-  )[#text(size: 7.8pt, font: ("JetBrains Mono", "DejaVu Sans Mono"), weight: "medium", fill: c.text)[#name]]
+  )[#text(size: 7.6pt, font: ("JetBrains Mono", "DejaVu Sans Mono"), weight: "medium", fill: c.text)[#name]]
 }
 
 // Helper: Section Heading
 #let cv-section(title) = {
-  v(7pt)
-  block(width: 100%, below: 6pt)[
+  v(4.5pt)
+  block(width: 100%, below: 4pt)[
     #stack(
       spacing: 4pt,
       [
         #box(width: 18mm, height: 2.5pt, fill: color-rule)
         #h(6pt)
-        #text(size: 11pt, weight: "bold", fill: color-brand)[#title]
+        #text(size: 10.6pt, weight: "bold", fill: color-brand)[#title]
       ]
     )
   ]
 }
 
-// Helper: Experience Entry
+// Helper: Domain Node Color for Vertical Stepper
+#let domain-node-color(company) = {
+  let c = lower(company)
+  if "unowhy" in c { rgb("#1E40AF") } // Indigo
+  else if "365talents" in c { rgb("#D97706") } // Amber
+  else if "forcity" in c { rgb("#0284C7") } // Sky
+  else if "holimetrix" in c { rgb("#059669") } // Emerald
+  else if "ign" in c { rgb("#1E40AF") } // Indigo
+  else if "eden" in c { rgb("#7C3AED") } // Purple
+  else { rgb("#64748B") }
+}
+
+// Helper: Generic Reusable Pipeline Diagram Helper (Proposition B.4)
+#let pipeline-diagram(steps) = {
+  v(1.5pt)
+  block(
+    width: 100%,
+    fill: rgb("#F8FAFC"),
+    stroke: 0.5pt + rgb("#E2E8F0"),
+    radius: 3pt,
+    inset: (x: 3.5pt, y: 2.5pt),
+  )[
+    #let count = steps.len()
+    #let cols = ()
+    #for i in range(count) {
+      cols.push(1fr)
+      if i < count - 1 {
+        cols.push(3.5mm)
+      }
+    }
+    #grid(
+      columns: cols,
+      align: center + horizon,
+      ..steps.map(step => {
+        let dom = if "domain" in step { step.domain } else { "default" }
+        let c = tag-colors.at(dom, default: tag-colors.default)
+        box(
+          width: 100%,
+          height: 14pt,
+          fill: c.bg,
+          stroke: 0.5pt + c.border,
+          radius: 2.5pt,
+          inset: (x: 1pt, y: 1pt)
+        )[
+          #align(center + horizon)[#text(size: 6.1pt, weight: "bold", fill: c.text)[#step.label]]
+        ]
+      }).intersperse(text(size: 6.8pt, fill: rgb("#94A3B8"))[▶])
+    )
+  ]
+}
+
+// Helper: Experience Entry with Connected Vertical Stepper (Proposition B.3)
 #let cv-entry(
   dates: "",
   role: "",
   company: "",
   location: "",
-  details: ()
+  details: (),
+  is-last: false,
+  extra: none
 ) = {
-  block(width: 100%, below: 7pt)[
-    #grid(
-      columns: (26mm, 1fr),
-      column-gutter: 4mm,
-      align: (left, left),
-      [
-        #text(weight: "bold", size: 8.8pt, fill: color-title)[#dates]
-      ],
-      [
-        #text(weight: "bold", size: 9.6pt, fill: color-title)[#role]
-        #text(weight: "bold", size: 9.6pt, fill: color-brand)[ — #company]
+  let node-col = domain-node-color(company)
+  grid(
+    columns: (22mm, 1fr),
+    column-gutter: 4mm,
+    align: (right + top, left + top),
+    [
+      #v(0.5pt)
+      #text(weight: "bold", size: 8.8pt, fill: color-title)[#dates]
+    ],
+    [
+      #block(
+        stroke: (left: if not is-last { 1.2pt + rgb("#E2E8F0") } else { 0pt }),
+        inset: (left: 9pt, bottom: if not is-last { 5.5pt } else { 1pt }),
+      )[
+        #place(top + left, dx: -12.6pt, dy: 1.8pt)[
+          #circle(radius: 3.5pt, fill: node-col, stroke: 1.5pt + rgb("#FFFFFF"))
+        ]
+        #text(weight: "bold", size: 9.5pt, fill: color-title)[#role]
+        #text(weight: "bold", size: 9.5pt, fill: color-brand)[ — #company]
         #if location != "" [
-          #text(style: "italic", size: 8.8pt, fill: color-muted)[ (#location)]
+          #text(style: "italic", size: 8.6pt, fill: color-muted)[ (#location)]
         ]
         
-        #v(1.5pt)
+        #v(1.0pt)
         #list(
           tight: true,
           marker: text(fill: color-accent, size: 7pt)[●],
           ..details
         )
+        #if extra != none [
+          #extra
+        ]
       ]
-    )
-  ]
+    ]
+  )
+}
+
+// Helper: Skill Seniority Gauge (Proposition B.2 - Dynamique)
+#let skill-gauge(name, years, max-years: 20, domain: auto) = {
+  let dom = if domain == auto { tech-domain(name) } else { domain }
+  let c = tag-colors.at(dom, default: tag-colors.default)
+  grid(
+    columns: (42mm, 1fr, 11mm),
+    column-gutter: 2.5mm,
+    align: (left + horizon, left + horizon, right + horizon),
+    [#text(size: 8pt, weight: "bold", fill: color-title)[#name]],
+    [
+      #box(width: 100%, height: 4pt, fill: rgb("#F1F5F9"), radius: 2pt)[
+        #box(width: (years / max-years) * 100%, height: 4pt, fill: c.text, radius: 2pt)
+      ]
+    ],
+    [#text(size: 7.6pt, weight: "medium", fill: color-muted)[#years ans]]
+  )
 }
 
 // --- HEADER ---
 #align(center)[
   #text(size: 18pt, weight: "bold", fill: color-title)[{{ profile.name }}]
   
-  #v(2.5pt)
+  #v(2pt)
   #text(size: 10pt, weight: "bold", fill: color-brand)[{{ profile.title }}]
-  #text(size: 9.2pt, fill: color-muted)[ • {{ profile.specialties }}]
+  #text(size: 9.0pt, fill: color-muted)[ • {{ profile.specialties }}]
   
-  #v(3pt)
-  #text(size: 8.8pt, fill: color-muted)[
+  #v(2.5pt)
+  #text(size: 8.6pt, fill: color-muted)[
     #icon("mail.svg") #link("mailto:{{ profile.email }}")[#text(fill: color-accent)[{{ profile.email_escaped }}]] #h(6pt)
     #icon("phone.svg") {{ profile.phone }} #h(6pt)
     #icon("map-pin.svg") {{ profile.address }} #h(6pt)
@@ -143,7 +225,7 @@
   ]
 ]
 
-#v(-1pt)
+#v(-2pt)
 #line(length: 100%, stroke: 0.5pt + rgb("#E2E8F0"))
 
 // --- EXPERIENCES PROFESSIONNELLES (Page 1) ---
@@ -161,7 +243,13 @@
     [#strong[Infrastructure & Cloud] : Déploiement et orchestration sous #tag("Kubernetes") et #tag("Docker") sur Digital Ocean, gestion de configuration avec #tag("Ansible")],
     [#strong[Sécurité & Observabilité] : Authentification SSO avec #tag("Keycloak"), reverse-proxy #tag("Traefik"), workflows #tag("Argo"), logs #tag("Fluentd")],
     [#strong[Qualité & Méthodes] : Pratiques agiles SCRUM / Kanban, CI/CD #tag("GitLab CI"), tests sous #tag("Pytest"), #tag("GitFlow"), Notion, Jira.],
-  )
+  ),
+  extra: pipeline-diagram((
+    (label: "Clients (Web / Apps)", domain: "arch"),
+    (label: "Traefik / Keycloak SSO", domain: "cloud"),
+    (label: "FastAPI Microservices", domain: "backend"),
+    (label: "Postgres • EventStore • MQTT", domain: "db"),
+  ))
 )
 
 #cv-entry(
@@ -176,7 +264,13 @@
     [#strong[Cloud GCP & DevOps] : Exploitation de #tag("Google Cloud Platform") (Compute Engine, Cloud Functions, Pub/Sub, Cloud Scheduler, Cloud Storage), infrastructure as code avec #tag("Terraform") et #tag("Ansible")],
     [#strong[Monitoring & CI/CD] : Stack ELK complète #tag("Elasticsearch") #tag("Logstash") #tag("Kibana") #tag("APM"), métriques #tag("Prometheus") et dashboards #tag("Grafana"), pipelines #tag("GitHub Actions") avec runners auto-hébergés.],
     [#strong[Architecture & Qualité] : Clean Architecture, Domain-Driven Design (DDD), tests sous #tag("Pytest"), API REST, #tag("GitFlow").],
-  )
+  ),
+  extra: pipeline-diagram((
+    (label: "Sources RH / Profils", domain: "arch"),
+    (label: "NLP (spaCy / Gensim / TF)", domain: "backend"),
+    (label: "ElasticSearch Matching", domain: "db"),
+    (label: "API gRPC / FastAPI", domain: "backend"),
+  ))
 )
 
 #cv-entry(
@@ -200,7 +294,8 @@
   details: (
     [#strong[Projet Concurrence] : Agrégation et analyse de flux massifs de données publicitaires partenaires (SNPTV) pour établir le champ de concurrence des marques #tag("Python 3.x") #tag("MariaDB/MySQL") #tag("HDFS") #tag("SQLAlchemy") #tag("Pandas") #tag("Apache Airflow") #tag("Jupyter")],
     [#strong[Projet Pythie (Crawler TV)] : Conception d'une chaîne automatisée d'acquisition de flux vidéo broadcast et détection de spots publicitaires TV en temps réel #tag("Python 3.x") #tag("C++") #tag("gRPC") #tag("Docker") #tag("Rancher") #tag("MongoDB") #tag("FFMPEG") #tag("OpenCV") #tag("Flask-admin") #tag("Plotly")],
-  )
+  ),
+  is-last: true
 )
 
 #pagebreak()
@@ -215,7 +310,13 @@
     [#strong[Projet LI3DS (Large Input 3D System)] : Conception et développement d'un logiciel modulaire pilotant l'acquisition et la synchronisation temps réel de capteurs multiples (LIDAR, caméras, centrale inertielle) en #tag("C++") #tag("Python") #tag("ROS") #tag("Qt") #tag("PostGIS") #tag("Docker"). #link("https://github.com/LI3DS")[#icon("github.svg") #text(fill: color-accent)[GitHub LI3DS]] • #link("https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf")[#icon("slides.svg") #text(fill: color-accent)[Talk Foss4G]].],
     [#strong[Projet TrafiPollu] : Production de données géographiques et modélisation de dispersion des polluants dans un SIG QGIS. #link("http://remi-c.github.io/interactive_map_tracking/")[#text(fill: color-accent)[Plugin QGIS Map Tracking]] • #link("http://geotribu.net/node/801")[#text(fill: color-accent)[Article GeoTribu]].],
     [#strong[Projet iSpace&Time] : Cartographie 4D et simulation de flux urbains (SYMUVIA), moteur de rendu #tag("OpenSceneGraph") #tag("OpenGL Shaders") #tag("C++") #tag("Qt") #tag("CMake") Blender.],
-  )
+  ),
+  extra: pipeline-diagram((
+    (label: "LIDAR + Caméras + IMU", domain: "arch"),
+    (label: "Drivers C++ & ROS Core", domain: "graphics"),
+    (label: "Synchronisation Temps-Réel", domain: "graphics"),
+    (label: "PostGIS 3D & Stockage", domain: "db"),
+  ))
 )
 
 #cv-entry(
@@ -226,17 +327,37 @@
   details: (
     [#strong[Jeu #link("https://en.wikipedia.org/wiki/Alone_in_the_Dark_%282008_video_game%29")[#text(fill: color-accent)[Alone in the Dark]] (PC, Xbox 360, PS3)] : R&D et intégration dans le moteur 3D propriétaire d'un système novateur d'ombres douces temps réel sur GPU #tag("C++") #tag("DirectX 9/10") #tag("Shaders HLSL") Perforce.],
     [#strong[Collaboration R&D Thèse CIFRE] : Travaux de recherche appliquée en rendu graphique temps réel avec le laboratoire ARTIS / GRAVIR (INRIA Rhône-Alpes).],
-  )
+  ),
+  is-last: true
 )
 
 // --- OUTILS & TECHNOLOGIES ---
 #cv-section("Outils & Technologies")
 
-#block(width: 100%, below: 6pt)[
+// Seniority Gauges (Proposition B.2 - 100% Dynamique)
+#block(
+  width: 100%,
+  fill: rgb("#F8FAFC"),
+  stroke: 0.5pt + rgb("#E2E8F0"),
+  radius: 4pt,
+  inset: (x: 6pt, y: 4.5pt),
+  below: 5pt,
+)[
   #grid(
     columns: (1fr, 1fr),
     column-gutter: 6mm,
-    row-gutter: 5pt,
+    row-gutter: 3pt,
+    {% for skill in profile.skills_seniority %}
+    skill-gauge("{{ skill.label }}", {{ skill.years }}, domain: "{{ skill.domain }}"),
+    {% endfor %}
+  )
+]
+
+#block(width: 100%, below: 5pt)[
+  #grid(
+    columns: (1fr, 1fr),
+    column-gutter: 6mm,
+    row-gutter: 4.2pt,
     [
       #text(weight: "bold", size: 8.8pt, fill: color-title)[Langages & Frameworks]\
       #tag("Python") #tag("FastAPI") #tag("Pydantic") #tag("Asyncpg") #tag("Pytest") #tag("Celery") #tag("Pandas") #tag("SQLAlchemy") #tag("C++ (98/11/14/17)") #tag("STL") #tag("Qt") #tag("Bash")
@@ -271,7 +392,7 @@
   #grid(
     columns: (26mm, 1fr),
     column-gutter: 4mm,
-    row-gutter: 4pt,
+    row-gutter: 3.2pt,
     [#text(weight: "bold", size: 8.8pt, fill: color-title)[2005 - 2009]],
     [
       #text(weight: "bold", size: 9.2pt, fill: color-title)[Thèse CIFRE (Rendu Graphique Temps-Réel & GPU)]
@@ -301,7 +422,7 @@
   #grid(
     columns: (26mm, 1fr),
     column-gutter: 4mm,
-    row-gutter: 3.5pt,
+    row-gutter: 2.8pt,
     [#text(weight: "bold", size: 8.8pt, fill: color-title)[2021 - 2022]],
     [
       #strong[DocString] : Mentorat technique & masterclass vidéo #link("https://youtu.be/aaim2oCGedk")[#icon("video.svg") #text(fill: color-accent)[Application CLI avec Python & CI/CD]] (#link("https://youtu.be/aaim2oCGedk")[#text(fill: color-accent)[Partie 1]], #link("https://youtu.be/zD1F3xJzJzY")[#text(fill: color-accent)[Partie 2]], #link("http://bit.ly/36mb5Ez")[#icon("slides.svg") #text(fill: color-accent)[Slides]]).
