@@ -32,7 +32,7 @@ clean:
 
 RENDER_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/render_resume.py" || echo "python3 scripts/render_resume.py")
 
-pandoc_resume/resume.md: pandoc_resume/resume.md.j2 data/profile.json scripts/render_resume.py
+pandoc_resume/resume.md: pandoc_resume/resume.md.j2 $(wildcard pandoc_resume/sections/*) data/profile.json scripts/render_resume.py
 	$(RENDER_CMD)
 
 pdf: ${TARGET_PDF}
