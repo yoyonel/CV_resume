@@ -1,15 +1,14 @@
 #set page(
   paper: "a4",
-  margin: (x: 14mm, top: 9.5mm, bottom: 9.5mm),
+  margin: (x: 14mm, top: 10mm, bottom: 10mm),
 )
 #set text(
   font: ("Inter", "Liberation Sans", "DejaVu Sans"),
-  size: 9.0pt,
+  size: 9.1pt,
   fill: rgb("#0F172A"),
-  spacing: 120%,
   lang: "fr"
 )
-#set par(justify: true, leading: 0.50em)
+#set par(justify: true, leading: 0.52em)
 
 // Theme Colors
 #let color-title = rgb("#0F172A")
@@ -78,14 +77,14 @@
 
 // Helper: Section Heading
 #let cv-section(title) = {
-  v(4.5pt)
-  block(width: 100%, below: 4pt)[
+  v(5pt)
+  block(width: 100%, below: 5pt)[
     #stack(
       spacing: 4pt,
       [
         #box(width: 18mm, height: 2.5pt, fill: color-rule)
         #h(6pt)
-        #text(size: 10.6pt, weight: "bold", fill: color-brand)[#title]
+        #text(size: 10.8pt, weight: "bold", fill: color-brand)[#title]
       ]
     )
   ]
@@ -217,10 +216,10 @@
   
   #v(2.5pt)
   #text(size: 8.6pt, fill: color-muted)[
-    #icon("mail.svg") #link("mailto:lionel.atty@gmail.com")[#text(fill: color-accent)[lionel.atty\@gmail.com]] #h(6pt)
-    #icon("phone.svg") +33 6 01 59 00 23 #h(6pt)
-    #icon("map-pin.svg") 25 Bd Bouès, Marseille #h(6pt)
-    #icon("laptop.svg") Télétravail / Hybride #h(6pt)
+    #icon("mail.svg") #link("mailto:lionel.atty@gmail.com")[#text(fill: color-accent)[lionel.atty\@gmail.com]] #h(5pt) | #h(5pt)
+    #icon("phone.svg") +33 6 01 59 00 23 #h(5pt) | #h(5pt)
+    #icon("map-pin.svg") 25 Bd Bouès, Marseille #h(5pt) | #h(5pt)
+    #icon("laptop.svg") Télétravail / Hybride #h(5pt) | #h(5pt)
     #icon("calendar.svg") 45 ans
   ]
 ]
@@ -248,7 +247,7 @@
     (label: "Clients (Web / Apps)", domain: "arch"),
     (label: "Traefik / Keycloak SSO", domain: "cloud"),
     (label: "FastAPI Microservices", domain: "backend"),
-    (label: "Postgres • EventStore • MQTT", domain: "db"),
+    (label: "PostgreSQL • EventStore • MQTT", domain: "db"),
   ))
 )
 
@@ -259,7 +258,7 @@
   location: "Lyon / Télétravail",
   details: (
     [#text(style: "italic")[Conception, développement et intégration des algorithmes et pipelines de données pour le matching et la détection de compétences RH.]],
-    [#strong[Data Processing & NLP] : Conception d'algorithmes et pipelines de données pour le matching de compétences RH #tag("Python 3.8") #tag("ElasticSearch") #tag("Redis") #tag("spaCy") #tag("Gensim") #tag("TensorFlow") #tag("Celery")],
+    [#strong[Data Processing & NLP] : Conception d'algorithmes et pipelines de données pour le matching de compétences RH #tag("Python 3.8") #tag("Elasticsearch") #tag("Redis") #tag("spaCy") #tag("Gensim") #tag("TensorFlow") #tag("Celery")],
     [#strong[Microservices & Communication] : Développement de services backend haute performance avec #tag("FastAPI") et #tag("gRPC")],
     [#strong[Cloud GCP & DevOps] : Exploitation de #tag("Google Cloud Platform") (Compute Engine, Cloud Functions, Pub/Sub, Cloud Scheduler, Cloud Storage), infrastructure as code avec #tag("Terraform") et #tag("Ansible")],
     [#strong[Monitoring & CI/CD] : Stack ELK complète #tag("Elasticsearch") #tag("Logstash") #tag("Kibana") #tag("APM"), métriques #tag("Prometheus") et dashboards #tag("Grafana"), pipelines #tag("GitHub Actions") avec runners auto-hébergés.],
@@ -268,7 +267,7 @@
   extra: pipeline-diagram((
     (label: "Sources RH / Profils", domain: "arch"),
     (label: "NLP (spaCy / Gensim / TF)", domain: "backend"),
-    (label: "ElasticSearch Matching", domain: "db"),
+    (label: "Elasticsearch Matching", domain: "db"),
     (label: "API gRPC / FastAPI", domain: "backend"),
   ))
 )
@@ -374,7 +373,7 @@
     ],
     [
       #text(weight: "bold", size: 8.8pt, fill: color-title)[Bases de Données & Stockage]\
-      #tag("PostgreSQL") #tag("PostGIS") #tag("JSONB") #tag("Redis / Streams") #tag("ElasticSearch") #tag("MongoDB") #tag("EventStore") #tag("MariaDB/MySQL") #tag("HDFS")
+      #tag("PostgreSQL") #tag("PostGIS") #tag("JSONB") #tag("Redis / Streams") #tag("Elasticsearch") #tag("MongoDB") #tag("EventStore") #tag("MariaDB/MySQL") #tag("HDFS")
     ],
     [
       #text(weight: "bold", size: 8.8pt, fill: color-title)[Cloud, DevOps & Infra]\
@@ -391,8 +390,8 @@
   )
 ]
 
-// --- ETUDES & DIPLOMES ---
-#cv-section("Études & Diplômes")
+// --- FORMATION & DIPLOMES ---
+#cv-section("Formation & Diplômes")
 
 #block(width: 100%, below: 5pt)[
   #grid(
@@ -401,7 +400,7 @@
     row-gutter: 3.2pt,
     [#text(weight: "bold", size: 8.8pt, fill: color-title)[2005 - 2009]],
     [
-      #text(weight: "bold", size: 9.2pt, fill: color-title)[Thèse CIFRE (Rendu Graphique Temps-Réel & GPU)]
+      #text(weight: "bold", size: 9.2pt, fill: color-title)[Doctorat / Thèse CIFRE (Rendu Graphique Temps-Réel & GPU)]
       #text(style: "italic", size: 8.6pt, fill: color-muted)[ — UJF / INRIA GRAVIR / Eden Games]\
       #text(size: 8.6pt)[Algorithmes de calcul et génération d'ombres douces temps réel sur GPU.]\
       #text(size: 8.4pt)[#icon("book.svg") #strong[Publication internationale] : #text(style: "italic")[Soft Shadow Maps: Efficient Sampling of Light Source Visibility], #strong[Computer Graphics Forum (CGF)], 2006 (#link("http://maverick.inria.fr/Publications/2006/AHLHHS06/")[#text(fill: color-accent)[Atty et al. - INRIA]]).]
@@ -414,15 +413,15 @@
     ],
     [#text(weight: "bold", size: 8.8pt, fill: color-title)[2003 - 2004]],
     [
-      #text(weight: "bold", size: 9.2pt, fill: color-title)[Master 1 / Magistère (Informatique & Mathématiques Appliquées)]
+      #text(weight: "bold", size: 9.2pt, fill: color-title)[Master 1 & Magistère (Informatique & Mathématiques Appliquées)]
       #text(style: "italic", size: 8.6pt, fill: color-muted)[ — UJF Grenoble]\
       #text(size: 8.6pt)[Spécialisation en synthèse d'images, illumination temps réel, shaders GPU et géométrie algorithmique.]
     ]
   )
 ]
 
-// --- CONFERENCES, FORMATIONS & OPEN SOURCE ---
-#cv-section("Conférences, Formations & Open Source")
+// --- CONFERENCES & PROJETS OPEN SOURCE ---
+#cv-section("Conférences & Projets Open Source")
 
 #block(width: 100%, below: 5pt)[
   #grid(
