@@ -12,52 +12,29 @@ DOCKER_ID_USER ?= yoyonel
 
 DIR := $(shell realpath .)
 
+DOCKER_RUN = docker run \
+	-it --rm \
+	-v ${DIR}:/source \
+	-v /etc/group:/etc/group:ro \
+	-v /etc/passwd:/etc/passwd:ro \
+	${DOCKER_ID_USER}/pandoc \
+	bash -c "cd /source/pandoc_resume && make $(1)"
+
 all: cv_resume
 
 cv_resume: pdf
 
 clean:
-	rm -rf ${TARGET_PDF}
+	rm -rf ${TARGET_PDF} ${ROOT_TARGET_PDF}_ATTY_References.pdf
 	rm -f pandoc_resume/resume.pdf
 	rm -f pandoc_resume/references.pdf
-
-	docker run \
-		-it --rm \
-		-v ${DIR}:/source \
-		-v /etc/group:/etc/group:ro \
-		-v /etc/passwd:/etc/passwd:ro \
-		${DOCKER_ID_USER}/pandoc \
-		bash -c "\
-			cd /source/pandoc_resume; \
-			make clean; \
-			"
+	$(call DOCKER_RUN,clean)
 
 pdf: ${TARGET_PDF}
 
 ${TARGET_PDF}: pandoc_resume/resume.md pandoc_resume/references.md
-	# url: http://aty.sdsu.edu/bibliog/latex/LaTeXtoPDF.html
-
-
 	mkdir -p data/pdf/${CURRENT_YEAR}
-
-	# -u $(USER_ID):$(GROUP_ID) \
-	# Probleme avec font latex => https://github.com/sharelatex/sharelatex/issues/450
-	# utilisation d'un workaround, comme on connait la cible, on peut effectuer manuellement
-	# et directement le changement d'owner.
-
-	# chown ${USER}:${USER} resume.pdf; \
-
-	docker run \
-		-it --rm \
-		-v ${DIR}:/source \
-		-v /etc/group:/etc/group:ro \
-		-v /etc/passwd:/etc/passwd:ro \
-		${DOCKER_ID_USER}/pandoc \
-		bash -c "\
-			cd /source/pandoc_resume; \
-			make pdf; \
-			"
-
+	$(call DOCKER_RUN,pdf)
 	cp pandoc_resume/resume.pdf ${TARGET_PDF}
 	cp pandoc_resume/references.pdf ${ROOT_TARGET_PDF}_ATTY_References.pdf
 

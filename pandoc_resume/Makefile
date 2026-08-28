@@ -1,60 +1,29 @@
 all: html pdf docx rtf
 
-# --biblio ../data/bib/bibtex.bib \
-# --csl ../data/csl/ieee.csl \
-
 pdf: resume.pdf references.pdf
 
-resume.pdf: resume.md
-	pandoc 	--standalone --template style_chmduquesne.tex \
-			--from markdown --to context \
-			-V papersize=A4 \
-			--biblio ../data/bib/bibtex.bib \
-			-o resume.tex resume.md; \
-			context resume.tex
-#
+PANDOC_PDF_FLAGS = --standalone --template style_chmduquesne.tex --from markdown --to context -V papersize=A4
 
-references.pdf: references.md
-	pandoc 	--standalone --template style_chmduquesne.tex \
-			--from markdown --to context \
-			-V papersize=A4 \
-			-o references.tex references.md; \
-			context references.tex
+resume.pdf: PANDOC_EXTRA_FLAGS = --biblio ../data/bib/bibtex.bib
+
+%.pdf: %.md
+	pandoc $(PANDOC_PDF_FLAGS) $(PANDOC_EXTRA_FLAGS) -o $*.tex $<
+	context $*.tex
 
 html: resume.html
-resume.html: style_chmduquesne.css resume.md
-	pandoc --standalone -H style_chmduquesne.css \
-        --from markdown \
-        --to html \
-        -o resume.html \
-        resume.md
+resume.html: resume.md style_chmduquesne.css
+	pandoc --standalone -H style_chmduquesne.css --from markdown --to html -o $@ $<
 
 docx: resume.docx
-resume.docx: resume.md
-	pandoc \
-		-s -S \
-		resume.md \
-		-o resume.docx
+%.docx: %.md
+	pandoc -s -o $@ $<
 
 rtf: resume.rtf
-resume.rtf: resume.md
-	pandoc \
-		-s -S \
-		resume.md \
-		-o resume.rtf
+%.rtf: %.md
+	pandoc -s -o $@ $<
 
+TARGETS_BASE = resume references
 clean:
-	rm -f 	resume.html \
-			resume.tex \
-			resume.tuc \
-			resume.log \
-			resume.pdf \
-			resume.docx \
-			resume.rtf \
-			references.html \
-			references.tex \
-			references.tuc \
-			references.log \
-			references.pdf \
-			references.docx \
-			references.rtf
+	rm -f $(foreach ext,html tex tuc log pdf docx rtf,$(addsuffix .$(ext),$(TARGETS_BASE)))
+
+.PHONY: all pdf html docx rtf clean

@@ -1,0 +1,17 @@
+# Pandoc / ConTeXt intermediate build artifacts
+*.tuc
+*.log
+pandoc_resume/resume.tex
+pandoc_resume/references.tex
+pandoc_resume/*.docx
+pandoc_resume/*.rtf
+pandoc_resume/*.html
+pandoc_resume/resume.pdf
+pandoc_resume/references.pdf
+
+# Editor & OS files
+*~
+*.swp
+*.swo
+Thumbs.db
+.DS_Store
