@@ -2,6 +2,7 @@
 # /// script
 # dependencies = [
 #   "jinja2>=3.1.0",
+#   "typst>=0.15.0",
 # ]
 # ///
 import json
@@ -11,10 +12,11 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 try:
+    import typst
     from jinja2 import Environment, FileSystemLoader
 except ImportError:
     print(
-        "Error: jinja2 is required. Run 'pip install jinja2' or use 'uv run scripts/render_resume.py'",
+        "Error: jinja2 and typst are required. Use 'uv run scripts/compile_typst.py'",
         file=sys.stderr,
     )
     sys.exit(1)
@@ -42,9 +44,9 @@ def calculate_age(birthdate_val: str | date | datetime) -> int:
 def main():
     root_dir = Path(__file__).resolve().parent.parent
     profile_path = root_dir / "data" / "profile.json"
-    template_dir = root_dir / "pandoc_resume"
-    template_path = template_dir / "resume.md.j2"
-    output_path = template_dir / "resume.md"
+    typst_dir = root_dir / "typst_resume"
+    output_typ_path = typst_dir / "resume.typ"
+    output_pdf_path = root_dir / "data" / "pdf" / "2026" / "2026_ATTY_Resume_Typst.pdf"
 
     if not profile_path.exists():
         print(f"Error: Profile file not found at {profile_path}", file=sys.stderr)
@@ -53,7 +55,6 @@ def main():
     with open(profile_path, "r", encoding="utf-8") as f:
         profile = json.load(f)
 
-    # Allow environment variable overrides
     env_mappings = {
         "CV_NAME": "name",
         "CV_BIRTHDATE": "birthdate",
@@ -71,20 +72,25 @@ def main():
     if "birthdate" in profile:
         profile["age"] = calculate_age(profile["birthdate"])
 
+    if "email" in profile:
+        profile["email_escaped"] = profile["email"].replace("@", "\\@")
+
     env = Environment(
-        loader=FileSystemLoader(template_dir),
+        loader=FileSystemLoader(typst_dir),
         autoescape=False,
     )
     env.filters["age"] = calculate_age
 
-    template = env.get_template("resume.md.j2")
+    template = env.get_template("resume.typ.j2")
     rendered = template.render(profile=profile)
 
-    with open(output_path, "w", encoding="utf-8") as f:
+    with open(output_typ_path, "w", encoding="utf-8") as f:
         f.write(rendered)
 
+    output_pdf_path.parent.mkdir(parents=True, exist_ok=True)
+    typst.compile(str(output_typ_path), output=str(output_pdf_path))
     print(
-        f"Rendered {template_path.name} -> {output_path.name} (age: {profile.get('age', 'N/A')} ans)"
+        f"Compiled Typst resume -> {output_pdf_path} (age: {profile.get('age', 'N/A')} ans)"
     )
 
 

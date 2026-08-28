@@ -1,0 +1,81 @@
+version: '3'
+
+vars:
+  PYTHON_SCRIPTS: scripts/
+
+tasks:
+  default:
+    desc: List all available tasks
+    cmds:
+      - task --list
+
+  # --- LINTING & CHECKING ---
+  lint:
+    desc: Run all linters and code/template checkers
+    cmds:
+      - task: lint:python
+      - task: lint:json
+      - task: lint:jinja
+      - task: lint:typst
+
+  lint:python:
+    desc: Lint Python scripts with ruff
+    cmds:
+      - ruff check {{.PYTHON_SCRIPTS}}
+
+  lint:json:
+    desc: Validate JSON syntax and structure
+    cmds:
+      - python3 -m json.tool data/profile.json > /dev/null
+    silent: true
+
+  lint:jinja:
+    desc: Validate Jinja2 templates AST parsing
+    cmds:
+      - |
+        uv run --with jinja2 python -c '
+        from jinja2 import Environment
+        templates = [
+            "pandoc_resume/resume.md.j2",
+            "pandoc_resume/sections/00_header.md.j2",
+            "typst_resume/resume.typ.j2",
+        ]
+        for t in templates:
+            with open(t, "r", encoding="utf-8") as f:
+                Environment().parse(f.read())
+            print(f"  [OK] Jinja AST: {t}")
+        '
+
+  lint:typst:
+    desc: Check and compile Typst template without errors
+    cmds:
+      - uv run scripts/compile_typst.py
+
+  lint:markdown:
+    desc: Lint Markdown files with markdownlint-cli2
+    cmds:
+      - npx markdownlint-cli2 "docs/*.md" "README.md"
+
+  # --- FORMATTING ---
+  fmt:
+    desc: Format all code and documentation
+    cmds:
+      - task: fmt:python
+
+  fmt:python:
+    desc: Format Python scripts with ruff
+    cmds:
+      - ruff format {{.PYTHON_SCRIPTS}}
+
+  # --- WATCH & LIVE PREVIEW ---
+  watch:
+    desc: Live watch & instant Typst recompilation on source change
+    cmds:
+      - uv run scripts/watch_typst.py
+
+  # --- VALIDATION SUITE ---
+  check:
+    desc: Full validation suite (lint + build test)
+    cmds:
+      - task: lint
+      - echo "All checks passed successfully!"
