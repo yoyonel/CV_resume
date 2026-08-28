@@ -66,8 +66,6 @@ def main():
     env = Environment(
         loader=FileSystemLoader(template_dir),
         autoescape=False,
-        trim_blocks=True,
-        lstrip_blocks=True,
     )
     env.filters["age"] = calculate_age
 

@@ -37,7 +37,7 @@ pandoc_resume/resume.md: pandoc_resume/resume.md.j2 $(wildcard pandoc_resume/sec
 
 pdf: ${TARGET_PDF}
 
-${TARGET_PDF}: pandoc_resume/resume.md pandoc_resume/references.md
+${TARGET_PDF}: pandoc_resume/resume.md pandoc_resume/references.md pandoc_resume/style_chmduquesne.tex
 	mkdir -p data/pdf/${CURRENT_YEAR}
 	$(call DOCKER_RUN,pdf)
 	cp pandoc_resume/resume.pdf ${TARGET_PDF}

@@ -1,102 +1,45 @@
 Expériences Professionnelles
 ----------------------------
 
-2021(Juin)
-:   **Développeur Back End Python** (Unowhy, Paris/Télétravail);
-* **UNOWHY**: [Développeur Back End Python]()
-  
-  *> Méthodologies*: SCRUM, KANBAN (selon les périodes/projets);  
-  *> Développements*: WS Python 3.[8.9].x -> **FastAPI**, GraphQL, OpenAPI, Asyncpg, Click, CookieCutter, Jinja2, **Pydantic**, **Pytest**;  
-  *> Stockage*: **PostgreSQL**, **Eventstore**, MQTT;  
-  *> Environnement technique*: Linux (Debian), Uvicorn, **Kubernetes**, **Docker**, Notion, MinIO, Argo Workflows, Fluentd, LDAP, **EventStore**, Traefik, **Keycloak(SSO)**;  
-  *> CI/CD*: Gitlab, Kubernetes, **Ansible**;  
-  *> Cloud*: Digital Ocean
-    
-  *>SCM/Issues Tracking*: GIT/GitFlow, **Notion**, Jira, Swagger (API), Teams, Gitlab Issues/Merge Requests
+2021 - 2025
+:   **Développeur Back End Python** — **UNOWHY** *(Paris / Télétravail — Juin 2021 à Déc. 2025)*  
+    *Conception et développement de la plateforme microservices backend pour l'éducation numérique.*
+    - **Conception & Architecture** : Refonte et développement de microservices backend Python 3.9+ (**FastAPI**, GraphQL, OpenAPI, Asyncpg, Pydantic, Click).
+    - **Event-Driven & Stockage** : Mise en place d'une architecture orientée événements avec **PostgreSQL**, **EventStore**, MQTT et MinIO.
+    - **Infrastructure & Conteneurisation** : Déploiement et orchestration sous **Kubernetes** et **Docker** sur Digital Ocean, gestion de configuration avec **Ansible**.
+    - **Sécurité & Observabilité** : Authentification SSO avec **Keycloak**, reverse-proxy Traefik, workflows Argo, agrégation de logs Fluentd.
+    - **Qualité & Méthodologies** : Pratiques agiles SCRUM / Kanban, intégration continue GitLab CI, tests complets sous **Pytest**, GitFlow, documentation Notion, suivi Jira.
 
-2019-2021
-:   **DATA ENGINEER SENIOR** (365Talents, Lyon/Télétravail);
-
-* **365TALENTS**: [Data Processing & Architecture]()
-
-  *Faire parler les données -- structurées ou non -- issues des outils business et RH des clients par des recommandations pertinentes et du matching et contribuer à l'avancée technique de la solution. Concevoir, développer et intégrer les algorithmes alimentant la plateforme de détection et mobilisation de talents.*
-
-  *> Outils/Technologies*: **Dev** -> **Python 3.6.9**, **ElasticSearch**, **Redis**/Redis Streams, **FastAPI/Pydantic**, **gRPC**, Dependency-Injector, NLP (spaCy/Gensim, TensorFlow), **Pytest**/Mocks, Celery;  
-  **Infra/DevOps** -> **Docker/docker-compose**, Ansible, **Terraform**, Prometheus: Exporters, ELK Stack: ES, Kibana, APM, LogStash, Filebeat;
-  **Cloud** -> **Google Cloud Platform**: Compute Engine, Cloud Storage, Cloud Function, Cloud Pub/Sub, Cloud Scheduler; **Github Actions**: Pipelines de CI/CD, Self-hosted runner
-  
-  Design patterns, Architecture codes, Clean Architecture, Micro-services, API-REST, Infra, **Cloud** (Google)
-
-  *> SCM/Issues Tracking*: GIT/GitFlow, Asana, Slack, Slite, Github Issues
+2019 - 2021
+:   **Data Engineer Senior** — **365TALENTS** *(Lyon / Télétravail)*  
+    *Conception, développement et intégration des algorithmes et pipelines de données pour le matching et la détection de compétences RH.*
+    - **Data Processing & NLP** : Conception d'algorithmes et pipelines de données pour le matching de compétences RH (**Python 3.6/3.8**, **ElasticSearch**, **Redis** / Redis Streams, spaCy, Gensim, TensorFlow, Dependency-Injector, Celery).
+    - **Microservices & Communication** : Développement de services backend haute performance avec **FastAPI** et **gRPC**.
+    - **Cloud GCP & DevOps** : Exploitation de **Google Cloud Platform** (Compute Engine, Cloud Functions, Pub/Sub, Cloud Scheduler, Cloud Storage), infrastructure as code avec **Terraform** et **Ansible**.
+    - **Monitoring & CI/CD** : Stack ELK complète (Elasticsearch, Logstash, Kibana, APM, Filebeat), métriques Prometheus et dashboards Grafana, pipelines GitHub Actions avec runners auto-hébergés.
+    - **Architecture & Qualité** : Clean Architecture, Domain-Driven Design (DDD), tests sous **Pytest**, API REST, GitFlow.
 
 2019 (4 mois)
-:   **Ingénieur Modèle + Industrialisation** (Forcity, Lyon);
+:   **Ingénieur Modèle & Industrialisation** — **FORCITY** *(Lyon)*  
+    *Industrialisation de modèles python de simulation urbaine pour l'optimisation de collecte et traitement des déchets ([Waste Vision](https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets)).*
+    - **Développements & SIG** : Modélisation sous Python 3.6, PostgreSQL / **PostGIS** / JSONB, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest.
+    - **Pipelines & Simulation** : Traitements spatiaux et vectoriels pour la simulation de flux démographiques et logistiques.
+    - **Environnement & Qualité** : Conteneurisation Docker, métriques Grafana, pipelines GitLab CI, GitFlow, suivi YouTrack.
 
-* **Waste, Waste Vision**: [Industrialisation de modèles python d'évolution de population et d'emploi ]()
+2017 - 2018
+:   **Ingénieur Logiciel (R&D) & Data Analysis** — **HOLIMETRIX** *(Lyon)*
+    - **Projet Concurrence** : Agrégation et analyse de flux massifs de données publicitaires partenaires (SNPTV) pour établir le champ de concurrence des marques (Python 3.x, MariaDB/MySQL, **HDFS**, ORM SQLAlchemy, **Pandas**, orchestration **Apache Airflow**, notebooks Jupyter).
+    - **Projet Pythie (Crawler TV)** : Conception d'une chaîne automatisée d'acquisition de flux vidéo broadcast et détection de spots publicitaires TV en temps réel (Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask-admin, dashboards Plotly).
 
-     *ForCity Waste Vision est un logiciel de gestion des déchêts qui s'appuie sur la simulation urbaine pour optimiser la collecte et le traitement.* (     produit: [Waste Vision](https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets))
+\page
 
- *> Outils/Technologies*: **Python** 2.7/**3.6**, PostGreSQL/**PostGIS**/**JSONB**, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest
-     GIT/**GitFlow**, Docker, Grafana, Design patterns, Architecture codes
+2011 - 2017
+:   **Chargé de Recherche (R&D)** — **IGN** *(Saint-Mandé)*
+    - **Projet LI3DS (Large Input 3D System)** : Conception et développement d'un logiciel modulaire pilotant l'acquisition et la synchronisation temps réel de capteurs multiples (LIDAR, caméras, centrale inertielle) en C++, Python, **ROS**, Qt, PostGIS, Docker. [GitHub LI3DS](https://github.com/LI3DS) • [Talk Foss4G](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf).
+    - **Projet TrafiPollu** : Production de données géographiques et modélisation de dispersion des polluants dans un SIG QGIS. [Plugin QGIS Interactive Map Tracking](http://remi-c.github.io/interactive_map_tracking/) • [Article GeoTribu](http://geotribu.net/node/801).
+    - **Projet iSpace&Time** : Cartographie 4D et simulation de flux urbains (SYMUVIA), moteur de rendu OpenSceneGraph / Shaders OpenGL, C++, Qt, CMake, Blender, MakeHuman.
 
- *> SCM/Issues Tracking*: **GitlabCI**, YouTrack
-
-2017-2018
-:   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
-
-* **Concurrence**: [Agreggation datas for concurrence analysis]()
-
-  *Agrégation de données à travers une base de données extérieures (partenaire) et notre propre base de données de clients (MySQL, MariaDB). Le but de l’agrégation étant d'établir un champs de concurrence pour un client (marque => produits => campagnes publicitaires) par rapport à sa catégorisation ([*SNPTV*](https://www.snptv.org/)).*
-
-  *> Outils/Technologies*: Python 3.x, MariaDB/MySQL, **HDFS**, **ORM**/SQLAlchemy, **Pandas**, **Apache Airflow**, Jupyter Notebook
-
-  *> SCM/Issues Tracking*: Asana, Github
-
-* **PYTHIE**: [CRAWLER TV]()
-
-  *Technologie pour mettre en place une chaîne automatisée permettant de détecter et d'extraire certaines informations relatives à des publicités TV.*
-
-  ref: [Ingénieur Crawler TV](https://afia.asso.fr/?job_offer=ingenieur-crawler-tv)
-
-  *> Outils/Technologies*: Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask(-admin), Plotly(python/js)
-
-  *> SCM/Issues Tracking*: Trello, Github
-
-2011-2017(Avril)
-:   **Chargé de recherche (R&D)** (IGN, Saint-Mandé);
-
-* **LI3DS**: [Large Input 3D System]()
-
-  *Conception et développement d'un logiciel pilotant des acquisitions de différents capteurs (caméras, Laser Lidar, centrale inertielle, ...).*
-
-  *Principaux objectifs du logiciel:*
-    - Synchronisation des différents capteurs
-    - Etablissement des protocoles de communication portables souples et modulaires permettant d'interfacer le système d’acquisition avec un entrepôt de données dynamique (hébergé sur base de donnée).
-
-  *> Outils/Technologies*: C++, Python, **ROS**, Qt, PostGresSQL/PostGIS, **Docker**, GIT, Android JDK/NDK, **Arduino**, **Raspberry**
-
-  *> OpenSource/Articles*: **Projet LI3DS**
-  [GitHub](https://github.com/LI3DS) -
-  [Conférence *Foss4GFr*](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf)
-
-* **TrafiPollu**: [Développement sur le WorkPackage 4 - Relation Modèles / données](https://sites.google.com/site/trafipollu/workpackages/wp4---donnees)
-
-  *Production de données géographiques pour alimenter un ensemble des outils de modélisation. \
-  Résultats obtenus intégrés dans un SIG (QGIS) pour produire les cartographies des polluants.*
-
-  *> Outils/Technologies*: Post[GreSQL|GIS], QGIS, Python/PyQt, git/GitHub
-  *> OpenSource/Articles*: **Interactive map tracking** -> [GitHub](http://remi-c.github.io/interactive_map_tracking/) - [QGIS-Plugin](https://plugins.qgis.org/plugins/interactive_map_tracking-master/) - [*GEO*TRIBU](http://geotribu.net/node/801)
-
-* **iSpace&Time**: [Cartographie et rendu 4D de l'espace public avec simulations de flux piétons/voitures pour l'aménagement urbain](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf)
-
-  *Intégration des données issues de différents simulateurs (piétons, trafic auto (SYMUVIA)). \
-  Rendu, animation des données via OpenSceneGraph (OpenGL + Graph Scene)*
-
-  *> Outils/Technologies*: OpenSceneGraph, OpenGL/Shaders, C++, Qt, CMake, Blender, MakeHuman
-
-2005-2008
-:   **Ingénieur R&D** (Eden Studios, LYON);
-* [**Alone in the Dark**](https://en.wikipedia.org/wiki/Alone_in_the_Dark_%282008_video_game%29):
-  *Intégration dans un moteur de jeu vidéo multi-plateformes propriétaire d'un système d'ombres temps réel*
-
-  *> Outils/Technologies*: C++, DirectX/Shaders, PERFORCE
+2005 - 2008
+:   **Ingénieur R&D Moteur 3D** — **EDEN GAMES / ATARI** *(Lyon)*
+    - **Jeu [Alone in the Dark](https://en.wikipedia.org/wiki/Alone_in_the_Dark_%282008_video_game%29) (PC, Xbox 360, PS3)** : R&D et intégration dans le moteur 3D propriétaire d'un système novateur d'ombres douces temps réel sur GPU (C++, DirectX 9/10, Shaders HLSL, Perforce).
+    - **Collaboration R&D Thèse CIFRE** : Travaux de recherche appliquée en rendu graphique temps réel avec le laboratoire ARTIS / GRAVIR (INRIA Rhône-Alpes).

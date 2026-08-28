@@ -1,15 +1,8 @@
->
-{{ profile.name }}
-============
+# {{ profile.name }}
 
-> <{{ profile.email }}> • {{ profile.phone }} • {{ profile.age }} ans\
-> {{ profile.address }}
+\startalignment[center]
+{\bf {{ profile.title }}} • {{ profile.specialties }}\crlf
+\useURL[url_email][mailto:{{ profile.email }}][][{{ profile.email }}]\from[url_email] • {{ profile.phone }} • {{ profile.address }} • {{ profile.mobility }} • {{ profile.age }}~ans
+\stopalignment
 
-----
-
-> **{{ profile.title }}** \
-> Spécialités: {{ profile.specialties }}
-
-> Mobilité: {{ profile.mobility }}
-
-----
+---

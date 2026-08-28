@@ -6,7 +6,7 @@ PANDOC_PDF_FLAGS = --standalone --template style_chmduquesne.tex --from markdown
 
 resume.pdf: PANDOC_EXTRA_FLAGS = --biblio ../data/bib/bibtex.bib
 
-%.pdf: %.md
+%.pdf: %.md style_chmduquesne.tex
 	pandoc $(PANDOC_PDF_FLAGS) $(PANDOC_EXTRA_FLAGS) -o $*.tex $<
 	context $*.tex
 

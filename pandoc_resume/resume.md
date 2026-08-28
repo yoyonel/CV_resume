@@ -1,212 +1,105 @@
->
-Lionel ATTY
-============
+# Lionel ATTY
 
-> <lionel.atty@gmail.com> • +33 6 01 59 00 23 • 45 ans\
-> 25 Boulevard Bouès - MARSEILLE, FRANCE
+\startalignment[center]
+{\bf Sénior Développeur} • Backend, Architecture, SIG, 3D Temps-Réel, Python, C++\crlf
+\useURL[url_email][mailto:lionel.atty@gmail.com][][lionel.atty@gmail.com]\from[url_email] • +33 6 01 59 00 23 • 25 Bd Bouès, Marseille • Télétravail / Hybride • 45~ans
+\stopalignment
 
-----
+---
 
-> **Sénior Développeur** \
-> Spécialités: **Backend**, **Architecture**, **SIG**, **3D Temps-Réel**, **Python**, **C++**
-
-> Mobilité: Marseille - Télétravail
-
-----
 Expériences Professionnelles
 ----------------------------
 
-2021(Juin)
-:   **Développeur Back End Python** (Unowhy, Paris/Télétravail);
-* **UNOWHY**: [Développeur Back End Python]()
-  
-  *> Méthodologies*: SCRUM, KANBAN (selon les périodes/projets);  
-  *> Développements*: WS Python 3.[8.9].x -> **FastAPI**, GraphQL, OpenAPI, Asyncpg, Click, CookieCutter, Jinja2, **Pydantic**, **Pytest**;  
-  *> Stockage*: **PostgreSQL**, **Eventstore**, MQTT;  
-  *> Environnement technique*: Linux (Debian), Uvicorn, **Kubernetes**, **Docker**, Notion, MinIO, Argo Workflows, Fluentd, LDAP, **EventStore**, Traefik, **Keycloak(SSO)**;  
-  *> CI/CD*: Gitlab, Kubernetes, **Ansible**;  
-  *> Cloud*: Digital Ocean
-    
-  *>SCM/Issues Tracking*: GIT/GitFlow, **Notion**, Jira, Swagger (API), Teams, Gitlab Issues/Merge Requests
+2021 - 2025
+:   **Développeur Back End Python** — **UNOWHY** *(Paris / Télétravail — Juin 2021 à Déc. 2025)*  
+    *Conception et développement de la plateforme microservices backend pour l'éducation numérique.*
+    - **Conception & Architecture** : Refonte et développement de microservices backend Python 3.9+ (**FastAPI**, GraphQL, OpenAPI, Asyncpg, Pydantic, Click).
+    - **Event-Driven & Stockage** : Mise en place d'une architecture orientée événements avec **PostgreSQL**, **EventStore**, MQTT et MinIO.
+    - **Infrastructure & Conteneurisation** : Déploiement et orchestration sous **Kubernetes** et **Docker** sur Digital Ocean, gestion de configuration avec **Ansible**.
+    - **Sécurité & Observabilité** : Authentification SSO avec **Keycloak**, reverse-proxy Traefik, workflows Argo, agrégation de logs Fluentd.
+    - **Qualité & Méthodologies** : Pratiques agiles SCRUM / Kanban, intégration continue GitLab CI, tests complets sous **Pytest**, GitFlow, documentation Notion, suivi Jira.
 
-2019-2021
-:   **DATA ENGINEER SENIOR** (365Talents, Lyon/Télétravail);
-
-* **365TALENTS**: [Data Processing & Architecture]()
-
-  *Faire parler les données -- structurées ou non -- issues des outils business et RH des clients par des recommandations pertinentes et du matching et contribuer à l'avancée technique de la solution. Concevoir, développer et intégrer les algorithmes alimentant la plateforme de détection et mobilisation de talents.*
-
-  *> Outils/Technologies*: **Dev** -> **Python 3.6.9**, **ElasticSearch**, **Redis**/Redis Streams, **FastAPI/Pydantic**, **gRPC**, Dependency-Injector, NLP (spaCy/Gensim, TensorFlow), **Pytest**/Mocks, Celery;  
-  **Infra/DevOps** -> **Docker/docker-compose**, Ansible, **Terraform**, Prometheus: Exporters, ELK Stack: ES, Kibana, APM, LogStash, Filebeat;
-  **Cloud** -> **Google Cloud Platform**: Compute Engine, Cloud Storage, Cloud Function, Cloud Pub/Sub, Cloud Scheduler; **Github Actions**: Pipelines de CI/CD, Self-hosted runner
-  
-  Design patterns, Architecture codes, Clean Architecture, Micro-services, API-REST, Infra, **Cloud** (Google)
-
-  *> SCM/Issues Tracking*: GIT/GitFlow, Asana, Slack, Slite, Github Issues
+2019 - 2021
+:   **Data Engineer Senior** — **365TALENTS** *(Lyon / Télétravail)*  
+    *Conception, développement et intégration des algorithmes et pipelines de données pour le matching et la détection de compétences RH.*
+    - **Data Processing & NLP** : Conception d'algorithmes et pipelines de données pour le matching de compétences RH (**Python 3.6/3.8**, **ElasticSearch**, **Redis** / Redis Streams, spaCy, Gensim, TensorFlow, Dependency-Injector, Celery).
+    - **Microservices & Communication** : Développement de services backend haute performance avec **FastAPI** et **gRPC**.
+    - **Cloud GCP & DevOps** : Exploitation de **Google Cloud Platform** (Compute Engine, Cloud Functions, Pub/Sub, Cloud Scheduler, Cloud Storage), infrastructure as code avec **Terraform** et **Ansible**.
+    - **Monitoring & CI/CD** : Stack ELK complète (Elasticsearch, Logstash, Kibana, APM, Filebeat), métriques Prometheus et dashboards Grafana, pipelines GitHub Actions avec runners auto-hébergés.
+    - **Architecture & Qualité** : Clean Architecture, Domain-Driven Design (DDD), tests sous **Pytest**, API REST, GitFlow.
 
 2019 (4 mois)
-:   **Ingénieur Modèle + Industrialisation** (Forcity, Lyon);
+:   **Ingénieur Modèle & Industrialisation** — **FORCITY** *(Lyon)*  
+    *Industrialisation de modèles python de simulation urbaine pour l'optimisation de collecte et traitement des déchets ([Waste Vision](https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets)).*
+    - **Développements & SIG** : Modélisation sous Python 3.6, PostgreSQL / **PostGIS** / JSONB, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest.
+    - **Pipelines & Simulation** : Traitements spatiaux et vectoriels pour la simulation de flux démographiques et logistiques.
+    - **Environnement & Qualité** : Conteneurisation Docker, métriques Grafana, pipelines GitLab CI, GitFlow, suivi YouTrack.
 
-* **Waste, Waste Vision**: [Industrialisation de modèles python d'évolution de population et d'emploi ]()
+2017 - 2018
+:   **Ingénieur Logiciel (R&D) & Data Analysis** — **HOLIMETRIX** *(Lyon)*
+    - **Projet Concurrence** : Agrégation et analyse de flux massifs de données publicitaires partenaires (SNPTV) pour établir le champ de concurrence des marques (Python 3.x, MariaDB/MySQL, **HDFS**, ORM SQLAlchemy, **Pandas**, orchestration **Apache Airflow**, notebooks Jupyter).
+    - **Projet Pythie (Crawler TV)** : Conception d'une chaîne automatisée d'acquisition de flux vidéo broadcast et détection de spots publicitaires TV en temps réel (Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask-admin, dashboards Plotly).
 
-     *ForCity Waste Vision est un logiciel de gestion des déchêts qui s'appuie sur la simulation urbaine pour optimiser la collecte et le traitement.* (     produit: [Waste Vision](https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets))
+\page
 
- *> Outils/Technologies*: **Python** 2.7/**3.6**, PostGreSQL/**PostGIS**/**JSONB**, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest
-     GIT/**GitFlow**, Docker, Grafana, Design patterns, Architecture codes
+2011 - 2017
+:   **Chargé de Recherche (R&D)** — **IGN** *(Saint-Mandé)*
+    - **Projet LI3DS (Large Input 3D System)** : Conception et développement d'un logiciel modulaire pilotant l'acquisition et la synchronisation temps réel de capteurs multiples (LIDAR, caméras, centrale inertielle) en C++, Python, **ROS**, Qt, PostGIS, Docker. [GitHub LI3DS](https://github.com/LI3DS) • [Talk Foss4G](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf).
+    - **Projet TrafiPollu** : Production de données géographiques et modélisation de dispersion des polluants dans un SIG QGIS. [Plugin QGIS Interactive Map Tracking](http://remi-c.github.io/interactive_map_tracking/) • [Article GeoTribu](http://geotribu.net/node/801).
+    - **Projet iSpace&Time** : Cartographie 4D et simulation de flux urbains (SYMUVIA), moteur de rendu OpenSceneGraph / Shaders OpenGL, C++, Qt, CMake, Blender, MakeHuman.
 
- *> SCM/Issues Tracking*: **GitlabCI**, YouTrack
+2005 - 2008
+:   **Ingénieur R&D Moteur 3D** — **EDEN GAMES / ATARI** *(Lyon)*
+    - **Jeu [Alone in the Dark](https://en.wikipedia.org/wiki/Alone_in_the_Dark_%282008_video_game%29) (PC, Xbox 360, PS3)** : R&D et intégration dans le moteur 3D propriétaire d'un système novateur d'ombres douces temps réel sur GPU (C++, DirectX 9/10, Shaders HLSL, Perforce).
+    - **Collaboration R&D Thèse CIFRE** : Travaux de recherche appliquée en rendu graphique temps réel avec le laboratoire ARTIS / GRAVIR (INRIA Rhône-Alpes).
 
-2017-2018
-:   **Ingénieur Logiciel (R&D) + Data Analysis** (Holimetrix, Lyon);
+Outils & Technologies
+---------------------
 
-* **Concurrence**: [Agreggation datas for concurrence analysis]()
+- **Langages & Frameworks** : Python (FastAPI, Pydantic, Asyncpg, Pytest, Celery, Pandas, SQLAlchemy), C++ (98, 11, 14, 17, STL, Qt 4/5), C, Bash.
+- **3D Temps-Réel & Graphisme** : OpenGL (2.x–4.x), Vulkan, DirectX (9/10), Shaders (GLSL, HLSL, OpenCL, CUDA), OpenSceneGraph, ROS.
+- **Bases de Données & Stockage** : PostgreSQL / PostGIS / JSONB, Redis (Streams), ElasticSearch, MongoDB, EventStore, MariaDB/MySQL, HDFS.
+- **Cloud, DevOps & Infrastructure** : Docker, Kubernetes, Google Cloud Platform (GCP), Terraform, Ansible, GitHub Actions, GitLab CI, Traefik, Keycloak (SSO).
+- **Observabilité & Monitoring** : Prometheus, Grafana, ELK Stack (Elasticsearch, Logstash, Kibana, APM, Filebeat).
+- **Architecture & Méthodes** : Clean Architecture, Microservices (REST, GraphQL, gRPC), Architecture Event-Driven, SCRUM, KANBAN, GitFlow.
 
-  *Agrégation de données à travers une base de données extérieures (partenaire) et notre propre base de données de clients (MySQL, MariaDB). Le but de l’agrégation étant d'établir un champs de concurrence pour un client (marque => produits => campagnes publicitaires) par rapport à sa catégorisation ([*SNPTV*](https://www.snptv.org/)).*
+Études & Diplômes
+-----------------
 
-  *> Outils/Technologies*: Python 3.x, MariaDB/MySQL, **HDFS**, **ORM**/SQLAlchemy, **Pandas**, **Apache Airflow**, Jupyter Notebook
+2005 - 2009
+:   **Thèse CIFRE (Rendu Graphique Temps-Réel & GPU)** — *UJF / INRIA GRAVIR / Eden Games*  
+    *Algorithmes de calcul et génération d'ombres douces temps réel sur GPU.*  
+    - **Publication internationale** : *Soft Shadow Maps: Efficient Sampling of Light Source Visibility*, **Computer Graphics Forum (CGF)**, vol. 25, no. 4, pp. 725–741, Dec. 2006. ([Atty et al. - INRIA Maverick](http://maverick.inria.fr/Publications/2006/AHLHHS06/))
 
-  *> SCM/Issues Tracking*: Asana, Github
+2004 - 2005
+:   **Master 2 Recherche (Image, Vision, Robotique)** — *Université Joseph Fourier / INRIA* (Grenoble)  
+    *Étude et amélioration des algorithmes de rendu temps réel et illumination globale (Projet Cyber-II).*
 
-* **PYTHIE**: [CRAWLER TV]()
+2003 - 2004
+:   **Master 1 / Magistère (Informatique & Mathématiques Appliquées)** — *UJF Grenoble*  
+    *Spécialisation en synthèse d'images, illumination temps réel, shaders GPU et géométrie algorithmique.*
 
-  *Technologie pour mettre en place une chaîne automatisée permettant de détecter et d'extraire certaines informations relatives à des publicités TV.*
+Conférences, Formations & Open Source
+-------------------------------------
 
-  ref: [Ingénieur Crawler TV](https://afia.asso.fr/?job_offer=ingenieur-crawler-tv)
-
-  *> Outils/Technologies*: Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask(-admin), Plotly(python/js)
-
-  *> SCM/Issues Tracking*: Trello, Github
-
-2011-2017(Avril)
-:   **Chargé de recherche (R&D)** (IGN, Saint-Mandé);
-
-* **LI3DS**: [Large Input 3D System]()
-
-  *Conception et développement d'un logiciel pilotant des acquisitions de différents capteurs (caméras, Laser Lidar, centrale inertielle, ...).*
-
-  *Principaux objectifs du logiciel:*
-    - Synchronisation des différents capteurs
-    - Etablissement des protocoles de communication portables souples et modulaires permettant d'interfacer le système d’acquisition avec un entrepôt de données dynamique (hébergé sur base de donnée).
-
-  *> Outils/Technologies*: C++, Python, **ROS**, Qt, PostGresSQL/PostGIS, **Docker**, GIT, Android JDK/NDK, **Arduino**, **Raspberry**
-
-  *> OpenSource/Articles*: **Projet LI3DS**
-  [GitHub](https://github.com/LI3DS) -
-  [Conférence *Foss4GFr*](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf)
-
-* **TrafiPollu**: [Développement sur le WorkPackage 4 - Relation Modèles / données](https://sites.google.com/site/trafipollu/workpackages/wp4---donnees)
-
-  *Production de données géographiques pour alimenter un ensemble des outils de modélisation. \
-  Résultats obtenus intégrés dans un SIG (QGIS) pour produire les cartographies des polluants.*
-
-  *> Outils/Technologies*: Post[GreSQL|GIS], QGIS, Python/PyQt, git/GitHub
-  *> OpenSource/Articles*: **Interactive map tracking** -> [GitHub](http://remi-c.github.io/interactive_map_tracking/) - [QGIS-Plugin](https://plugins.qgis.org/plugins/interactive_map_tracking-master/) - [*GEO*TRIBU](http://geotribu.net/node/801)
-
-* **iSpace&Time**: [Cartographie et rendu 4D de l'espace public avec simulations de flux piétons/voitures pour l'aménagement urbain](http://recherche.ign.fr/jr/jr13/JR2013_ISpaceTime.pdf)
-
-  *Intégration des données issues de différents simulateurs (piétons, trafic auto (SYMUVIA)). \
-  Rendu, animation des données via OpenSceneGraph (OpenGL + Graph Scene)*
-
-  *> Outils/Technologies*: OpenSceneGraph, OpenGL/Shaders, C++, Qt, CMake, Blender, MakeHuman
-
-2005-2008
-:   **Ingénieur R&D** (Eden Studios, LYON);
-* [**Alone in the Dark**](https://en.wikipedia.org/wiki/Alone_in_the_Dark_%282008_video_game%29):
-  *Intégration dans un moteur de jeu vidéo multi-plateformes propriétaire d'un système d'ombres temps réel*
-
-  *> Outils/Technologies*: C++, DirectX/Shaders, PERFORCE
-Outils et Technologies
-----------------------
-
-* Programmation
-     * Langages: C, C++ (98, 11), Python(2.7, >=3.6), STL, Qt(4.8)
-     * Embarquée: Arduino, Raspberry, Android NDK/JDK
-     * Temps réel: FreeRTOS
-     * MicroServices: gRPC (Python, C++)
-     * Base de données: PostgreSQL, PostGIS, MongoDB, ElasticSearch, Redis
-* API Graphiques: OpenGL(2.x->4.x), DirectX(9&10), OpenSceneGraph(3.x)
-     * Shaders: GLSL, OpenCL, HLSL, Cg, CUDA
-* Multi-Threads : PC (Unix/Linux,Windows), Consoles (XBox360, PS3)
-* Gestion de Version/Configuration: GIT/GitHub/Gitlab, SVN, PERFORCE
-* CI: TravisCI, GitlabCI, Github Actions (with self-hosted runners)
-* Cloud: Terraform, Google Cloud Platform (Compute Engine, Cloud Functions, Cloud Scheduler, Pub/Sub, ...)
-* Monitoring, logs: ELK Stack, Prometheus, Grafana
-* Environnements virtuels: **Docker**, VirtualBox, Vagrant
-* AGILE: Scrum
-* Open Source
-Études et Diplômes
-------------------
-
-2005-2009
-:   **Thèse (CIFRE -  non soutenue)**;
-:   UJF - GRAVIR, ARTIS - Eden Games/ATARI - GRENOBLE/LYON
-
-    *Génération d'ombre douces temps réel : Conception de nouveaux algorithmes de génération d'ombres douces temps réel*
-
-    [L. Atty, N. Holzschuch, M. Lapierre, J.-M. Hasenfratz, F. X. Sillion, and C. Hansen, “Soft Shadow Maps: Efficient Sampling of Light Source Visibility,” Computer Graphics Forum, vol. 25, no. 4, pp.725–741, Dec. 2006.](http://maverick.inria.fr/Publications/2006/AHLHHS06/)
-
-2004-2005
-:   **Master2 (Recherche), Image Vision Robotique**;
-:   UJF - GRAVIR, ARTIS - GRENOBLE
-
-    *Étude et amélioration des derniers algorithmes de génération d'ombres douces temps réel dans le cadre du projet [Cyber-II WorkPackage 2](http://artis.imag.fr/Projects/Cyber-II/spip.php?article11)*
-
-2003-2004
-:   **Master1/Magistère2, Informatique et Mathématiques Appliquées**;
-:   UJF - GRAVIR, ARTIS - GRENOBLE
-
-    *Eclairage Surfacique en temps réel: Utilisation avancée des cartes graphiques 3D
-    programmables dans le cadre de la gestion d'une surface de lumière en temps réel*
-Conférences, Formations, Open Source
-------------------------------------
-
-2022
-:   **DocString, Mentorats/Formations**
-
-    *Sessions de mentorat dans le cadre de l'accompagnement DocString.*
-
-2021
-:   **DocString, Présentations**
-
-    *Application CLI avec Python et processus de CI / CD.*
-
-    - Vidéos: [Partie 1](https://youtu.be/aaim2oCGedk) - [Partie 2](https://youtu.be/KtBzABluHlQ)
-    - Slides: [Partie 1](http://bit.ly/36mb5Ez) - [Partie 2](http://bit.ly/39n7JDg)
+2021 - 2022
+:   **DocString** : Mentorat technique & masterclass vidéo [Application CLI avec Python & CI/CD](https://youtu.be/aaim2oCGedk) ([Partie 1](https://youtu.be/aaim2oCGedk), [Partie 2](https://youtu.be/zD1F3xJzJzY), [Slides](http://bit.ly/36mb5Ez)).
 
 2019
-:   **Pycon.FR Bordeaux 2019**;
-    
-    *gRPC/Python - Exemple pratique d'utilisation de micro-services pour une (mini) application d'analyse sémantiques de textes (NLP).*
-
-    - [Programme - Présensation du talk](https://www.pycon.fr/2019/fr/talks/conference.html#grpc%2Fpython%E2%80%AF%3A%20exemple%20pratique%20d%27utilisation%20de%20micro-services%20pour%20une%20%28mini%29%20application%20d%27analyse%20s%C3%A9mantique%20de%20textes%20%28npl%29)
-    - [Vidéo](https://youtu.be/99uF4pfXmDI)
-    - [Slides](https://docs.google.com/presentation/d/1taQVHdxZWcQIcI84e8H9y8GBPD8LHtt1ALGXvJZgVxo/edit?usp=sharing)
+:   **PyCon.FR (Bordeaux)** : Talk & démo [*Microservices gRPC/Python pour une application NLP d'analyse sémantique*](https://youtu.be/99uF4pfXmDI) ([Vidéo](https://youtu.be/99uF4pfXmDI) • [Slides](https://docs.google.com/presentation/d/1taQVHdxZWcQIcI84e8H9y8GBPD8LHtt1ALGXvJZgVxo/edit?usp=sharing)).
 
 2019
-:   **Forcity, Présentation interne**;
-
-    *Présentation interne (entreprise) des micro-services gRPC sur un exemple de mini application SIG (Système d'Informations Géographiques).*
+:   **ForCity** : Présentation technique interne sur l'architecture microservices gRPC appliquée aux SIG.
 
 2016
-:   **IGN/ENSG, Formation Python**;
+:   **FOSS4G-fr** : Conférence [Projet LI3DS - Acquisition et synchronisation 3D temps réel](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf).
 
-    *Cours TP/TD/Examens pour les 1ères années du cycle de formation ENSG*
+2011 - 2016
+:   **IGN / ENSG** : Formations supérieures [Python Géomatique](https://github.com/yoyonel/Python_ENSG_Geomatique) (cours/TD/examens) et calcul scientifique sur GPU (OpenCL / CUDA).
 
-    - Cours: [Python ENSG Géomatique](https://github.com/yoyonel/Python_ENSG_Geomatique)
-    - Examen/TP: [Code source](https://github.com/yoyonel/2016_ENSG_PYTHON_COURS)
-  
-2011
-:   **IGN/ENSG, Formation**;
-
-    *Formation (interne) pendant 3 jours sur les calculs scientifiques GPGPU OpenCL/Cuda.*
- 
- 2007
- :  **INRIA/INPG, Formation**;
-
-    *Chargé de cours/TD/examen pour un module de 3ème cycle (Master 2 Recherche Image Vision Robotique) portant sur la gestion d'éclairages complexes (projections d'ombres) en temps réel calculée sur GPU (sujet de thèse).*
 Langues & Divers
 ----------------
-  * Anglais(technique), Allemand(scolaire)
-  * Musiques : Guitare-Basse(15 ans), Percussions Africaines(2 ans)
-  * Sports: Volley(Compétitif - 15 ans), Football(Loisir)
-  * Lecture/Cinéma: Science-Fiction, Fantastique
+- **Langues** : Anglais (technique courant, veille & documentation quotidienne), Allemand (notions scolaires).
+- **Pratiques Musicales** : Guitare-Basse (15 ans de pratique en groupe), Percussions Africaines (2 ans).
+- **Sports & Activités** : Volley-ball (15 ans en compétition régionale), Football.
+- **Centres d'intérêt** : Architecture logicielle, Moteurs 3D bas-niveau / Vulkan, Écosystème Open Source, Science-Fiction.
