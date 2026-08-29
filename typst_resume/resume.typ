@@ -329,15 +329,15 @@
     row-gutter: 3.2pt,
     [
       #text(weight: "bold", size: 8.2pt, fill: color-title)[3D GPU, Rendu, UI & Bas-Niveau]\
-      #tag("Vulkan") #tag("OpenGL 4.5+") #tag("C++ (17/20)") #tag("C11") #tag("Rust") #tag("Odin") #tag("Dear ImGui (UI/UX)") #tag("GLSL / SPIR-V") #tag("SIMD / AVX2") #tag("Data-Oriented (SoA)")
+      #tag("Vulkan") #tag("OpenGL 4.5+") #tag("GLSL / SPIR-V") #tag("Dear ImGui (UI/UX)") #tag("SIMD / AVX2") #tag("Data-Oriented (SoA)")
     ],
     [
       #text(weight: "bold", size: 8.2pt, fill: color-title)[Micro-Architecture, Profiling & Debug]\
-      #tag("Tracy Profiler") #tag("Intel VTune") #tag("RenderDoc") #tag("Linux perf") #tag("Flamegraph") #tag("Heaptrack") #tag("GDB") #tag("ASan / TSan / UBSan") #tag("Cache Misses L1/L2")
+      #link("https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html")[#tag("Intel VTune Profiler")] #link("https://fr.wikipedia.org/wiki/Perf_%28Linux%29")[#tag("perf (Linux)")] #tag("Tracy Profiler") #tag("RenderDoc") #tag("Flamegraph") #tag("Heaptrack") #tag("GDB") #tag("ASan / TSan / UBSan") #tag("Cache Misses L1/L2/L3")
     ],
     [
       #text(weight: "bold", size: 8.2pt, fill: color-title)[Langages & Backend]\
-      #tag("Python 3.13") #tag("FastAPI") #tag("Flask") #tag("AsyncIO") #tag("Celery") #tag("FastStream") #tag("Pydantic") #tag("Spectree") #tag("Pytest") #tag("Qt") #tag("Bash")
+      #tag("Python 3.13") #tag("C++ (17/20)") #tag("Rust") #tag("C11") #tag("Odin") #tag("FastAPI") #tag("Flask") #tag("AsyncIO") #tag("Celery") #tag("FastStream") #tag("Pydantic") #tag("Spectree") #tag("Pytest") #tag("Qt") #tag("Bash")
     ],
     [
       #text(weight: "bold", size: 8.2pt, fill: color-title)[IA, LLM & Tooling Agentique]\
@@ -394,7 +394,7 @@
     row-gutter: 3.0pt,
     [#text(weight: "bold", size: 8.1pt, fill: color-title)[2024 - 2026]],
     [
-      #strong[Moteurs 3D Temps-Réel, UI/UX & Optimisation Bas-Niveau] : Moteurs de rendu et pipelines graphiques (RenderGraph, BindGroups) sous #tag("Vulkan") et #tag("OpenGL 4.5+") en #tag("C++ (17/20)"), #tag("C11"), #tag("Rust") et #tag("Odin"). Interfaces & HUD temps réel sous #tag("Dear ImGui (UI/UX)"). Vectorisation #tag("SIMD / AVX2"), architecture mémoire #tag("Data-Oriented (SoA)"), alignement 64B & prefetching. Réduction L1/L2 Cache Misses & False Sharing via #tag("Linux perf") #tag("Flamegraph"), profiling #tag("Tracy Profiler") #tag("Intel VTune") #tag("RenderDoc"), zéro-allocation validé sous #tag("Heaptrack"), sanitizers #tag("ASan / TSan / UBSan"), CI/CD #tag("GitHub Actions").
+      #strong[Moteurs 3D Temps-Réel, UI/UX & Optimisation Bas-Niveau] : Moteurs de rendu et pipelines graphiques (RenderGraph, BindGroups) sous #tag("Vulkan") et #tag("OpenGL 4.5+") en #tag("C++ (17/20)"), #tag("C11"), #tag("Rust") et #tag("Odin"). Interfaces & HUD temps réel sous #tag("Dear ImGui (UI/UX)"). Vectorisation #tag("SIMD / AVX2"), architecture mémoire #tag("Data-Oriented (SoA)"), alignement 64B & prefetching. Réduction L1/L2/L3 Cache Misses & False Sharing via #link("https://fr.wikipedia.org/wiki/Perf_%28Linux%29")[#tag("perf (Linux)")] #tag("Flamegraph"), profiling #tag("Tracy Profiler") #link("https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html")[#tag("Intel VTune Profiler")] #tag("RenderDoc"), zéro-allocation validé sous #tag("Heaptrack"), sanitizers #tag("ASan / TSan / UBSan"), CI/CD #tag("GitHub Actions").
     ],
     [#text(weight: "bold", size: 8.1pt, fill: color-title)[2025 - 2026]],
     [

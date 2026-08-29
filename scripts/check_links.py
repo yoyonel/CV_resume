@@ -25,6 +25,8 @@ BOT_PROTECTED_DOMAINS = [
     "www.linkedin.com",
     "archive.org",
     "web.archive.org",
+    "intel.com",
+    "www.intel.com",
 ]
 
 # XML Namespaces and Schemas that are not web pages
@@ -39,12 +41,13 @@ IGNORED_SCHEMAS = [
 
 def extract_urls_from_text(text: str) -> set[str]:
     """Extract http(s) URLs from any text string."""
-    pattern = r"https?://[a-zA-Z0-9_\-\.\:\@\%\+~#=\?\/&]+"
+    pattern = r"https?://[a-zA-Z0-9_\-\.\:\@\%\+~#=\?\/&()]+"
     matches = re.findall(pattern, text)
-    # Clean trailing punctuation often caught by regex
     cleaned = set()
     for url in matches:
-        u = url.rstrip(").,;'\">")
+        u = url.rstrip(".,;'\">")
+        if u.endswith(")") and u.count("(") < u.count(")"):
+            u = u.rstrip(")")
         parsed = urllib.parse.urlparse(u)
         domain = parsed.netloc.lower()
         if any(ign in domain for ign in IGNORED_SCHEMAS):
@@ -70,11 +73,14 @@ def extract_from_pdf(file_path: Path) -> set[tuple[str, str]]:
     if not file_path.exists():
         return set()
     data = file_path.read_bytes()
-    raw_matches = re.findall(rb"/URI\s*\((https?://[^)]+)\)", data)
+    # Match URIs with possible escaped parentheses in PDF syntax
+    raw_matches = re.findall(rb"/URI\s*\(((?:\\\(|\\\)|[^)])+)\)", data)
     urls = set()
     for m in raw_matches:
         try:
-            u = m.decode("utf-8", errors="ignore").strip()
+            raw_str = m.decode("utf-8", errors="ignore").strip()
+            # Unescape PDF literal string escaped parens
+            u = raw_str.replace(r"\(", "(").replace(r"\)", ")")
             if u:
                 urls.add((u, f"PDF ({file_path.name})"))
         except UnicodeDecodeError:

@@ -1278,7 +1278,15 @@
           </div>
           <div class="tags-container">
             {% for t in cat.tags %}
+            {% if t is mapping %}
+            <a href="{{ t.url }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" title="Documentation officielle : {{ t.name }}">
+              <sl-tag size="small" class="tech-tag-item" style="cursor:pointer;">
+                {{ t.name }} <sl-icon name="box-arrow-up-right" style="font-size:0.65em; margin-left:3px;"></sl-icon>
+              </sl-tag>
+            </a>
+            {% else %}
             <sl-tag size="small" class="tech-tag-item" onclick="filterByTech('{{ t }}')">{{ t }}</sl-tag>
+            {% endif %}
             {% endfor %}
           </div>
         </sl-card>
@@ -1473,13 +1481,14 @@
 
       // D. Skills Categories & Individual Techs
       RESUME_DATA.skills_categories.forEach((cat, i) => {
+        const tagNames = cat.tags.map(t => typeof t === 'object' ? t.name : t);
         idx.push({
           title: cat.title,
-          subtitle: cat.tags.join(" &bull; "),
+          subtitle: tagNames.join(" &bull; "),
           icon: "🛠️",
           cat: "Compétences",
           meta: "Stack",
-          keywords: cat.title + " " + cat.tags.join(" "),
+          keywords: cat.title + " " + tagNames.join(" "),
           action: () => {
             switchMainView('web');
             filterByDomain('all');
@@ -1496,14 +1505,16 @@
 
         // Index each tag individually
         cat.tags.forEach(tag => {
+          const tagName = typeof tag === 'object' ? tag.name : tag;
+          const tagUrl = typeof tag === 'object' ? tag.url : null;
           idx.push({
-            title: `Techno : ${tag}`,
-            subtitle: `Catégorie : ${cat.title}`,
+            title: `Techno : ${tagName}`,
+            subtitle: tagUrl ? `Documentation officielle (${cat.title})` : `Catégorie : ${cat.title}`,
             icon: "🏷️",
             cat: "Technologies",
-            meta: "Tag",
-            keywords: tag + " " + cat.title,
-            action: () => filterByTech(tag)
+            meta: tagUrl ? "Lien externe" : "Tag",
+            keywords: tagName + " " + cat.title + (tagUrl ? " doc vtune profiler perf linux intel" : ""),
+            action: () => tagUrl ? window.open(tagUrl, '_blank') : filterByTech(tagName)
           });
         });
       });
