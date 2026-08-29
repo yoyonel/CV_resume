@@ -1,6 +1,15 @@
 Expériences Professionnelles
 ----------------------------
 
+2026 - Présent
+:   **Senior Backend Développeur Python R&D** — **LETSIGNIT** *(Marseille / Télétravail — Depuis Janv. 2026)*  
+    *Conception et évolution de la plateforme SaaS de gestion centralisée des signatures mails et bannières marketing (millions d'utilisateurs M365 / Google Workspace).*
+    - **Cœur Applicatif & Microservices** : Évolution du monolithe modulaire et développement de services asynchrones sous **Python 3.13**, **Flask**, **FastAPI**, **AsyncIO**, **Celery**, **FastStream**, **Pydantic**, **Spectree**.
+    - **Données & Messagerie Haute Charge** : Traitements asynchrones et mise en cache avec **MongoDB**, **Redis**, **RabbitMQ** et Azure Blob Storage.
+    - **Sécurité, Identité & Droits** : Refonte du moteur d'autorisations RBAC (*lsi-authz*), intégrations protocolaires **SAML**, **SCIM**, OAuth2 et connecteurs Microsoft 365.
+    - **Cloud Azure & DevOps** : Déploiements sur **Azure / AKS**, conteneurisation **Docker**, pipelines **GitLab CI**, monitoring **Prometheus** et **Elastic APM**.
+    - **Ingénierie Assistée par IA** : Intégration structurelle des LLM dans le cycle de développement avec **Claude Code**, serveurs **MCP**, agents **Dust** et orchestrations **n8n**.
+
 2021 - 2025
 :   **Développeur Back End Python** — **UNOWHY** *(Paris / Télétravail — Juin 2021 à Déc. 2025)*  
     *Conception et développement de la plateforme microservices backend pour l'éducation numérique.*
@@ -26,12 +35,12 @@ Expériences Professionnelles
     - **Pipelines & Simulation** : Traitements spatiaux et vectoriels pour la simulation de flux démographiques et logistiques.
     - **Environnement & Qualité** : Conteneurisation Docker, métriques Grafana, pipelines GitLab CI, GitFlow, suivi YouTrack.
 
+\page
+
 2017 - 2018
 :   **Ingénieur Logiciel (R&D) & Data Analysis** — **HOLIMETRIX** *(Lyon)*
     - **Projet Concurrence** : Agrégation et analyse de flux massifs de données publicitaires partenaires (SNPTV) pour établir le champ de concurrence des marques (Python 3.x, MariaDB/MySQL, **HDFS**, ORM SQLAlchemy, **Pandas**, orchestration **Apache Airflow**, notebooks Jupyter).
     - **Projet Pythie (Crawler TV)** : Conception d'une chaîne automatisée d'acquisition de flux vidéo broadcast et détection de spots publicitaires TV en temps réel (Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask-admin, dashboards Plotly).
-
-\page
 
 2011 - 2017
 :   **Chargé de Recherche (R&D)** — **IGN** *(Saint-Mandé)*

@@ -24,13 +24,21 @@ except ImportError:
 
 def calculate_age(birthdate_val: str | date | datetime) -> int:
     if isinstance(birthdate_val, str):
-        bdate = datetime.strptime(birthdate_val, "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
+        bdate = (
+            datetime.strptime(birthdate_val, "%Y-%m-%d")
+            .replace(tzinfo=timezone.utc)
+            .date()
+        )
     elif isinstance(birthdate_val, (datetime, date)):
-        bdate = birthdate_val if isinstance(birthdate_val, date) else birthdate_val.date()
+        bdate = (
+            birthdate_val if isinstance(birthdate_val, date) else birthdate_val.date()
+        )
     else:
         raise TypeError(f"Unsupported birthdate format: {type(birthdate_val)}")
     today = datetime.now(tz=timezone.utc).date()
-    return today.year - bdate.year - ((today.month, today.day) < (bdate.month, bdate.day))
+    return (
+        today.year - bdate.year - ((today.month, today.day) < (bdate.month, bdate.day))
+    )
 
 
 def process_profile_data(profile: dict) -> dict:
@@ -90,7 +98,9 @@ def main():
 
     output_pdf_path.parent.mkdir(parents=True, exist_ok=True)
     typst.compile(str(output_typ_path), output=str(output_pdf_path))
-    print(f"Compiled Typst resume -> {output_pdf_path} (age: {profile.get('age', 'N/A')} ans)")
+    print(
+        f"Compiled Typst resume -> {output_pdf_path} (age: {profile.get('age', 'N/A')} ans)"
+    )
 
 
 if __name__ == "__main__":
