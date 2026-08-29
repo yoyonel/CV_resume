@@ -85,11 +85,34 @@ tasks:
     cmds:
       - uv run scripts/serve_site.py
 
+  # --- LINK VALIDATION ---
+  links:check:
+    desc: Check and validate all hyperlinks across static site, PDF and sources
+    cmds:
+      - python3 scripts/check_links.py
+
+  check:links:
+    desc: Alias for links:check
+    cmds:
+      - task: links:check
+
+  # --- PRE-COMMIT HOOKS ---
+  pre-commit:install:
+    desc: Install pre-commit git hooks
+    cmds:
+      - pre-commit install
+
+  pre-commit:run:
+    desc: Run all pre-commit hooks manually on all files
+    cmds:
+      - pre-commit run --all-files
+
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + build test + site build)
+    desc: Full validation suite (lint + site build + link check)
     cmds:
       - task: lint
       - task: site:build
+      - task: links:check
       - echo "All checks passed successfully!"
 

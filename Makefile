@@ -63,5 +63,8 @@ site:
 site-serve:
 	$(SITE_SERVE_CMD)
 
-.PHONY: all cv_resume clean pdf typst typst-watch site site-serve
+links-check: ## Check all hyperlinks across site, PDF and sources
+	python3 scripts/check_links.py
+
+.PHONY: all cv_resume clean pdf typst typst-watch site site-serve links-check
 

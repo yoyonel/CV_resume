@@ -77,7 +77,10 @@ def serve(port: int = 8000, host: str = "127.0.0.1"):
         except OSError:
             continue
     else:
-        print(f"Error: Unable to bind to any port in range {port}-{port+20}", file=sys.stderr)
+        print(
+            f"Error: Unable to bind to any port in range {port}-{port + 20}",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     stop_event = threading.Event()

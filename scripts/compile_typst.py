@@ -93,8 +93,23 @@ def main():
     template = env.get_template("resume.typ.j2")
     rendered = template.render(profile=profile)
 
-    with open(output_typ_path, "w", encoding="utf-8") as f:
-        f.write(rendered)
+    check_only = "--check" in sys.argv
+
+    if (
+        not output_typ_path.exists()
+        or output_typ_path.read_text(encoding="utf-8") != rendered
+    ):
+        if check_only:
+            # Validate template in memory
+            typst.compile(rendered)
+            print("✓ Typst syntax & compilation check passed (check mode)")
+            return
+        output_typ_path.write_text(rendered, encoding="utf-8")
+
+    if check_only:
+        typst.compile(str(output_typ_path))
+        print("✓ Typst syntax & compilation check passed (check mode)")
+        return
 
     output_pdf_path.parent.mkdir(parents=True, exist_ok=True)
     typst.compile(str(output_typ_path), output=str(output_pdf_path))

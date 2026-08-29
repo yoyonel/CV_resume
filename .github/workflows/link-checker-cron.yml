@@ -1,0 +1,31 @@
+name: link-checker-cron
+
+on:
+  schedule:
+    # Run every Monday at 06:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  check-links:
+    name: Validate all hyperlinks in site and PDF
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build Static Site with Typst
+        run: uv run scripts/build_site.py
+
+      - name: Run Full Hyperlink Audit
+        run: python3 scripts/check_links.py --verbose

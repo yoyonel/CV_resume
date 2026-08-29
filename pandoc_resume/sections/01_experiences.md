@@ -30,22 +30,24 @@ Expériences Professionnelles
 
 2019 (4 mois)
 :   **Ingénieur Modèle & Industrialisation** — **FORCITY** *(Lyon)*  
-    *Industrialisation de modèles python de simulation urbaine pour l'optimisation de collecte et traitement des déchets ([Waste Vision](https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets)).*
-    - **Développements & SIG** : Modélisation sous Python 3.6, PostgreSQL / **PostGIS** / JSONB, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest.
+    *Industrialisation de modèles python de simulation urbaine pour l'optimisation de collecte et traitement des déchets ([Archive ForCity](https://web.archive.org/web/20180424075109/http://www.forcity.com/)).*
+    - **Développements & SIG** : Modélisation sous Python 3.6, PostgreSQL, PostGIS, JSONB, SQLAlchemy, GeoAlchemy2, GeoPandas, Pytest.
     - **Pipelines & Simulation** : Traitements spatiaux et vectoriels pour la simulation de flux démographiques et logistiques.
-    - **Environnement & Qualité** : Conteneurisation Docker, métriques Grafana, pipelines GitLab CI, GitFlow, suivi YouTrack.
+    - **Environnement & Qualité** : Conteneurisation Docker, métriques Grafana, pipelines GitLab CI, GitFlow.
 
 \page
 
 2017 - 2018
-:   **Ingénieur Logiciel (R&D) & Data Analysis** — **HOLIMETRIX** *(Lyon)*
-    - **Projet Concurrence** : Agrégation et analyse de flux massifs de données publicitaires partenaires (SNPTV) pour établir le champ de concurrence des marques (Python 3.x, MariaDB/MySQL, **HDFS**, ORM SQLAlchemy, **Pandas**, orchestration **Apache Airflow**, notebooks Jupyter).
-    - **Projet Pythie (Crawler TV)** : Conception d'une chaîne automatisée d'acquisition de flux vidéo broadcast et détection de spots publicitaires TV en temps réel (Python 3.x, C++, **gRPC**, **Docker**, Rancher, **MongoDB**, FFMPEG, MPEG-TS, OpenCV/SciPy, Flask-admin, dashboards Plotly).
+:   **Ingénieur Logiciel (R&D) & Data Analysis** — **HOLIMETRIX** *(Lyon)*  
+    *Agrégation et analyse de flux massifs de données publicitaires partenaires (SNPTV) et chaîne d'acquisition de flux vidéo broadcast.*
+    - **Projet Concurrence** : Traitements de données massives (SNPTV), analyse concurrentielle, modèles de données relationnels et NoSQL (Python 3.x, MariaDB/MySQL, HDFS, SQLAlchemy, Pandas, Apache Airflow, Jupyter).
+    - **Projet Pythie (Crawler TV)** : Chaîne automatisée d'acquisition de flux vidéo broadcast et détection de spots publicitaires TV en temps réel (Python 3.x, C++, gRPC, Docker, Rancher, MongoDB, FFMPEG, OpenCV, Flask-admin, Plotly).
 
 2011 - 2017
-:   **Chargé de Recherche (R&D)** — **IGN** *(Saint-Mandé)*
-    - **Projet LI3DS (Large Input 3D System)** : Conception et développement d'un logiciel modulaire pilotant l'acquisition et la synchronisation temps réel de capteurs multiples (LIDAR, caméras, centrale inertielle) en C++, Python, **ROS**, Qt, PostGIS, Docker. [GitHub LI3DS](https://github.com/LI3DS) • [Talk Foss4G](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf).
-    - **Projet TrafiPollu** : Production de données géographiques et modélisation de dispersion des polluants dans un SIG QGIS. [Plugin QGIS Interactive Map Tracking](http://remi-c.github.io/interactive_map_tracking/) • [Article GeoTribu](http://geotribu.net/node/801).
+:   **Chargé de Recherche (R&D)** — **IGN** *(Saint-Mandé)*  
+    *Conception et développement de la plateforme logicielle modulaire d'acquisition 3D temps réel multi-capteurs.*
+    - **Projet LI3DS (Large Input 3D System)** : Logiciel modulaire d'acquisition et synchronisation temps réel de capteurs multiples (LIDAR, caméras, centrale inertielle) en C++, Python, ROS, Qt, PostGIS, Docker ([GitHub LI3DS](https://github.com/LI3DS) • [Talk Foss4G](https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf)).
+    - **Projet TrafiPollu** : Production de données géographiques et modélisation de dispersion des polluants dans un SIG QGIS. [Plugin QGIS Interactive Map Tracking](https://remi.cura.info/interactive_map_tracking/) • [Article GeoTribu](https://web.archive.org/web/20160803093259/http://geotribu.net/node/801).
     - **Projet iSpace&Time** : Cartographie 4D et simulation de flux urbains (SYMUVIA), moteur de rendu OpenSceneGraph / Shaders OpenGL, C++, Qt, CMake, Blender, MakeHuman.
 
 2005 - 2008

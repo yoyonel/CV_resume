@@ -268,7 +268,7 @@
   company: "FORCITY",
   location: "Lyon",
   details: (
-    [#text(style: "italic")[Industrialisation de modèles python de simulation urbaine pour l'optimisation de collecte et traitement des déchets (#link("https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets")[#text(fill: color-accent)[Waste Vision]]).]],
+    [#text(style: "italic")[Industrialisation de modèles python de simulation urbaine pour l'optimisation de collecte et traitement des déchets (#link("https://web.archive.org/web/20180424075109/http://www.forcity.com/")[#text(fill: color-accent)[Archive ForCity]]).]],
     [#strong[Développements & SIG] : Modélisation sous Python 3.6, #tag("PostgreSQL") #tag("PostGIS") #tag("JSONB") #tag("SQLAlchemy") #tag("GeoAlchemy2") #tag("GeoPandas") #tag("Pytest")],
     [#strong[Environnement & Qualité] : Conteneurisation #tag("Docker"), métriques #tag("Grafana"), pipelines #tag("GitLab CI"), #tag("GitFlow"), YouTrack.],
   ),
@@ -296,7 +296,7 @@
   location: "Saint-Mandé",
   details: (
     [#strong[Projet LI3DS (Large Input 3D System)] : Logiciel modulaire d'acquisition et synchronisation temps réel de capteurs multiples (LIDAR, caméras, centrale inertielle) en #tag("C++") #tag("Python") #tag("ROS") #tag("Qt") #tag("PostGIS") #tag("Docker"). #link("https://github.com/LI3DS")[#icon("github.svg") #text(fill: color-accent)[GitHub LI3DS]] • #link("https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf")[#icon("slides.svg") #text(fill: color-accent)[Talk Foss4G]].],
-    [#strong[Projet TrafiPollu] : Modélisation de dispersion des polluants dans un SIG QGIS. #link("http://remi-c.github.io/interactive_map_tracking/")[#text(fill: color-accent)[Plugin QGIS Map Tracking]] • #link("http://geotribu.net/node/801")[#text(fill: color-accent)[Article GeoTribu]].],
+    [#strong[Projet TrafiPollu] : Modélisation de dispersion des polluants dans un SIG QGIS. #link("https://remi.cura.info/interactive_map_tracking/")[#text(fill: color-accent)[Plugin QGIS Map Tracking]] • #link("https://web.archive.org/web/20160803093259/http://geotribu.net/node/801")[#text(fill: color-accent)[Article GeoTribu]].],
     [#strong[Projet iSpace&Time] : Cartographie 4D et simulation de flux urbains (SYMUVIA), moteur de rendu #tag("OpenSceneGraph") #tag("OpenGL Shaders") #tag("C++") #tag("Qt") #tag("CMake") Blender.],
   ),
   extra: pipeline-diagram((
