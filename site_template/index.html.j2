@@ -82,6 +82,10 @@
       --paper-shadow: 0 15px 40px -10px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.06);
     }
 
+    :not(:defined) {
+      visibility: hidden;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -108,6 +112,7 @@
       top: 0;
       z-index: 100;
       height: 60px;
+      min-height: 60px;
       background: var(--bg-header);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -117,6 +122,7 @@
       justify-content: space-between;
       padding: 0 1.5rem;
       gap: 1rem;
+      box-sizing: border-box;
     }
 
     .brand-group {
@@ -159,14 +165,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.6rem 1.5rem;
+      padding: 0 1.5rem;
+      height: 52px;
+      min-height: 52px;
+      max-height: 52px;
+      box-sizing: border-box;
       background: rgba(9, 13, 22, 0.75);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       font-size: 0.78rem;
-      flex-wrap: wrap;
-      gap: 0.6rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 1rem;
     }
     html.sl-theme-light .filter-bar {
       background: rgba(248, 250, 252, 0.85);
@@ -176,14 +187,18 @@
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .contact-chips {
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     /* ========================================================
@@ -195,6 +210,8 @@
       align-items: center;
       padding: 1.5rem 1rem 3.5rem;
       min-height: calc(100vh - 120px);
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .doc-controls {
@@ -202,6 +219,7 @@
       align-items: center;
       gap: 0.6rem;
       margin-bottom: 1.5rem;
+      min-height: 36px;
     }
 
     .pages-wrapper {
@@ -211,6 +229,7 @@
       transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
       transform-origin: top center;
       min-height: 1188px;
+      width: 100%;
     }
 
     .pages-wrapper.mode-dual {
@@ -237,15 +256,17 @@
       line-height: 0;
       width: 840px;
       max-width: 100%;
+      height: 1188px;
       aspect-ratio: 1 / 1.4142;
       overflow: hidden;
+      box-sizing: border-box;
     }
 
     .pdf-page-container canvas {
       display: block;
       border-radius: 4px;
-      width: 100%;
-      height: 100%;
+      width: 100% !important;
+      height: 100% !important;
       aspect-ratio: 1 / 1.4142;
     }
 
@@ -1052,12 +1073,12 @@
     <div class="pages-wrapper mode-single" id="pagesWrapper">
       <div class="pdf-page-container active" id="pageContainer1">
         <div class="page-tag">PAGE 01 / 02</div>
-        <canvas id="canvasPage1"></canvas>
+        <canvas id="canvasPage1" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer1"></div>
       </div>
       <div class="pdf-page-container" id="pageContainer2">
         <div class="page-tag">PAGE 02 / 02</div>
-        <canvas id="canvasPage2"></canvas>
+        <canvas id="canvasPage2" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer2"></div>
       </div>
     </div>
@@ -1774,8 +1795,6 @@
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.floor(viewport.width * dpr);
       canvas.height = Math.floor(viewport.height * dpr);
-      canvas.style.width = Math.floor(viewport.width) + 'px';
-      canvas.style.height = Math.floor(viewport.height) + 'px';
 
       await page.render({
         canvasContext: ctx,
