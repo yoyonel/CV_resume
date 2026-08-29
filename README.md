@@ -35,20 +35,16 @@ Ce projet implémente une architecture **Data-Driven & Multi-Moteurs** permettan
 ### 2. Moteur Moderne Typst (`typst_resume/`)
 - **Vitesse & Compilation Instantanée** : Moteur Typst 0.15 compilé en Rust (`< 30ms` de temps de rendu).
 - **Design System & Typographie Vectorielle** : Polices *Inter* pour le corps et *JetBrains Mono* pour les badges techniques.
-- **Système de Badges Sémantiques par Domaine** : 8 palettes de couleurs harmonisées :
-  - *Backend & Langages Core* (Indigo) : `Python 3.13`, `FastAPI`, `Flask`, `AsyncIO`, `Celery`, `C++ (17/20)`, `Rust`, etc.
-  - *3D GPU, Rendu & Bas-Niveau* (Violet) : `Vulkan`, `OpenGL 4.5+`, `SIMD / AVX2`, `Data-Oriented (SoA)`, `GLSL / SPIR-V`.
-  - *Micro-Architecture & Profiling* (Slate) : `Tracy Profiler`, `Intel VTune`, `RenderDoc`, `Linux perf`, `Flamegraph`, `Heaptrack`, `ASan / TSan / UBSan`.
-  - *UI & Tooling Graphique* (Teal) : `Dear ImGui (UI/UX)`, `Qt`.
-  - *IA, LLM & Tooling Agentique* (Ambre) : `AGY (Gemini)`, `Claude Code`, `MCP Servers`, `Dust`, `n8n`, `OpenAI API`.
-  - *Bases de Données & Message Brokers* (Émeraude) : `MongoDB`, `Redis`, `RabbitMQ`, `PostgreSQL`, `PostGIS`, `JSONB`.
-  - *Cloud, DevOps & Virtualisation* (Ciel) : `Azure / AKS`, `Docker / Podman`, `Kubernetes`, `QEMU / KVM`, `Terraform`, `GitLab CI`, `GitHub Actions`.
-  - *Build Systems & Tooling* (Rose) : `Go-Task`, `Just`, `CMake`, `Conan 2.x`, `UV / Ruff`, `Typst`.
+- **Système de Badges Sémantiques Feutrés (4 Familles Ardoise)** :
+  - *Core Languages, Frameworks & Moteurs 3D* (Bleu Ardoise) : `Python 3.13`, `FastAPI`, `C++ (17/20)`, `Rust`, `Odin`, `Vulkan`, `OpenGL 4.5+`, `SIMD / AVX2`.
+  - *Data, Cloud, Infra & DevOps* (Sauge Ardoise) : `MongoDB`, `Redis`, `RabbitMQ`, `PostgreSQL`, `PostGIS`, `Azure / AKS`, `Docker`, `Kubernetes`, `GitLab CI`.
+  - *IA, LLM & Tooling Agentique* (Sable Ardoise) : `AGY (Gemini)`, `Claude Code`, `MCP Servers`, `Dust`, `n8n`, `OpenAI API`.
+  - *Tooling, Profiling, UI & Build* (Ardoise Neutre) : `Dear ImGui`, `Tracy Profiler`, `Intel VTune`, `RenderDoc`, `Heaptrack`, `Go-Task`, `CMake`, `UV / Ruff`.
 - **Composants Graphiques Sur-Mesure** :
-  - *Stepper vertical temporel* avec nœuds colorés par expérience.
-  - *Jauges de séniorité dynamiques* pilotées par les données.
+  - *Stepper vertical temporel* élégant reliant chronologiquement les postes.
+  - *Grille thématique de compétences* structurée en 6 blocs de spécialisation.
   - *Diagrammes d'architecture pipeline* intégrés (`[Clients] ▶ [Gateway] ▶ [Microservices] ▶ [Stockage]`).
-- **Équilibre & Gabarit Strict** : Calibrage millimétré sur **strictement 2 pages A4** avec zéro ligne orpheline et aération verticale maîtrisée.
+- **Équilibre & Gabarit Strict** : Calibrage millimétré sur **strictement 2 pages A4** avec zéro ligne orpheline et aération verticale maximale.
 
 ### 3. Moteur Legacy ConTeXt / Pandoc (`pandoc_resume/`)
 - Chaîne de secours basée sur Docker (`yoyonel/pandoc:latest`) compilant les sections modulaires Markdown via Pandoc et ConTeXt MkIV.
