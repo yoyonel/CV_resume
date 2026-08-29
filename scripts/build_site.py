@@ -505,16 +505,16 @@ def get_structured_resume_data(profile: dict) -> dict:
             "domain": "graphics",
             "media": {
                 "type": "gif",
-                "src": "assets/projects/firework-demo.gif",
-                "caption": "Démo animée : Rendu de particules & traînées de fumée",
+                "src": "assets/projects/smoke-trail-demo.gif",
+                "caption": "Démo animée : Traînée de fumée, érosion & particules GPU (Rust)",
                 "gallery": [
-                    {
-                        "src": "assets/projects/firework-demo.gif",
-                        "label": "Démo Feux d'artifice (GIF)",
-                    },
                     {
                         "src": "assets/projects/smoke-trail-demo.gif",
                         "label": "Traînée de fumée & Érosion (GIF)",
+                    },
+                    {
+                        "src": "assets/projects/firework-demo.gif",
+                        "label": "Démo Feux d'artifice (GIF)",
                     },
                     {
                         "src": "assets/projects/volumetric-lights.png",
