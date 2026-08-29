@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <!-- Web Awesome / Shoelace Web Components -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/themes/dark.css" />
@@ -1872,6 +1872,9 @@
         vWeb.style.display = 'none';
         tabDoc.setAttribute('variant', 'primary');
         tabWeb.setAttribute('variant', 'default');
+        if (!pdfDoc) {
+          loadPDF();
+        }
       } else {
         vDoc.style.display = 'none';
         vWeb.style.display = 'block';
@@ -2007,7 +2010,11 @@
         if (btn) btn.setAttribute('name', 'sun');
       }
       searchIndex = buildSearchIndex();
-      loadPDF();
+      if (window.innerWidth <= 768) {
+        switchMainView('web');
+      } else {
+        loadPDF();
+      }
     })();
   </script>
 </body>
