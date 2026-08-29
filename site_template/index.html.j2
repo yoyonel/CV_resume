@@ -226,6 +226,7 @@
       display: flex;
       gap: 2rem;
       justify-content: center;
+      align-items: center;
       transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
       transform-origin: top center;
       min-height: 1188px;
@@ -234,10 +235,14 @@
 
     .pages-wrapper.mode-dual {
       flex-direction: row;
+      justify-content: center;
+      align-items: center;
     }
 
     .pages-wrapper.mode-continuous {
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
       gap: 2.5rem;
     }
 
@@ -260,6 +265,7 @@
       aspect-ratio: 1 / 1.4142;
       overflow: hidden;
       box-sizing: border-box;
+      margin: 0 auto;
     }
 
     .pdf-page-container canvas {
@@ -1793,27 +1799,63 @@
       }
     }
 
+    let renderTasks = {};
+    let zoomDebounceTimer = null;
+
     async function renderDocPage(pageNum, canvasId, textLayerId) {
       if (!pdfDoc) return;
+      if (renderTasks[pageNum]) {
+        try { renderTasks[pageNum].cancel(); } catch (e) {}
+      }
+
       const page = await pdfDoc.getPage(pageNum);
-      const canvas = document.getElementById(canvasId);
-      const ctx = canvas.getContext('2d');
+      const onScreenCanvas = document.getElementById(canvasId);
+      const onScreenCtx = onScreenCanvas.getContext('2d');
       const textLayerDiv = document.getElementById(textLayerId);
+      const container = onScreenCanvas.closest('.pdf-page-container');
 
       const unscaledViewport = page.getViewport({ scale: 1.0 });
-      const targetWidth = 840;
+      const targetWidth = Math.round(840 * docZoom);
       const scaleFactor = targetWidth / unscaledViewport.width;
       const viewport = page.getViewport({ scale: scaleFactor });
 
       const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.floor(viewport.width * dpr);
-      canvas.height = Math.floor(viewport.height * dpr);
+      const bufferW = Math.floor(viewport.width * dpr);
+      const bufferH = Math.floor(viewport.height * dpr);
 
-      await page.render({
-        canvasContext: ctx,
+      // --- DOUBLE BUFFERING (Offscreen Rendering) ---
+      const offscreenCanvas = document.createElement('canvas');
+      offscreenCanvas.width = bufferW;
+      offscreenCanvas.height = bufferH;
+      const offscreenCtx = offscreenCanvas.getContext('2d');
+
+      const renderTask = page.render({
+        canvasContext: offscreenCtx,
         viewport: viewport,
         transform: [dpr, 0, 0, dpr, 0, 0]
-      }).promise;
+      });
+      renderTasks[pageNum] = renderTask;
+
+      try {
+        await renderTask.promise;
+      } catch (err) {
+        if (err.name === 'RenderingCancelledException') return;
+        console.error('Page render error', err);
+        return;
+      } finally {
+        delete renderTasks[pageNum];
+      }
+
+      // --- ATOMIC BUFFER SWAP (Zero White Flash / Tearing) ---
+      if (container) {
+        container.style.width = Math.floor(viewport.width) + 'px';
+        container.style.height = Math.floor(viewport.height) + 'px';
+        container.style.maxWidth = 'none';
+      }
+
+      onScreenCanvas.width = bufferW;
+      onScreenCanvas.height = bufferH;
+      onScreenCtx.drawImage(offscreenCanvas, 0, 0);
 
       if (textLayerDiv) {
         textLayerDiv.innerHTML = '';
@@ -1830,8 +1872,10 @@
     }
 
     async function renderDocPages() {
-      await renderDocPage(1, 'canvasPage1', 'textLayer1');
-      await renderDocPage(2, 'canvasPage2', 'textLayer2');
+      await Promise.all([
+        renderDocPage(1, 'canvasPage1', 'textLayer1'),
+        renderDocPage(2, 'canvasPage2', 'textLayer2')
+      ]);
     }
 
     function setDocMode(mode) {
@@ -1867,9 +1911,12 @@
     }
 
     function zoomDoc(delta) {
-      docZoom = Math.min(Math.max(0.5, docZoom + delta), 2.2);
-      document.getElementById('pagesWrapper').style.transform = `scale(${docZoom})`;
+      docZoom = Math.min(Math.max(0.5, docZoom + delta), 2.5);
       document.getElementById('lblZoom').innerText = `${Math.round(docZoom * 100)}%`;
+      clearTimeout(zoomDebounceTimer);
+      zoomDebounceTimer = setTimeout(() => {
+        renderDocPages();
+      }, 20);
     }
 
     // 5. View Switcher (Document ↔ Interactive Web)
