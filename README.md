@@ -95,7 +95,9 @@ Le projet utilise [`uv`](https://docs.astral.sh/uv/) pour l'environnement Python
 
 ```bash
 task                  # Affiche l'aide et la liste des tâches
-task watch            # Lance le watcher temps réel (recompile le PDF instantanément à chaque sauvegarde)
+task site:serve       # Lance le serveur de preview web local (http://localhost:8000) avec live rebuild
+task site:build       # Construit le site statique HTML/SVG/PDF dans dist/
+task watch            # Lance le watcher temps réel Typst (recompile le PDF instantanément)
 task lint             # Analyse statique : Ruff sur scripts/, AST Jinja2 et compilation Typst
 task fmt              # Formatage automatique du code Python avec Ruff
 task check            # Suite complète de vérification et validation avant commit / merge
@@ -104,11 +106,21 @@ task check            # Suite complète de vérification et validation avant com
 ### Workflow Makefile (`make`)
 
 ```bash
+make site-serve       # Démarre le serveur de prévisualisation web locale
+make site             # Construit le site web statique dans dist/
 make typst            # Compile le CV Typst (génère data/pdf/2026/2026_ATTY_Resume_Typst.pdf)
 make typst-watch      # Démarre le watcher Typst
 make all              # Compile l'ensemble des cibles (Typst + ConTeXt via Docker)
 make clean            # Nettoie les artefacts générés
 ```
+
+---
+
+## 🌐 Déploiement Statique GitHub Pages
+
+Le pipeline `.github/workflows/deploy-pages.yml` déploie automatiquement le site interactif sur GitHub Pages :
+- **Rendu vectoriel pur** : Affichage SVG multi-pages ultra-net et fluide à toute résolution / zoom.
+- **Fonctionnalités Web** : Mode Sombre/Clair, double-page côte-à-côte / scroll continu, zoom interactif, raccourcis clavier, impression CSS A4 calibrée, téléchargement direct du PDF vectoriel.
 
 ---
 

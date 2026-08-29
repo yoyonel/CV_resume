@@ -46,6 +46,7 @@ jobs:
               "pandoc_resume/resume.md.j2",
               "pandoc_resume/sections/00_header.md.j2",
               "typst_resume/resume.typ.j2",
+              "site_template/index.html.j2",
           ]
           for t in templates:
               with open(t, "r", encoding="utf-8") as f:

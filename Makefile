@@ -54,4 +54,14 @@ ${TARGET_PDF}: pandoc_resume/resume.md pandoc_resume/references.md pandoc_resume
 	cp pandoc_resume/resume.pdf ${TARGET_PDF}
 	cp pandoc_resume/references.pdf ${ROOT_TARGET_PDF}_ATTY_References.pdf
 
-.PHONY: all cv_resume clean pdf typst typst-watch
+SITE_BUILD_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/build_site.py" || echo "python3 scripts/build_site.py")
+SITE_SERVE_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/serve_site.py" || echo "python3 scripts/serve_site.py")
+
+site:
+	$(SITE_BUILD_CMD)
+
+site-serve:
+	$(SITE_SERVE_CMD)
+
+.PHONY: all cv_resume clean pdf typst typst-watch site site-serve
+

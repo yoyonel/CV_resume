@@ -39,6 +39,7 @@ tasks:
             "pandoc_resume/resume.md.j2",
             "pandoc_resume/sections/00_header.md.j2",
             "typst_resume/resume.typ.j2",
+            "site_template/index.html.j2",
         ]
         for t in templates:
             with open(t, "r", encoding="utf-8") as f:
@@ -73,9 +74,22 @@ tasks:
     cmds:
       - uv run scripts/watch_typst.py
 
+  # --- STATIC SITE & GITHUB PAGES ---
+  site:build:
+    desc: Build static GitHub Pages site with Typst SVG/PDF
+    cmds:
+      - uv run scripts/build_site.py
+
+  site:serve:
+    desc: Start local HTTP preview server with auto-rebuild (http://localhost:8000)
+    cmds:
+      - uv run scripts/serve_site.py
+
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + build test)
+    desc: Full validation suite (lint + build test + site build)
     cmds:
       - task: lint
+      - task: site:build
       - echo "All checks passed successfully!"
+
