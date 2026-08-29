@@ -23,7 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css" />
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <!-- Web Awesome / Shoelace Web Components -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/themes/dark.css" />
@@ -1774,6 +1774,17 @@
 
     // 4. PDF.js ISO Renderer
     async function loadPDF() {
+      if (typeof pdfjsLib === 'undefined') {
+        for (let i = 0; i < 30; i++) {
+          if (typeof pdfjsLib !== 'undefined') break;
+          await new Promise(r => setTimeout(r, 100));
+        }
+      }
+      if (typeof pdfjsLib === 'undefined') {
+        console.error('PDF.js failed to load');
+        return;
+      }
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
       try {
         pdfDoc = await pdfjsLib.getDocument(PDF_URL).promise;
         await renderDocPages();
@@ -2004,7 +2015,7 @@
     }
 
     // Init
-    (function init() {
+    function init() {
       if (localStorage.getItem('cv_theme') === 'light') {
         document.documentElement.classList.remove('sl-theme-dark', 'dark');
         document.documentElement.classList.add('sl-theme-light', 'light');
@@ -2017,7 +2028,13 @@
       } else {
         loadPDF();
       }
-    })();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   </script>
 </body>
 </html>
