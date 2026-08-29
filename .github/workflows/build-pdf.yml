@@ -39,7 +39,7 @@ jobs:
 
       - name: Lint and Validate (Ruff & Jinja AST)
         run: |
-          uv run ruff check scripts/
+          uvx ruff check scripts/
           uv run --with jinja2 python -c '
           from jinja2 import Environment
           templates = [
