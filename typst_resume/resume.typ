@@ -1,10 +1,10 @@
 #set page(
   paper: "a4",
-  margin: (x: 12.0mm, top: 7.0mm, bottom: 7.0mm),
+  margin: (x: 12.0mm, top: 6.5mm, bottom: 6.5mm),
 )
 #set text(
   font: ("Inter", "Liberation Sans", "DejaVu Sans"),
-  size: 8.4pt,
+  size: 8.1pt,
   fill: rgb("#0F172A"),
   lang: "fr"
 )
@@ -18,7 +18,7 @@
 #let color-muted = rgb("#64748B")
 
 // Vector Icon Helper
-#let icon(path, height: 7.8pt, baseline: 18%) = box(
+#let icon(path, height: 7.5pt, baseline: 18%) = box(
   baseline: baseline,
   height: height,
 )[#image("icons/" + path)]
@@ -50,13 +50,13 @@
 // Automatic technology domain classifier
 #let tech-domain(name) = {
   let n = lower(name)
-  if n in ("python", "python 3.13", "python 3.9+", "python 3.8", "python 3.x", "fastapi", "flask", "asyncio", "aiohttp", "graphql", "openapi", "asyncpg", "pydantic", "click", "cookiecutter", "jinja2", "pytest", "celery", "faststream", "pandas", "sqlalchemy", "geoalchemy2", "geopandas", "c++", "c++ (17/20)", "c++ (98/11/14/17)", "c11", "rust", "odin", "stl", "qt", "bash", "flask-admin", "dependency-injector", "structlog", "spectree") {
+  if n in ("python", "python 3.13", "python 3.9+", "python 3.8", "python 3.x", "fastapi", "flask", "asyncio", "aiohttp", "graphql", "openapi", "asyncpg", "pydantic", "click", "cookiecutter", "jinja2", "pytest", "celery", "faststream", "pandas", "sqlalchemy", "geoalchemy2", "geopandas", "c++", "c++ (17/20)", "c++ (98/11/14/17)", "c11", "rust", "odin", "stl", "qt", "bash", "flask-admin", "dependency-injector", "structlog", "spectree", "grpc") {
     "backend"
-  } else if n in ("agy (gemini)", "antigravity (agy)", "claude code", "dust", "n8n", "mcp", "mcp servers", "token-savior", "openai api", "spacy", "gensim", "tensorflow") {
+  } else if n in ("agy (gemini)", "antigravity (agy)", "claude code", "dust", "n8n", "mcp", "mcp servers", "openai api", "spacy", "gensim", "tensorflow", "nlp") {
     "ai"
   } else if n in ("dear imgui", "imgui", "dear imgui (ui/ux)") {
     "ui"
-  } else if n in ("vulkan", "opengl 4.5+", "opengl", "directx 9/10", "directx", "glsl / spir-v", "glsl / hlsl", "glsl", "hlsl", "shaders hlsl", "opengl shaders", "opencl", "cuda", "openscenegraph", "ros", "blender", "opencv", "ffmpeg", "mpeg-ts", "suckless-vulkan", "suckless-ogl", "suckless-odin", "simd / avx2", "data-oriented (soa)") {
+  } else if n in ("vulkan", "opengl 4.5+", "opengl", "directx 9/10", "directx", "glsl / spir-v", "glsl / hlsl", "glsl", "hlsl", "shaders hlsl", "opengl shaders", "opencl", "cuda", "openscenegraph", "ros", "blender", "opencv", "ffmpeg", "mpeg-ts", "simd / avx2", "data-oriented (soa)", "gpu", "li3ds") {
     "graphics"
   } else if n in ("tracy profiler", "tracy", "renderdoc", "intel vtune", "linux perf", "flamegraph", "heaptrack", "gdb", "asan / tsan", "asan/tsan", "asan / tsan / ubsan", "cache misses l1/l2", "valgrind", "prometheus", "grafana", "elk stack", "logstash", "kibana", "apm", "elastic apm", "filebeat", "apache airflow", "jupyter", "plotly") {
     "profiling"
@@ -64,9 +64,9 @@
     "tooling"
   } else if n in ("mongodb", "mongoengine", "pymongo", "redis", "redis / streams", "redis streams", "rabbitmq", "postgresql", "postgis", "jsonb", "elasticsearch", "eventstore", "mariadb/mysql", "mariadb", "mysql", "hdfs", "minio", "mqtt", "azure storage") {
     "db"
-  } else if n in ("azure", "azure / aks", "aks", "docker", "docker / podman", "podman", "kubernetes", "qemu / kvm", "qemu", "vagrant", "gcp", "google cloud platform", "terraform", "ansible", "gitlab ci", "github actions", "saml", "scim", "rancher", "argo", "fluentd", "digital ocean", "perforce", "youtrack") {
+  } else if n in ("azure", "azure / aks", "aks", "docker", "docker / podman", "podman", "kubernetes", "qemu / kvm", "qemu", "vagrant", "gcp", "google cloud platform", "terraform", "ansible", "gitlab ci", "github actions", "ci/cd", "saml", "scim", "rancher", "argo", "fluentd", "digital ocean", "perforce", "youtrack") {
     "cloud"
-  } else if n in ("clean architecture", "microservices", "event-driven", "grpc", "rest", "scrum / kanban", "scrum", "kanban", "gitflow", "ddd", "domain-driven design (ddd)", "api rest") {
+  } else if n in ("clean architecture", "microservices", "event-driven", "rest", "scrum / kanban", "scrum", "kanban", "gitflow", "ddd", "domain-driven design (ddd)", "api rest") {
     "arch"
   } else {
     "default"
@@ -81,21 +81,21 @@
     fill: c.bg,
     stroke: 0.5pt + c.border,
     radius: 2.5pt,
-    inset: (x: 2.7pt, y: 1.1pt),
+    inset: (x: 2.6pt, y: 1.0pt),
     outset: 0pt,
     baseline: 0%,
-  )[#text(size: 6.9pt, font: ("JetBrains Mono", "DejaVu Sans Mono"), weight: "medium", fill: c.text)[#name]]
+  )[#text(size: 6.7pt, font: ("JetBrains Mono", "DejaVu Sans Mono"), weight: "medium", fill: c.text)[#name]]
 }
 
-// Helper: Section Heading
+// Helper: Section Heading with Generous Vertical Breathing Room
 #let cv-section(title) = {
-  v(2.8pt)
-  block(width: 100%, below: 2.8pt)[
+  v(8.5pt)
+  block(width: 100%, below: 5.5pt)[
     #stack(
-      spacing: 2.2pt,
+      spacing: 3pt,
       [
         #box(width: 14mm, height: 1.8pt, fill: color-rule)
-        #h(4.0pt)
+        #h(4.5pt)
         #text(size: 9.6pt, weight: "bold", fill: color-brand)[#title]
       ]
     )
@@ -123,7 +123,7 @@
     fill: rgb("#F8FAFC"),
     stroke: 0.5pt + rgb("#E2E8F0"),
     radius: 2.5pt,
-    inset: (x: 2.5pt, y: 1.6pt),
+    inset: (x: 2.5pt, y: 1.5pt),
   )[
     #let count = steps.len()
     #let cols = ()
@@ -147,9 +147,9 @@
           radius: 2.0pt,
           inset: (x: 1pt, y: 1pt)
         )[
-          #align(center + horizon)[#text(size: 5.5pt, weight: "bold", fill: c.text)[#step.label]]
+          #align(center + horizon)[#text(size: 5.4pt, weight: "bold", fill: c.text)[#step.label]]
         ]
-      }).intersperse(text(size: 5.8pt, fill: rgb("#94A3B8"))[▶])
+      }).intersperse(text(size: 5.6pt, fill: rgb("#94A3B8"))[▶])
     )
   ]
 }
@@ -171,26 +171,26 @@
     align: (right + top, left + top),
     [
       #v(0.5pt)
-      #text(weight: "bold", size: 8.2pt, fill: color-title)[#dates]
+      #text(weight: "bold", size: 8.1pt, fill: color-title)[#dates]
     ],
     [
       #block(
         stroke: (left: if not is-last { 1.1pt + rgb("#E2E8F0") } else { 0pt }),
-        inset: (left: 7.5pt, bottom: if not is-last { 3.2pt } else { 1pt }),
+        inset: (left: 7.5pt, bottom: if not is-last { 3.0pt } else { 1pt }),
       )[
         #place(top + left, dx: -10.8pt, dy: 1.3pt)[
           #circle(radius: 2.8pt, fill: node-col, stroke: 1.2pt + rgb("#FFFFFF"))
         ]
-        #text(weight: "bold", size: 8.7pt, fill: color-title)[#role]
-        #text(weight: "bold", size: 8.7pt, fill: color-brand)[ — #company]
+        #text(weight: "bold", size: 8.6pt, fill: color-title)[#role]
+        #text(weight: "bold", size: 8.6pt, fill: color-brand)[ — #company]
         #if location != "" [
-          #text(style: "italic", size: 7.8pt, fill: color-muted)[ (#location)]
+          #text(style: "italic", size: 7.7pt, fill: color-muted)[ (#location)]
         ]
         
         #v(0.4pt)
         #list(
           tight: true,
-          marker: text(fill: color-accent, size: 5.5pt)[●],
+          marker: text(fill: color-accent, size: 5.4pt)[●],
           ..details
         )
         #if extra != none [
@@ -209,26 +209,26 @@
     columns: (42mm, 1fr, 11mm),
     column-gutter: 2.0mm,
     align: (left + horizon, left + horizon, right + horizon),
-    [#text(size: 7.4pt, weight: "bold", fill: color-title)[#name]],
+    [#text(size: 7.3pt, weight: "bold", fill: color-title)[#name]],
     [
       #box(width: 100%, height: 3.2pt, fill: rgb("#F1F5F9"), radius: 2pt)[
         #box(width: (years / max-years) * 100%, height: 3.2pt, fill: c.text, radius: 2pt)
       ]
     ],
-    [#text(size: 7.0pt, weight: "medium", fill: color-muted)[#years ans]]
+    [#text(size: 6.9pt, weight: "medium", fill: color-muted)[#years ans]]
   )
 }
 
 // --- HEADER ---
 #align(center)[
-  #text(size: 16.0pt, weight: "bold", fill: color-title)[Lionel ATTY]
+  #text(size: 15.5pt, weight: "bold", fill: color-title)[Lionel ATTY]
   
   #v(0.8pt)
-  #text(size: 9.1pt, weight: "bold", fill: color-brand)[Sénior Développeur]
-  #text(size: 8.2pt, fill: color-muted)[ • Backend, Architecture, SIG, 3D Temps-Réel, Python, C++]
+  #text(size: 9.0pt, weight: "bold", fill: color-brand)[Sénior Développeur]
+  #text(size: 8.1pt, fill: color-muted)[ • Backend, Architecture, SIG, 3D Temps-Réel, Python, C++]
   
   #v(1.2pt)
-  #text(size: 7.8pt, fill: color-muted)[
+  #text(size: 7.7pt, fill: color-muted)[
     #icon("mail.svg") #link("mailto:lionel.atty@gmail.com")[#text(fill: color-accent)[lionel.atty\@gmail.com]] #h(3.5pt) | #h(3.5pt)
     #icon("phone.svg") +33 6 01 59 00 23 #h(3.5pt) | #h(3.5pt)
     #icon("map-pin.svg") 25 Bd Bouès, Marseille #h(3.5pt) | #h(3.5pt)
@@ -372,8 +372,8 @@
   fill: rgb("#F8FAFC"),
   stroke: 0.5pt + rgb("#E2E8F0"),
   radius: 3.0pt,
-  inset: (x: 4.5pt, y: 2.8pt),
-  below: 2.8pt,
+  inset: (x: 4.5pt, y: 2.6pt),
+  below: 4.0pt,
 )[
   #grid(
     columns: (1fr, 1fr),
@@ -391,33 +391,33 @@
   )
 ]
 
-#block(width: 100%, below: 2.8pt)[
+#block(width: 100%, below: 2.0pt)[
   #grid(
     columns: (1fr, 1fr),
     column-gutter: 5mm,
-    row-gutter: 2.8pt,
+    row-gutter: 2.6pt,
     [
-      #text(weight: "bold", size: 8.2pt, fill: color-title)[3D GPU, Rendu, UI & Bas-Niveau]\
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[3D GPU, Rendu, UI & Bas-Niveau]\
       #tag("Vulkan") #tag("OpenGL 4.5+") #tag("C++ (17/20)") #tag("C11") #tag("Rust") #tag("Odin") #tag("Dear ImGui (UI/UX)") #tag("GLSL / SPIR-V") #tag("SIMD / AVX2") #tag("Data-Oriented (SoA)")
     ],
     [
-      #text(weight: "bold", size: 8.2pt, fill: color-title)[Micro-Architecture, Profiling & Debug]\
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[Micro-Architecture, Profiling & Debug]\
       #tag("Tracy Profiler") #tag("Intel VTune") #tag("RenderDoc") #tag("Linux perf") #tag("Flamegraph") #tag("Heaptrack") #tag("GDB") #tag("ASan / TSan / UBSan") #tag("Cache Misses L1/L2")
     ],
     [
-      #text(weight: "bold", size: 8.2pt, fill: color-title)[Langages & Backend]\
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[Langages & Backend]\
       #tag("Python 3.13") #tag("FastAPI") #tag("Flask") #tag("AsyncIO") #tag("Celery") #tag("FastStream") #tag("Pydantic") #tag("Spectree") #tag("Pytest") #tag("Qt") #tag("Bash")
     ],
     [
-      #text(weight: "bold", size: 8.2pt, fill: color-title)[IA, LLM & Tooling Agentique]\
-      #tag("AGY (Gemini)") #tag("Claude Code") #tag("MCP Servers") #tag("token-savior") #tag("Dust") #tag("n8n") #tag("OpenAI API") #tag("spaCy") #tag("Gensim")
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[IA, LLM & Tooling Agentique]\
+      #tag("AGY (Gemini)") #tag("Claude Code") #tag("MCP Servers") #tag("Dust") #tag("n8n") #tag("OpenAI API") #tag("spaCy") #tag("Gensim")
     ],
     [
-      #text(weight: "bold", size: 8.2pt, fill: color-title)[Bases de Données & Stockage]\
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[Bases de Données & Stockage]\
       #tag("MongoDB") #tag("Redis") #tag("RabbitMQ") #tag("PostgreSQL") #tag("PostGIS") #tag("JSONB") #tag("Elasticsearch") #tag("EventStore") #tag("Azure Storage")
     ],
     [
-      #text(weight: "bold", size: 8.2pt, fill: color-title)[Cloud, DevOps & Build Systems]\
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[Cloud, DevOps & Build Systems]\
       #tag("Azure / AKS") #tag("Docker / Podman") #tag("Kubernetes") #tag("QEMU / KVM") #tag("Vagrant") #tag("Terraform") #tag("Ansible") #tag("GitLab CI") #tag("GitHub Actions") #tag("Go-Task") #tag("Just") #tag("CMake") #tag("Conan 2.x") #tag("UV / Ruff") #tag("Typst")
     ]
   )
@@ -426,29 +426,29 @@
 // --- FORMATION & DIPLOMES ---
 #cv-section("Formation & Diplômes")
 
-#block(width: 100%, below: 2.8pt)[
+#block(width: 100%, below: 2.0pt)[
   #grid(
     columns: (26mm, 1fr),
     column-gutter: 3.0mm,
-    row-gutter: 2.0pt,
-    [#text(weight: "bold", size: 8.2pt, fill: color-title)[2005 - 2009]],
+    row-gutter: 2.8pt,
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2005 - 2009]],
     [
-      #text(weight: "bold", size: 8.5pt, fill: color-title)[Doctorat / Thèse CIFRE (Rendu Graphique Temps-Réel & GPU)]
-      #text(style: "italic", size: 7.9pt, fill: color-muted)[ — UJF / INRIA GRAVIR / Eden Games]\
-      #text(size: 7.9pt)[Algorithmes de calcul et génération d'ombres douces temps réel sur GPU.]\
-      #text(size: 7.7pt)[#icon("book.svg") #strong[Publication internationale] : #text(style: "italic")[Soft Shadow Maps: Efficient Sampling of Light Source Visibility], #strong[Computer Graphics Forum (CGF)], 2006 (#link("http://maverick.inria.fr/Publications/2006/AHLHHS06/")[#text(fill: color-accent)[Atty et al. - INRIA]]).]
+      #text(weight: "bold", size: 8.2pt, fill: color-title)[Doctorat / Thèse CIFRE (Rendu Graphique Temps-Réel & GPU)]
+      #text(style: "italic", size: 7.6pt, fill: color-muted)[ — UJF / INRIA GRAVIR / Eden Games]\
+      #text(size: 7.6pt)[Algorithmes de calcul et génération d'ombres douces temps réel sur GPU.]\
+      #text(size: 7.4pt)[#icon("book.svg") #strong[Publication internationale] : #text(style: "italic")[Soft Shadow Maps: Efficient Sampling of Light Source Visibility], #strong[Computer Graphics Forum (CGF)], 2006 (#link("http://maverick.inria.fr/Publications/2006/AHLHHS06/")[#text(fill: color-accent)[Atty et al. - INRIA]]).]
     ],
-    [#text(weight: "bold", size: 8.2pt, fill: color-title)[2004 - 2005]],
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2004 - 2005]],
     [
-      #text(weight: "bold", size: 8.5pt, fill: color-title)[Master 2 Recherche (Image, Vision, Robotique)]
-      #text(style: "italic", size: 7.9pt, fill: color-muted)[ — UJF / INRIA (Grenoble)]\
-      #text(size: 7.9pt)[Étude et amélioration des algorithmes de rendu temps réel et illumination globale (Projet Cyber-II).]
+      #text(weight: "bold", size: 8.2pt, fill: color-title)[Master 2 Recherche (Image, Vision, Robotique)]
+      #text(style: "italic", size: 7.6pt, fill: color-muted)[ — UJF / INRIA (Grenoble)]\
+      #text(size: 7.6pt)[Étude et amélioration des algorithmes de rendu temps réel et illumination globale (Projet Cyber-II).]
     ],
-    [#text(weight: "bold", size: 8.2pt, fill: color-title)[2003 - 2004]],
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2003 - 2004]],
     [
-      #text(weight: "bold", size: 8.5pt, fill: color-title)[Master 1 & Magistère (Informatique & Mathématiques Appliquées)]
-      #text(style: "italic", size: 7.9pt, fill: color-muted)[ — UJF Grenoble]\
-      #text(size: 7.9pt)[Spécialisation en synthèse d'images, illumination temps réel, shaders GPU et géométrie algorithmique.]
+      #text(weight: "bold", size: 8.2pt, fill: color-title)[Master 1 & Magistère (Informatique & Mathématiques Appliquées)]
+      #text(style: "italic", size: 7.6pt, fill: color-muted)[ — UJF Grenoble]\
+      #text(size: 7.6pt)[Spécialisation en synthèse d'images, illumination temps réel, shaders GPU et géométrie algorithmique.]
     ]
   )
 ]
@@ -456,26 +456,26 @@
 // --- PROJETS R&D PERSONNELS & OPEN SOURCE ---
 #cv-section("Projets R&D Personnels, Open Source & Conférences")
 
-#block(width: 100%, below: 2.8pt)[
+#block(width: 100%, below: 2.0pt)[
   #grid(
     columns: (26mm, 1fr),
     column-gutter: 3.0mm,
-    row-gutter: 2.0pt,
-    [#text(weight: "bold", size: 8.2pt, fill: color-title)[2024 - 2026]],
+    row-gutter: 2.8pt,
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2024 - 2026]],
     [
-      #strong[Moteurs 3D Bas-Niveau, UI/UX & Optimisation Micro-Architecturale] : Développement de moteurs #tag("suckless-vulkan") (C++17/20, RenderGraph, BindGroups), #tag("suckless-ogl") (C11) et #tag("suckless-odin") (Odin). Interfaces et HUD temps réel sous #tag("Dear ImGui (UI/UX)") (C++, C, Rust, Odin). Vectorisation #tag("SIMD / AVX2"), layout mémoire #tag("Data-Oriented (SoA)"), alignement 64B & prefetching. Réduction des L1/L2 Cache Misses et False Sharing via #tag("Linux perf") #tag("Flamegraph"), profiling #tag("Tracy Profiler") #tag("Intel VTune") #tag("RenderDoc"), zéro-allocation validé sous #tag("Heaptrack"), sanitizers #tag("ASan / TSan / UBSan"), CI/CD #tag("GitHub Actions").
+      #strong[Moteurs 3D Temps-Réel, UI/UX & Optimisation Bas-Niveau] : Moteurs de rendu et pipelines graphiques (RenderGraph, BindGroups) sous #tag("Vulkan") et #tag("OpenGL 4.5+") en #tag("C++ (17/20)"), #tag("C11"), #tag("Rust") et #tag("Odin"). Interfaces & HUD temps réel sous #tag("Dear ImGui (UI/UX)"). Vectorisation #tag("SIMD / AVX2"), architecture mémoire #tag("Data-Oriented (SoA)"), alignement 64B & prefetching. Réduction L1/L2 Cache Misses & False Sharing via #tag("Linux perf") #tag("Flamegraph"), profiling #tag("Tracy Profiler") #tag("Intel VTune") #tag("RenderDoc"), zéro-allocation validé sous #tag("Heaptrack"), sanitizers #tag("ASan / TSan / UBSan"), CI/CD #tag("GitHub Actions").
     ],
-    [#text(weight: "bold", size: 8.2pt, fill: color-title)[2025 - 2026]],
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2025 - 2026]],
     [
-      #strong[IA Agentique & Écosystème MCP] : Outillage d'ingénierie et serveurs MCP pour agents IA #tag("AGY (Gemini)") #tag("Claude Code") #tag("token-savior") (serveur MCP d'optimisation de contexte), automatisation #tag("n8n") et assistants #tag("Dust").
+      #strong[IA Agentique & Écosystème MCP] : Outillage d'ingénierie et serveurs MCP pour agents IA sous #tag("AGY (Gemini)"), #tag("Claude Code"), serveurs #tag("MCP Servers") (optimisation de contexte), automatisation #tag("n8n") et assistants #tag("Dust").
     ],
     [#text(weight: "bold", size: 8.2pt, fill: color-title)[2021 - 2022]],
     [
-      #strong[DocString] : Mentorat technique & masterclasses vidéo #link("https://youtu.be/aaim2oCGedk")[#icon("video.svg") #text(fill: color-accent)[Application CLI avec Python & CI/CD]] (#link("http://bit.ly/36mb5Ez")[#icon("slides.svg") #text(fill: color-accent)[Slides]]).
+      #strong[DocString] : Mentorat technique & masterclasses vidéo #link("https://youtu.be/aaim2oCGedk")[#icon("video.svg") #text(fill: color-accent)[Application CLI avec #tag("Python") & #tag("CI/CD")]] (#link("http://bit.ly/36mb5Ez")[#icon("slides.svg") #text(fill: color-accent)[Slides]]).
     ],
-    [#text(weight: "bold", size: 8.2pt, fill: color-title)[2011 - 2019]],
+    [#text(weight: "bold", size: 8.0pt, fill: color-title)[2011 - 2019]],
     [
-      #strong[Talks & Formations] : Talk #strong[PyCon.FR] (Microservices gRPC/Python NLP), Conférence #strong[FOSS4G-fr] (LI3DS acquisition temps réel), Formations supérieures #strong[IGN / ENSG] (Python Géomatique & calcul scientifique GPU).
+      #strong[Talks & Formations] : Talk #strong[PyCon.FR] (Microservices #tag("gRPC") et #tag("Python") pour le #tag("NLP")), Conférence #strong[FOSS4G-fr] (Acquisition temps réel LIDAR / capteurs), Formations supérieures #strong[IGN / ENSG] (#tag("Python") Géomatique & calcul scientifique #tag("GPU")).
     ]
   )
 ]
@@ -484,9 +484,10 @@
 #cv-section("Langues & Divers")
 
 #block(width: 100%, below: 0pt)[
+  #v(1.5pt)
   #list(
     tight: true,
-    marker: text(fill: color-accent, size: 5.5pt)[●],
+    marker: text(fill: color-accent, size: 5.0pt)[●],
     [#strong[Langues] : Anglais (technique courant, veille & documentation quotidienne), Allemand (notions scolaires).],
     [#strong[Pratiques Musicales] : Guitare-Basse (15 ans de pratique en groupe), Percussions Africaines (2 ans).],
     [#strong[Sports & Activités] : Tennis en compétition (4ᵉ série, depuis 2021), Volley-ball (15 ans en compétition régionale), Football.],
