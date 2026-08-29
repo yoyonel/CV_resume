@@ -1,0 +1,36 @@
+{
+  "name": "Lionel ATTY",
+  "birthdate": "1981-08-18",
+  "email": "lionel.atty@gmail.com",
+  "phone": "+33 6 01 59 00 23",
+  "address": "25 Bd Bouès, Marseille",
+  "mobility": "Télétravail / Hybride",
+  "title": "Sénior Développeur",
+  "specialties": "Backend, Architecture, SIG, 3D Temps-Réel, Python, C++",
+  "skills_seniority": [
+    {
+      "label": "Python & Microservices",
+      "start_year": 2011,
+      "end_year": null,
+      "domain": "backend"
+    },
+    {
+      "label": "C++ & Rendu 3D GPU",
+      "start_year": 2005,
+      "end_year": 2018,
+      "domain": "graphics"
+    },
+    {
+      "label": "Bases de Données & PostGIS",
+      "start_year": 2011,
+      "end_year": null,
+      "domain": "db"
+    },
+    {
+      "label": "Cloud, DevOps & Conteneurs",
+      "start_year": 2017,
+      "end_year": null,
+      "domain": "cloud"
+    }
+  ]
+}

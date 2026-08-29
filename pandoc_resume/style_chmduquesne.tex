@@ -1,10 +1,5 @@
-% Copyright 2013 Christophe-Marie Duquesne <chmd@chmd.fr>
-% Copyright 2014 Mark Szepieniec <http://github.com/mszep>
-% 
-% ConText style for making a resume with pandoc. Inspired by moderncv.
-% 
-% This CSS document is delivered to you under the CC BY-SA 3.0 License.
-% https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
+% ConTeXt style for making a modern 2-page tech resume with pandoc.
+% Modern Tech Minimalist Theme - Calibrated for 2 dense 95% full pages
 
 \startmode[*mkii]
   \enableregime[utf-8]  
@@ -15,60 +10,58 @@ $if(mainlang)$
 $endif$
 
 \setupcolor[hex]
-\definecolor[titlegrey][h=757575]
-\definecolor[sectioncolor][h=397249]
-\definecolor[rulecolor][h=9cb770]
+\definecolor[titlecolor]   [h=0F172A] % Slate-900
+\definecolor[sectioncolor] [h=1E40AF] % Blue-800
+\definecolor[accentcolor]  [h=0284C7] % Sky-600
+\definecolor[rulecolor]    [h=38BDF8] % Sky-400
+\definecolor[subtlecolor]  [h=64748B] % Slate-500
+\definecolor[lightrule]    [h=CBD5E1] % Slate-300
 
 % Enable hyperlinks
-\setupinteraction[state=start, color=sectioncolor]
+\setupinteraction[state=start, color=accentcolor]
 
-\setuppapersize [$if(papersize)$$papersize$$else$letter$endif$][$if(papersize)$$papersize$$else$letter$endif$]
+\setuppapersize [$if(papersize)$$papersize$$else$A4$endif$][$if(papersize)$$papersize$$else$A4$endif$]
 \setuplayout    [width=middle, height=middle,
-                 backspace=20mm, cutspace=0mm,
-                 topspace=10mm, bottomspace=20mm,
+                 backspace=14mm, cutspace=14mm,
+                 topspace=10mm, bottomspace=10mm,
                  header=0mm, footer=0mm]
 
-%\setuppagenumbering[location={footer,center}]
+\setupbodyfont[9.7pt, helvetica]
 
-\setupbodyfont[11pt, helvetica]
+\setupwhitespace[none]
 
-\setupwhitespace[medium]
+\setupblackrules[width=18mm, height=2.5pt, color=rulecolor]
 
-\setupblackrules[width=31mm, color=rulecolor]
-
-\setuphead[chapter]      [style=\tfd]
-\setuphead[section]      [style=\tfd\bf, color=titlegrey, align=middle]
-\setuphead[subsection]   [style=\tfb\bf, color=sectioncolor, align=right,
-                          before={\leavevmode\blackrule\hspace}]
-\setuphead[subsubsection][style=\bf]
+% H1: Main Title / Name (Centered)
+\setuphead[section]      [style=\tfc\bf, color=titlecolor, align=middle, before={\blank[none]}, after={\blank[none]}]
+% H2: Categories (Left-aligned with cyan bar)
+\setuphead[subsection]   [style=\tfa\bf, color=sectioncolor, align=flushleft,
+                          before={\blank[small]\leavevmode\blackrule\hskip 0.6em}, after={\blank[none]}]
+% H3: Subsections
+\setuphead[subsubsection][style=\tf\bf, color=titlecolor, align=flushleft, before={\blank[none]}, after={\blank[none]}]
 
 $if(number-sections)$
 $else$
-\setuphead[chapter, section, subsection, subsubsection][number=no]
+\setuphead[section, subsection, subsubsection][number=no]
 $endif$
-
-%\setupdescriptions[width=10mm]
 
 \definedescription
   [description]
   [headstyle=bold, style=normal,
-   location=hanging, width=18mm, distance=14mm, margin=0cm]
+   location=hanging, width=28mm, distance=3mm, margin=0cm,
+   before={\blank[medium]}, after={\blank[none]}]
 
-\setupitemize[autointro, packed]    % prevent orphan list intro
-\setupitemize[indentnext=no]
+\setupitemize[autointro, packed, joinedup]
+\setupitemize[indentnext=no, margin=0cm, leftmargin=1.2em]
 
 \setupfloat[figure][default={here,nonumber}]
 \setupfloat[table][default={here,nonumber}]
 
 \setuptables[textwidth=max, HL=none]
 
-\setupthinrules[width=15em] % width of horizontal rules
+\setupthinrules[width=100%, color=lightrule, height=0.5pt, before={\blank[none]}, after={\blank[none]}]
 
-\setupdelimitedtext
-  [blockquote]
-  [before={\setupalign[middle]},
-   indentnext=no,
-  ]
+\definedelimitedtext[blockquote]
 
 $if(toc)$
 \setupcombinedlist[content][list={$placelist$}]
@@ -81,17 +74,17 @@ $endfor$
 \starttext
 $if(title)$
 \startalignment[center]
-  \blank[2*big]
-  {\tfd $title$}
+  \blank[none]
+  {\tfc $title$}
 $if(author)$
-  \blank[3*medium]
-  {\tfa $for(author)$$author$$sep$\crlf $endfor$}
+  \blank[none]
+  {\tf $for(author)$$author$$sep$\crlf $endfor$}
 $endif$
 $if(date)$
-  \blank[2*medium]
-  {\tfa $date$}
+  \blank[none]
+  {\tf $date$}
 $endif$
-  \blank[3*medium]
+  \blank[none]
 \stopalignment
 $endif$
 $for(include-before)$

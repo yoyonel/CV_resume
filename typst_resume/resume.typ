@@ -1,0 +1,496 @@
+#set page(
+  paper: "a4",
+  margin: (x: 12.0mm, top: 6.5mm, bottom: 6.5mm),
+)
+#set text(
+  font: ("Inter", "Liberation Sans", "DejaVu Sans"),
+  size: 8.1pt,
+  fill: rgb("#0F172A"),
+  lang: "fr"
+)
+#set par(justify: true, leading: 0.42em)
+
+// Theme Colors
+#let color-title = rgb("#0F172A")
+#let color-brand = rgb("#1E40AF")
+#let color-accent = rgb("#0284C7")
+#let color-rule = rgb("#38BDF8")
+#let color-muted = rgb("#64748B")
+
+// Vector Icon Helper
+#let icon(path, height: 7.5pt, baseline: 18%) = box(
+  baseline: baseline,
+  height: height,
+)[#image("icons/" + path)]
+
+// Domain-based Tag Palette
+#let tag-colors = (
+  // Backend & Core Languages (Indigo)
+  backend: (bg: rgb("#EEF2FF"), border: rgb("#C7D2FE"), text: rgb("#312E81")),
+  // 3D, Low-level & Graphics (Purple/Violet)
+  graphics: (bg: rgb("#F5F3FF"), border: rgb("#DDD6FE"), text: rgb("#4C1D95")),
+  // Database & Storage (Emerald/Teal)
+  db: (bg: rgb("#ECFDF5"), border: rgb("#A7F3D0"), text: rgb("#064E3B")),
+  // Cloud, DevOps & Virtualization (Sky/Cyan)
+  cloud: (bg: rgb("#F0F9FF"), border: rgb("#BAE6FD"), text: rgb("#0369A1")),
+  // AI, LLM & Agentic Tooling (Amber/Warm)
+  ai: (bg: rgb("#FFFBEB"), border: rgb("#FDE68A"), text: rgb("#92400E")),
+  // Debug, Profiling & Low-Level Perf (Slate/Steel)
+  profiling: (bg: rgb("#F1F5F9"), border: rgb("#CBD5E1"), text: rgb("#334155")),
+  // Build Systems & Tooling (Rose/Coral)
+  tooling: (bg: rgb("#FFF1F2"), border: rgb("#FECDD3"), text: rgb("#9F1239")),
+  // UI & Tooling (Teal/Emerald)
+  ui: (bg: rgb("#F0FDFA"), border: rgb("#99F6E4"), text: rgb("#0F766E")),
+  // Architecture & Methods
+  arch: (bg: rgb("#F8FAFC"), border: rgb("#E2E8F0"), text: rgb("#1E293B")),
+  // Default neutral
+  default: (bg: rgb("#F8FAFC"), border: rgb("#E2E8F0"), text: rgb("#1E293B")),
+)
+
+// Automatic technology domain classifier
+#let tech-domain(name) = {
+  let n = lower(name)
+  if n in ("python", "python 3.13", "python 3.9+", "python 3.8", "python 3.x", "fastapi", "flask", "asyncio", "aiohttp", "graphql", "openapi", "asyncpg", "pydantic", "click", "cookiecutter", "jinja2", "pytest", "celery", "faststream", "pandas", "sqlalchemy", "geoalchemy2", "geopandas", "c++", "c++ (17/20)", "c++ (98/11/14/17)", "c11", "rust", "odin", "stl", "qt", "bash", "flask-admin", "dependency-injector", "structlog", "spectree", "grpc") {
+    "backend"
+  } else if n in ("agy (gemini)", "antigravity (agy)", "claude code", "dust", "n8n", "mcp", "mcp servers", "openai api", "spacy", "gensim", "tensorflow", "nlp") {
+    "ai"
+  } else if n in ("dear imgui", "imgui", "dear imgui (ui/ux)") {
+    "ui"
+  } else if n in ("vulkan", "opengl 4.5+", "opengl", "directx 9/10", "directx", "glsl / spir-v", "glsl / hlsl", "glsl", "hlsl", "shaders hlsl", "opengl shaders", "opencl", "cuda", "openscenegraph", "ros", "blender", "opencv", "ffmpeg", "mpeg-ts", "simd / avx2", "data-oriented (soa)", "gpu", "li3ds") {
+    "graphics"
+  } else if n in ("tracy profiler", "tracy", "renderdoc", "intel vtune", "linux perf", "flamegraph", "heaptrack", "gdb", "asan / tsan", "asan/tsan", "asan / tsan / ubsan", "cache misses l1/l2", "valgrind", "prometheus", "grafana", "elk stack", "logstash", "kibana", "apm", "elastic apm", "filebeat", "apache airflow", "jupyter", "plotly") {
+    "profiling"
+  } else if n in ("go-task", "just", "make", "cmake", "conan 2.x", "conan", "uv / ruff", "uv", "cargo", "typst", "pandoc") {
+    "tooling"
+  } else if n in ("mongodb", "mongoengine", "pymongo", "redis", "redis / streams", "redis streams", "rabbitmq", "postgresql", "postgis", "jsonb", "elasticsearch", "eventstore", "mariadb/mysql", "mariadb", "mysql", "hdfs", "minio", "mqtt", "azure storage") {
+    "db"
+  } else if n in ("azure", "azure / aks", "aks", "docker", "docker / podman", "podman", "kubernetes", "qemu / kvm", "qemu", "vagrant", "gcp", "google cloud platform", "terraform", "ansible", "gitlab ci", "github actions", "ci/cd", "saml", "scim", "rancher", "argo", "fluentd", "digital ocean", "perforce", "youtrack") {
+    "cloud"
+  } else if n in ("clean architecture", "microservices", "event-driven", "rest", "scrum / kanban", "scrum", "kanban", "gitflow", "ddd", "domain-driven design (ddd)", "api rest") {
+    "arch"
+  } else {
+    "default"
+  }
+}
+
+// Helper: Technology Tag Badge with Semantic Colors
+#let tag(name, domain: auto) = {
+  let dom = if domain == auto { tech-domain(name) } else { domain }
+  let c = tag-colors.at(dom, default: tag-colors.default)
+  box(
+    fill: c.bg,
+    stroke: 0.5pt + c.border,
+    radius: 2.5pt,
+    inset: (x: 2.6pt, y: 1.0pt),
+    outset: 0pt,
+    baseline: 0%,
+  )[#text(size: 6.7pt, font: ("JetBrains Mono", "DejaVu Sans Mono"), weight: "medium", fill: c.text)[#name]]
+}
+
+// Helper: Section Heading with Generous Vertical Breathing Room
+#let cv-section(title) = {
+  v(8.5pt)
+  block(width: 100%, below: 5.5pt)[
+    #stack(
+      spacing: 3pt,
+      [
+        #box(width: 14mm, height: 1.8pt, fill: color-rule)
+        #h(4.5pt)
+        #text(size: 9.6pt, weight: "bold", fill: color-brand)[#title]
+      ]
+    )
+  ]
+}
+
+// Helper: Domain Node Color for Vertical Stepper
+#let domain-node-color(company) = {
+  let c = lower(company)
+  if "letsignit" in c { rgb("#2563EB") } // Royal Blue
+  else if "unowhy" in c { rgb("#1E40AF") } // Indigo
+  else if "365talents" in c { rgb("#D97706") } // Amber
+  else if "forcity" in c { rgb("#0284C7") } // Sky
+  else if "holimetrix" in c { rgb("#059669") } // Emerald
+  else if "ign" in c { rgb("#1E40AF") } // Indigo
+  else if "eden" in c { rgb("#7C3AED") } // Purple
+  else { rgb("#64748B") }
+}
+
+// Helper: Generic Reusable Pipeline Diagram Helper (Proposition B.4)
+#let pipeline-diagram(steps) = {
+  v(0.8pt)
+  block(
+    width: 100%,
+    fill: rgb("#F8FAFC"),
+    stroke: 0.5pt + rgb("#E2E8F0"),
+    radius: 2.5pt,
+    inset: (x: 2.5pt, y: 1.5pt),
+  )[
+    #let count = steps.len()
+    #let cols = ()
+    #for i in range(count) {
+      cols.push(1fr)
+      if i < count - 1 {
+        cols.push(2.5mm)
+      }
+    }
+    #grid(
+      columns: cols,
+      align: center + horizon,
+      ..steps.map(step => {
+        let dom = if "domain" in step { step.domain } else { "default" }
+        let c = tag-colors.at(dom, default: tag-colors.default)
+        box(
+          width: 100%,
+          height: 12.0pt,
+          fill: c.bg,
+          stroke: 0.5pt + c.border,
+          radius: 2.0pt,
+          inset: (x: 1pt, y: 1pt)
+        )[
+          #align(center + horizon)[#text(size: 5.4pt, weight: "bold", fill: c.text)[#step.label]]
+        ]
+      }).intersperse(text(size: 5.6pt, fill: rgb("#94A3B8"))[▶])
+    )
+  ]
+}
+
+// Helper: Experience Entry with Connected Vertical Stepper (Proposition B.3)
+#let cv-entry(
+  dates: "",
+  role: "",
+  company: "",
+  location: "",
+  details: (),
+  is-last: false,
+  extra: none
+) = {
+  let node-col = domain-node-color(company)
+  grid(
+    columns: (22mm, 1fr),
+    column-gutter: 3.0mm,
+    align: (right + top, left + top),
+    [
+      #v(0.5pt)
+      #text(weight: "bold", size: 8.1pt, fill: color-title)[#dates]
+    ],
+    [
+      #block(
+        stroke: (left: if not is-last { 1.1pt + rgb("#E2E8F0") } else { 0pt }),
+        inset: (left: 7.5pt, bottom: if not is-last { 3.0pt } else { 1pt }),
+      )[
+        #place(top + left, dx: -10.8pt, dy: 1.3pt)[
+          #circle(radius: 2.8pt, fill: node-col, stroke: 1.2pt + rgb("#FFFFFF"))
+        ]
+        #text(weight: "bold", size: 8.6pt, fill: color-title)[#role]
+        #text(weight: "bold", size: 8.6pt, fill: color-brand)[ — #company]
+        #if location != "" [
+          #text(style: "italic", size: 7.7pt, fill: color-muted)[ (#location)]
+        ]
+        
+        #v(0.4pt)
+        #list(
+          tight: true,
+          marker: text(fill: color-accent, size: 5.4pt)[●],
+          ..details
+        )
+        #if extra != none [
+          #extra
+        ]
+      ]
+    ]
+  )
+}
+
+// Helper: Skill Seniority Gauge (Proposition B.2 - Dynamique)
+#let skill-gauge(name, years, max-years: 20, domain: auto) = {
+  let dom = if domain == auto { tech-domain(name) } else { domain }
+  let c = tag-colors.at(dom, default: tag-colors.default)
+  grid(
+    columns: (42mm, 1fr, 11mm),
+    column-gutter: 2.0mm,
+    align: (left + horizon, left + horizon, right + horizon),
+    [#text(size: 7.3pt, weight: "bold", fill: color-title)[#name]],
+    [
+      #box(width: 100%, height: 3.2pt, fill: rgb("#F1F5F9"), radius: 2pt)[
+        #box(width: (years / max-years) * 100%, height: 3.2pt, fill: c.text, radius: 2pt)
+      ]
+    ],
+    [#text(size: 6.9pt, weight: "medium", fill: color-muted)[#years ans]]
+  )
+}
+
+// --- HEADER ---
+#align(center)[
+  #text(size: 15.5pt, weight: "bold", fill: color-title)[Lionel ATTY]
+  
+  #v(0.8pt)
+  #text(size: 9.0pt, weight: "bold", fill: color-brand)[Sénior Développeur]
+  #text(size: 8.1pt, fill: color-muted)[ • Backend, Architecture, SIG, 3D Temps-Réel, Python, C++]
+  
+  #v(1.2pt)
+  #text(size: 7.7pt, fill: color-muted)[
+    #icon("mail.svg") #link("mailto:lionel.atty@gmail.com")[#text(fill: color-accent)[lionel.atty\@gmail.com]] #h(3.5pt) | #h(3.5pt)
+    #icon("phone.svg") +33 6 01 59 00 23 #h(3.5pt) | #h(3.5pt)
+    #icon("map-pin.svg") 25 Bd Bouès, Marseille #h(3.5pt) | #h(3.5pt)
+    #icon("laptop.svg") Télétravail / Hybride #h(3.5pt) | #h(3.5pt)
+    #icon("calendar.svg") 45 ans
+  ]
+]
+
+#v(-3pt)
+#line(length: 100%, stroke: 0.5pt + rgb("#E2E8F0"))
+
+// --- EXPERIENCES PROFESSIONNELLES (Page 1) ---
+#cv-section("Expériences Professionnelles")
+
+#cv-entry(
+  dates: "2026 - Présent",
+  role: "Senior Backend Développeur Python R&D",
+  company: "LETSIGNIT",
+  location: "Marseille / Télétravail — Depuis Janv. 2026",
+  details: (
+    [#text(style: "italic")[Conception et évolution de la plateforme SaaS de gestion centralisée des signatures mails et bannières marketing (millions d'utilisateurs M365 / Google Workspace).]],
+    [#strong[Cœur Applicatif & Microservices] : Évolution du monolithe modulaire et services asynchrones sous #tag("Python 3.13") #tag("Flask") #tag("FastAPI") #tag("AsyncIO") #tag("Celery") #tag("FastStream") #tag("Pydantic") #tag("Spectree")],
+    [#strong[Données & Messagerie Haute Charge] : Traitements asynchrones et mise en cache avec #tag("MongoDB") #tag("Redis") #tag("RabbitMQ") et #tag("Azure Storage")],
+    [#strong[Sécurité, Identité & Droits] : Moteur d'autorisations RBAC (*lsi-authz*), intégrations protocolaires #tag("SAML"), #tag("SCIM"), OAuth2 et connecteurs Microsoft 365],
+    [#strong[Cloud Azure & DevOps] : Déploiements sur #tag("Azure / AKS"), conteneurisation #tag("Docker"), pipelines #tag("GitLab CI"), monitoring #tag("Prometheus") et #tag("Elastic APM")],
+    [#strong[Ingénierie Assistée par IA] : Intégration structurelle des LLM dans le cycle d'ingénierie avec #tag("Claude Code"), serveurs #tag("MCP"), agents #tag("Dust") et orchestrations #tag("n8n").],
+  ),
+  extra: pipeline-diagram((
+    (label: "Clients M365 / Google", domain: "arch"),
+    (label: "API Gateway & Authz", domain: "cloud"),
+    (label: "Portal & Microservices", domain: "backend"),
+    (label: "MongoDB • Redis • RabbitMQ", domain: "db"),
+  ))
+)
+
+#cv-entry(
+  dates: "2021 - 2025",
+  role: "Développeur Back End Python",
+  company: "UNOWHY",
+  location: "Paris / Télétravail — Juin 2021 à Déc. 2025",
+  details: (
+    [#text(style: "italic")[Conception et développement de la plateforme microservices backend pour l'éducation numérique.]],
+    [#strong[Conception & Architecture] : Refonte et développement de microservices backend Python 3.9+ #tag("FastAPI") #tag("GraphQL") #tag("OpenAPI") #tag("Asyncpg") #tag("Pydantic") #tag("Click")],
+    [#strong[Event-Driven & Stockage] : Architecture orientée événements avec #tag("PostgreSQL") #tag("EventStore") #tag("MQTT") #tag("MinIO")],
+    [#strong[Infrastructure & Cloud] : Déploiement et orchestration sous #tag("Kubernetes") et #tag("Docker") sur Digital Ocean, gestion de configuration avec #tag("Ansible")],
+    [#strong[Sécurité & Observabilité] : Authentification SSO avec #tag("Keycloak"), reverse-proxy #tag("Traefik"), workflows #tag("Argo"), logs #tag("Fluentd")],
+    [#strong[Qualité & Méthodes] : Pratiques agiles SCRUM / Kanban, CI/CD #tag("GitLab CI"), tests sous #tag("Pytest"), #tag("GitFlow"), Notion, Jira.],
+  ),
+  extra: pipeline-diagram((
+    (label: "Clients (Web / Apps)", domain: "arch"),
+    (label: "Traefik / Keycloak SSO", domain: "cloud"),
+    (label: "FastAPI Microservices", domain: "backend"),
+    (label: "PostgreSQL • EventStore • MQTT", domain: "db"),
+  ))
+)
+
+#cv-entry(
+  dates: "2019 - 2021",
+  role: "Data Engineer Senior",
+  company: "365TALENTS",
+  location: "Lyon / Télétravail",
+  details: (
+    [#text(style: "italic")[Conception, développement et intégration des algorithmes et pipelines de données pour le matching et la détection de compétences RH.]],
+    [#strong[Data Processing & NLP] : Pipelines de données pour le matching RH #tag("Python 3.8") #tag("Elasticsearch") #tag("Redis") #tag("spaCy") #tag("Gensim") #tag("TensorFlow") #tag("Celery")],
+    [#strong[Microservices & Communication] : Développement de services backend haute performance avec #tag("FastAPI") et #tag("gRPC")],
+    [#strong[Cloud GCP & DevOps] : Exploitation de #tag("Google Cloud Platform") (Compute Engine, Pub/Sub, Storage), infrastructure as code avec #tag("Terraform") et #tag("Ansible")],
+    [#strong[Monitoring & CI/CD] : Stack ELK complète #tag("Elasticsearch") #tag("Logstash") #tag("Kibana") #tag("APM"), métriques #tag("Prometheus"), pipelines #tag("GitHub Actions").],
+    [#strong[Architecture & Qualité] : Clean Architecture, Domain-Driven Design (DDD), tests sous #tag("Pytest"), API REST, #tag("GitFlow").],
+  ),
+  extra: pipeline-diagram((
+    (label: "Sources RH / Profils", domain: "arch"),
+    (label: "NLP (spaCy / Gensim / TF)", domain: "ai"),
+    (label: "Elasticsearch Matching", domain: "db"),
+    (label: "API gRPC / FastAPI", domain: "backend"),
+  ))
+)
+
+#cv-entry(
+  dates: "2019 (4 mois)",
+  role: "Ingénieur Modèle & Industrialisation",
+  company: "FORCITY",
+  location: "Lyon",
+  details: (
+    [#text(style: "italic")[Industrialisation de modèles python de simulation urbaine pour l'optimisation de collecte et traitement des déchets (#link("https://www.forcity.com/forcity-waste-vision-logiciel-optimiser-la-gestion-des-dechets")[#text(fill: color-accent)[Waste Vision]]).]],
+    [#strong[Développements & SIG] : Modélisation sous Python 3.6, #tag("PostgreSQL") #tag("PostGIS") #tag("JSONB") #tag("SQLAlchemy") #tag("GeoAlchemy2") #tag("GeoPandas") #tag("Pytest")],
+    [#strong[Environnement & Qualité] : Conteneurisation #tag("Docker"), métriques #tag("Grafana"), pipelines #tag("GitLab CI"), #tag("GitFlow"), YouTrack.],
+  ),
+  is-last: true
+)
+
+#pagebreak()
+
+// --- EXPERIENCES (Suite Page 2) ---
+#cv-entry(
+  dates: "2017 - 2018",
+  role: "Ingénieur Logiciel (R&D) & Data Analysis",
+  company: "HOLIMETRIX",
+  location: "Lyon",
+  details: (
+    [#strong[Projet Concurrence] : Agrégation et analyse de flux massifs de données publicitaires partenaires (SNPTV) pour établir le champ de concurrence des marques #tag("Python 3.x") #tag("MariaDB/MySQL") #tag("HDFS") #tag("SQLAlchemy") #tag("Pandas") #tag("Apache Airflow") #tag("Jupyter")],
+    [#strong[Projet Pythie (Crawler TV)] : Chaîne automatisée d'acquisition de flux vidéo broadcast et détection de spots publicitaires TV en temps réel #tag("Python 3.x") #tag("C++") #tag("gRPC") #tag("Docker") #tag("Rancher") #tag("MongoDB") #tag("FFMPEG") #tag("OpenCV") #tag("Flask-admin") #tag("Plotly")],
+  )
+)
+
+#cv-entry(
+  dates: "2011 - 2017",
+  role: "Chargé de Recherche (R&D)",
+  company: "IGN",
+  location: "Saint-Mandé",
+  details: (
+    [#strong[Projet LI3DS (Large Input 3D System)] : Logiciel modulaire d'acquisition et synchronisation temps réel de capteurs multiples (LIDAR, caméras, centrale inertielle) en #tag("C++") #tag("Python") #tag("ROS") #tag("Qt") #tag("PostGIS") #tag("Docker"). #link("https://github.com/LI3DS")[#icon("github.svg") #text(fill: color-accent)[GitHub LI3DS]] • #link("https://osgeo-fr.github.io/presentations_foss4gfr/2016/J2/Foss4g-li3ds.pdf")[#icon("slides.svg") #text(fill: color-accent)[Talk Foss4G]].],
+    [#strong[Projet TrafiPollu] : Modélisation de dispersion des polluants dans un SIG QGIS. #link("http://remi-c.github.io/interactive_map_tracking/")[#text(fill: color-accent)[Plugin QGIS Map Tracking]] • #link("http://geotribu.net/node/801")[#text(fill: color-accent)[Article GeoTribu]].],
+    [#strong[Projet iSpace&Time] : Cartographie 4D et simulation de flux urbains (SYMUVIA), moteur de rendu #tag("OpenSceneGraph") #tag("OpenGL Shaders") #tag("C++") #tag("Qt") #tag("CMake") Blender.],
+  ),
+  extra: pipeline-diagram((
+    (label: "LIDAR + Caméras + IMU", domain: "arch"),
+    (label: "Drivers C++ & ROS Core", domain: "graphics"),
+    (label: "Synchronisation Temps-Réel", domain: "graphics"),
+    (label: "PostGIS 3D & Stockage", domain: "db"),
+  ))
+)
+
+#cv-entry(
+  dates: "2005 - 2008",
+  role: "Ingénieur R&D Moteur 3D",
+  company: "EDEN GAMES / ATARI",
+  location: "Lyon",
+  details: (
+    [#strong[Jeu #link("https://en.wikipedia.org/wiki/Alone_in_the_Dark_%282008_video_game%29")[#text(fill: color-accent)[Alone in the Dark]] (PC, Xbox 360, PS3)] : R&D et intégration dans le moteur 3D propriétaire d'un système novateur d'ombres douces temps réel sur GPU #tag("C++") #tag("DirectX 9/10") #tag("Shaders HLSL") Perforce.],
+    [#strong[Collaboration R&D Thèse CIFRE] : Recherche appliquée en rendu graphique temps réel avec le laboratoire ARTIS / GRAVIR (INRIA Rhône-Alpes).],
+  ),
+  is-last: true
+)
+
+// --- OUTILS & TECHNOLOGIES ---
+#cv-section("Outils & Technologies")
+
+// Seniority Gauges (Proposition B.2 - 100% Dynamique)
+#block(
+  width: 100%,
+  fill: rgb("#F8FAFC"),
+  stroke: 0.5pt + rgb("#E2E8F0"),
+  radius: 3.0pt,
+  inset: (x: 4.5pt, y: 2.6pt),
+  below: 4.0pt,
+)[
+  #grid(
+    columns: (1fr, 1fr),
+    column-gutter: 5mm,
+    row-gutter: 1.8pt,
+    
+    skill-gauge("Python & Microservices", 15, domain: "backend"),
+    
+    skill-gauge("C++ & Rendu 3D GPU", 13, domain: "graphics"),
+    
+    skill-gauge("Bases de Données & PostGIS", 15, domain: "db"),
+    
+    skill-gauge("Cloud, DevOps & Conteneurs", 9, domain: "cloud"),
+    
+  )
+]
+
+#block(width: 100%, below: 2.0pt)[
+  #grid(
+    columns: (1fr, 1fr),
+    column-gutter: 5mm,
+    row-gutter: 2.6pt,
+    [
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[3D GPU, Rendu, UI & Bas-Niveau]\
+      #tag("Vulkan") #tag("OpenGL 4.5+") #tag("C++ (17/20)") #tag("C11") #tag("Rust") #tag("Odin") #tag("Dear ImGui (UI/UX)") #tag("GLSL / SPIR-V") #tag("SIMD / AVX2") #tag("Data-Oriented (SoA)")
+    ],
+    [
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[Micro-Architecture, Profiling & Debug]\
+      #tag("Tracy Profiler") #tag("Intel VTune") #tag("RenderDoc") #tag("Linux perf") #tag("Flamegraph") #tag("Heaptrack") #tag("GDB") #tag("ASan / TSan / UBSan") #tag("Cache Misses L1/L2")
+    ],
+    [
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[Langages & Backend]\
+      #tag("Python 3.13") #tag("FastAPI") #tag("Flask") #tag("AsyncIO") #tag("Celery") #tag("FastStream") #tag("Pydantic") #tag("Spectree") #tag("Pytest") #tag("Qt") #tag("Bash")
+    ],
+    [
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[IA, LLM & Tooling Agentique]\
+      #tag("AGY (Gemini)") #tag("Claude Code") #tag("MCP Servers") #tag("Dust") #tag("n8n") #tag("OpenAI API") #tag("spaCy") #tag("Gensim")
+    ],
+    [
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[Bases de Données & Stockage]\
+      #tag("MongoDB") #tag("Redis") #tag("RabbitMQ") #tag("PostgreSQL") #tag("PostGIS") #tag("JSONB") #tag("Elasticsearch") #tag("EventStore") #tag("Azure Storage")
+    ],
+    [
+      #text(weight: "bold", size: 7.9pt, fill: color-title)[Cloud, DevOps & Build Systems]\
+      #tag("Azure / AKS") #tag("Docker / Podman") #tag("Kubernetes") #tag("QEMU / KVM") #tag("Vagrant") #tag("Terraform") #tag("Ansible") #tag("GitLab CI") #tag("GitHub Actions") #tag("Go-Task") #tag("Just") #tag("CMake") #tag("Conan 2.x") #tag("UV / Ruff") #tag("Typst")
+    ]
+  )
+]
+
+// --- FORMATION & DIPLOMES ---
+#cv-section("Formation & Diplômes")
+
+#block(width: 100%, below: 2.0pt)[
+  #grid(
+    columns: (26mm, 1fr),
+    column-gutter: 3.0mm,
+    row-gutter: 2.8pt,
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2005 - 2009]],
+    [
+      #text(weight: "bold", size: 8.2pt, fill: color-title)[Doctorat / Thèse CIFRE (Rendu Graphique Temps-Réel & GPU)]
+      #text(style: "italic", size: 7.6pt, fill: color-muted)[ — UJF / INRIA GRAVIR / Eden Games]\
+      #text(size: 7.6pt)[Algorithmes de calcul et génération d'ombres douces temps réel sur GPU.]\
+      #text(size: 7.4pt)[#icon("book.svg") #strong[Publication internationale] : #text(style: "italic")[Soft Shadow Maps: Efficient Sampling of Light Source Visibility], #strong[Computer Graphics Forum (CGF)], 2006 (#link("http://maverick.inria.fr/Publications/2006/AHLHHS06/")[#text(fill: color-accent)[Atty et al. - INRIA]]).]
+    ],
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2004 - 2005]],
+    [
+      #text(weight: "bold", size: 8.2pt, fill: color-title)[Master 2 Recherche (Image, Vision, Robotique)]
+      #text(style: "italic", size: 7.6pt, fill: color-muted)[ — UJF / INRIA (Grenoble)]\
+      #text(size: 7.6pt)[Étude et amélioration des algorithmes de rendu temps réel et illumination globale (Projet Cyber-II).]
+    ],
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2003 - 2004]],
+    [
+      #text(weight: "bold", size: 8.2pt, fill: color-title)[Master 1 & Magistère (Informatique & Mathématiques Appliquées)]
+      #text(style: "italic", size: 7.6pt, fill: color-muted)[ — UJF Grenoble]\
+      #text(size: 7.6pt)[Spécialisation en synthèse d'images, illumination temps réel, shaders GPU et géométrie algorithmique.]
+    ]
+  )
+]
+
+// --- PROJETS R&D PERSONNELS & OPEN SOURCE ---
+#cv-section("Projets R&D Personnels, Open Source & Conférences")
+
+#block(width: 100%, below: 2.0pt)[
+  #grid(
+    columns: (26mm, 1fr),
+    column-gutter: 3.0mm,
+    row-gutter: 2.8pt,
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2024 - 2026]],
+    [
+      #strong[Moteurs 3D Temps-Réel, UI/UX & Optimisation Bas-Niveau] : Moteurs de rendu et pipelines graphiques (RenderGraph, BindGroups) sous #tag("Vulkan") et #tag("OpenGL 4.5+") en #tag("C++ (17/20)"), #tag("C11"), #tag("Rust") et #tag("Odin"). Interfaces & HUD temps réel sous #tag("Dear ImGui (UI/UX)"). Vectorisation #tag("SIMD / AVX2"), architecture mémoire #tag("Data-Oriented (SoA)"), alignement 64B & prefetching. Réduction L1/L2 Cache Misses & False Sharing via #tag("Linux perf") #tag("Flamegraph"), profiling #tag("Tracy Profiler") #tag("Intel VTune") #tag("RenderDoc"), zéro-allocation validé sous #tag("Heaptrack"), sanitizers #tag("ASan / TSan / UBSan"), CI/CD #tag("GitHub Actions").
+    ],
+    [#text(weight: "bold", size: 7.9pt, fill: color-title)[2025 - 2026]],
+    [
+      #strong[IA Agentique & Écosystème MCP] : Outillage d'ingénierie et serveurs MCP pour agents IA sous #tag("AGY (Gemini)"), #tag("Claude Code"), serveurs #tag("MCP Servers") (optimisation de contexte), automatisation #tag("n8n") et assistants #tag("Dust").
+    ],
+    [#text(weight: "bold", size: 8.2pt, fill: color-title)[2021 - 2022]],
+    [
+      #strong[DocString] : Mentorat technique & masterclasses vidéo #link("https://youtu.be/aaim2oCGedk")[#icon("video.svg") #text(fill: color-accent)[Application CLI avec #tag("Python") & #tag("CI/CD")]] (#link("http://bit.ly/36mb5Ez")[#icon("slides.svg") #text(fill: color-accent)[Slides]]).
+    ],
+    [#text(weight: "bold", size: 8.0pt, fill: color-title)[2011 - 2019]],
+    [
+      #strong[Talks & Formations] : Talk #strong[PyCon.FR] (Microservices #tag("gRPC") et #tag("Python") pour le #tag("NLP")), Conférence #strong[FOSS4G-fr] (Acquisition temps réel LIDAR / capteurs), Formations supérieures #strong[IGN / ENSG] (#tag("Python") Géomatique & calcul scientifique #tag("GPU")).
+    ]
+  )
+]
+
+// --- LANGUES & DIVERS ---
+#cv-section("Langues & Divers")
+
+#block(width: 100%, below: 0pt)[
+  #v(1.5pt)
+  #list(
+    tight: true,
+    marker: text(fill: color-accent, size: 5.0pt)[●],
+    [#strong[Langues] : Anglais (technique courant, veille & documentation quotidienne), Allemand (notions scolaires).],
+    [#strong[Pratiques Musicales] : Guitare-Basse (15 ans de pratique en groupe), Percussions Africaines (2 ans).],
+    [#strong[Sports & Activités] : Tennis en compétition (4ᵉ série, depuis 2021), Volley-ball (15 ans en compétition régionale), Football.],
+    [#strong[Centres d'intérêt] : Architecture logicielle, Moteurs 3D bas-niveau / Vulkan, IA Agentique, Écosystème Open Source, Science-Fiction.]
+  )
+]
