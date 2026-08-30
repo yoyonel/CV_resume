@@ -9,6 +9,13 @@ repos:
         pass_filenames: false
         stages: [pre-commit]
 
+      - id: lint-types
+        name: Type check Python scripts (pyright)
+        entry: uv run --with pyright --with typst --with jinja2 --with playwright pyright scripts/
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
       - id: format-python
         name: Check Python format (ruff)
         entry: ruff format --check scripts/

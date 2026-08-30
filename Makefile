@@ -58,6 +58,7 @@ SITE_BUILD_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/build_
 SITE_SERVE_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/serve_site.py" || echo "python3 scripts/serve_site.py")
 SITE_SERVE_LAN_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/serve_site.py --lan" || echo "python3 scripts/serve_site.py --lan")
 CHECK_MOBILE_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run --with playwright scripts/check_mobile.py" || echo "python3 scripts/check_mobile.py")
+LINT_TYPES_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run --with pyright --with typst --with jinja2 --with playwright pyright scripts/" || echo "pyright scripts/")
 
 site:
 	$(SITE_BUILD_CMD)
@@ -71,8 +72,11 @@ site-serve-lan:
 check-mobile:
 	$(CHECK_MOBILE_CMD)
 
+lint-types:
+	$(LINT_TYPES_CMD)
+
 links-check: ## Check all hyperlinks across site, PDF and sources
 	python3 scripts/check_links.py
 
-.PHONY: all cv_resume clean pdf typst typst-watch site site-serve site-serve-lan check-mobile links-check
+.PHONY: all cv_resume clean pdf typst typst-watch site site-serve site-serve-lan check-mobile lint-types links-check
 

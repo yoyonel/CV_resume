@@ -7,7 +7,6 @@
 import json
 import os
 import sys
-from datetime import date, datetime, timezone
 from pathlib import Path
 
 try:
@@ -20,23 +19,8 @@ except ImportError:
     sys.exit(1)
 
 
-def calculate_age(birthdate_val: str | date | datetime) -> int:
-    if isinstance(birthdate_val, str):
-        bdate = (
-            datetime.strptime(birthdate_val, "%Y-%m-%d")
-            .replace(tzinfo=timezone.utc)
-            .date()
-        )
-    elif isinstance(birthdate_val, (datetime, date)):
-        bdate = (
-            birthdate_val if isinstance(birthdate_val, date) else birthdate_val.date()
-        )
-    else:
-        raise TypeError(f"Unsupported birthdate format: {type(birthdate_val)}")
-    today = datetime.now(tz=timezone.utc).date()
-    return (
-        today.year - bdate.year - ((today.month, today.day) < (bdate.month, bdate.day))
-    )
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from common import calculate_age
 
 
 def main():

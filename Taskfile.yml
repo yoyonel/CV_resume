@@ -14,6 +14,7 @@ tasks:
     desc: Run all linters and code/template checkers
     cmds:
       - task: lint:python
+      - task: lint:types
       - task: lint:json
       - task: lint:jinja
       - task: lint:typst
@@ -23,10 +24,15 @@ tasks:
     cmds:
       - ruff check {{.PYTHON_SCRIPTS}}
 
+  lint:types:
+    desc: Type check Python scripts with pyright
+    cmds:
+      - uv run --with pyright --with typst --with jinja2 --with playwright pyright {{.PYTHON_SCRIPTS}}
+
   lint:json:
     desc: Validate JSON syntax and structure
     cmds:
-      - python3 -m json.tool data/profile.json > /dev/null
+      - for f in data/*.json; do python3 -m json.tool "$f" > /dev/null; done
     silent: true
 
   lint:jinja:

@@ -59,8 +59,8 @@ def extract_urls_from_text(text: str) -> set[str]:
     return cleaned
 
 
-def extract_from_html(file_path: Path) -> set[tuple[str, str]]:
-    """Extract URLs from HTML href, src, and script strings."""
+def extract_from_text_file(file_path: Path) -> set[tuple[str, str]]:
+    """Extract URLs from any text or markup file (HTML, Markdown, Jinja2, JSON)."""
     if not file_path.exists():
         return set()
     content = file_path.read_text(encoding="utf-8", errors="ignore")
@@ -86,15 +86,6 @@ def extract_from_pdf(file_path: Path) -> set[tuple[str, str]]:
         except UnicodeDecodeError:
             pass
     return urls
-
-
-def extract_from_markdown_and_j2(file_path: Path) -> set[tuple[str, str]]:
-    """Extract URLs from markdown / Jinja2 files."""
-    if not file_path.exists():
-        return set()
-    content = file_path.read_text(encoding="utf-8", errors="ignore")
-    urls = extract_urls_from_text(content)
-    return {(u, str(file_path.name)) for u in urls}
 
 
 def check_url(url: str, timeout: float = 10.0) -> dict:
@@ -189,7 +180,7 @@ def collect_all_links(root_dir: Path) -> dict[str, list[str]]:
 
     # 1. Dist HTML
     html_dist = root_dir / "dist" / "index.html"
-    for u, src in extract_from_html(html_dist):
+    for u, src in extract_from_text_file(html_dist):
         add_link(u, src)
 
     # 2. PDF Files
@@ -199,15 +190,14 @@ def collect_all_links(root_dir: Path) -> dict[str, list[str]]:
 
     # 3. Profile & Data JSON
     profile_json = root_dir / "data" / "profile.json"
-    if profile_json.exists():
-        for u in extract_urls_from_text(profile_json.read_text()):
-            add_link(u, "profile.json")
+    for u, src in extract_from_text_file(profile_json):
+        add_link(u, src)
 
     # 4. Templates & Markdown
     for f in list(root_dir.glob("pandoc_resume/**/*.md*")) + list(
         root_dir.glob("site_template/**/*.j2")
     ):
-        for u, src in extract_from_markdown_and_j2(f):
+        for u, src in extract_from_text_file(f):
             add_link(u, src)
 
     return url_to_sources
