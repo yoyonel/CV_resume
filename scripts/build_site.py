@@ -117,6 +117,7 @@ def build_site(output_dir: Path | None = None) -> Path:
     dist_pdf_name = f"{current_year}_ATTY_Resume_Typst.pdf"
     shutil.copy2(pdf_year_path, output_dir / dist_pdf_name)
     shutil.copy2(pdf_year_path, output_dir / "Lionel_ATTY_Resume_Typst.pdf")
+    shutil.copy2(pdf_year_path, assets_dir / "cv_master.pdf.dat")
     shutil.copy2(output_typ_path, output_dir / "resume.typ")
 
     # 3. Compile SVG & PNG for vector fallbacks and social sharing

@@ -396,6 +396,10 @@
     [
       #strong[Moteurs 3D Temps-Réel, UI/UX & Optimisation Bas-Niveau] : Moteurs de rendu et pipelines graphiques (RenderGraph, BindGroups) sous #tag("Vulkan") et #tag("OpenGL 4.5+") en #tag("C++ (17/20)"), #tag("C11"), #tag("Rust") et #tag("Odin"). Interfaces & HUD temps réel sous #tag("Dear ImGui (UI/UX)"). Vectorisation #tag("SIMD / AVX2"), architecture mémoire #tag("Data-Oriented (SoA)"), alignement 64B & prefetching. Réduction L1/L2/L3 Cache Misses & False Sharing via #link("https://fr.wikipedia.org/wiki/Perf_%28Linux%29")[#tag("perf (Linux)")] #tag("Flamegraph"), profiling #tag("Tracy Profiler") #link("https://www.intel.com/content/www/us/en/developer/tools/oneapi/vtune-profiler.html")[#tag("Intel VTune Profiler")] #tag("RenderDoc"), zéro-allocation validé sous #tag("Heaptrack"), sanitizers #tag("ASan / TSan / UBSan"), CI/CD #tag("GitHub Actions").
     ],
+    [#text(weight: "bold", size: 8.1pt, fill: color-title)[2022 - 2026]],
+    [
+      #strong[Observabilité Réseau & IoT (#link("https://github.com/yoyonel/rpi-internet-monitoring")[#text(fill: color-accent)[rpi-internet-monitoring]])] : Stack de métrologie réseau et métriques système sur #tag("Raspberry Pi 4") (#tag("Docker Compose"), #tag("InfluxDB"), #tag("VictoriaMetrics"), #tag("Telegraf"), Ookla #tag("Speedtest CLI"), tableaux de bord #tag("Grafana"), timers #tag("Systemd")). Publication automatisée vers dashboard web sous #link("https://yoyonel.github.io/rpi-internet-monitoring/")[#text(fill: color-accent)[GitHub Pages]] (#tag("Chart.js"), 100/100 Lighthouse), tests E2E #tag("Playwright"), CI/CD #tag("GitHub Actions").
+    ],
     [#text(weight: "bold", size: 8.1pt, fill: color-title)[2025 - 2026]],
     [
       #strong[IA Agentique & Écosystème MCP] : Outillage d'ingénierie et serveurs MCP pour agents IA sous #tag("AGY (Gemini)"), #tag("Claude Code"), serveurs #tag("MCP Servers") (optimisation de contexte), automatisation #tag("n8n") et assistants #tag("Dust").

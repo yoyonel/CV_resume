@@ -1468,7 +1468,7 @@
     <div class="projects-grid">
       {% for proj in resume_data.projects_and_talks %}
       {% set proj_idx = loop.index %}
-      <div class="project-wrapper" data-domain="{{ proj.domain }}" style="height:100%;">
+      <div class="project-wrapper" data-domain="{{ proj.domain }}" data-domains="{{ proj.domains | join(',') if proj.domains else proj.domain }}" style="height:100%;">
         <article class="wa-project-card" id="proj-{{ proj_idx }}">
           <div>
             <div class="project-category">{{ proj.category }} &bull; {{ proj.dates }}</div>
@@ -1733,6 +1733,13 @@
         "devops": ["ci/cd", "gitlab ci", "github actions", "docker", "kubernetes", "ansible", "terraform"],
         "sig": ["gis", "postgis", "qgis", "geopandas", "geoalchemy2", "spatial", "carto", "lidar", "ign", "li3ds"],
         "gis": ["sig", "postgis", "qgis", "geopandas", "lidar", "spatial", "li3ds"],
+        "rpi": ["rpi-internet-monitoring", "raspberry pi", "monitoring", "speedtest", "grafana", "influxdb", "victoriametrics", "telegraf", "debit", "reseau", "iot", "systemd"],
+        "rpi-internet-monitoring": ["rpi", "raspberry pi", "monitoring", "speedtest", "grafana", "influxdb", "victoriametrics", "telegraf", "debit", "reseau", "iot", "docker compose"],
+        "grafana": ["rpi-internet-monitoring", "monitoring", "dashboard", "influxdb", "victoriametrics", "telegraf", "observabilite"],
+        "speedtest": ["rpi-internet-monitoring", "debit", "ping", "latence", "ookla", "reseau", "monitoring", "rpi"],
+        "influxdb": ["rpi-internet-monitoring", "tsdb", "time-series", "victoriametrics", "grafana", "telegraf"],
+        "victoriametrics": ["rpi-internet-monitoring", "tsdb", "time-series", "influxdb", "grafana", "telegraf", "promql"],
+        "telegraf": ["rpi-internet-monitoring", "metriques", "systeme", "influxdb", "grafana", "monitoring"],
         "these": ["doctorat", "phd", "recherche", "inria", "cgf", "publication", "ombres douces", "shadow maps"],
         "phd": ["doctorat", "these", "recherche", "inria", "cgf", "publication"],
       };
@@ -2141,12 +2148,23 @@
 
     async function loadPDF() {
       await ensurePdfJsLoaded();
-      try {
-        pdfDoc = await pdfjsLib.getDocument(PDF_URL).promise;
-        await renderDocPages();
-      } catch (err) {
-        console.error('PDF.js loading failed', err);
+      // Surge.sh blocks .pdf extension on free tier. Fallback chain: .dat binary -> direct .pdf -> GitHub Pages PROD
+      const candidateUrls = [
+        'assets/cv_master.pdf.dat',
+        PDF_URL,
+        `https://yoyonel.github.io/CV_resume/${PDF_URL}`
+      ];
+      let lastErr = null;
+      for (const url of candidateUrls) {
+        try {
+          pdfDoc = await pdfjsLib.getDocument(url).promise;
+          await renderDocPages();
+          return;
+        } catch (err) {
+          lastErr = err;
+        }
       }
+      console.error('PDF.js loading failed on all endpoints', lastErr);
     }
 
     let renderTasks = {};
@@ -2328,8 +2346,8 @@
       });
 
       document.querySelectorAll('.project-wrapper').forEach(card => {
-        const d = card.getAttribute('data-domain');
-        const match = (domain === 'all' || d === domain);
+        const domains = (card.getAttribute('data-domains') || card.getAttribute('data-domain') || '').split(',');
+        const match = (domain === 'all' || domains.includes(domain));
         card.style.display = match ? 'block' : 'none';
       });
 
@@ -2436,6 +2454,11 @@
         document.documentElement.classList.add('sl-theme-light', 'light');
         const btn = document.getElementById('themeToggleBtn');
         if (btn) btn.setAttribute('name', 'sun');
+      }
+      if (window.location.hostname.endsWith('surge.sh')) {
+        document.querySelectorAll('.btn-download').forEach(btn => {
+          btn.setAttribute('href', `https://yoyonel.github.io/CV_resume/${PDF_URL}`);
+        });
       }
       switchMainView('web');
       if ('requestIdleCallback' in window) {
