@@ -1,6 +1,12 @@
 Conférences, Formations & Open Source
 -------------------------------------
 
+2024 - 2026
+:   **suckless-vulkan / suckless-odin / suckless-ogl** : Moteurs 3D C++17/Odin/C11 temps réel, Vulkan 1.x & OpenGL 4.5+ ([GitHub suckless-vulkan](https://github.com/yoyonel/suckless-vulkan)).
+
+2022 - 2026
+:   **rpi-internet-monitoring** : Métrologie réseau & observabilité sur Raspberry Pi 4 ([GitHub](https://github.com/yoyonel/rpi-internet-monitoring) • [Dashboard Live](https://yoyonel.github.io/rpi-internet-monitoring/)) avec Docker Compose, InfluxDB / VictoriaMetrics, Telegraf, Speedtest CLI, Grafana, Systemd et GitHub Pages.
+
 2021 - 2022
 :   **DocString** : Mentorat technique & masterclass vidéo [Application CLI avec Python & CI/CD](https://youtu.be/aaim2oCGedk) ([Partie 1](https://youtu.be/aaim2oCGedk), [Partie 2](https://youtu.be/zD1F3xJzJzY), [Slides](http://bit.ly/36mb5Ez)).
 

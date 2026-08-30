@@ -499,6 +499,67 @@
       ]
     },
     {
+      "title": "rpi-internet-monitoring : Observabilité Réseau, TSDB & Dashboard Web",
+      "dates": "2022 - 2026",
+      "category": "IoT, Observabilité & DevOps",
+      "description": "Stack complète de métrologie et monitoring continu de débit internet (download, upload, ping, jitter, packet loss) et métriques système sur Raspberry Pi 4. Architecture conteneurisée sous Docker Compose avec InfluxDB / VictoriaMetrics, Telegraf, Ookla Speedtest CLI et tableaux de bord Grafana. Publication automatisée toutes les 10 min vers un dashboard web statique ultra-performant sous GitHub Pages (Chart.js, Vanilla ES Modules, 100/100 Lighthouse Mobile & Desktop). Timers systemd, outillage d'automatisation Justfile, tests E2E Playwright et pipeline CI/CD GitHub Actions.",
+      "tags": [
+        "rpi-internet-monitoring",
+        "Raspberry Pi 4",
+        "Docker Compose",
+        "Grafana",
+        "InfluxDB",
+        "VictoriaMetrics",
+        "Telegraf",
+        "Ookla Speedtest CLI",
+        "Systemd Timers",
+        "Chart.js",
+        "GitHub Pages",
+        "Playwright E2E",
+        "Lighthouse 100/100",
+        "Justfile",
+        "GitHub Actions",
+        "DevOps",
+        "Monitoring"
+      ],
+      "domain": "cloud",
+      "domains": [
+        "cloud",
+        "backend"
+      ],
+      "media": {
+        "type": "image",
+        "src": "assets/projects/rpi-monitoring-dashboard.png",
+        "caption": "Dashboard Web de Métrologie Débit Internet (rpi-internet-monitoring)",
+        "gallery": [
+          {
+            "src": "assets/projects/rpi-monitoring-dashboard.png",
+            "label": "Dashboard Web & Télémétrie Débit"
+          },
+          {
+            "src": "assets/projects/rpi-monitoring-mobile.png",
+            "label": "Vue Responsive Mobile"
+          },
+          {
+            "src": "assets/projects/rpi-monitoring-grafana.png",
+            "label": "Dashboard Grafana & Métriques Système"
+          }
+        ]
+      },
+      "links": [
+        {
+          "label": "GitHub rpi-internet-monitoring",
+          "url": "https://github.com/yoyonel/rpi-internet-monitoring",
+          "icon": "github"
+        },
+        {
+          "label": "Dashboard Live GitHub Pages",
+          "url": "https://yoyonel.github.io/rpi-internet-monitoring/",
+          "icon": "link"
+        }
+      ]
+    },
+    {
       "title": "IA Agentique, Écosystème MCP & Automatisation",
       "dates": "2025 - 2026",
       "category": "IA & Outillage",
