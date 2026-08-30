@@ -30,7 +30,7 @@ from common import calculate_age, process_profile_data
 
 
 def minify_html_css(html: str) -> str:
-    """Minifies inline CSS blocks and compacts HTML whitespace."""
+    """Minifies inline CSS blocks, strips comments and compacts HTML whitespace."""
 
     def repl_css(m: re.Match[str]) -> str:
         css = m.group(1)
@@ -40,7 +40,12 @@ def minify_html_css(html: str) -> str:
         css = css.replace(";}", "}")
         return f"<style>{css.strip()}</style>"
 
-    return re.sub(r"<style>(.*?)</style>", repl_css, html, flags=re.DOTALL)
+    html = re.sub(r"<style[^>]*>(.*?)</style>", repl_css, html, flags=re.DOTALL)
+    # Strip HTML comments
+    html = re.sub(r"<!--(?!\[if).*?-->", "", html, flags=re.DOTALL)
+    # Compact whitespace between tags
+    html = re.sub(r">\s+<", "><", html)
+    return html
 
 
 def load_structured_resume_data(data_path: Path, profile: dict) -> dict:
