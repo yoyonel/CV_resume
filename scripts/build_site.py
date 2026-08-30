@@ -77,7 +77,7 @@ def build_site(output_dir: Path | None = None) -> Path:
             else:
                 shutil.copy2(item, dest)
 
-    output_typ_path = output_dir / "resume.typ"
+    output_typ_path = typst_dir / "resume.typ"
 
     with open(profile_path, "r", encoding="utf-8") as f:
         profile_data = json.load(f)
@@ -112,6 +112,7 @@ def build_site(output_dir: Path | None = None) -> Path:
     dist_pdf_name = f"{current_year}_ATTY_Resume_Typst.pdf"
     shutil.copy2(pdf_year_path, output_dir / dist_pdf_name)
     shutil.copy2(pdf_year_path, output_dir / "Lionel_ATTY_Resume_Typst.pdf")
+    shutil.copy2(output_typ_path, output_dir / "resume.typ")
 
     # 3. Compile SVG & PNG for vector fallbacks and social sharing
     svg_raw_pages = typst.compile(str(output_typ_path), format="svg")
