@@ -167,15 +167,47 @@ def run_console_checks(target_url: str | None = None) -> int:
             )
             print(" ✓ OK")
 
-            print("  ⏳ [6/8] Testing PDF Zoom & Page Controls...", end="", flush=True)
-            page.evaluate("zoomDoc(0.1)")
-            page.wait_for_timeout(100)
-            page.evaluate("zoomDoc(-0.1)")
-            page.wait_for_timeout(100)
-            page.evaluate("toggleDocSingle()")
-            page.wait_for_timeout(300)
+            print(
+                "  ⏳ [6/8] Testing PDF Continuous, Dual & Single Modes Page 2...",
+                end="",
+                flush=True,
+            )
+            # Continuous mode: both canvasPage1 and canvasPage2 must be visible and rendered (> 0 width/height)
             page.evaluate("setDocMode('continuous')")
-            page.wait_for_timeout(300)
+            page.wait_for_timeout(1000)
+            c1_h = page.evaluate("document.getElementById('canvasPage1').height")
+            c2_h = page.evaluate("document.getElementById('canvasPage2').height")
+            c2_visible = page.evaluate(
+                "getComputedStyle(document.getElementById('pageContainer2')).display !== 'none'"
+            )
+            assert c1_h > 100, f"Page 1 canvas height should be > 100, got {c1_h}"
+            assert c2_h > 100, (
+                f"Page 2 canvas height should be > 100 in continuous mode, got {c2_h}"
+            )
+            assert c2_visible, "Page 2 container must be visible in continuous mode"
+
+            # Dual mode
+            page.evaluate("setDocMode('dual')")
+            page.wait_for_timeout(500)
+            c2_h_dual = page.evaluate("document.getElementById('canvasPage2').height")
+            assert c2_h_dual > 100, (
+                f"Page 2 canvas height should be > 100 in dual mode, got {c2_h_dual}"
+            )
+
+            # Single mode page 2 toggle
+            page.evaluate("setDocMode('single')")
+            page.evaluate("toggleDocSingle()")
+            page.wait_for_timeout(500)
+            c2_h_single = page.evaluate("document.getElementById('canvasPage2').height")
+            assert c2_h_single > 100, (
+                f"Page 2 canvas height should be > 100 in single mode page 2, got {c2_h_single}"
+            )
+
+            # Zoom
+            page.evaluate("zoomDoc(0.1)")
+            page.wait_for_timeout(200)
+            page.evaluate("zoomDoc(-0.1)")
+            page.wait_for_timeout(200)
             page.evaluate("switchMainView('web')")
             page.wait_for_timeout(200)
             print(" ✓ OK")

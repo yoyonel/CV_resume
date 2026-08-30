@@ -2267,6 +2267,7 @@
       } else {
         document.getElementById('pageContainer1').classList.add('active');
         document.getElementById('pageContainer2').classList.add('active');
+        renderDocPages();
       }
     }
 
@@ -2283,6 +2284,7 @@
       document.getElementById('pageContainer1').classList.toggle('active', docPageNum === 1);
       document.getElementById('pageContainer2').classList.toggle('active', docPageNum === 2);
       document.getElementById('lblPageNum').innerText = `Page ${docPageNum}/2`;
+      renderDocPages();
     }
 
     function zoomDoc(delta) {
