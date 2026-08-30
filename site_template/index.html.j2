@@ -18,6 +18,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
   <!-- Self-Hosted Zero-Latency Fonts -->
+  <link rel="preload" href="assets/fonts/font_3.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
   <!-- Web Awesome / Shoelace Web Components -->
@@ -26,6 +27,15 @@
 
 
   <style>
+    .icon {
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+      vertical-align: -0.15em;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
     :root {
       --sl-color-primary-50: #f0f9ff;
       --sl-color-primary-100: #e0f2fe;
@@ -1234,6 +1244,36 @@
   </style>
 </head>
 <body>
+  <!-- Native SVG Symbol Sprite (0ms JS Overhead, Instant Vector Icons) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+    <symbol id="icon-arrow-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></symbol>
+    <symbol id="icon-box-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+  <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/></symbol>
+    <symbol id="icon-envelope" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/></symbol>
+    <symbol id="icon-file-earmark-pdf" viewBox="0 0 16 16"><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+  <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/></symbol>
+    <symbol id="icon-file-earmark-slides" viewBox="0 0 16 16"><path d="M5 6a.5.5 0 0 0-.496.438l-.5 4A.5.5 0 0 0 4.5 11h3v2.016c-.863.055-1.5.251-1.5.484 0 .276.895.5 2 .5s2-.224 2-.5c0-.233-.637-.429-1.5-.484V11h3a.5.5 0 0 0 .496-.562l-.5-4A.5.5 0 0 0 11 6zm2 3.78V7.22c0-.096.106-.156.19-.106l2.13 1.279a.125.125 0 0 1 0 .214l-2.13 1.28A.125.125 0 0 1 7 9.778z"/>
+  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/></symbol>
+    <symbol id="icon-github" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></symbol>
+    <symbol id="icon-grid-3x3-gap" viewBox="0 0 16 16"><path d="M4 2v2H2V2zm1 12v-2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m5 10v-2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1M9 2v2H7V2zm5 0v2h-2V2zM4 7v2H2V7zm5 0v2H7V7zm5 0h-2v2h2zM4 12v2H2v-2zm5 0v2H7v-2zm5 0v2h-2v-2zM12 1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm-1 6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm1 4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z"/></symbol>
+    <symbol id="icon-linkedin" viewBox="0 0 16 16"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></symbol>
+    <symbol id="icon-link-45deg" viewBox="0 0 16 16"><path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1 1 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4 4 0 0 1-.128-1.287z"/>
+  <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243z"/></symbol>
+    <symbol id="icon-moon" viewBox="0 0 16 16"><path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/></symbol>
+    <symbol id="icon-play-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445"/></symbol>
+    <symbol id="icon-printer" viewBox="0 0 16 16"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+  <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></symbol>
+    <symbol id="icon-stars" viewBox="0 0 16 16"><path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/></symbol>
+    <symbol id="icon-telephone" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/></symbol>
+    <symbol id="icon-tools" viewBox="0 0 16 16"><path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3q0-.405-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708M3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/></symbol>
+    <symbol id="icon-zoom-in" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+  <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+  <path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5"/></symbol>
+  </svg>
   <!-- Header with Web Awesome Components -->
   <header class="top-header">
     <div class="brand-group">
@@ -1249,13 +1289,13 @@
       <sl-button-group label="Sélecteur de Vue">
         <sl-tooltip content="Affichage PDF Haute Fidélité ISO (Touche V)">
           <sl-button variant="default" size="small" id="tabDoc" aria-label="Afficher le document PDF ISO" onclick="switchMainView('doc')">
-            <sl-icon slot="prefix" name="file-earmark-pdf"></sl-icon>
+            <svg class="icon" slot="prefix" ><use href="#icon-file-earmark-pdf"></use></svg>
             <span class="btn-label-doc">Document ISO</span>
           </sl-button>
         </sl-tooltip>
         <sl-tooltip content="Affichage Portfolio Web Interactif (Touche V)">
           <sl-button variant="primary" size="small" id="tabWeb" aria-label="Afficher la vue web interactive" onclick="switchMainView('web')">
-            <sl-icon slot="prefix" name="grid-3x3-gap"></sl-icon>
+            <svg class="icon" slot="prefix" ><use href="#icon-grid-3x3-gap"></use></svg>
             <span class="btn-label-web">Vue Interactive</span>
           </sl-button>
         </sl-tooltip>
@@ -1265,7 +1305,7 @@
     <!-- Smart Search Trigger (Web Awesome Button) -->
     <sl-tooltip content="Recherche Floue & Sémantique (Ctrl + K)">
       <sl-button variant="default" size="small" aria-label="Rechercher des compétences, projets et technologies" onclick="openPalette()" class="search-trigger-btn">
-        <sl-icon slot="prefix" name="search"></sl-icon>
+        <svg class="icon" slot="prefix" ><use href="#icon-search"></use></svg>
         <span class="search-label">Smart Search...</span>
         <sl-badge slot="suffix" variant="neutral" pill class="search-shortcut-badge">Ctrl K</sl-badge>
       </sl-button>
@@ -1279,14 +1319,14 @@
 
       <sl-tooltip content="Imprimer au format A4 (P)">
         <sl-button variant="default" size="small" aria-label="Imprimer le CV au format A4" onclick="window.print()" class="btn-print">
-          <sl-icon slot="prefix" name="printer"></sl-icon>
+          <svg class="icon" slot="prefix" ><use href="#icon-printer"></use></svg>
           <span class="btn-label-print">Imprimer</span>
         </sl-button>
       </sl-tooltip>
 
       <sl-tooltip content="Télécharger le PDF Typst (D)">
         <sl-button variant="primary" size="small" aria-label="Télécharger le CV PDF" href="{{ pdf_filename }}" download class="btn-download">
-          <sl-icon slot="prefix" name="download"></sl-icon>
+          <svg class="icon" slot="prefix" ><use href="#icon-download"></use></svg>
           <span class="btn-label-download">Télécharger PDF</span>
         </sl-button>
       </sl-tooltip>
@@ -1303,7 +1343,7 @@
       <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai')">🤖 IA & Agents</button>
       <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig')">🗺️ SIG & Géomatique</button>
       <sl-button variant="primary" size="small" pill style="--sl-color-primary-600:#0284c7;" onclick="goToMediaSection()">
-        <sl-icon slot="prefix" name="play-circle"></sl-icon>
+        <svg class="icon" slot="prefix" ><use href="#icon-play-circle"></use></svg>
         🎬 Démos, Médias & Talks
       </sl-button>
     </div>
@@ -1311,25 +1351,25 @@
     <div class="contact-chips">
       <sl-tooltip content="Envoyer un email">
         <a href="mailto:{{ profile.email }}" class="contact-chip">
-          <sl-icon name="envelope"></sl-icon>
+          <svg class="icon" ><use href="#icon-envelope"></use></svg>
           <span>{{ profile.email }}</span>
         </a>
       </sl-tooltip>
       <sl-tooltip content="Appeler">
         <a href="tel:{{ profile.phone | replace(' ', '') }}" class="contact-chip">
-          <sl-icon name="telephone"></sl-icon>
+          <svg class="icon" ><use href="#icon-telephone"></use></svg>
           <span>{{ profile.phone }}</span>
         </a>
       </sl-tooltip>
       <sl-tooltip content="Profil GitHub">
         <a href="https://github.com/yoyonel" target="_blank" rel="noopener noreferrer" class="contact-chip">
-          <sl-icon name="github"></sl-icon>
+          <svg class="icon" ><use href="#icon-github"></use></svg>
           <span>GitHub</span>
         </a>
       </sl-tooltip>
       <sl-tooltip content="Profil LinkedIn">
         <a href="{{ profile.linkedin | default('https://www.linkedin.com/in/lionel-atty-6a55b748/') }}" target="_blank" rel="noopener noreferrer" class="contact-chip">
-          <sl-icon name="linkedin"></sl-icon>
+          <svg class="icon" ><use href="#icon-linkedin"></use></svg>
           <span>LinkedIn</span>
         </a>
       </sl-tooltip>
@@ -1337,62 +1377,7 @@
   </div>
 
   <!-- ========================================================
-       VIEW 1: DOCUMENT ISO PDF
-       ======================================================== -->
-  <main id="viewDocument">
-    <div class="doc-controls">
-      <sl-button-group label="Contrôles PDF">
-        <sl-button variant="primary" size="small" id="btnModeSingle" onclick="toggleDocSingle()">
-          <span id="lblPageNum">Page 1/2</span>
-        </sl-button>
-        <sl-button variant="default" size="small" id="btnModeDual" onclick="setDocMode('dual')">Double Page</sl-button>
-        <sl-button variant="default" size="small" id="btnModeContinuous" onclick="setDocMode('continuous')">Continu</sl-button>
-      </sl-button-group>
-
-      <sl-button-group label="Zoom PDF">
-        <sl-button variant="default" size="small" onclick="zoomDoc(-0.1)">-</sl-button>
-        <sl-button variant="default" size="small" disabled>
-          <span id="lblZoom" style="font-family:'JetBrains Mono',monospace;">100%</span>
-        </sl-button>
-        <sl-button variant="default" size="small" onclick="zoomDoc(0.1)">+</sl-button>
-      </sl-button-group>
-    </div>
-
-    <div class="pages-wrapper mode-single" id="pagesWrapper">
-      <div class="pdf-page-container active" id="pageContainer1">
-        <div class="page-tag">PAGE 01 / 02</div>
-        <canvas id="canvasPage1" width="840" height="1188"></canvas>
-        <div class="textLayer" id="textLayer1"></div>
-      </div>
-      <div class="pdf-page-container" id="pageContainer2">
-        <div class="page-tag">PAGE 02 / 02</div>
-        <canvas id="canvasPage2" width="840" height="1188"></canvas>
-        <div class="textLayer" id="textLayer2"></div>
-      </div>
-    </div>
-
-    <!-- Callout Banner to discover Interactive Web View -->
-    <div class="hero-card" style="margin-top:2.5rem; max-width:840px; cursor:pointer;" onclick="switchMainView('web')">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
-        <div style="display:flex; align-items:center; gap:0.85rem;">
-          <sl-icon name="stars" style="font-size:1.6rem; color:var(--accent);"></sl-icon>
-          <div>
-            <strong style="color:var(--text-main);">Mode Portfolio Web & Démos interactives disponible</strong>
-            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:0.2rem;">
-              Timeline animée, démos vidéos YouTube, slides FOSS4G, grille de compétences et filtres dynamiques.
-            </p>
-          </div>
-        </div>
-        <sl-button variant="primary" size="small" pill>
-          Ouvrir la Vue Interactive (V)
-          <sl-icon slot="suffix" name="arrow-right"></sl-icon>
-        </sl-button>
-      </div>
-    </div>
-  </main>
-
-  <!-- ========================================================
-       VIEW 2: INTERACTIVE PORTFOLIO & WEB APP
+       VIEW 1: INTERACTIVE PORTFOLIO & WEB APP
        ======================================================== -->
   <main id="viewInteractive">
     <!-- Hero Summary Card -->
@@ -1461,7 +1446,7 @@
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:1rem;">
             {% for l in exp.links %}
             <sl-button variant="default" size="small" href="{{ l.url }}" target="_blank" rel="noopener noreferrer">
-              <sl-icon slot="prefix" name="{{ 'file-earmark-slides' if l.icon == 'slides' else ('github' if l.icon == 'github' else 'link-45deg') }}"></sl-icon>
+              <svg class="icon" slot="prefix" ><use href="#icon-{{ 'file-earmark-slides' if l.icon == 'slides' else ('github' if l.icon == 'github' else 'link-45deg') }}"></use></svg>
               {{ l.label }}
             </sl-button>
             {% endfor %}
@@ -1497,7 +1482,7 @@
               <div class="project-media-main" id="media-main-{{ proj_idx }}" onclick="openImageModal(document.getElementById('media-img-{{ proj_idx }}').src, '{{ proj.title }}')">
                 <span class="media-badge-overlay" id="media-badge-{{ proj_idx }}">{{ '🔥 DÉMO ANIMÉE' if proj.media.type == 'gif' else '📸 CAPTURE R&D' }}</span>
                 <img id="media-img-{{ proj_idx }}" src="{{ proj.media.src }}" alt="{{ proj.title }}" loading="lazy" decoding="async" width="800" height="450">
-                <div class="media-zoom-overlay"><sl-icon name="zoom-in"></sl-icon><span>Agrandir</span></div>
+                <div class="media-zoom-overlay"><svg class="icon" ><use href="#icon-zoom-in"></use></svg><span>Agrandir</span></div>
               </div>
               {% if proj.media.gallery %}
               <div class="media-gallery-thumbs">
@@ -1525,17 +1510,17 @@
               {% for l in proj.links %}
               {% if l.icon == 'slides' %}
               <sl-button variant="default" size="small" onclick="openMediaModal('{{ l.url }}', '{{ l.label }}')">
-                <sl-icon slot="prefix" name="file-earmark-slides"></sl-icon>
+                <svg class="icon" slot="prefix" ><use href="#icon-file-earmark-slides"></use></svg>
                 {{ l.label }}
               </sl-button>
               {% elif l.icon == 'video' %}
               <sl-button variant="primary" size="small" onclick="openMediaModal('https://www.youtube.com/embed/aaim2oCGedk', '{{ l.label }}')">
-                <sl-icon slot="prefix" name="play-circle"></sl-icon>
+                <svg class="icon" slot="prefix" ><use href="#icon-play-circle"></use></svg>
                 {{ l.label }}
               </sl-button>
               {% else %}
               <sl-button variant="default" size="small" href="{{ l.url }}" target="_blank" rel="noopener noreferrer">
-                <sl-icon slot="prefix" name="{{ 'github' if l.icon == 'github' else 'link-45deg' }}"></sl-icon>
+                <svg class="icon" slot="prefix" ><use href="#icon-{{ 'github' if l.icon == 'github' else 'link-45deg' }}"></use></svg>
                 {{ l.label }}
               </sl-button>
               {% endif %}
@@ -1555,7 +1540,7 @@
       <div class="skill-wrapper" data-domain="{{ cat.domain }}">
         <div class="wa-skill-card" id="skill-{{ loop.index }}">
           <div class="skill-card-title">
-            <sl-icon name="tools" style="color:var(--accent);"></sl-icon>
+            <svg class="icon"  style="color:var(--accent);"><use href="#icon-tools"></use></svg>
             <span>{{ cat.title }}</span>
           </div>
           <div class="tags-container">
@@ -1563,7 +1548,7 @@
             {% if t is mapping %}
             <a href="{{ t.url }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" title="Documentation officielle : {{ t.name }}">
               <span class="tech-tag-item">
-                {{ t.name }} <sl-icon name="box-arrow-up-right" style="font-size:0.65em; margin-left:3px;"></sl-icon>
+                {{ t.name }} <svg class="icon"  style="font-size:0.65em; margin-left:3px;"><use href="#icon-box-arrow-up-right"></use></svg>
               </span>
             </a>
             {% else %}
@@ -1597,7 +1582,7 @@
               📖 <strong>Publication CGF</strong> : <em>{{ edu.publication.title }}</em> ({{ edu.publication.journal }})
             </div>
             <sl-button variant="default" size="small" href="{{ edu.publication.url }}" target="_blank">
-              <sl-icon slot="prefix" name="box-arrow-up-right"></sl-icon>
+              <svg class="icon" slot="prefix" ><use href="#icon-box-arrow-up-right"></use></svg>
               Consulter
             </sl-button>
           </div>
@@ -1609,6 +1594,61 @@
   </main>
 
   <!-- ========================================================
+       VIEW 2: DOCUMENT ISO PDF
+       ======================================================== -->
+  <main id="viewDocument">
+    <div class="doc-controls">
+      <sl-button-group label="Contrôles PDF">
+        <sl-button variant="primary" size="small" id="btnModeSingle" onclick="toggleDocSingle()">
+          <span id="lblPageNum">Page 1/2</span>
+        </sl-button>
+        <sl-button variant="default" size="small" id="btnModeDual" onclick="setDocMode('dual')">Double Page</sl-button>
+        <sl-button variant="default" size="small" id="btnModeContinuous" onclick="setDocMode('continuous')">Continu</sl-button>
+      </sl-button-group>
+
+      <sl-button-group label="Zoom PDF">
+        <sl-button variant="default" size="small" onclick="zoomDoc(-0.1)">-</sl-button>
+        <sl-button variant="default" size="small" disabled>
+          <span id="lblZoom" style="font-family:'JetBrains Mono',monospace;">100%</span>
+        </sl-button>
+        <sl-button variant="default" size="small" onclick="zoomDoc(0.1)">+</sl-button>
+      </sl-button-group>
+    </div>
+
+    <div class="pages-wrapper mode-single" id="pagesWrapper">
+      <div class="pdf-page-container active" id="pageContainer1">
+        <div class="page-tag">PAGE 01 / 02</div>
+        <canvas id="canvasPage1" width="840" height="1188"></canvas>
+        <div class="textLayer" id="textLayer1"></div>
+      </div>
+      <div class="pdf-page-container" id="pageContainer2">
+        <div class="page-tag">PAGE 02 / 02</div>
+        <canvas id="canvasPage2" width="840" height="1188"></canvas>
+        <div class="textLayer" id="textLayer2"></div>
+      </div>
+    </div>
+
+    <!-- Callout Banner to discover Interactive Web View -->
+    <div class="hero-card" style="margin-top:2.5rem; max-width:840px; cursor:pointer;" onclick="switchMainView('web')">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+        <div style="display:flex; align-items:center; gap:0.85rem;">
+          <svg class="icon"  style="font-size:1.6rem; color:var(--accent);"><use href="#icon-stars"></use></svg>
+          <div>
+            <strong style="color:var(--text-main);">Mode Portfolio Web & Démos interactives disponible</strong>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-top:0.2rem;">
+              Timeline animée, démos vidéos YouTube, slides FOSS4G, grille de compétences et filtres dynamiques.
+            </p>
+          </div>
+        </div>
+        <sl-button variant="primary" size="small" pill>
+          Ouvrir la Vue Interactive (V)
+          <svg class="icon" slot="suffix" ><use href="#icon-arrow-right"></use></svg>
+        </sl-button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
        MODALS & DIALOGS (Web Awesome Dialogs)
        ======================================================== -->
   
@@ -1616,7 +1656,7 @@
   <sl-dialog id="cmdPaletteDialog" class="cmd-palette-dialog" no-header>
     <div class="palette-header-box">
       <sl-input id="paletteSearchInput" size="medium" placeholder="Rechercher : LLM, Vulkan, suckless, FastAPI, Thèse..." clearable oninput="handlePaletteSearch(this.value)">
-        <sl-icon name="search" slot="prefix"></sl-icon>
+        <svg class="icon"  slot="prefix"><use href="#icon-search"></use></svg>
         <sl-badge slot="suffix" variant="neutral" pill>ESC</sl-badge>
       </sl-input>
     </div>
@@ -2406,16 +2446,12 @@
     }
   </script>
   <script type="module">
-    import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/utilities/base-path.js';
-    setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/');
-    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/icon/icon.js';
-    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/icon-button/icon-button.js';
-    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/button/button.js';
-    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/button-group/button-group.js';
-    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/avatar/avatar.js';
-    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/badge/badge.js';
-    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/tooltip/tooltip.js';
-    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/dialog/dialog.js';
+    const loadShoelace = () => import('./assets/vendor/shoelace/shoelace.bundle.min.js');
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadShoelace);
+    } else {
+      window.addEventListener('load', loadShoelace);
+    }
   </script>
 </body>
 </html>
