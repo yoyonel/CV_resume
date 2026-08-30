@@ -17,17 +17,12 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
-  <!-- Fonts & PDF.js -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- Self-Hosted Zero-Latency Fonts -->
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
   <!-- Web Awesome / Shoelace Web Components -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/themes/dark.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/themes/light.css" />
+  <link rel="stylesheet" href="assets/vendor/shoelace/dark.css" />
+  <link rel="stylesheet" href="assets/vendor/shoelace/light.css" media="(prefers-color-scheme: light)" />
   <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/shoelace-autoloader.js"></script>
 
   <style>
@@ -85,6 +80,15 @@
 
     :not(:defined) {
       visibility: hidden;
+    }
+
+    sl-avatar::part(base) {
+      background-color: #0369a1;
+      color: #ffffff;
+    }
+    sl-avatar::part(initials) {
+      color: #ffffff;
+      font-weight: 700;
     }
 
     * {
@@ -1014,13 +1018,19 @@
       .brand-meta {
         display: none;
       }
-      .search-label {
-        display: none;
-      }
+      .search-label,
       .btn-label-doc,
       .btn-label-web,
       .btn-label-download {
-        display: none;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
       .view-switcher-group sl-button::part(base) {
         padding: 0 0.5rem;
@@ -1135,13 +1145,13 @@
     <div class="view-switcher-group">
       <sl-button-group label="Sélecteur de Vue">
         <sl-tooltip content="Affichage PDF Haute Fidélité ISO (Touche V)">
-          <sl-button variant="primary" size="small" id="tabDoc" onclick="switchMainView('doc')">
+          <sl-button variant="default" size="small" id="tabDoc" aria-label="Afficher le document PDF ISO" onclick="switchMainView('doc')">
             <sl-icon slot="prefix" name="file-earmark-pdf"></sl-icon>
             <span class="btn-label-doc">Document ISO</span>
           </sl-button>
         </sl-tooltip>
         <sl-tooltip content="Affichage Portfolio Web Interactif (Touche V)">
-          <sl-button variant="default" size="small" id="tabWeb" onclick="switchMainView('web')">
+          <sl-button variant="primary" size="small" id="tabWeb" aria-label="Afficher la vue web interactive" onclick="switchMainView('web')">
             <sl-icon slot="prefix" name="grid-3x3-gap"></sl-icon>
             <span class="btn-label-web">Vue Interactive</span>
           </sl-button>
@@ -1151,7 +1161,7 @@
 
     <!-- Smart Search Trigger (Web Awesome Button) -->
     <sl-tooltip content="Recherche Floue & Sémantique (Ctrl + K)">
-      <sl-button variant="default" size="small" onclick="openPalette()" class="search-trigger-btn">
+      <sl-button variant="default" size="small" aria-label="Rechercher des compétences, projets et technologies" onclick="openPalette()" class="search-trigger-btn">
         <sl-icon slot="prefix" name="search"></sl-icon>
         <span class="search-label">Smart Search...</span>
         <sl-badge slot="suffix" variant="neutral" pill class="search-shortcut-badge">Ctrl K</sl-badge>
@@ -1161,18 +1171,18 @@
     <!-- Actions (Web Awesome Buttons & Tooltips) -->
     <div class="actions-group">
       <sl-tooltip content="Basculer Thème Sombre / Clair (T)">
-        <sl-icon-button id="themeToggleBtn" name="moon" label="Changer de thème" onclick="toggleTheme()"></sl-icon-button>
+        <sl-icon-button id="themeToggleBtn" name="moon" label="Changer de thème" aria-label="Changer de thème sombre/clair" onclick="toggleTheme()"></sl-icon-button>
       </sl-tooltip>
 
       <sl-tooltip content="Imprimer au format A4 (P)">
-        <sl-button variant="default" size="small" onclick="window.print()" class="btn-print">
+        <sl-button variant="default" size="small" aria-label="Imprimer le CV au format A4" onclick="window.print()" class="btn-print">
           <sl-icon slot="prefix" name="printer"></sl-icon>
           <span class="btn-label-print">Imprimer</span>
         </sl-button>
       </sl-tooltip>
 
       <sl-tooltip content="Télécharger le PDF Typst (D)">
-        <sl-button variant="primary" size="small" href="{{ pdf_filename }}" download class="btn-download">
+        <sl-button variant="primary" size="small" aria-label="Télécharger le CV PDF" href="{{ pdf_filename }}" download class="btn-download">
           <sl-icon slot="prefix" name="download"></sl-icon>
           <span class="btn-label-download">Télécharger PDF</span>
         </sl-button>
@@ -1958,19 +1968,32 @@
       if (e.key === 'p' || e.key === 'P') window.print();
     });
 
-    // 4. PDF.js ISO Renderer
+    // 4. PDF.js ISO Renderer (On-Demand Lazy Loader)
+    let pdfJsLoadingPromise = null;
+    function ensurePdfJsLoaded() {
+      if (typeof pdfjsLib !== 'undefined') return Promise.resolve();
+      if (pdfJsLoadingPromise) return pdfJsLoadingPromise;
+
+      pdfJsLoadingPromise = new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css';
+        document.head.appendChild(link);
+
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        script.onload = () => {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+          resolve();
+        };
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+      return pdfJsLoadingPromise;
+    }
+
     async function loadPDF() {
-      if (typeof pdfjsLib === 'undefined') {
-        for (let i = 0; i < 30; i++) {
-          if (typeof pdfjsLib !== 'undefined') break;
-          await new Promise(r => setTimeout(r, 100));
-        }
-      }
-      if (typeof pdfjsLib === 'undefined') {
-        console.error('PDF.js failed to load');
-        return;
-      }
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      await ensurePdfJsLoaded();
       try {
         pdfDoc = await pdfjsLib.getDocument(PDF_URL).promise;
         await renderDocPages();
@@ -2265,11 +2288,11 @@
         const btn = document.getElementById('themeToggleBtn');
         if (btn) btn.setAttribute('name', 'sun');
       }
-      searchIndex = buildSearchIndex();
-      if (window.innerWidth <= 768) {
-        switchMainView('web');
+      switchMainView('web');
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => { searchIndex = buildSearchIndex(); });
       } else {
-        loadPDF();
+        setTimeout(() => { searchIndex = buildSearchIndex(); }, 100);
       }
     }
 

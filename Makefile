@@ -78,5 +78,18 @@ lint-types:
 links-check: ## Check all hyperlinks across site, PDF and sources
 	python3 scripts/check_links.py
 
-.PHONY: all cv_resume clean pdf typst typst-watch site site-serve site-serve-lan check-mobile lint-types links-check
+audit-local: ## Run local Lighthouse audit (Mobile & Desktop) against dist/
+	$(SITE_BUILD_CMD)
+	python3 scripts/audit_lighthouse.py --serve dist --mode all
+
+audit-prod: ## Run Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
+	python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode all
+
+audit-prod-mobile: ## Run Mobile Lighthouse audit on PROD
+	python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode mobile
+
+audit-prod-desktop: ## Run Desktop Lighthouse audit on PROD
+	python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop
+
+.PHONY: all cv_resume clean pdf typst typst-watch site site-serve site-serve-lan check-mobile lint-types links-check audit-local audit-prod audit-prod-mobile audit-prod-desktop
 

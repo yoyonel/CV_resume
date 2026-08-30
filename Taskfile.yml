@@ -129,6 +129,40 @@ tasks:
     cmds:
       - pre-commit run --all-files
 
+  # --- LIGHTHOUSE PERFORMANCE AUDITS ---
+  audit:local:
+    desc: Run local Lighthouse audit (Mobile & Desktop) against dist/
+    cmds:
+      - task: site:build
+      - python3 scripts/audit_lighthouse.py --serve dist --mode all
+
+  audit:local:mobile:
+    desc: Run local Mobile Lighthouse audit against dist/
+    cmds:
+      - task: site:build
+      - python3 scripts/audit_lighthouse.py --serve dist --mode mobile
+
+  audit:local:desktop:
+    desc: Run local Desktop Lighthouse audit against dist/
+    cmds:
+      - task: site:build
+      - python3 scripts/audit_lighthouse.py --serve dist --mode desktop
+
+  audit:prod:
+    desc: Run Lighthouse audit (Mobile & Desktop) on PROD (https://yoyonel.github.io/CV_resume/)
+    cmds:
+      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode all
+
+  audit:prod:mobile:
+    desc: Run Mobile Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
+    cmds:
+      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode mobile
+
+  audit:prod:desktop:
+    desc: Run Desktop Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
+    cmds:
+      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop
+
   # --- VALIDATION SUITE ---
   check:
     desc: Full validation suite (lint + site build + mobile check + link check)
