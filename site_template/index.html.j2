@@ -23,7 +23,7 @@
   <!-- Web Awesome / Shoelace Web Components -->
   <link rel="stylesheet" href="assets/vendor/shoelace/dark.css" />
   <link rel="stylesheet" href="assets/vendor/shoelace/light.css" media="(prefers-color-scheme: light)" />
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/shoelace-autoloader.js"></script>
+
 
   <style>
     :root {
@@ -295,7 +295,7 @@
        VIEW 1: DOCUMENT ISO PDF
        ======================================================== */
     #viewDocument {
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       padding: 1.5rem 1rem 3.5rem;
@@ -386,7 +386,7 @@
        VIEW 2: INTERACTIVE PORTFOLIO & WEB APP
        ======================================================== */
     #viewInteractive {
-      display: none;
+      display: block;
       max-width: 1100px;
       margin: 0 auto;
       padding: 2rem 1.5rem 5rem;
@@ -2404,6 +2404,18 @@
     } else {
       init();
     }
+  </script>
+  <script type="module">
+    import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/utilities/base-path.js';
+    setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/');
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/icon/icon.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/icon-button/icon-button.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/button/button.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/button-group/button-group.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/avatar/avatar.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/badge/badge.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/tooltip/tooltip.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/components/dialog/dialog.js';
   </script>
 </body>
 </html>
