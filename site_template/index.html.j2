@@ -82,6 +82,13 @@
       visibility: hidden;
     }
 
+    sl-icon {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.125em;
+    }
+
     sl-avatar::part(base) {
       background-color: #0369a1;
       color: #ffffff;
@@ -495,6 +502,8 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       padding: 1.35rem;
       box-sizing: border-box;
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 320px;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
@@ -701,6 +710,8 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       padding: 1.35rem;
       box-sizing: border-box;
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 400px;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
@@ -858,6 +869,8 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
       padding: 1.25rem;
       box-sizing: border-box;
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 200px;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
