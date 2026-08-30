@@ -27,6 +27,9 @@ BOT_PROTECTED_DOMAINS = [
     "web.archive.org",
     "intel.com",
     "www.intel.com",
+    "youtu.be",
+    "youtube.com",
+    "www.youtube.com",
 ]
 
 # XML Namespaces and Schemas that are not web pages
