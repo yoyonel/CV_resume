@@ -58,6 +58,23 @@ def watch_and_rebuild(dist_dir: Path, stop_event: threading.Event):
                 print(f"[Watcher] Error during rebuild: {e}", file=sys.stderr)
 
 
+import argparse
+import socket
+
+
+def get_lan_ip() -> str:
+    """Detects the primary LAN IP address."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+    except OSError:
+        ip = "127.0.0.1"
+    finally:
+        s.close()
+    return ip
+
+
 def serve(port: int = 8000, host: str = "127.0.0.1"):
     root_dir = Path(__file__).resolve().parent.parent
     dist_dir = root_dir / "dist"
@@ -89,11 +106,13 @@ def serve(port: int = 8000, host: str = "127.0.0.1"):
     )
     watcher_thread.start()
 
-    url = f"http://{host}:{actual_port}/"
-    print("\n" + "=" * 55)
-    print("  🚀 LOCAL PREVIEW READY:")
-    print(f"  👉 {url}")
-    print("=" * 55)
+    lan_ip = get_lan_ip()
+    print("\n" + "=" * 58)
+    print("  🚀 PREVIEW SERVER READY:")
+    print(f"  👉 Local: http://localhost:{actual_port}/")
+    if host in ("0.0.0.0", "::") or host != "127.0.0.1":
+        print(f"  📱 LAN (Smartphone Wi-Fi): http://{lan_ip}:{actual_port}/")
+    print("=" * 58)
     print("Watching for source changes (data/profile.json, typst_resume/)...")
     print("Press Ctrl+C to stop.\n")
 
@@ -107,7 +126,28 @@ def serve(port: int = 8000, host: str = "127.0.0.1"):
 
 
 if __name__ == "__main__":
-    port_arg = 8000
-    if len(sys.argv) > 1 and sys.argv[1].isdigit():
-        port_arg = int(sys.argv[1])
-    serve(port=port_arg)
+    parser = argparse.ArgumentParser(
+        description="Serve static resume site locally or on LAN"
+    )
+    parser.add_argument(
+        "port",
+        nargs="?",
+        type=int,
+        default=8000,
+        help="Port to listen on (default: 8000)",
+    )
+    parser.add_argument(
+        "--host",
+        type=str,
+        default="127.0.0.1",
+        help="Host interface to bind to (default: 127.0.0.1)",
+    )
+    parser.add_argument(
+        "--lan",
+        action="store_true",
+        help="Bind to 0.0.0.0 for LAN / smartphone testing",
+    )
+    args = parser.parse_args()
+
+    host_val = "0.0.0.0" if args.lan else args.host
+    serve(port=args.port, host=host_val)

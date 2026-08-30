@@ -85,6 +85,22 @@ tasks:
     cmds:
       - uv run scripts/serve_site.py
 
+  site:serve:lan:
+    desc: Start local preview server on 0.0.0.0 for LAN / smartphone testing
+    cmds:
+      - uv run scripts/serve_site.py --lan
+
+  # --- RESPONSIVE & MOBILE VALIDATION ---
+  site:check:mobile:
+    desc: Automated mobile responsiveness & zero-overflow validation with Playwright
+    cmds:
+      - uv run --with playwright scripts/check_mobile.py
+
+  check:mobile:
+    desc: Alias for site:check:mobile
+    cmds:
+      - task: site:check:mobile
+
   # --- LINK VALIDATION ---
   links:check:
     desc: Check and validate all hyperlinks across static site, PDF and sources
@@ -109,10 +125,11 @@ tasks:
 
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + site build + link check)
+    desc: Full validation suite (lint + site build + mobile check + link check)
     cmds:
       - task: lint
       - task: site:build
+      - task: check:mobile
       - task: links:check
       - echo "All checks passed successfully!"
 

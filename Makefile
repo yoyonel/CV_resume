@@ -56,6 +56,8 @@ ${TARGET_PDF}: pandoc_resume/resume.md pandoc_resume/references.md pandoc_resume
 
 SITE_BUILD_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/build_site.py" || echo "python3 scripts/build_site.py")
 SITE_SERVE_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/serve_site.py" || echo "python3 scripts/serve_site.py")
+SITE_SERVE_LAN_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run scripts/serve_site.py --lan" || echo "python3 scripts/serve_site.py --lan")
+CHECK_MOBILE_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run --with playwright scripts/check_mobile.py" || echo "python3 scripts/check_mobile.py")
 
 site:
 	$(SITE_BUILD_CMD)
@@ -63,8 +65,14 @@ site:
 site-serve:
 	$(SITE_SERVE_CMD)
 
+site-serve-lan:
+	$(SITE_SERVE_LAN_CMD)
+
+check-mobile:
+	$(CHECK_MOBILE_CMD)
+
 links-check: ## Check all hyperlinks across site, PDF and sources
 	python3 scripts/check_links.py
 
-.PHONY: all cv_resume clean pdf typst typst-watch site site-serve links-check
+.PHONY: all cv_resume clean pdf typst typst-watch site site-serve site-serve-lan check-mobile links-check
 

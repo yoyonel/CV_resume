@@ -1,5 +1,12 @@
 # CV & Resume — Lionel ATTY
 
+[![GitHub Pages](https://img.shields.io/badge/Live_Site-GitHub_Pages-0284c7?style=flat-square&logo=githubpages&logoColor=white)](https://yoyonel.github.io/CV_resume/)
+[![Typst 0.15](https://img.shields.io/badge/Engine-Typst_0.15-239dad?style=flat-square&logo=typst&logoColor=white)](https://typst.app)
+[![CI/CD Pages](https://github.com/yoyonel/CV_resume/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/yoyonel/CV_resume/actions/workflows/deploy-pages.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
+> 🌐 **Site Web Interactif & Document ISO Typst en ligne** : **[https://yoyonel.github.io/CV_resume/](https://yoyonel.github.io/CV_resume/)**
+
 Dépôt pour la conception, la génération automatisée et le versionnement continu de CV et dossiers de compétences d'ingénierie logicielle haute performance.
 
 Ce projet implémente une architecture **Data-Driven & Multi-Moteurs** permettant de générer des livrables PDF optimisés tant pour les recruteurs humains (design graphique soigné, hiérarchie visuelle, diagrammes de flux) que pour les robots de recrutement ATS (couche textuelle vectorielle structurée).
@@ -95,18 +102,22 @@ Le projet utilise [`uv`](https://docs.astral.sh/uv/) pour l'environnement Python
 
 ```bash
 task                  # Affiche l'aide et la liste des tâches
-task site:serve       # Lance le serveur de preview web local (http://localhost:8000) avec live rebuild
+task site:serve       # Lance le serveur de preview web local (http://localhost:8000)
+task site:serve:lan   # Lance le serveur sur 0.0.0.0 avec IP LAN pour test smartphone Wi-Fi
+task site:check:mobile# Validation automatisée du layout mobile & zéro-overflow (Playwright)
 task site:build       # Construit le site statique HTML/SVG/PDF dans dist/
 task watch            # Lance le watcher temps réel Typst (recompile le PDF instantanément)
 task lint             # Analyse statique : Ruff sur scripts/, AST Jinja2 et compilation Typst
 task fmt              # Formatage automatique du code Python avec Ruff
-task check            # Suite complète de vérification et validation avant commit / merge
+task check            # Suite complète de vérification (lint + build + mobile + links)
 ```
 
 ### Workflow Makefile (`make`)
 
 ```bash
 make site-serve       # Démarre le serveur de prévisualisation web locale
+make site-serve-lan   # Démarre le serveur sur 0.0.0.0 pour test mobile sur Wi-Fi local
+make check-mobile     # Lance la validation automatisée responsive Playwright
 make site             # Construit le site web statique dans dist/
 make typst            # Compile le CV Typst (génère data/pdf/2026/2026_ATTY_Resume_Typst.pdf)
 make typst-watch      # Démarre le watcher Typst
@@ -118,9 +129,14 @@ make clean            # Nettoie les artefacts générés
 
 ## 🌐 Déploiement Statique GitHub Pages
 
-Le pipeline `.github/workflows/deploy-pages.yml` déploie automatiquement le site interactif sur GitHub Pages :
-- **Rendu vectoriel pur** : Affichage SVG multi-pages ultra-net et fluide à toute résolution / zoom.
-- **Fonctionnalités Web** : Mode Sombre/Clair, double-page côte-à-côte / scroll continu, zoom interactif, raccourcis clavier, impression CSS A4 calibrée, téléchargement direct du PDF vectoriel.
+Le site interactif et portfolio est accessible publiquement à l'adresse :
+👉 **[https://yoyonel.github.io/CV_resume/](https://yoyonel.github.io/CV_resume/)**
+
+Le pipeline `.github/workflows/deploy-pages.yml` assure le build et déploiement continu à chaque push :
+- **Double Vue Unifiée** :
+  - *Vue Document ISO Typst* : Moteur PDF.js avec scaling dynamique multi-écrans, zoom et sélection de texte vectoriel.
+  - *Vue Interactive Web Awesome* : Design 100% responsive (mobile, tablette, desktop), moteur de recherche fuzzy Raycast (`Ctrl + K`), timeline animée, filtres dynamiques et lightboxes multimédias.
+- **Fonctionnalités & Accessibilité** : Thème Sombre / Clair avec mémorisation locale, raccourcis clavier (`V`, `T`, `P`, `D`), impression CSS A4 calibrée, téléchargement direct du livrable PDF officiel.
 
 ---
 
