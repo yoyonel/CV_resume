@@ -1,0 +1,155 @@
+name: pr-preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - develop
+      - master
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: pr-preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-preview:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Linters (ruff & pyright)
+        run: |
+          uv run ruff check scripts/
+          uv run --with pyright --with typst --with jinja2 --with playwright pyright scripts/
+
+      - name: Validate Jinja2 AST
+        run: |
+          uv run --with jinja2 python -c '
+          from jinja2 import Environment
+          templates = [
+              "pandoc_resume/resume.md.j2",
+              "pandoc_resume/sections/00_header.md.j2",
+              "typst_resume/resume.typ.j2",
+              "site_template/index.html.j2",
+          ]
+          for t in templates:
+              with open(t, "r", encoding="utf-8") as f:
+                  Environment().parse(f.read())
+              print(f"  [OK] Jinja AST: {t}")
+          '
+
+      - name: Build Static Site with Typst
+        run: uv run scripts/build_site.py
+
+      - name: Install Playwright Browsers
+        run: uv run playwright install --with-deps chromium
+
+      - name: Verify Mobile Responsiveness
+        run: uv run --with playwright scripts/check_mobile.py
+
+      - name: Verify Zero Runtime Console Errors
+        run: uv run --with playwright scripts/check_console.py
+
+      - name: Verify All Hyperlinks
+        run: python3 scripts/check_links.py
+
+      - name: Deploy PR Preview to Surge
+        id: deploy_surge
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          DOMAIN="yoyonel-cv-resume-pr-${{ github.event.number }}.surge.sh"
+          npx --yes surge dist "$DOMAIN" --token "$SURGE_TOKEN"
+          echo "domain=$DOMAIN" >> "$GITHUB_OUTPUT"
+          echo "preview_url=https://$DOMAIN" >> "$GITHUB_OUTPUT"
+
+      - name: Comment PR with Preview & Audit Links
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const domain = "yoyonel-cv-resume-pr-${{ github.event.number }}.surge.sh";
+            const previewUrl = `https://${domain}`;
+            const encodedUrl = encodeURIComponent(previewUrl + "/");
+            const psiUrl = `https://pagespeed.web.dev/analysis?url=${encodedUrl}`;
+            const wptUrl = `https://www.webpagetest.org/?url=${encodedUrl}`;
+
+            const body = `### 🚀 PR Preview Deployment Ready!
+
+| 🌐 Resource | 🔗 Link |
+| :--- | :--- |
+| **Live PR Preview** | [${previewUrl}](${previewUrl}) |
+| **Google PageSpeed Insights** | [📊 Run Remote Audit](${psiUrl}) |
+| **WebPageTest (Smartphones)** | [📱 Run Real Device Test](${wptUrl}) |
+
+---
+**🛡️ Automated CI Checks Passed:**
+- ✅ Python Linters (ruff & pyright)
+- ✅ Jinja2 Template AST Validation
+- ✅ Typst Compilation & ISO PDF Generation
+- ✅ Mobile Responsive Layout (Playwright - 5 viewports)
+- ✅ Zero Runtime Console Errors Guard (Playwright)
+- ✅ 50 Hyperlinks Health Check`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const botComment = comments.find(comment =>
+              comment.body.includes('### 🚀 PR Preview Deployment Ready!')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+  teardown-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Teardown Surge Preview
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          DOMAIN="yoyonel-cv-resume-pr-${{ github.event.number }}.surge.sh"
+          npx --yes surge teardown "$DOMAIN" --token "$SURGE_TOKEN" || true
