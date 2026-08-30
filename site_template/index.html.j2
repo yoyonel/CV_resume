@@ -2148,12 +2148,23 @@
 
     async function loadPDF() {
       await ensurePdfJsLoaded();
-      try {
-        pdfDoc = await pdfjsLib.getDocument(PDF_URL).promise;
-        await renderDocPages();
-      } catch (err) {
-        console.error('PDF.js loading failed', err);
+      // Surge.sh blocks .pdf extension on free tier. Fallback chain: .dat binary -> direct .pdf -> GitHub Pages PROD
+      const candidateUrls = [
+        'assets/cv_master.pdf.dat',
+        PDF_URL,
+        `https://yoyonel.github.io/CV_resume/${PDF_URL}`
+      ];
+      let lastErr = null;
+      for (const url of candidateUrls) {
+        try {
+          pdfDoc = await pdfjsLib.getDocument(url).promise;
+          await renderDocPages();
+          return;
+        } catch (err) {
+          lastErr = err;
+        }
       }
+      console.error('PDF.js loading failed on all endpoints', lastErr);
     }
 
     let renderTasks = {};
@@ -2443,6 +2454,11 @@
         document.documentElement.classList.add('sl-theme-light', 'light');
         const btn = document.getElementById('themeToggleBtn');
         if (btn) btn.setAttribute('name', 'sun');
+      }
+      if (window.location.hostname.endsWith('surge.sh')) {
+        document.querySelectorAll('.btn-download').forEach(btn => {
+          btn.setAttribute('href', `https://yoyonel.github.io/CV_resume/${PDF_URL}`);
+        });
       }
       switchMainView('web');
       if ('requestIdleCallback' in window) {
