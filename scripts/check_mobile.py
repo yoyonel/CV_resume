@@ -61,7 +61,7 @@ def run_mobile_checks() -> int:
             page.wait_for_timeout(800)
 
             # 1. Test Vue Interactive
-            page.click("#tabWeb")
+            page.evaluate("switchMainView('web')")
             page.wait_for_timeout(400)
 
             m_web = page.evaluate("""() => ({
@@ -71,7 +71,7 @@ def run_mobile_checks() -> int:
             })""")
 
             # 2. Test Vue Document ISO
-            page.click("#tabDoc")
+            page.evaluate("switchMainView('doc')")
             page.wait_for_timeout(600)
 
             m_doc = page.evaluate("""() => ({
@@ -82,7 +82,7 @@ def run_mobile_checks() -> int:
 
             # Capture screenshots
             page.screenshot(path=str(reports_dir / f"{name}_doc.png"))
-            page.click("#tabWeb")
+            page.evaluate("switchMainView('web')")
             page.wait_for_timeout(300)
             page.screenshot(path=str(reports_dir / f"{name}_web.png"))
             page.close()
