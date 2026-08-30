@@ -168,13 +168,25 @@ tasks:
     cmds:
       - python3 scripts/tunnel.py
 
+  site:check:console:
+    desc: Automated runtime console and exception verification with Playwright
+    cmds:
+      - task: site:build
+      - uv run --with playwright scripts/check_console.py
+
+  check:console:
+    desc: Verify zero runtime exceptions or console errors
+    cmds:
+      - task: site:check:console
+
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + site build + mobile check + link check)
+    desc: Full validation suite (lint + site build + mobile check + console check + link check)
     cmds:
       - task: lint
       - task: site:build
       - task: check:mobile
+      - task: check:console
       - task: links:check
       - echo "All checks passed successfully!"
 

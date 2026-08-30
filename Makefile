@@ -91,8 +91,13 @@ audit-prod-mobile: ## Run Mobile Lighthouse audit on PROD
 audit-prod-desktop: ## Run Desktop Lighthouse audit on PROD
 	python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop
 
+CHECK_CONSOLE_CMD = $(shell which uv >/dev/null 2>&1 && echo "uv run --with playwright scripts/check_console.py" || echo "python3 scripts/check_console.py")
+
+check-console: ## Verify zero runtime exceptions and console errors
+	$(CHECK_CONSOLE_CMD)
+
 tunnel: ## Start Cloudflare Quick Tunnel on dist/ for remote testing (PageSpeed Insights, etc.)
 	python3 scripts/tunnel.py
 
-.PHONY: all cv_resume clean pdf typst typst-watch site site-serve site-serve-lan check-mobile lint-types links-check audit-local audit-prod audit-prod-mobile audit-prod-desktop tunnel
+.PHONY: all cv_resume clean pdf typst typst-watch site site-serve site-serve-lan check-mobile check-console lint-types links-check audit-local audit-prod audit-prod-mobile audit-prod-desktop tunnel
 

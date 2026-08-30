@@ -1,0 +1,208 @@
+#!/usr/bin/env python3
+# /// script
+# dependencies = [
+#     "playwright",
+# ]
+# ///
+"""Automated Console & Runtime Error Verification Suite.
+
+Exhaustively exercises the static application across multiple viewports and
+user interactions to ensure ZERO runtime exceptions, unhandled rejections,
+or console errors occur.
+"""
+
+import http.server
+import socket
+import socketserver
+import sys
+import threading
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DIST_DIR = ROOT_DIR / "dist"
+
+
+def find_free_port() -> int:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
+
+
+class QuietHandler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=str(DIST_DIR), **kwargs)
+
+    def log_message(self, format, *args):
+        pass
+
+
+def run_console_checks() -> int:
+    try:
+        from playwright.sync_api import Error as PlaywrightError
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print(
+            "❌ Error: playwright is required. Run with: uv run --with playwright scripts/check_console.py"
+        )
+        return 1
+
+    if not (DIST_DIR / "index.html").exists():
+        print(f"❌ dist/index.html not found in {DIST_DIR}. Run build first.")
+        return 1
+
+    port = find_free_port()
+    httpd = socketserver.TCPServer(("127.0.0.1", port), QuietHandler)
+    server_thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    server_thread.start()
+    base_url = f"http://127.0.0.1:{port}/"
+
+    console_errors: list[str] = []
+    page_errors: list[str] = []
+
+    print("\n" + "=" * 80)
+    print("  🛡️  AUTOMATED RUNTIME CONSOLE & EXCEPTION VERIFICATION")
+    print("=" * 80)
+
+    try:
+        with sync_playwright() as p:
+            try:
+                browser = p.chromium.launch(executable_path="/usr/bin/chromium")
+            except (PlaywrightError, OSError):
+                browser = p.chromium.launch()
+
+            # Test 1: Desktop Viewport Exhaustive Lifecycle
+            page = browser.new_page(viewport={"width": 1280, "height": 800})
+            page.on(
+                "pageerror",
+                lambda err: page_errors.append(f"[Desktop PageError] {err}"),
+            )
+            page.on(
+                "console",
+                lambda msg: (
+                    console_errors.append(
+                        f"[Desktop Console {msg.type.upper()}] {msg.text}"
+                    )
+                    if msg.type in ["error"]
+                    else None
+                ),
+            )
+
+            print(
+                "  ⏳ [1/7] Testing Initial Page Load (Desktop)...", end="", flush=True
+            )
+            page.goto(base_url)
+            page.wait_for_timeout(1000)
+            assert page.locator("#viewInteractive").is_visible(), (
+                "Interactive view should be visible on load"
+            )
+            print(" ✓ OK")
+
+            print("  ⏳ [2/7] Testing Theme Toggle...", end="", flush=True)
+            page.evaluate("toggleTheme()")
+            page.wait_for_timeout(200)
+            page.evaluate("toggleTheme()")
+            page.wait_for_timeout(200)
+            print(" ✓ OK")
+
+            print("  ⏳ [3/7] Testing Domain Filters...", end="", flush=True)
+            for domain in [
+                "gpu-3d",
+                "python-backend",
+                "ia-rag",
+                "sig-geospatial",
+                "all",
+            ]:
+                page.evaluate(f"filterByDomain('{domain}')")
+                page.wait_for_timeout(150)
+            print(" ✓ OK")
+
+            print(
+                "  ⏳ [4/7] Testing Smart Command Palette Search...", end="", flush=True
+            )
+            page.evaluate("openPalette()")
+            page.wait_for_timeout(200)
+            for query in ["Vulkan", "Rust", "FastAPI", "Thèse", "Compiz"]:
+                page.evaluate(f"setPaletteQuery('{query}')")
+                page.wait_for_timeout(100)
+            page.evaluate("closePalette()")
+            page.wait_for_timeout(200)
+            print(" ✓ OK")
+
+            print(
+                "  ⏳ [5/7] Testing View Switch to PDF & PDF.js Rendering...",
+                end="",
+                flush=True,
+            )
+            page.evaluate("switchMainView('doc')")
+            # Wait for PDF to load and render canvas
+            page.wait_for_timeout(2000)
+            assert page.locator("#viewDocument").is_visible(), (
+                "Document view should be visible"
+            )
+            print(" ✓ OK")
+
+            print("  ⏳ [6/7] Testing PDF Zoom & Page Controls...", end="", flush=True)
+            page.evaluate("zoomDoc(0.1)")
+            page.wait_for_timeout(100)
+            page.evaluate("zoomDoc(-0.1)")
+            page.wait_for_timeout(100)
+            page.evaluate("toggleDocSingle()")
+            page.wait_for_timeout(300)
+            page.evaluate("setDocMode('continuous')")
+            page.wait_for_timeout(300)
+            page.evaluate("switchMainView('web')")
+            page.wait_for_timeout(200)
+            print(" ✓ OK")
+            page.close()
+
+            # Test 2: Mobile Viewport Initial Load
+            print(
+                "  ⏳ [7/7] Testing Mobile Viewport (iPhone / Android)...",
+                end="",
+                flush=True,
+            )
+            mobile_page = browser.new_page(viewport={"width": 390, "height": 844})
+            mobile_page.on(
+                "pageerror", lambda err: page_errors.append(f"[Mobile PageError] {err}")
+            )
+            mobile_page.on(
+                "console",
+                lambda msg: (
+                    console_errors.append(
+                        f"[Mobile Console {msg.type.upper()}] {msg.text}"
+                    )
+                    if msg.type in ["error"]
+                    else None
+                ),
+            )
+            mobile_page.goto(base_url)
+            mobile_page.wait_for_timeout(1000)
+            assert mobile_page.locator("#viewInteractive").is_visible(), (
+                "Interactive view should be visible on mobile"
+            )
+            mobile_page.close()
+            print(" ✓ OK")
+
+            browser.close()
+
+    finally:
+        httpd.shutdown()
+
+    print("=" * 80)
+    all_errors = page_errors + console_errors
+    if all_errors:
+        print(f"❌ FAILED : {len(all_errors)} runtime / console error(s) detected :\n")
+        for err in all_errors:
+            print(f"  • {err}")
+        print("=" * 80)
+        return 1
+
+    print(
+        "🎉 SUCCESS : ZERO runtime errors, exceptions, or console errors detected across all lifecycles!"
+    )
+    print("=" * 80 + "\n")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(run_console_checks())

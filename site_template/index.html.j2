@@ -36,7 +36,8 @@
       flex-shrink: 0;
     }
 
-    :root {
+    :root, html {
+      --scale-factor: 1;
       --sl-color-primary-50: #f0f9ff;
       --sl-color-primary-100: #e0f2fe;
       --sl-color-primary-200: #bae6fd;
@@ -376,7 +377,12 @@
       aspect-ratio: 1 / 1.4142;
     }
 
+    .pdf-page-container {
+      --scale-factor: 1;
+    }
+
     .pdf-page-container .textLayer {
+      --scale-factor: 1;
       opacity: 0.95;
       mix-blend-mode: multiply;
       border-radius: 4px;
@@ -1683,7 +1689,7 @@
     const RESUME_DATA = {{ resume_json | safe }};
     const PDF_URL = "{{ pdf_filename }}";
     let pdfDoc = null;
-    let currentMainView = 'doc';
+    let currentMainView = 'web';
     let docZoom = 1.0;
     let docMode = 'single';
     let docPageNum = 1;
@@ -1692,8 +1698,7 @@
     let searchIndex = [];
     let selectedPaletteIndex = 0;
     let currentPaletteResults = [];
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    let pdfJsLoadingPromise = null;
 
     // 1. Build Deep Semantic & Fuzzy Search Index
     function buildSearchIndex() {
@@ -2112,7 +2117,6 @@
     });
 
     // 4. PDF.js ISO Renderer (On-Demand Lazy Loader)
-    let pdfJsLoadingPromise = null;
     function ensurePdfJsLoaded() {
       if (typeof pdfjsLib !== 'undefined') return Promise.resolve();
       if (pdfJsLoadingPromise) return pdfJsLoadingPromise;
@@ -2159,6 +2163,7 @@
       const onScreenCtx = onScreenCanvas.getContext('2d');
       const textLayerDiv = document.getElementById(textLayerId);
       const container = onScreenCanvas.closest('.pdf-page-container');
+      if (container && getComputedStyle(container).display === 'none') return;
 
       const unscaledViewport = page.getViewport({ scale: 1.0 });
       const isMobile = window.innerWidth <= 860;
@@ -2201,6 +2206,7 @@
         container.style.width = Math.floor(viewport.width) + 'px';
         container.style.height = Math.floor(viewport.height) + 'px';
         container.style.maxWidth = 'none';
+        container.style.setProperty('--scale-factor', String(viewport.scale));
       }
 
       onScreenCanvas.width = bufferW;
@@ -2211,7 +2217,7 @@
         textLayerDiv.innerHTML = '';
         textLayerDiv.style.width = Math.floor(viewport.width) + 'px';
         textLayerDiv.style.height = Math.floor(viewport.height) + 'px';
-        textLayerDiv.style.setProperty('--scale-factor', viewport.scale);
+        textLayerDiv.style.setProperty('--scale-factor', String(viewport.scale));
         const textContent = await page.getTextContent();
         pdfjsLib.renderTextLayer({
           textContentSource: textContent,

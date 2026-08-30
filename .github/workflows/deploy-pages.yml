@@ -42,6 +42,12 @@ jobs:
       - name: Verify All Hyperlinks
         run: python3 scripts/check_links.py
 
+      - name: Install Playwright Browsers
+        run: uv run --with playwright playwright install --with-deps chromium
+
+      - name: Verify Zero Runtime Console Errors
+        run: uv run --with playwright scripts/check_console.py
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
