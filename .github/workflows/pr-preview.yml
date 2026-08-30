@@ -13,7 +13,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: pr-preview-${{ github.event.number }}
+  group: pr-preview-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -81,7 +81,7 @@ jobs:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         run: |
-          DOMAIN="yoyonel-cv-resume-pr-${{ github.event.number }}.surge.sh"
+          DOMAIN="yoyonel-cv-resume-pr-${{ github.event.pull_request.number }}.surge.sh"
           npx --yes surge dist "$DOMAIN" --token "$SURGE_TOKEN"
           echo "domain=$DOMAIN" >> "$GITHUB_OUTPUT"
           echo "preview_url=https://$DOMAIN" >> "$GITHUB_OUTPUT"
@@ -90,33 +90,36 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const domain = "yoyonel-cv-resume-pr-${{ github.event.number }}.surge.sh";
+            const prNum = context.payload.pull_request.number;
+            const domain = `yoyonel-cv-resume-pr-${prNum}.surge.sh`;
             const previewUrl = `https://${domain}`;
             const encodedUrl = encodeURIComponent(previewUrl + "/");
             const psiUrl = `https://pagespeed.web.dev/analysis?url=${encodedUrl}`;
             const wptUrl = `https://www.webpagetest.org/?url=${encodedUrl}`;
 
-            const body = `### 🚀 PR Preview Deployment Ready!
-
-| 🌐 Resource | 🔗 Link |
-| :--- | :--- |
-| **Live PR Preview** | [${previewUrl}](${previewUrl}) |
-| **Google PageSpeed Insights** | [📊 Run Remote Audit](${psiUrl}) |
-| **WebPageTest (Smartphones)** | [📱 Run Real Device Test](${wptUrl}) |
-
----
-**🛡️ Automated CI Checks Passed:**
-- ✅ Python Linters (ruff & pyright)
-- ✅ Jinja2 Template AST Validation
-- ✅ Typst Compilation & ISO PDF Generation
-- ✅ Mobile Responsive Layout (Playwright - 5 viewports)
-- ✅ Zero Runtime Console Errors Guard (Playwright)
-- ✅ 50 Hyperlinks Health Check`;
+            const body = [
+              '### 🚀 PR Preview Deployment Ready!',
+              '',
+              '| 🌐 Resource | 🔗 Link |',
+              '| :--- | :--- |',
+              `| **Live PR Preview** | [${previewUrl}](${previewUrl}) |`,
+              `| **Google PageSpeed Insights** | [📊 Run Remote Audit](${psiUrl}) |`,
+              `| **WebPageTest (Smartphones)** | [📱 Run Real Device Test](${wptUrl}) |`,
+              '',
+              '---',
+              '**🛡️ Automated CI Checks Passed:**',
+              '- ✅ Python Linters (ruff & pyright)',
+              '- ✅ Jinja2 Template AST Validation',
+              '- ✅ Typst Compilation & ISO PDF Generation',
+              '- ✅ Mobile Responsive Layout (Playwright - 5 viewports)',
+              '- ✅ Zero Runtime Console Errors Guard (Playwright)',
+              '- ✅ 50 Hyperlinks Health Check'
+            ].join('\n');
 
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
+              issue_number: prNum,
             });
             const botComment = comments.find(comment =>
               comment.body.includes('### 🚀 PR Preview Deployment Ready!')
@@ -133,7 +136,7 @@ jobs:
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: context.issue.number,
+                issue_number: prNum,
                 body: body
               });
             }
@@ -151,5 +154,5 @@ jobs:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         run: |
-          DOMAIN="yoyonel-cv-resume-pr-${{ github.event.number }}.surge.sh"
+          DOMAIN="yoyonel-cv-resume-pr-${{ github.event.pull_request.number }}.surge.sh"
           npx --yes surge teardown "$DOMAIN" --token "$SURGE_TOKEN" || true
