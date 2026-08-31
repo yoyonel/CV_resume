@@ -876,7 +876,9 @@
     .project-media-main {
       position: relative;
       width: 100%;
-      height: 200px;
+      aspect-ratio: 16 / 9;
+      height: auto;
+      max-height: 220px;
       overflow: hidden;
       cursor: pointer;
       display: flex;
@@ -888,6 +890,7 @@
     .project-media-main img {
       width: 100%;
       height: 100%;
+      aspect-ratio: 16 / 9;
       object-fit: cover;
       transition: transform 0.3s ease;
     }
@@ -1822,7 +1825,7 @@
     <div class="palette-header-box">
       <div class="palette-search-wrapper">
         <svg class="icon palette-search-icon"><use href="#icon-search"></use></svg>
-        <input type="text" id="paletteSearchInput" class="palette-search-input" placeholder="Rechercher : LLM, Vulkan, suckless, FastAPI, Thèse..." autocomplete="off" spellcheck="false" oninput="handlePaletteSearch(this.value)">
+        <input type="text" id="paletteSearchInput" name="palette_search" class="palette-search-input" placeholder="Rechercher : LLM, Vulkan, suckless, FastAPI, Thèse..." autocomplete="off" spellcheck="false" oninput="handlePaletteSearch(this.value)">
         <kbd class="palette-esc-kbd" onclick="closePalette()">ESC</kbd>
       </div>
     </div>
