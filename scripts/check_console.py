@@ -194,9 +194,9 @@ def run_console_checks(target_url: str | None = None) -> int:
                 f"Page 2 canvas height should be > 100 in dual mode, got {c2_h_dual}"
             )
 
-            # Single mode page 2 toggle
+            # Single mode page 2 navigation
             page.evaluate("setDocMode('single')")
-            page.evaluate("toggleDocSingle()")
+            page.evaluate("nextDocPage()")
             page.wait_for_timeout(500)
             c2_h_single = page.evaluate("document.getElementById('canvasPage2').height")
             assert c2_h_single > 100, (

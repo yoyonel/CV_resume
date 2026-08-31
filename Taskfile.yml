@@ -179,14 +179,26 @@ tasks:
     cmds:
       - task: site:check:console
 
+  site:check:ui:
+    desc: Automated UI regression verification (Ctrl K, search input, tooltip clipping)
+    cmds:
+      - task: site:build
+      - uv run --with playwright scripts/test_ui_regressions.py
+
+  check:ui:
+    desc: Verify zero UI layout regressions
+    cmds:
+      - task: site:check:ui
+
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + site build + mobile check + console check + link check)
+    desc: Full validation suite (lint + site build + mobile check + console check + UI check + link check)
     cmds:
       - task: lint
       - task: site:build
       - task: check:mobile
       - task: check:console
+      - task: check:ui
       - task: links:check
       - echo "All checks passed successfully!"
 
