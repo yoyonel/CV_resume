@@ -1921,7 +1921,7 @@
         { title: "Copier Téléphone (+33 6 01 59 00 23)", icon: "📞", cat: "Actions", meta: "Contact", action: () => { navigator.clipboard.writeText('+33 6 01 59 00 23'); alert('Téléphone copié !'); }, keywords: "telephone phone portable tel contact" },
         { title: "Ouvrir LinkedIn (lionel-atty-6a55b748)", icon: "🔗", cat: "Actions", meta: "Contact", action: () => { window.open('https://www.linkedin.com/in/lionel-atty-6a55b748/', '_blank'); }, keywords: "linkedin profil reseau contact lionel atty" },
         { title: "Ouvrir GitHub (yoyonel)", icon: "🐙", cat: "Actions", meta: "Contact", action: () => { window.open('https://github.com/yoyonel', '_blank'); }, keywords: "github code repos yoyonel" },
-        { title: "Télécharger le PDF haute fidélité Typst", icon: "📥", cat: "Actions", meta: "Livrable", action: () => { window.location.href = PDF_URL; }, keywords: "download telecharger pdf typst resume cv" },
+        { title: "Télécharger le PDF haute fidélité Typst", icon: "📥", cat: "Actions", meta: "Livrable", action: () => { const a = document.createElement('a'); a.href = PDF_URL; a.download = '{{ pdf_filename }}'; document.body.appendChild(a); a.click(); a.remove(); }, keywords: "download telecharger pdf typst resume cv" },
         { title: "Imprimer le CV au format A4", icon: "🖨️", cat: "Actions", meta: "Print", action: () => window.print(), keywords: "print imprimer a4 papier" },
         { title: "Changer de thème (Sombre / Clair)", icon: "🌓", cat: "Actions", meta: "Thème", action: () => toggleTheme(), keywords: "theme sombre clair dark light mode nuit jour" },
       ];
@@ -2408,11 +2408,13 @@
       onScreenCtx.drawImage(offscreenCanvas, 0, 0);
 
       if (textLayerDiv) {
+        if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
         textLayerDiv.innerHTML = '';
         textLayerDiv.style.width = Math.floor(viewport.width) + 'px';
         textLayerDiv.style.height = Math.floor(viewport.height) + 'px';
         textLayerDiv.style.setProperty('--scale-factor', String(viewport.scale));
         const textContent = await page.getTextContent();
+        if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
         pdfjsLib.renderTextLayer({
           textContentSource: textContent,
           container: textLayerDiv,

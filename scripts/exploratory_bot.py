@@ -569,8 +569,10 @@ def run_bot(
             page.goto(base_url, wait_until="networkidle")
             page.wait_for_timeout(300)
 
-            # Prevent native print or navigation dialog blocking
-            page.evaluate("() => { window.print = () => {}; }")
+            # Prevent native print, alert or popup blocking
+            page.evaluate(
+                "() => { window.print = () => {}; window.alert = () => {}; window.open = () => null; }"
+            )
 
             step_num = 1
             while True:
