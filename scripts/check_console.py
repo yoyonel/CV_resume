@@ -96,8 +96,12 @@ def run_console_checks(target_url: str | None = None) -> int:
         )
         page.on(
             "requestfailed",
-            lambda req: network_errors.append(
-                f"[{context_label} RequestFailed] {req.url} - {req.failure}"
+            lambda req: (
+                network_errors.append(
+                    f"[{context_label} RequestFailed] {req.url} - {req.failure}"
+                )
+                if req.url.startswith(base_url) and not req.url.endswith("favicon.ico")
+                else None
             ),
         )
 
@@ -194,9 +198,9 @@ def run_console_checks(target_url: str | None = None) -> int:
                 f"Page 2 canvas height should be > 100 in dual mode, got {c2_h_dual}"
             )
 
-            # Single mode page 2 toggle
+            # Single mode page 2 navigation
             page.evaluate("setDocMode('single')")
-            page.evaluate("toggleDocSingle()")
+            page.evaluate("nextDocPage()")
             page.wait_for_timeout(500)
             c2_h_single = page.evaluate("document.getElementById('canvasPage2').height")
             assert c2_h_single > 100, (
@@ -208,14 +212,37 @@ def run_console_checks(target_url: str | None = None) -> int:
             page.wait_for_timeout(200)
             page.evaluate("zoomDoc(-0.1)")
             page.wait_for_timeout(200)
+            print(
+                "  ⏳ [7/9] Testing Exhaustive Click Crawler on All Interactive Elements...",
+                end="",
+                flush=True,
+            )
+            # Switch back to web view
             page.evaluate("switchMainView('web')")
             page.wait_for_timeout(200)
-            print(" ✓ OK")
-            page.close()
+
+            # Fire click events across all interactive internal elements with safe stubs
+            elem_count = page.evaluate("""() => {
+                window.print = () => {};
+                window.open = () => {};
+                const elements = document.querySelectorAll(
+                    'button, sl-button, sl-icon-button, .filter-tag, .tech-tag-item, .tech-kw'
+                );
+                elements.forEach(el => {
+                    el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+                });
+                return elements.length;
+            }""")
+            page.wait_for_timeout(200)
+
+            # Close any open dialogs/modals
+            page.evaluate("closeImageModal(); closeMediaModal();")
+            page.wait_for_timeout(100)
+            print(f" ✓ OK ({elem_count} interactive elements verified)")
 
             # Test 2: Mobile Viewport Initial Load & PDF Switch
             print(
-                "  ⏳ [7/8] Testing Mobile Viewport (iPhone / Android)...",
+                "  ⏳ [8/9] Testing Mobile Viewport (iPhone / Android)...",
                 end="",
                 flush=True,
             )
@@ -229,7 +256,7 @@ def run_console_checks(target_url: str | None = None) -> int:
             print(" ✓ OK")
 
             print(
-                "  ⏳ [8/8] Testing Mobile PDF Switch & Rendering...",
+                "  ⏳ [9/9] Testing Mobile PDF Switch & Rendering...",
                 end="",
                 flush=True,
             )

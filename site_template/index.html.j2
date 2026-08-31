@@ -280,17 +280,19 @@
     .contact-chip {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      padding: 0.3rem 0.75rem;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
       border-radius: var(--radius-sm);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 500;
-      line-height: 1.3;
+      line-height: 1.4;
       background: rgba(255, 255, 255, 0.07);
       color: #f1f5f9;
       border: 1px solid rgba(255, 255, 255, 0.18);
       text-decoration: none;
       transition: all 0.15s ease-in-out;
+      box-sizing: border-box;
+      height: 32px;
     }
     html.sl-theme-light .contact-chip {
       background: #f8fafc;
@@ -305,6 +307,28 @@
     .contact-chip a {
       color: inherit;
       text-decoration: none;
+    }
+
+    .search-shortcut-kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      line-height: 1;
+      margin-left: 0.5rem;
+      user-select: none;
+    }
+    html.sl-theme-light .search-shortcut-kbd {
+      background: #f1f5f9;
+      color: #475569;
+      border-color: #cbd5e1;
     }
 
     /* ========================================================
@@ -698,6 +722,70 @@
       transform: translateY(-1px);
     }
 
+    /* 4 Technical Families (matching Typst tag-families) */
+    .family-core {
+      background: rgba(30, 58, 138, 0.25) !important;
+      border-color: rgba(96, 165, 250, 0.45) !important;
+      color: #93c5fd !important;
+    }
+    html.sl-theme-light .family-core {
+      background: #eff6ff !important;
+      border-color: #bfdbfe !important;
+      color: #1e3a8a !important;
+    }
+
+    .family-infra {
+      background: rgba(22, 78, 58, 0.25) !important;
+      border-color: rgba(52, 211, 153, 0.45) !important;
+      color: #6ee7b7 !important;
+    }
+    html.sl-theme-light .family-infra {
+      background: #f0fdf4 !important;
+      border-color: #bbf7d0 !important;
+      color: #164e3a !important;
+    }
+
+    .family-ai {
+      background: rgba(113, 69, 19, 0.25) !important;
+      border-color: rgba(251, 191, 36, 0.45) !important;
+      color: #fde68a !important;
+    }
+    html.sl-theme-light .family-ai {
+      background: #fefce8 !important;
+      border-color: #fef08a !important;
+      color: #714513 !important;
+    }
+
+    .family-tools {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 255, 255, 0.22) !important;
+      color: #e2e8f0 !important;
+    }
+    html.sl-theme-light .family-tools {
+      background: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      color: #374151 !important;
+    }
+
+    .tech-kw {
+      display: inline-block;
+      padding: 0.05rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.25;
+      margin: 0.05rem 1px;
+      vertical-align: baseline;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .tech-kw:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
     /* Projects Grid with Web Awesome Cards & Carousel */
     .projects-grid {
       display: grid;
@@ -936,9 +1024,67 @@
     }
 
     .palette-header-box {
-      padding: 1rem 1.25rem;
+      padding: 0.85rem 1.15rem;
       background: var(--bg-card-subtle);
       border-bottom: 1px solid var(--border-color);
+    }
+
+    .palette-search-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .palette-search-wrapper:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+    html.sl-theme-light .palette-search-wrapper {
+      background: #ffffff;
+      border-color: #cbd5e1;
+    }
+    .palette-search-icon {
+      width: 1.15rem;
+      height: 1.15rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .palette-search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 28px;
+      height: 28px;
+      min-width: 0;
+    }
+    .palette-search-input::placeholder {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+    }
+    .palette-esc-kbd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      user-select: none;
+    }
+    html.sl-theme-light .palette-esc-kbd {
+      background: #f1f5f9;
+      color: #475569;
+      border-color: #cbd5e1;
     }
 
     .palette-results {
@@ -1103,7 +1249,7 @@
 
     /* Responsive Breakpoints */
     @media (max-width: 1024px) {
-      .search-shortcut-badge {
+      .search-shortcut-kbd {
         display: none;
       }
     }
@@ -1259,6 +1405,8 @@
   <!-- Native SVG Symbol Sprite (0ms JS Overhead, Instant Vector Icons) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
     <symbol id="icon-arrow-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></symbol>
+    <symbol id="icon-chevron-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/></symbol>
+    <symbol id="icon-chevron-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/></symbol>
     <symbol id="icon-box-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
   <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></symbol>
     <symbol id="icon-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
@@ -1319,7 +1467,7 @@
       <sl-button variant="default" size="small" aria-label="Rechercher des compétences, projets et technologies" onclick="openPalette()" class="search-trigger-btn">
         <svg class="icon" slot="prefix" ><use href="#icon-search"></use></svg>
         <span class="search-label">Smart Search...</span>
-        <sl-badge slot="suffix" variant="neutral" pill class="search-shortcut-badge">Ctrl K</sl-badge>
+        <kbd class="search-shortcut-kbd">Ctrl K</kbd>
       </sl-button>
     </sl-tooltip>
 
@@ -1348,12 +1496,12 @@
   <!-- Filter & Contact Bar -->
   <div class="filter-bar">
     <div class="domain-filters">
-      <button type="button" class="filter-tag active" data-domain="all" onclick="filterByDomain('all')">Tous</button>
-      <button type="button" class="filter-tag" data-domain="backend" onclick="filterByDomain('backend')">🐍 Python & Backend</button>
-      <button type="button" class="filter-tag" data-domain="graphics" onclick="filterByDomain('graphics')">🎮 C++ & 3D Temps-Réel</button>
-      <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud')">☁️ Cloud & DevOps</button>
-      <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai')">🤖 IA & Agents</button>
-      <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig')">🗺️ SIG & Géomatique</button>
+      <button type="button" class="filter-tag active" data-domain="all" onclick="filterByDomain('all', event)" title="Afficher tous les domaines">Tous</button>
+      <button type="button" class="filter-tag" data-domain="backend" onclick="filterByDomain('backend', event)" title="Filtrer Python & Backend (Shift+Clic pour cumuler)">🐍 Python & Backend</button>
+      <button type="button" class="filter-tag" data-domain="graphics" onclick="filterByDomain('graphics', event)" title="Filtrer C++ & 3D Temps-Réel (Shift+Clic pour cumuler)">🎮 C++ & 3D Temps-Réel</button>
+      <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud', event)" title="Filtrer Cloud & DevOps (Shift+Clic pour cumuler)">☁️ Cloud & DevOps</button>
+      <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai', event)" title="Filtrer IA & Agents (Shift+Clic pour cumuler)">🤖 IA & Agents</button>
+      <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig', event)" title="Filtrer SIG & Géomatique (Shift+Clic pour cumuler)">🗺️ SIG & Géomatique</button>
       <sl-button variant="primary" size="small" pill style="--sl-color-primary-600:#0284c7;" onclick="goToMediaSection()">
         <svg class="icon" slot="prefix" ><use href="#icon-play-circle"></use></svg>
         🎬 Démos, Médias & Talks
@@ -1361,30 +1509,22 @@
     </div>
 
     <div class="contact-chips">
-      <sl-tooltip content="Envoyer un email">
-        <a href="mailto:{{ profile.email }}" class="contact-chip">
-          <svg class="icon" ><use href="#icon-envelope"></use></svg>
-          <span>{{ profile.email }}</span>
-        </a>
-      </sl-tooltip>
-      <sl-tooltip content="Appeler">
-        <a href="tel:{{ profile.phone | replace(' ', '') }}" class="contact-chip">
-          <svg class="icon" ><use href="#icon-telephone"></use></svg>
-          <span>{{ profile.phone }}</span>
-        </a>
-      </sl-tooltip>
-      <sl-tooltip content="Profil GitHub">
-        <a href="https://github.com/yoyonel" target="_blank" rel="noopener noreferrer" class="contact-chip">
-          <svg class="icon" ><use href="#icon-github"></use></svg>
-          <span>GitHub</span>
-        </a>
-      </sl-tooltip>
-      <sl-tooltip content="Profil LinkedIn">
-        <a href="{{ profile.linkedin | default('https://www.linkedin.com/in/lionel-atty-6a55b748/') }}" target="_blank" rel="noopener noreferrer" class="contact-chip">
-          <svg class="icon" ><use href="#icon-linkedin"></use></svg>
-          <span>LinkedIn</span>
-        </a>
-      </sl-tooltip>
+      <a href="mailto:{{ profile.email }}" class="contact-chip" title="Envoyer un email ({{ profile.email }})">
+        <svg class="icon" ><use href="#icon-envelope"></use></svg>
+        <span>{{ profile.email }}</span>
+      </a>
+      <a href="tel:{{ profile.phone | replace(' ', '') }}" class="contact-chip" title="Appeler ({{ profile.phone }})">
+        <svg class="icon" ><use href="#icon-telephone"></use></svg>
+        <span>{{ profile.phone }}</span>
+      </a>
+      <a href="https://github.com/yoyonel" target="_blank" rel="noopener noreferrer" class="contact-chip" title="Profil GitHub">
+        <svg class="icon" ><use href="#icon-github"></use></svg>
+        <span>GitHub</span>
+      </a>
+      <a href="{{ profile.linkedin | default('https://www.linkedin.com/in/lionel-atty-6a55b748/') }}" target="_blank" rel="noopener noreferrer" class="contact-chip" title="Profil LinkedIn">
+        <svg class="icon" ><use href="#icon-linkedin"></use></svg>
+        <span>LinkedIn</span>
+      </a>
     </div>
   </div>
 
@@ -1434,7 +1574,7 @@
 
           <ul class="exp-bullets">
             {% for b in exp.bullets %}
-            <li>{{ b }}</li>
+            <li>{{ b | highlight_kw | safe }}</li>
             {% endfor %}
           </ul>
 
@@ -1450,7 +1590,7 @@
 
           <div class="tags-container">
             {% for t in exp.tags %}
-            <span class="tech-tag-item" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
             {% endfor %}
           </div>
 
@@ -1479,7 +1619,7 @@
           <div>
             <div class="project-category">{{ proj.category }} &bull; {{ proj.dates }}</div>
             <div class="project-title">{{ proj.title }}</div>
-            <p class="project-desc">{{ proj.description }}</p>
+            <p class="project-desc">{{ proj.description | highlight_kw | safe }}</p>
 
             {% if proj.media %}
             <div class="project-media-box">
@@ -1499,7 +1639,7 @@
               {% if proj.media.gallery %}
               <div class="media-gallery-thumbs">
                 {% for g in proj.media.gallery %}
-                <sl-button variant="{{ 'primary' if loop.first else 'default' }}" size="small" class="media-thumb-btn-{{ proj_idx }}" onclick="switchCardMedia('{{ proj_idx }}', '{{ g.src }}', '{{ g.label }}', this)">
+                <sl-button variant="{{ 'primary' if loop.first else 'default' }}" size="small" class="media-thumb-btn-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-src="{{ g.src }}" data-label="{{ g.label }}" onclick="switchCardMediaByElem(this)">
                   {{ g.label }}
                 </sl-button>
                 {% endfor %}
@@ -1513,7 +1653,7 @@
           <div style="margin-top:auto;">
             <div class="tags-container" style="margin-bottom:0.85rem;">
               {% for t in proj.tags %}
-              <span class="tech-tag-item" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+              <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
               {% endfor %}
             </div>
 
@@ -1559,12 +1699,12 @@
             {% for t in cat.tags %}
             {% if t is mapping %}
             <a href="{{ t.url }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" title="Documentation officielle : {{ t.name }}">
-              <span class="tech-tag-item">
+              <span class="tech-tag-item family-{{ t.name | tech_family }}">
                 {{ t.name }} <svg class="icon"  style="font-size:0.65em; margin-left:3px;"><use href="#icon-box-arrow-up-right"></use></svg>
               </span>
             </a>
             {% else %}
-            <span class="tech-tag-item" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
             {% endif %}
             {% endfor %}
           </div>
@@ -1610,20 +1750,33 @@
        ======================================================== -->
   <main id="viewDocument">
     <div class="doc-controls">
-      <sl-button-group label="Contrôles PDF">
-        <sl-button variant="primary" size="small" id="btnModeSingle" onclick="toggleDocSingle()">
-          <span id="lblPageNum">Page 1/2</span>
-        </sl-button>
+      <!-- Mode Selection -->
+      <sl-button-group label="Mode d'affichage PDF">
+        <sl-button variant="primary" size="small" id="btnModeSingle" onclick="setDocMode('single')">Page Simple</sl-button>
         <sl-button variant="default" size="small" id="btnModeDual" onclick="setDocMode('dual')">Double Page</sl-button>
         <sl-button variant="default" size="small" id="btnModeContinuous" onclick="setDocMode('continuous')">Continu</sl-button>
       </sl-button-group>
 
+      <!-- Pagination Group (Single Page Mode) -->
+      <sl-button-group id="singlePageNav" label="Pagination PDF">
+        <sl-button variant="default" size="small" id="btnPrevPage" onclick="prevDocPage()" aria-label="Page précédente" title="Page précédente (Flèche Gauche / Page Up)">
+          <svg class="icon" slot="prefix"><use href="#icon-chevron-left"></use></svg>
+        </sl-button>
+        <sl-button variant="default" size="small" disabled style="pointer-events:none;">
+          <span id="lblPageNum" style="font-family:'JetBrains Mono',monospace; font-weight:600;">Page 1 / 2</span>
+        </sl-button>
+        <sl-button variant="default" size="small" id="btnNextPage" onclick="nextDocPage()" aria-label="Page suivante" title="Page suivante (Flèche Droite / Page Down)">
+          <svg class="icon" slot="suffix"><use href="#icon-chevron-right"></use></svg>
+        </sl-button>
+      </sl-button-group>
+
+      <!-- Zoom Controls -->
       <sl-button-group label="Zoom PDF">
-        <sl-button variant="default" size="small" onclick="zoomDoc(-0.1)">-</sl-button>
-        <sl-button variant="default" size="small" disabled>
+        <sl-button variant="default" size="small" onclick="zoomDoc(-0.1)" title="Zoom arrière (-)">-</sl-button>
+        <sl-button variant="default" size="small" disabled style="pointer-events:none;">
           <span id="lblZoom" style="font-family:'JetBrains Mono',monospace;">100%</span>
         </sl-button>
-        <sl-button variant="default" size="small" onclick="zoomDoc(0.1)">+</sl-button>
+        <sl-button variant="default" size="small" onclick="zoomDoc(0.1)" title="Zoom avant (+)">+</sl-button>
       </sl-button-group>
     </div>
 
@@ -1667,10 +1820,11 @@
   <!-- Smart Command Palette Dialog -->
   <sl-dialog id="cmdPaletteDialog" class="cmd-palette-dialog" no-header>
     <div class="palette-header-box">
-      <sl-input id="paletteSearchInput" size="medium" placeholder="Rechercher : LLM, Vulkan, suckless, FastAPI, Thèse..." clearable oninput="handlePaletteSearch(this.value)">
-        <svg class="icon"  slot="prefix"><use href="#icon-search"></use></svg>
-        <sl-badge slot="suffix" variant="neutral" pill>ESC</sl-badge>
-      </sl-input>
+      <div class="palette-search-wrapper">
+        <svg class="icon palette-search-icon"><use href="#icon-search"></use></svg>
+        <input type="text" id="paletteSearchInput" class="palette-search-input" placeholder="Rechercher : LLM, Vulkan, suckless, FastAPI, Thèse..." autocomplete="off" spellcheck="false" oninput="handlePaletteSearch(this.value)">
+        <kbd class="palette-esc-kbd" onclick="closePalette()">ESC</kbd>
+      </div>
     </div>
     <div class="palette-results" id="paletteResults">
       <!-- Injected via JS -->
@@ -1699,7 +1853,8 @@
     let docZoom = 1.0;
     let docMode = 'single';
     let docPageNum = 1;
-    let activeDomainFilter = 'all';
+    let activeDomains = new Set(['all']);
+    let activeTechs = new Set();
 
     let searchIndex = [];
     let selectedPaletteIndex = 0;
@@ -2127,6 +2282,17 @@
       if (e.key === 'v' || e.key === 'V') switchMainView(currentMainView === 'doc' ? 'web' : 'doc');
       if (e.key === 't' || e.key === 'T') toggleTheme();
       if (e.key === 'p' || e.key === 'P') window.print();
+
+      // Page Navigation shortcuts in Document ISO view
+      if (currentMainView === 'doc' && docMode === 'single') {
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prevDocPage();
+        } else if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+          e.preventDefault();
+          nextDocPage();
+        }
+      }
     });
 
     // 4. PDF.js ISO Renderer (On-Demand Lazy Loader)
@@ -2268,6 +2434,11 @@
       document.getElementById('btnModeDual').setAttribute('variant', mode === 'dual' ? 'primary' : 'default');
       document.getElementById('btnModeContinuous').setAttribute('variant', mode === 'continuous' ? 'primary' : 'default');
 
+      const pageNav = document.getElementById('singlePageNav');
+      if (pageNav) {
+        pageNav.style.display = mode === 'single' ? 'inline-flex' : 'none';
+      }
+
       if (mode === 'single') {
         updateDocSingle();
       } else {
@@ -2277,19 +2448,35 @@
       }
     }
 
-    function toggleDocSingle() {
-      if (docMode !== 'single') {
-        setDocMode('single');
-      } else {
-        docPageNum = docPageNum === 1 ? 2 : 1;
+    function prevDocPage() {
+      if (docPageNum > 1) {
+        docPageNum = 1;
         updateDocSingle();
       }
+    }
+
+    function nextDocPage() {
+      if (docPageNum < 2) {
+        docPageNum = 2;
+        updateDocSingle();
+      }
+    }
+
+    function toggleDocSingle() {
+      if (docPageNum === 1) nextDocPage();
+      else prevDocPage();
     }
 
     function updateDocSingle() {
       document.getElementById('pageContainer1').classList.toggle('active', docPageNum === 1);
       document.getElementById('pageContainer2').classList.toggle('active', docPageNum === 2);
-      document.getElementById('lblPageNum').innerText = `Page ${docPageNum}/2`;
+      document.getElementById('lblPageNum').innerText = `Page ${docPageNum} / 2`;
+
+      const btnPrev = document.getElementById('btnPrevPage');
+      const btnNext = document.getElementById('btnNextPage');
+      if (btnPrev) btnPrev.disabled = (docPageNum === 1);
+      if (btnNext) btnNext.disabled = (docPageNum === 2);
+
       renderDocPages();
     }
 
@@ -2335,11 +2522,39 @@
       }, 100);
     }
 
-    // 6. Domain & Tech Filtering
-    function filterByDomain(domain) {
-      activeDomainFilter = domain;
+    // 6. Domain & Tech Filtering (Support Normal Click + Shift/Ctrl Multi-Selection)
+    function filterByDomain(domain, event) {
+      const e = event || window.event;
+      const isMulti = e && (e.shiftKey || e.ctrlKey || e.metaKey);
+
+      if (domain === 'all') {
+        activeDomains = new Set(['all']);
+      } else if (isMulti) {
+        if (activeDomains.has('all')) {
+          activeDomains.clear();
+        }
+        if (activeDomains.has(domain)) {
+          activeDomains.delete(domain);
+          if (activeDomains.size === 0) {
+            activeDomains.add('all');
+          }
+        } else {
+          activeDomains.add(domain);
+        }
+      } else {
+        // Normal click: if already sole active domain, toggle back to 'all'
+        if (activeDomains.size === 1 && activeDomains.has(domain)) {
+          activeDomains = new Set(['all']);
+        } else {
+          activeDomains = new Set([domain]);
+        }
+      }
+
+      // Update domain filter buttons UI
+      const isAll = activeDomains.has('all');
       document.querySelectorAll('.filter-tag').forEach(c => {
-        const match = c.getAttribute('data-domain') === domain;
+        const d = c.getAttribute('data-domain');
+        const match = isAll ? (d === 'all') : activeDomains.has(d);
         c.classList.toggle('active', match);
       });
 
@@ -2349,41 +2564,68 @@
 
       document.querySelectorAll('.exp-wrapper').forEach(card => {
         const domains = (card.getAttribute('data-domains') || card.getAttribute('data-domain') || '').split(',');
-        const match = (domain === 'all' || domains.includes(domain));
+        const match = isAll || domains.some(d => activeDomains.has(d));
         card.style.display = match ? 'block' : 'none';
       });
 
       document.querySelectorAll('.project-wrapper').forEach(card => {
         const domains = (card.getAttribute('data-domains') || card.getAttribute('data-domain') || '').split(',');
-        const match = (domain === 'all' || domains.includes(domain));
+        const match = isAll || domains.some(d => activeDomains.has(d));
         card.style.display = match ? 'block' : 'none';
       });
 
       document.querySelectorAll('.skill-wrapper').forEach(card => {
         const d = card.getAttribute('data-domain');
-        const match = (domain === 'all' || d === domain);
+        const match = isAll || activeDomains.has(d);
         card.style.display = match ? 'block' : 'none';
       });
     }
 
-    function filterByTech(techName) {
+    function filterByTech(techName, event) {
       if (currentMainView !== 'web') {
         switchMainView('web');
       }
+      const e = event || window.event;
+      const isMulti = e && (e.shiftKey || e.ctrlKey || e.metaKey);
       const lower = techName.toLowerCase().trim();
-      document.querySelectorAll('.tech-tag-item').forEach(t => {
-        const match = t.innerText.toLowerCase().trim() === lower;
+
+      if (isMulti) {
+        if (activeTechs.has(lower)) {
+          activeTechs.delete(lower);
+        } else {
+          activeTechs.add(lower);
+        }
+      } else {
+        if (activeTechs.size === 1 && activeTechs.has(lower)) {
+          activeTechs.clear();
+        } else {
+          activeTechs = new Set([lower]);
+        }
+      }
+
+      const hasActiveTech = activeTechs.size > 0;
+      document.querySelectorAll('.tech-tag-item, .tech-kw').forEach(t => {
+        const match = activeTechs.has(t.innerText.toLowerCase().trim());
         t.classList.toggle('active', match);
       });
 
-      document.querySelectorAll('.wa-exp-card').forEach(card => {
-        const tags = Array.from(card.querySelectorAll('.tech-tag-item')).map(t => t.innerText.toLowerCase());
-        const hasTag = tags.some(t => t.includes(lower));
-        card.classList.toggle('highlight', hasTag);
-        if (hasTag) {
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      let firstMatch = null;
+      document.querySelectorAll('.wa-exp-card, .wa-project-card').forEach(card => {
+        if (!hasActiveTech) {
+          card.classList.remove('highlight');
+        } else {
+          const textContent = card.innerText.toLowerCase();
+          const matchesAny = Array.from(activeTechs).some(tech => textContent.includes(tech));
+          card.classList.toggle('highlight', matchesAny);
+          if (matchesAny && !firstMatch) {
+            firstMatch = card;
+          }
         }
       });
+
+      if (firstMatch) {
+        firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     // 7. Media & Image Modals (Web Awesome Dialogs)
@@ -2419,11 +2661,20 @@
       if (img) img.src = src;
       if (badge) badge.innerText = src.endsWith('.gif') ? '🔥 DÉMO ANIMÉE' : '📸 ' + label.toUpperCase();
 
-      const parent = btn.parentElement;
-      if (parent) {
-        parent.querySelectorAll(`.media-thumb-btn-${cardIdx}`).forEach(b => b.setAttribute('variant', 'default'));
-        btn.setAttribute('variant', 'primary');
+      if (btn) {
+        const parent = btn.parentElement;
+        if (parent) {
+          parent.querySelectorAll(`.media-thumb-btn-${cardIdx}`).forEach(b => b.setAttribute('variant', 'default'));
+          btn.setAttribute('variant', 'primary');
+        }
       }
+    }
+
+    function switchCardMediaByElem(btn) {
+      const cardIdx = btn.getAttribute('data-card-idx');
+      const src = btn.getAttribute('data-src');
+      const label = btn.getAttribute('data-label') || '';
+      switchCardMedia(cardIdx, src, label, btn);
     }
 
     // 8. Theme Management (prefers-color-scheme with localStorage override)
