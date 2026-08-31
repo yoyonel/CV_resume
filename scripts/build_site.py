@@ -327,7 +327,7 @@ def highlight_keywords(text: str) -> str:
         word = m.group(1)
         fam = get_tech_family(word)
         escaped_word = word.replace("'", "\\'")
-        return f'<span class="tech-kw family-{fam}" onclick="filterByTech(\'{escaped_word}\')">{word}</span>'
+        return f'<span class="tech-kw family-{fam}" onclick="filterByTech(\'{escaped_word}\', event)">{word}</span>'
 
     return _KW_REGEX.sub(repl, text)
 

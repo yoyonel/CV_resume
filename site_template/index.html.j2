@@ -1496,12 +1496,12 @@
   <!-- Filter & Contact Bar -->
   <div class="filter-bar">
     <div class="domain-filters">
-      <button type="button" class="filter-tag active" data-domain="all" onclick="filterByDomain('all')">Tous</button>
-      <button type="button" class="filter-tag" data-domain="backend" onclick="filterByDomain('backend')">🐍 Python & Backend</button>
-      <button type="button" class="filter-tag" data-domain="graphics" onclick="filterByDomain('graphics')">🎮 C++ & 3D Temps-Réel</button>
-      <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud')">☁️ Cloud & DevOps</button>
-      <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai')">🤖 IA & Agents</button>
-      <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig')">🗺️ SIG & Géomatique</button>
+      <button type="button" class="filter-tag active" data-domain="all" onclick="filterByDomain('all', event)" title="Afficher tous les domaines">Tous</button>
+      <button type="button" class="filter-tag" data-domain="backend" onclick="filterByDomain('backend', event)" title="Filtrer Python & Backend (Shift+Clic pour cumuler)">🐍 Python & Backend</button>
+      <button type="button" class="filter-tag" data-domain="graphics" onclick="filterByDomain('graphics', event)" title="Filtrer C++ & 3D Temps-Réel (Shift+Clic pour cumuler)">🎮 C++ & 3D Temps-Réel</button>
+      <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud', event)" title="Filtrer Cloud & DevOps (Shift+Clic pour cumuler)">☁️ Cloud & DevOps</button>
+      <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai', event)" title="Filtrer IA & Agents (Shift+Clic pour cumuler)">🤖 IA & Agents</button>
+      <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig', event)" title="Filtrer SIG & Géomatique (Shift+Clic pour cumuler)">🗺️ SIG & Géomatique</button>
       <sl-button variant="primary" size="small" pill style="--sl-color-primary-600:#0284c7;" onclick="goToMediaSection()">
         <svg class="icon" slot="prefix" ><use href="#icon-play-circle"></use></svg>
         🎬 Démos, Médias & Talks
@@ -1590,7 +1590,7 @@
 
           <div class="tags-container">
             {% for t in exp.tags %}
-            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
             {% endfor %}
           </div>
 
@@ -1653,7 +1653,7 @@
           <div style="margin-top:auto;">
             <div class="tags-container" style="margin-bottom:0.85rem;">
               {% for t in proj.tags %}
-              <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+              <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
               {% endfor %}
             </div>
 
@@ -1704,7 +1704,7 @@
               </span>
             </a>
             {% else %}
-            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
             {% endif %}
             {% endfor %}
           </div>
@@ -1853,7 +1853,8 @@
     let docZoom = 1.0;
     let docMode = 'single';
     let docPageNum = 1;
-    let activeDomainFilter = 'all';
+    let activeDomains = new Set(['all']);
+    let activeTechs = new Set();
 
     let searchIndex = [];
     let selectedPaletteIndex = 0;
@@ -2521,11 +2522,39 @@
       }, 100);
     }
 
-    // 6. Domain & Tech Filtering
-    function filterByDomain(domain) {
-      activeDomainFilter = domain;
+    // 6. Domain & Tech Filtering (Support Normal Click + Shift/Ctrl Multi-Selection)
+    function filterByDomain(domain, event) {
+      const e = event || window.event;
+      const isMulti = e && (e.shiftKey || e.ctrlKey || e.metaKey);
+
+      if (domain === 'all') {
+        activeDomains = new Set(['all']);
+      } else if (isMulti) {
+        if (activeDomains.has('all')) {
+          activeDomains.clear();
+        }
+        if (activeDomains.has(domain)) {
+          activeDomains.delete(domain);
+          if (activeDomains.size === 0) {
+            activeDomains.add('all');
+          }
+        } else {
+          activeDomains.add(domain);
+        }
+      } else {
+        // Normal click: if already sole active domain, toggle back to 'all'
+        if (activeDomains.size === 1 && activeDomains.has(domain)) {
+          activeDomains = new Set(['all']);
+        } else {
+          activeDomains = new Set([domain]);
+        }
+      }
+
+      // Update domain filter buttons UI
+      const isAll = activeDomains.has('all');
       document.querySelectorAll('.filter-tag').forEach(c => {
-        const match = c.getAttribute('data-domain') === domain;
+        const d = c.getAttribute('data-domain');
+        const match = isAll ? (d === 'all') : activeDomains.has(d);
         c.classList.toggle('active', match);
       });
 
@@ -2535,41 +2564,68 @@
 
       document.querySelectorAll('.exp-wrapper').forEach(card => {
         const domains = (card.getAttribute('data-domains') || card.getAttribute('data-domain') || '').split(',');
-        const match = (domain === 'all' || domains.includes(domain));
+        const match = isAll || domains.some(d => activeDomains.has(d));
         card.style.display = match ? 'block' : 'none';
       });
 
       document.querySelectorAll('.project-wrapper').forEach(card => {
         const domains = (card.getAttribute('data-domains') || card.getAttribute('data-domain') || '').split(',');
-        const match = (domain === 'all' || domains.includes(domain));
+        const match = isAll || domains.some(d => activeDomains.has(d));
         card.style.display = match ? 'block' : 'none';
       });
 
       document.querySelectorAll('.skill-wrapper').forEach(card => {
         const d = card.getAttribute('data-domain');
-        const match = (domain === 'all' || d === domain);
+        const match = isAll || activeDomains.has(d);
         card.style.display = match ? 'block' : 'none';
       });
     }
 
-    function filterByTech(techName) {
+    function filterByTech(techName, event) {
       if (currentMainView !== 'web') {
         switchMainView('web');
       }
+      const e = event || window.event;
+      const isMulti = e && (e.shiftKey || e.ctrlKey || e.metaKey);
       const lower = techName.toLowerCase().trim();
-      document.querySelectorAll('.tech-tag-item').forEach(t => {
-        const match = t.innerText.toLowerCase().trim() === lower;
+
+      if (isMulti) {
+        if (activeTechs.has(lower)) {
+          activeTechs.delete(lower);
+        } else {
+          activeTechs.add(lower);
+        }
+      } else {
+        if (activeTechs.size === 1 && activeTechs.has(lower)) {
+          activeTechs.clear();
+        } else {
+          activeTechs = new Set([lower]);
+        }
+      }
+
+      const hasActiveTech = activeTechs.size > 0;
+      document.querySelectorAll('.tech-tag-item, .tech-kw').forEach(t => {
+        const match = activeTechs.has(t.innerText.toLowerCase().trim());
         t.classList.toggle('active', match);
       });
 
-      document.querySelectorAll('.wa-exp-card').forEach(card => {
-        const tags = Array.from(card.querySelectorAll('.tech-tag-item')).map(t => t.innerText.toLowerCase());
-        const hasTag = tags.some(t => t.includes(lower));
-        card.classList.toggle('highlight', hasTag);
-        if (hasTag) {
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      let firstMatch = null;
+      document.querySelectorAll('.wa-exp-card, .wa-project-card').forEach(card => {
+        if (!hasActiveTech) {
+          card.classList.remove('highlight');
+        } else {
+          const textContent = card.innerText.toLowerCase();
+          const matchesAny = Array.from(activeTechs).some(tech => textContent.includes(tech));
+          card.classList.toggle('highlight', matchesAny);
+          if (matchesAny && !firstMatch) {
+            firstMatch = card;
+          }
         }
       });
+
+      if (firstMatch) {
+        firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     // 7. Media & Image Modals (Web Awesome Dialogs)

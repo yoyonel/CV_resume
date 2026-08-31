@@ -333,6 +333,106 @@ def test_ui_issues():
                 "    ✓ OK: Pressing ArrowLeft keyboard shortcut successfully returned to Page 1 / 2"
             )
 
+        # =========================================================================
+        # ISSUE 5: Filter Toggle & Shift+Click Multi-Selection (Domain & Tech)
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 5/5] Checking Filter Toggle & Shift+Click Multi-Selection..."
+        )
+        # Switch to Web Interactive view
+        page.click("#tabWeb")
+        page.wait_for_timeout(500)
+
+        # 1. Click domain filter 'graphics' (1st click -> activate)
+        page.click('.filter-tag[data-domain="graphics"]')
+        page.wait_for_timeout(300)
+        active_domains_1 = page.evaluate("Array.from(activeDomains)")
+        graphics_active = page.evaluate(
+            "document.querySelector('.filter-tag[data-domain=\"graphics\"]').classList.contains('active')"
+        )
+        if "graphics" not in active_domains_1 or not graphics_active:
+            err = f"❌ Test 5 Failed: 1st click on 'graphics' filter did not activate it (active={active_domains_1})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: 1st click on 'graphics' filter successfully activated it")
+
+        # 2. Shift+Click on 'backend' filter -> Multi-selection (both graphics and backend active)
+        page.click('.filter-tag[data-domain="backend"]', modifiers=["Shift"])
+        page.wait_for_timeout(300)
+        active_domains_multi = page.evaluate("Array.from(activeDomains)")
+        backend_active = page.evaluate(
+            "document.querySelector('.filter-tag[data-domain=\"backend\"]').classList.contains('active')"
+        )
+        graphics_still_active = page.evaluate(
+            "document.querySelector('.filter-tag[data-domain=\"graphics\"]').classList.contains('active')"
+        )
+        if (
+            "backend" not in active_domains_multi
+            or "graphics" not in active_domains_multi
+            or not (backend_active and graphics_still_active)
+        ):
+            err = f"❌ Test 5 Failed: Shift+Click multi-selection failed (active={active_domains_multi})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                f"    ✓ OK: Shift+Click successfully accumulated multiple domain filters: {active_domains_multi}"
+            )
+
+        # 3. Normal click on 'Tous' -> resets to 'all'
+        page.click('.filter-tag[data-domain="all"]')
+        page.wait_for_timeout(300)
+        active_domains_all = page.evaluate("Array.from(activeDomains)")
+        if "all" not in active_domains_all:
+            err = f"❌ Test 5 Failed: Clicking 'Tous' did not reset activeDomains to ['all'] (got {active_domains_all})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: Clicking 'Tous' successfully reset all filters")
+
+        # 4. Normal click toggle test: click 'graphics' then click 'graphics' again -> resets to 'all'
+        page.click('.filter-tag[data-domain="graphics"]')
+        page.wait_for_timeout(300)
+        page.click('.filter-tag[data-domain="graphics"]')
+        page.wait_for_timeout(300)
+        active_domain_toggle = page.evaluate("Array.from(activeDomains)")
+        if "all" not in active_domain_toggle:
+            err = f"❌ Test 5 Failed: 2nd click on 'graphics' did not toggle back to 'all' (got {active_domain_toggle})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                "    ✓ OK: 2nd click on 'graphics' successfully toggled back to 'all'"
+            )
+
+        # 5. Tech badge click and toggle
+        first_tech = page.locator(".tech-tag-item").first
+        first_tech_text = first_tech.inner_text().strip().lower()
+        first_tech.click()
+        page.wait_for_timeout(300)
+        tech_active_1 = page.evaluate("Array.from(activeTechs)")
+        if first_tech_text not in tech_active_1:
+            err = f"❌ Test 5 Failed: 1st click on tech tag [{first_tech_text}] did not activate activeTechs (got {tech_active_1})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                f"    ✓ OK: 1st click on tech tag [{first_tech_text}] activated filter: {tech_active_1}"
+            )
+
+        first_tech.click()
+        page.wait_for_timeout(300)
+        tech_active_2 = page.evaluate("Array.from(activeTechs)")
+        if len(tech_active_2) != 0:
+            err = f"❌ Test 5 Failed: 2nd click on tech tag [{first_tech_text}] did not clear activeTechs (got {tech_active_2})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                f"    ✓ OK: 2nd click on tech tag [{first_tech_text}] successfully cleared activeTechs"
+            )
+
         browser.close()
 
         print("\n" + "=" * 80)
