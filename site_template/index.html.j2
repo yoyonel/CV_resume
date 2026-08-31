@@ -2353,7 +2353,7 @@
       const onScreenCtx = onScreenCanvas.getContext('2d');
       const textLayerDiv = document.getElementById(textLayerId);
       const container = onScreenCanvas.closest('.pdf-page-container');
-      if (container && getComputedStyle(container).display === 'none') return;
+      if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
 
       const unscaledViewport = page.getViewport({ scale: 1.0 });
       const isMobile = window.innerWidth <= 860;
@@ -2392,6 +2392,7 @@
       }
 
       // --- ATOMIC BUFFER SWAP (Zero White Flash / Tearing) ---
+      document.documentElement.style.setProperty('--scale-factor', String(viewport.scale));
       if (container) {
         container.style.width = Math.floor(viewport.width) + 'px';
         container.style.height = Math.floor(viewport.height) + 'px';
@@ -2419,10 +2420,22 @@
     }
 
     async function renderDocPages() {
-      await Promise.all([
-        renderDocPage(1, 'canvasPage1', 'textLayer1'),
-        renderDocPage(2, 'canvasPage2', 'textLayer2')
-      ]);
+      const vDoc = document.getElementById('viewDocument');
+      if (vDoc && (vDoc.style.display === 'none' || getComputedStyle(vDoc).display === 'none')) {
+        return;
+      }
+      if (docMode === 'single') {
+        if (docPageNum === 1) {
+          await renderDocPage(1, 'canvasPage1', 'textLayer1');
+        } else {
+          await renderDocPage(2, 'canvasPage2', 'textLayer2');
+        }
+      } else {
+        await Promise.all([
+          renderDocPage(1, 'canvasPage1', 'textLayer1'),
+          renderDocPage(2, 'canvasPage2', 'textLayer2')
+        ]);
+      }
     }
 
     function setDocMode(mode) {
