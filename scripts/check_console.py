@@ -100,12 +100,7 @@ def run_console_checks(target_url: str | None = None) -> int:
                 network_errors.append(
                     f"[{context_label} RequestFailed] {req.url} - {req.failure}"
                 )
-                if not (
-                    req.url.startswith(
-                        ("mailto:", "tel:", "http://bit.ly", "https://www.youtube.com")
-                    )
-                    or "favicon.ico" in req.url
-                )
+                if req.url.startswith(base_url) and not req.url.endswith("favicon.ico")
                 else None
             ),
         )

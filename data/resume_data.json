@@ -604,7 +604,7 @@
         },
         {
           "label": "Support de Présentation (Slides)",
-          "url": "http://bit.ly/36mb5Ez",
+          "url": "https://bit.ly/36mb5Ez",
           "icon": "slides"
         }
       ]
@@ -650,7 +650,7 @@
         "title": "Soft Shadow Maps: Efficient Sampling of Light Source Visibility",
         "journal": "Computer Graphics Forum (CGF), 2006",
         "authors": "Atty et al. - INRIA / Eden Games",
-        "url": "http://maverick.inria.fr/Publications/2006/AHLHHS06/"
+        "url": "https://maverick.inria.fr/Publications/2006/AHLHHS06/"
       },
       "domain": "graphics"
     },
