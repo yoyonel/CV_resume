@@ -338,7 +338,7 @@ class ExploratoryBot:
                     page.evaluate("zoomDoc(-0.1)")
                     description = "Zoom Out ISO Document (-10%)"
                 elif sub_action == "page_toggle":
-                    page.evaluate("switchDocPage(docPageNum === 1 ? 2 : 1)")
+                    page.evaluate("docPageNum === 1 ? nextDocPage() : prevDocPage()")
                     description = "Toggled ISO Document Page (1 <-> 2)"
                 page.wait_for_timeout(80)
                 target_name = f"#viewDocument controls ({sub_action})"
@@ -560,6 +560,7 @@ def run_bot(
                     bot.network_errors.append(f"{req.url} - {req.failure}")
                     if req.url.startswith(base_url)
                     and not req.url.endswith("favicon.ico")
+                    and "net::ERR_ABORTED" not in str(req.failure)
                     else None
                 ),
             )
