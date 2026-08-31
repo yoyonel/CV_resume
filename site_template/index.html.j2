@@ -1639,7 +1639,7 @@
               {% if proj.media.gallery %}
               <div class="media-gallery-thumbs">
                 {% for g in proj.media.gallery %}
-                <sl-button variant="{{ 'primary' if loop.first else 'default' }}" size="small" class="media-thumb-btn-{{ proj_idx }}" onclick="switchCardMedia('{{ proj_idx }}', '{{ g.src }}', '{{ g.label }}', this)">
+                <sl-button variant="{{ 'primary' if loop.first else 'default' }}" size="small" class="media-thumb-btn-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-src="{{ g.src }}" data-label="{{ g.label }}" onclick="switchCardMediaByElem(this)">
                   {{ g.label }}
                 </sl-button>
                 {% endfor %}
@@ -2661,11 +2661,20 @@
       if (img) img.src = src;
       if (badge) badge.innerText = src.endsWith('.gif') ? '🔥 DÉMO ANIMÉE' : '📸 ' + label.toUpperCase();
 
-      const parent = btn.parentElement;
-      if (parent) {
-        parent.querySelectorAll(`.media-thumb-btn-${cardIdx}`).forEach(b => b.setAttribute('variant', 'default'));
-        btn.setAttribute('variant', 'primary');
+      if (btn) {
+        const parent = btn.parentElement;
+        if (parent) {
+          parent.querySelectorAll(`.media-thumb-btn-${cardIdx}`).forEach(b => b.setAttribute('variant', 'default'));
+          btn.setAttribute('variant', 'primary');
+        }
       }
+    }
+
+    function switchCardMediaByElem(btn) {
+      const cardIdx = btn.getAttribute('data-card-idx');
+      const src = btn.getAttribute('data-src');
+      const label = btn.getAttribute('data-label') || '';
+      switchCardMedia(cardIdx, src, label, btn);
     }
 
     // 8. Theme Management (prefers-color-scheme with localStorage override)

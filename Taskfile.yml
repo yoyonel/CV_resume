@@ -179,8 +179,19 @@ tasks:
     cmds:
       - task: site:check:console
 
+  site:check:html:
+    desc: Automated static HTML and inline JavaScript syntax validation
+    cmds:
+      - task: site:build
+      - python3 scripts/check_html_syntax.py
+
+  check:html:
+    desc: Alias for site:check:html
+    cmds:
+      - task: site:check:html
+
   site:check:ui:
-    desc: Automated UI regression verification (Ctrl K, search input, tooltip clipping)
+    desc: Automated UI regression verification (Ctrl K, search input, tooltip clipping, galleries)
     cmds:
       - task: site:build
       - uv run --with playwright scripts/test_ui_regressions.py
@@ -192,10 +203,11 @@ tasks:
 
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + site build + mobile check + console check + UI check + link check)
+    desc: Full validation suite (lint + site build + html check + mobile check + console check + UI check + link check)
     cmds:
       - task: lint
       - task: site:build
+      - task: check:html
       - task: check:mobile
       - task: check:console
       - task: check:ui

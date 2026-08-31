@@ -433,6 +433,32 @@ def test_ui_issues():
                 f"    ✓ OK: 2nd click on tech tag [{first_tech_text}] successfully cleared activeTechs"
             )
 
+        # =========================================================================
+        # ISSUE 6: Project Card Media Gallery Buttons (switchCardMedia)
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 6/6] Checking Project Card Media Gallery Buttons (Gallery Switcher)..."
+        )
+        gallery_buttons = page.locator(".media-gallery-thumbs sl-button")
+        btn_count = gallery_buttons.count()
+        print(f"    Testing all {btn_count} gallery thumbnail buttons...")
+
+        for i in range(btn_count):
+            btn = gallery_buttons.nth(i)
+            label = btn.inner_text().strip()
+            btn.scroll_into_view_if_needed()
+            btn.click()
+            page.wait_for_timeout(300)
+            btn_variant = btn.get_attribute("variant")
+            if btn_variant != "primary":
+                err = f"❌ Test 6 Failed: Clicking gallery button [{label}] did not set variant='primary'"
+                errors.append(err)
+                print(f"    {err}")
+            else:
+                print(
+                    f"    ✓ OK: Gallery button [{label}] switched media and set active variant='primary'"
+                )
+
         browser.close()
 
         print("\n" + "=" * 80)
