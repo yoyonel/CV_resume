@@ -1624,14 +1624,14 @@
             {% if proj.media %}
             <div class="project-media-box">
               {% if proj.media.type == 'video' %}
-              <div class="project-media-main" onclick="openMediaModal('{{ proj.media.video_url }}', '{{ proj.title }}')">
+              <div class="project-media-main" data-video-url="{{ proj.media.video_url }}" data-title="{{ proj.title | e }}" onclick="openMediaModalByElem(this)">
                 <span class="media-badge-overlay">▶ VIDÉO MASTERCLASS</span>
                 <img src="{{ proj.media.src }}" alt="{{ proj.title }}" loading="lazy" decoding="async" width="800" height="450">
                 <div class="video-play-btn">▶</div>
                 <div class="media-zoom-overlay"><span>Lancer la vidéo</span></div>
               </div>
               {% else %}
-              <div class="project-media-main" id="media-main-{{ proj_idx }}" onclick="openImageModal(document.getElementById('media-img-{{ proj_idx }}').src, '{{ proj.title }}')">
+              <div class="project-media-main" id="media-main-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-title="{{ proj.title | e }}" onclick="openImageModalByElem(this)">
                 <span class="media-badge-overlay" id="media-badge-{{ proj_idx }}">{{ '🔥 DÉMO ANIMÉE' if proj.media.type == 'gif' else '📸 CAPTURE R&D' }}</span>
                 <img id="media-img-{{ proj_idx }}" src="{{ proj.media.src }}" alt="{{ proj.title }}" loading="lazy" decoding="async" width="800" height="450">
                 <div class="media-zoom-overlay"><svg class="icon" ><use href="#icon-zoom-in"></use></svg><span>Agrandir</span></div>
@@ -2649,7 +2649,16 @@
       dialog.show();
     }
 
+    function openMediaModalByElem(el) {
+      const url = el.getAttribute('data-video-url');
+      const title = el.getAttribute('data-title');
+      openMediaModal(url, title);
+    }
+
     function closeMediaModal() {
+      if (document.activeElement && typeof document.activeElement.blur === 'function') {
+        document.activeElement.blur();
+      }
       const dialog = document.getElementById('mediaModalDialog');
       if (dialog) dialog.hide();
       document.getElementById('mediaModalFrame').src = '';
@@ -2662,7 +2671,19 @@
       dialog.show();
     }
 
+    function openImageModalByElem(el) {
+      const cardIdx = el.getAttribute('data-card-idx');
+      const title = el.getAttribute('data-title');
+      const img = document.getElementById(`media-img-${cardIdx}`);
+      if (img) {
+        openImageModal(img.src, title);
+      }
+    }
+
     function closeImageModal() {
+      if (document.activeElement && typeof document.activeElement.blur === 'function') {
+        document.activeElement.blur();
+      }
       const dialog = document.getElementById('imageModalDialog');
       if (dialog) dialog.hide();
       document.getElementById('imageModalImg').src = '';
@@ -2753,6 +2774,21 @@
           btn.setAttribute('href', `https://yoyonel.github.io/CV_resume/${PDF_URL}`);
         });
       }
+      document.querySelectorAll('sl-dialog').forEach(dialog => {
+        dialog.addEventListener('sl-hide', () => {
+          if (document.activeElement && typeof document.activeElement.blur === 'function') {
+            document.activeElement.blur();
+          }
+          if (dialog.shadowRoot && dialog.shadowRoot.activeElement) {
+            try { dialog.shadowRoot.activeElement.blur(); } catch (err) {}
+          }
+        });
+        dialog.addEventListener('sl-after-hide', () => {
+          if (document.activeElement && typeof document.activeElement.blur === 'function') {
+            document.activeElement.blur();
+          }
+        });
+      });
       switchMainView('web');
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => { searchIndex = buildSearchIndex(); });
