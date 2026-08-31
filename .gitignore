@@ -22,4 +22,5 @@ __pycache__/
 .venv/
 dist/
 reports/mobile_previews/
+reports/bot_sessions/
 

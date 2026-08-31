@@ -51,6 +51,9 @@ jobs:
       - name: Verify Zero Runtime Console Errors
         run: uv run --with playwright scripts/check_console.py
 
+      - name: Run Guided Exploratory Bot (Local Build)
+        run: uv run --with playwright scripts/exploratory_bot.py --duration 30
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
