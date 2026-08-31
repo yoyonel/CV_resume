@@ -261,7 +261,7 @@ class ExploratoryBot:
 
             elif action_type == "gallery_media":
                 page.evaluate("switchMainView('web')")
-                cards = [1, 2, 4, 5]
+                cards = [1, 2, 4, 5, 6]
                 card_idx = self.rng.choice(cards)
                 count = page.evaluate(
                     f"document.querySelectorAll('.media-thumb-btn-{card_idx}').length"
