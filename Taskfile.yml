@@ -201,6 +201,35 @@ tasks:
     cmds:
       - task: site:check:ui
 
+  site:check:bot:
+    desc: Run guided exploratory bot to test all app features, state transitions and track history
+    cmds:
+      - task: site:build
+      - uv run --with playwright scripts/exploratory_bot.py {{.CLI_ARGS}}
+
+  test:bot:
+    desc: Run guided exploratory bot on local build (e.g. task test:bot -- --steps 100 --seed 42)
+    cmds:
+      - task: site:build
+      - uv run --with playwright scripts/exploratory_bot.py {{.CLI_ARGS}}
+
+  test:bot:prod:
+    desc: Run guided exploratory bot on PROD (https://yoyonel.github.io/CV_resume/)
+    cmds:
+      - uv run --with playwright scripts/exploratory_bot.py --url https://yoyonel.github.io/CV_resume/ {{.CLI_ARGS}}
+
+  test:bot:surge:
+    desc: Run guided exploratory bot on Surge Preview (pass URL=... or defaults to current PR preview)
+    vars:
+      SURGE_URL: '{{.URL | default "https://yoyonel-cv-resume-pr-10.surge.sh"}}'
+    cmds:
+      - uv run --with playwright scripts/exploratory_bot.py --url {{.SURGE_URL}} {{.CLI_ARGS}}
+
+  test:bot:preview:
+    desc: Alias for test:bot:surge
+    cmds:
+      - task: test:bot:surge
+
   # --- VALIDATION SUITE ---
   check:
     desc: Full validation suite (lint + site build + html check + mobile check + console check + UI check + link check)
@@ -213,4 +242,5 @@ tasks:
       - task: check:ui
       - task: links:check
       - echo "All checks passed successfully!"
+
 

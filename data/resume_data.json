@@ -560,6 +560,65 @@
       ]
     },
     {
+      "title": "CV_resume : Portfolio Web Moderne, ISO PDF Viewer & QA Chaos Monkey E2E",
+      "dates": "2026",
+      "category": "Web Architecture, Typst & IA Agentique",
+      "description": "Plateforme de portfolio et CV interactif haute performance combinant une Single Page App moderne (Web Components Shoelace / Web Awesome, Thème adaptatif Clair/Sombre, Palette de commande Ctrl+K avec recherche floue multi-critères, Filtrage par tags cumulatifs Shift+Click) et un visualiseur de document ISO fidèle à la norme PDF via PDF.js (modes Single, Dual et Continu avec TextLayer synchronisé). Pipeline de génération Typst / Jinja2 hautement automatisé avec compilation PDF vectorielle, audit d'accessibilité WAI-ARIA, tests de non-régression UI Playwright, bot d'exploration E2E à hasard guidé (Guided Chaos Monkey avec enregistrement de session JSONL/Markdown et capture automatique d'anomalies), déploiements continus Surge et publication GitHub Pages.",
+      "tags": [
+        "CV_resume",
+        "Python",
+        "Typst",
+        "Jinja2",
+        "Web Components",
+        "Shoelace",
+        "PDF.js",
+        "Playwright",
+        "Chaos Monkey E2E",
+        "Taskfile",
+        "GitHub Actions",
+        "GitHub Pages",
+        "Surge",
+        "IA Agentique"
+      ],
+      "domain": "backend",
+      "domains": [
+        "backend",
+        "cloud",
+        "ai"
+      ],
+      "media": {
+        "type": "image",
+        "src": "assets/projects/cv-resume-web.png",
+        "caption": "Portfolio Web Moderne & Visualiseur ISO PDF.js (CV_resume)",
+        "gallery": [
+          {
+            "src": "assets/projects/cv-resume-web.png",
+            "label": "Portfolio Web (Shoelace & Tags)"
+          },
+          {
+            "src": "assets/projects/cv-resume-doc.png",
+            "label": "Visualiseur Document ISO PDF.js"
+          },
+          {
+            "src": "assets/projects/cv-resume-palette.png",
+            "label": "Palette de Commande & Recherche Floue"
+          }
+        ]
+      },
+      "links": [
+        {
+          "label": "GitHub CV_resume",
+          "url": "https://github.com/yoyonel/CV_resume",
+          "icon": "github"
+        },
+        {
+          "label": "Site Live GitHub Pages",
+          "url": "https://yoyonel.github.io/CV_resume/",
+          "icon": "link"
+        }
+      ]
+    },
+    {
       "title": "IA Agentique, Écosystème MCP & Automatisation",
       "dates": "2025 - 2026",
       "category": "IA & Outillage",
