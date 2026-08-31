@@ -722,6 +722,70 @@
       transform: translateY(-1px);
     }
 
+    /* 4 Technical Families (matching Typst tag-families) */
+    .family-core {
+      background: rgba(30, 58, 138, 0.25) !important;
+      border-color: rgba(96, 165, 250, 0.45) !important;
+      color: #93c5fd !important;
+    }
+    html.sl-theme-light .family-core {
+      background: #eff6ff !important;
+      border-color: #bfdbfe !important;
+      color: #1e3a8a !important;
+    }
+
+    .family-infra {
+      background: rgba(22, 78, 58, 0.25) !important;
+      border-color: rgba(52, 211, 153, 0.45) !important;
+      color: #6ee7b7 !important;
+    }
+    html.sl-theme-light .family-infra {
+      background: #f0fdf4 !important;
+      border-color: #bbf7d0 !important;
+      color: #164e3a !important;
+    }
+
+    .family-ai {
+      background: rgba(113, 69, 19, 0.25) !important;
+      border-color: rgba(251, 191, 36, 0.45) !important;
+      color: #fde68a !important;
+    }
+    html.sl-theme-light .family-ai {
+      background: #fefce8 !important;
+      border-color: #fef08a !important;
+      color: #714513 !important;
+    }
+
+    .family-tools {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 255, 255, 0.22) !important;
+      color: #e2e8f0 !important;
+    }
+    html.sl-theme-light .family-tools {
+      background: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      color: #374151 !important;
+    }
+
+    .tech-kw {
+      display: inline-block;
+      padding: 0.05rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.25;
+      margin: 0.05rem 1px;
+      vertical-align: baseline;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .tech-kw:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
     /* Projects Grid with Web Awesome Cards & Carousel */
     .projects-grid {
       display: grid;
@@ -1510,7 +1574,7 @@
 
           <ul class="exp-bullets">
             {% for b in exp.bullets %}
-            <li>{{ b }}</li>
+            <li>{{ b | highlight_kw | safe }}</li>
             {% endfor %}
           </ul>
 
@@ -1526,7 +1590,7 @@
 
           <div class="tags-container">
             {% for t in exp.tags %}
-            <span class="tech-tag-item" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}')">{{ t }}</span>
             {% endfor %}
           </div>
 
@@ -1555,7 +1619,7 @@
           <div>
             <div class="project-category">{{ proj.category }} &bull; {{ proj.dates }}</div>
             <div class="project-title">{{ proj.title }}</div>
-            <p class="project-desc">{{ proj.description }}</p>
+            <p class="project-desc">{{ proj.description | highlight_kw | safe }}</p>
 
             {% if proj.media %}
             <div class="project-media-box">
@@ -1589,7 +1653,7 @@
           <div style="margin-top:auto;">
             <div class="tags-container" style="margin-bottom:0.85rem;">
               {% for t in proj.tags %}
-              <span class="tech-tag-item" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+              <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}')">{{ t }}</span>
               {% endfor %}
             </div>
 
@@ -1635,12 +1699,12 @@
             {% for t in cat.tags %}
             {% if t is mapping %}
             <a href="{{ t.url }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;" title="Documentation officielle : {{ t.name }}">
-              <span class="tech-tag-item">
+              <span class="tech-tag-item family-{{ t.name | tech_family }}">
                 {{ t.name }} <svg class="icon"  style="font-size:0.65em; margin-left:3px;"><use href="#icon-box-arrow-up-right"></use></svg>
               </span>
             </a>
             {% else %}
-            <span class="tech-tag-item" onclick="filterByTech('{{ t }}')">{{ t }}</span>
+            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}')">{{ t }}</span>
             {% endif %}
             {% endfor %}
           </div>
