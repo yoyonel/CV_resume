@@ -593,7 +593,7 @@
         "gallery": [
           {
             "src": "assets/projects/cv-resume-web.png",
-            "label": "Portfolio Web (Shoelace & Tags)"
+            "label": "Portfolio Web & Filtres Dynamiques"
           },
           {
             "src": "assets/projects/cv-resume-doc.png",

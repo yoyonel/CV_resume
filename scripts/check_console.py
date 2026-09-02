@@ -230,9 +230,12 @@ def run_console_checks(target_url: str | None = None) -> int:
                 window.print = () => {};
                 window.open = () => {};
                 const elements = document.querySelectorAll(
-                    'button, sl-button, sl-icon-button, .filter-tag, .tech-tag-item, .tech-kw'
+                    'button, .btn, .filter-tag, .tech-tag-item, .tech-kw'
                 );
                 elements.forEach(el => {
+                    if (el.tagName === 'A') {
+                        el.addEventListener('click', e => e.preventDefault(), { capture: true, once: true });
+                    }
                     el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
                 });
                 return elements.length;

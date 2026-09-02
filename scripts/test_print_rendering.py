@@ -54,8 +54,8 @@ def test_print_rendering():
         )
         is_doc_visible = page.locator("#viewDocument").is_visible()
         is_web_visible = page.locator("#viewInteractive").is_visible()
-        tab_doc_variant = page.locator("#tabDoc").get_attribute("variant")
-        btn_dual_variant = page.locator("#btnModeDual").get_attribute("variant")
+        tab_doc_class = page.locator("#tabDoc").get_attribute("class") or ""
+        btn_dual_class = page.locator("#btnModeDual").get_attribute("class") or ""
 
         if not is_doc_visible:
             err = "❌ Default view should be #viewDocument but it is not visible!"
@@ -71,19 +71,19 @@ def test_print_rendering():
         else:
             print("    ✓ #viewInteractive is hidden by default")
 
-        if tab_doc_variant != "primary":
-            err = f"❌ #tabDoc should have variant='primary' by default (got '{tab_doc_variant}')"
+        if "active" not in tab_doc_class and "btn-primary" not in tab_doc_class:
+            err = f"❌ #tabDoc should have class 'active' or 'btn-primary' by default (got '{tab_doc_class}')"
             errors.append(err)
             print(f"    {err}")
         else:
-            print("    ✓ #tabDoc is active ('primary')")
+            print("    ✓ #tabDoc is active ('btn-primary')")
 
-        if btn_dual_variant != "primary":
-            err = f"❌ #btnModeDual should have variant='primary' by default (got '{btn_dual_variant}')"
+        if "active" not in btn_dual_class and "btn-primary" not in btn_dual_class:
+            err = f"❌ #btnModeDual should have class 'active' or 'btn-primary' by default (got '{btn_dual_class}')"
             errors.append(err)
             print(f"    {err}")
         else:
-            print("    ✓ #btnModeDual is active ('primary')")
+            print("    ✓ #btnModeDual is active ('btn-primary')")
 
         # ---------------------------------------------------------------------
         # TEST 2: Print from Document ISO View (A4 & US Letter)

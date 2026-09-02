@@ -425,10 +425,12 @@ def build_site(output_dir: Path | None = None) -> Path:
     site_env.filters["tech_family"] = get_tech_family
     site_env.filters["highlight_kw"] = highlight_keywords
     html_tpl = site_env.get_template("index.html.j2")
+    build_id = int(datetime.now(tz=timezone.utc).timestamp())
     rendered_html = html_tpl.render(
         profile=profile,
         pdf_filename=dist_pdf_name,
         build_year=current_year,
+        build_id=build_id,
         resume_data=resume_data,
         resume_json=json.dumps(resume_data, ensure_ascii=False, separators=(",", ":")),
     )

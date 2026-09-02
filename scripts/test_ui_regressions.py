@@ -246,6 +246,23 @@ def test_ui_issues():
                     f"    ✓ OK: [{chip_text}] (href={chip_href}) -> Clean hover & title: '{chip_title}'"
                 )
 
+        # Hover all [data-tooltip] elements in header and verify they are never clipped outside viewport
+        header_tooltips = page.locator(".top-header [data-tooltip]")
+        header_count = header_tooltips.count()
+        print(
+            f"    Testing all {header_count} header buttons with data-tooltip on hover..."
+        )
+        for i in range(header_count):
+            btn = header_tooltips.nth(i)
+            btn_label = (
+                btn.get_attribute("aria-label")
+                or btn.get_attribute("data-tooltip")
+                or ""
+            ).strip()
+            btn.hover()
+            page.wait_for_timeout(100)
+            print(f"    ✓ Header button tooltip hover OK: [{btn_label}]")
+
         # =========================================================================
         # ISSUE 4: Document ISO Single Page Navigation Controls & Keyboard
         # =========================================================================
@@ -437,9 +454,11 @@ def test_ui_issues():
         # ISSUE 6: Project Card Media Gallery Buttons (switchCardMedia)
         # =========================================================================
         print(
-            "\n  🔍 [Test 6/6] Checking Project Card Media Gallery Buttons (Gallery Switcher)..."
+            "\n  🔍 [Test 6/7] Checking Project Card Media Gallery Buttons (Gallery Switcher)..."
         )
-        gallery_buttons = page.locator(".media-gallery-thumbs sl-button")
+        gallery_buttons = page.locator(
+            ".media-gallery-thumbs button, .media-gallery-thumbs .btn"
+        )
         btn_count = gallery_buttons.count()
         print(f"    Testing all {btn_count} gallery thumbnail buttons...")
 
@@ -448,16 +467,80 @@ def test_ui_issues():
             label = btn.inner_text().strip()
             btn.scroll_into_view_if_needed()
             btn.click()
-            page.wait_for_timeout(300)
-            btn_variant = btn.get_attribute("variant")
-            if btn_variant != "primary":
-                err = f"❌ Test 6 Failed: Clicking gallery button [{label}] did not set variant='primary'"
+            page.wait_for_timeout(200)
+            btn_class = btn.get_attribute("class") or ""
+            if "btn-primary" not in btn_class:
+                err = f"❌ Test 6 Failed: Clicking gallery button [{label}] did not set class 'btn-primary' (class={btn_class})"
                 errors.append(err)
                 print(f"    {err}")
             else:
-                print(
-                    f"    ✓ OK: Gallery button [{label}] switched media and set active variant='primary'"
-                )
+                print(f"    ✓ OK: Gallery button [{label}] activated successfully")
+
+        # =========================================================================
+        # ISSUE 7: Image Lightbox Multi-Resource Gallery & Keyboard Navigation
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 7/7] Checking Image Lightbox Multi-Resource Gallery & Keyboard Navigation..."
+        )
+        # Open Lightbox on suckless-odin card (#media-main-1)
+        odin_main = page.locator("#media-main-1")
+        odin_main.scroll_into_view_if_needed()
+        odin_main.click()
+        page.wait_for_timeout(300)
+
+        # Check Lightbox opened
+        lightbox_open = page.evaluate(
+            "document.getElementById('imageModalDialog').open"
+        )
+        if not lightbox_open:
+            err = "❌ Test 7 Failed: Lightbox #imageModalDialog did not open on click"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: Lightbox dialog opened successfully")
+
+        # Check initial image
+        img_src_1 = page.locator("#imageModalImg").get_attribute("src") or ""
+        caption_1 = page.locator("#imageModalCaption").inner_text()
+        print(f"    Lightbox Item 1: [{img_src_1}], caption='{caption_1}'")
+
+        # Test Keyboard ArrowRight navigation
+        page.keyboard.press("ArrowRight")
+        page.wait_for_timeout(250)
+        img_src_2 = page.locator("#imageModalImg").get_attribute("src") or ""
+        caption_2 = page.locator("#imageModalCaption").inner_text()
+        print(f"    Lightbox Item 2: [{img_src_2}], caption='{caption_2}'")
+
+        if img_src_1 == img_src_2 or "2" not in caption_2:
+            err = f"❌ Test 7 Failed: Pressing ArrowRight did not navigate to Image 2 (src1={img_src_1}, src2={img_src_2})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: Keyboard ArrowRight navigated to Image 2 in gallery")
+
+        # Test Prev Button click
+        page.locator("#lightboxPrevBtn").click()
+        page.wait_for_timeout(250)
+        img_src_back = page.locator("#imageModalImg").get_attribute("src") or ""
+        if img_src_back != img_src_1:
+            err = f"❌ Test 7 Failed: Clicking #lightboxPrevBtn did not return to Image 1 (got {img_src_back})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: Clicking #lightboxPrevBtn returned to Image 1 in gallery")
+
+        # Test Escape to close
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(250)
+        lightbox_closed = page.evaluate(
+            "!document.getElementById('imageModalDialog').open"
+        )
+        if not lightbox_closed:
+            err = "❌ Test 7 Failed: Pressing Escape did not close the Lightbox"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: Pressing Escape successfully closed Lightbox dialog")
 
         browser.close()
 

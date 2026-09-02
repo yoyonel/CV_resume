@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr" class="sl-theme-dark dark">
+<html lang="fr" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ profile.name }} — CV Senior Développeur & Architecte (Web Awesome & Typst)</title>
-  <meta name="description" content="CV & Portfolio interactif de {{ profile.name }} — {{ profile.title }} ({{ profile.specialties }}). Composants Web Awesome et Rendu ISO Typst.">
+  <title>{{ profile.name }} — CV Senior Développeur & Architecte (HTML5 & Typst)</title>
+  <meta name="description" content="CV & Portfolio interactif de {{ profile.name }} — {{ profile.title }} ({{ profile.specialties }}). Composants Web Natifs et Rendu ISO Typst.">
   <meta name="author" content="{{ profile.name }}">
 
   <!-- Open Graph -->
@@ -21,11 +21,6 @@
   <link rel="preload" href="assets/fonts/font_3.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
 
-  <!-- Web Awesome / Shoelace Web Components -->
-  <link rel="stylesheet" href="assets/vendor/shoelace/dark.css" />
-  <link rel="stylesheet" href="assets/vendor/shoelace/light.css" media="(prefers-color-scheme: light)" />
-
-
   <style>
     .icon {
       width: 1em;
@@ -38,18 +33,6 @@
 
     :root, html {
       --scale-factor: 1;
-      --sl-color-primary-50: #f0f9ff;
-      --sl-color-primary-100: #e0f2fe;
-      --sl-color-primary-200: #bae6fd;
-      --sl-color-primary-300: #7dd3fc;
-      --sl-color-primary-400: #38bdf8;
-      --sl-color-primary-500: #0ea5e9;
-      --sl-color-primary-600: #0284c7;
-      --sl-color-primary-700: #0369a1;
-      --sl-color-primary-800: #075985;
-      --sl-color-primary-900: #0c4a6e;
-      --sl-color-primary-950: #082f49;
-
       --bg-canvas: #090d16;
       --bg-ambient: radial-gradient(circle at 50% -20%, rgba(56, 189, 248, 0.12) 0%, transparent 60%);
       --bg-header: rgba(9, 13, 22, 0.88);
@@ -68,10 +51,11 @@
       --radius-sm: 6px;
       --radius-md: 10px;
       --radius-lg: 16px;
+      --radius-pill: 9999px;
       --header-height: 60px;
     }
 
-    html.sl-theme-light {
+    html.light, html.sl-theme-light {
       --bg-canvas: #f8fafc;
       --bg-ambient: radial-gradient(circle at 50% -20%, rgba(2, 132, 199, 0.08) 0%, transparent 60%);
       --bg-header: rgba(255, 255, 255, 0.92);
@@ -89,24 +73,251 @@
       --paper-shadow: 0 15px 40px -10px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.06);
     }
 
-    :not(:defined) {
-      visibility: hidden;
+    /* Native Modern Button System */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: inherit;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+      user-select: none;
+      line-height: 1.2;
+      box-sizing: border-box;
+      white-space: nowrap;
     }
 
-    sl-icon {
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      vertical-align: -0.125em;
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-1px);
+      color: var(--text-main);
     }
 
-    sl-avatar::part(base) {
-      background-color: #0369a1;
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-sm {
+      padding: 0.26rem 0.65rem;
+      font-size: 0.76rem;
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #ffffff !important;
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 3px 12px rgba(2, 132, 199, 0.4);
+    }
+
+    .btn-default {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+    html.light .btn-default, html.sl-theme-light .btn-default {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #334155;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--border-color);
+      color: var(--text-muted);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+    }
+    html.light .btn-ghost:hover, html.sl-theme-light .btn-ghost:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .btn-icon {
+      padding: 0.4rem;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+    }
+
+    .btn-pill {
+      border-radius: var(--radius-pill);
+    }
+
+    /* Native Button Groups (Seamless Pill Container) */
+    .btn-group {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(17, 24, 39, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-pill);
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .btn-group .btn {
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-pill);
+      padding: 0.26rem 0.75rem;
+      color: var(--text-muted);
+      box-shadow: none;
+      font-size: 0.78rem;
+    }
+
+    .btn-group .btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.06);
+      transform: none;
+    }
+
+    .btn-group .btn.active,
+    .btn-group .btn.btn-primary {
+      background: #0284c7;
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 1px 6px rgba(2, 132, 199, 0.35);
+    }
+
+    html.light .btn-group, html.sl-theme-light .btn-group {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    html.light .btn-group .btn, html.sl-theme-light .btn-group .btn {
+      color: #475569;
+    }
+    html.light .btn-group .btn:hover, html.sl-theme-light .btn-group .btn:hover {
+      background: rgba(0, 0, 0, 0.05);
+      color: #0f172a;
+    }
+    html.light .btn-group .btn.active, html.sl-theme-light .btn-group .btn.active {
+      background: #0284c7;
       color: #ffffff;
     }
-    sl-avatar::part(initials) {
+
+    .btn-group-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.26rem 0.55rem;
+      color: var(--text-muted);
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    /* Brand Avatar */
+    .brand-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 700;
+      font-size: 0.92rem;
+      flex-shrink: 0;
+      user-select: none;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+    }
+
+    /* Native CSS Tooltip System */
+    [data-tooltip] {
+      position: relative;
+    }
+
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      padding: 0.35rem 0.65rem;
+      background: #0f172a;
+      color: #f8fafc;
+      font-size: 0.72rem;
+      font-weight: 500;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.15s cubic-bezier(0.2, 0.8, 0.4, 1), transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      z-index: 1000;
+    }
+
+    [data-tooltip]:hover::after,
+    [data-tooltip]:focus-visible::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Position header tooltips BELOW elements so they stay fully inside viewport */
+    .top-header [data-tooltip]::after {
+      bottom: auto;
+      top: calc(100% + 10px);
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    .top-header [data-tooltip]:hover::after,
+    .top-header [data-tooltip]:focus-visible::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Rightmost buttons in header don't overflow right edge */
+    .top-header .actions-group [data-tooltip]:last-child::after {
+      left: auto;
+      right: 0;
+      transform: translateY(-4px);
+    }
+
+    .top-header .actions-group [data-tooltip]:last-child:hover::after,
+    .top-header .actions-group [data-tooltip]:last-child:focus-visible::after {
+      transform: translateY(0);
+    }
+
+    html.light [data-tooltip]::after, html.sl-theme-light [data-tooltip]::after {
+      background: #1e293b;
+      color: #ffffff;
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    /* Badge Pill */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      border-radius: var(--radius-pill);
+      background: var(--bg-card-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      white-space: nowrap;
     }
 
     * {
@@ -356,30 +567,54 @@
       display: flex;
       gap: 2rem;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
       transform-origin: top center;
-      min-height: 1188px;
+      min-height: auto;
       width: 100%;
     }
 
     .pages-wrapper.mode-dual {
       flex-direction: row;
       justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      flex-wrap: nowrap;
       gap: 1.5rem;
+      width: 100%;
+    }
+
+    .pages-wrapper.mode-dual .pdf-page-container {
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 860px) {
+      .pages-wrapper.mode-dual {
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .pages-wrapper.mode-dual .pdf-page-container {
+        margin: 0 auto;
+      }
     }
 
     .pages-wrapper.mode-continuous {
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 2.5rem;
+    }
+
+    .pages-wrapper.mode-single {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
 
     .pages-wrapper.mode-single .pdf-page-container {
       display: none;
+      margin: 0 auto;
     }
     .pages-wrapper.mode-single .pdf-page-container.active {
       display: block;
@@ -1015,9 +1250,12 @@
     }
 
     /* ========================================================
-       SMART COMMAND PALETTE (CTRL + K with Web Awesome Dialog)
+       SMART COMMAND PALETTE (Native HTML5 Dialog)
        ======================================================== */
-    .cmd-palette-dialog::part(panel) {
+    dialog.cmd-palette-dialog {
+      position: fixed;
+      inset: 0;
+      margin: auto;
       background: var(--bg-card);
       border: 1px solid var(--border-focus);
       border-radius: var(--radius-lg);
@@ -1026,10 +1264,29 @@
       width: 92vw;
       overflow: hidden;
       padding: 0;
+      color: var(--text-main);
+      z-index: 9999;
     }
 
-    .cmd-palette-dialog::part(body) {
-      padding: 0;
+    dialog.cmd-palette-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    dialog.cmd-palette-dialog[open] {
+      animation: dialogZoomIn 0.16s cubic-bezier(0.2, 0.8, 0.4, 1);
+    }
+
+    @keyframes dialogZoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     .palette-header-box {
@@ -1052,7 +1309,7 @@
       border-color: var(--accent);
       box-shadow: 0 0 0 2px var(--accent-glow);
     }
-    html.sl-theme-light .palette-search-wrapper {
+    html.light .palette-search-wrapper, html.sl-theme-light .palette-search-wrapper {
       background: #ffffff;
       border-color: #cbd5e1;
     }
@@ -1090,7 +1347,7 @@
       cursor: pointer;
       user-select: none;
     }
-    html.sl-theme-light .palette-esc-kbd {
+    html.light .palette-esc-kbd, html.sl-theme-light .palette-esc-kbd {
       background: #f1f5f9;
       color: #475569;
       border-color: #cbd5e1;
@@ -1211,49 +1468,264 @@
       color: var(--text-dim);
     }
 
-    /* Web Awesome Dialog Tuning */
-    .media-dialog::part(panel) {
+    /* Native Media & Image Dialogs */
+    dialog.media-dialog {
+      position: fixed;
+      inset: 0;
+      margin: auto;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       max-width: 900px;
       width: 95vw;
+      padding: 0;
+      color: var(--text-main);
+      overflow: hidden;
+      z-index: 9999;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
     }
 
-    .media-dialog::part(body) {
+    dialog.media-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.25rem;
+      background: var(--bg-card-subtle);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .dialog-header h3 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .dialog-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      cursor: pointer;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      line-height: 1;
+      transition: all 0.15s ease;
+    }
+
+    .dialog-close-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .media-dialog .dialog-body {
       padding: 0;
       background: #000;
       height: 540px;
-      max-height: 80vh;
+      max-height: 75vh;
     }
 
     .media-dialog iframe {
       width: 100%;
       height: 100%;
       border: none;
+      display: block;
     }
 
-    .image-dialog::part(panel) {
+    dialog.image-dialog {
+      position: fixed;
+      inset: 0;
+      margin: auto;
       background: transparent;
       border: none;
       box-shadow: none;
-      max-width: 92vw;
-      width: auto;
+      max-width: 96vw;
+      max-height: 96vh;
+      width: fit-content;
+      height: fit-content;
+      padding: 0;
+      overflow: visible;
+      z-index: 9999;
+      display: none;
     }
 
-    .image-dialog::part(body) {
-      padding: 0;
+    dialog.image-dialog[open] {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
     }
 
-    .image-dialog img {
-      max-width: 100%;
-      max-height: 85vh;
+    dialog.image-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .image-dialog-wrapper {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 92vw;
+      max-height: 90vh;
+    }
+
+    .lightbox-image-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 92vw;
+      max-height: 82vh;
+    }
+
+    dialog.image-dialog img {
+      max-width: 90vw;
+      max-height: 80vh;
+      width: auto;
+      height: auto;
       object-fit: contain;
       border-radius: var(--radius-md);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
-      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      display: block;
+      user-select: none;
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
+      padding: 0;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .lightbox-prev-btn {
+      left: -22px;
+    }
+
+    .lightbox-next-btn {
+      right: -22px;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: #0284c7;
+      border-color: #38bdf8;
+      transform: translateY(-50%) scale(1.12);
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+    }
+
+    .lightbox-bottom-bar {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      max-width: 100%;
+    }
+
+    .lightbox-caption {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #f8fafc;
+      font-size: 0.85rem;
+      background: rgba(15, 23, 42, 0.85);
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .lightbox-counter {
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 0.78rem;
+    }
+
+    .lightbox-thumbs {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .lightbox-thumb-pill {
+      background: rgba(30, 41, 59, 0.8);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-pill);
+      padding: 0.25rem 0.65rem;
+      font-size: 0.75rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .lightbox-thumb-pill:hover {
+      background: rgba(51, 65, 85, 0.9);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .lightbox-thumb-pill.active {
+      background: var(--accent-gradient);
+      color: #ffffff;
+      border-color: transparent;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+    }
+
+    .dialog-close-floating {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1e293b;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.15s ease;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .dialog-close-floating:hover {
+      background: #334155;
+      transform: scale(1.1);
     }
 
     /* Responsive Breakpoints */
@@ -1312,16 +1784,16 @@
         white-space: nowrap;
         border: 0;
       }
-      .view-switcher-group sl-button::part(base) {
+      .view-switcher-group .btn {
         padding: 0 0.5rem;
       }
       .actions-group {
         gap: 0.25rem;
       }
-      .actions-group sl-button::part(base) {
+      .actions-group .btn {
         padding: 0 0.5rem;
       }
-      .search-trigger-btn::part(base) {
+      .search-trigger-btn {
         padding: 0 0.5rem;
       }
       #viewInteractive {
@@ -1403,7 +1875,7 @@
         gap: 0.4rem;
         max-width: 100%;
       }
-      .doc-controls sl-button::part(base) {
+      .doc-controls .btn {
         padding: 0 0.45rem;
         font-size: 0.74rem;
       }
@@ -1446,7 +1918,7 @@
       .search-shortcut-kbd,
       .view-switcher-group,
       .actions-group,
-      sl-dialog,
+      dialog,
       .cmd-palette-dialog,
       .media-dialog,
       .image-dialog,
@@ -1561,6 +2033,7 @@
     <symbol id="icon-link-45deg" viewBox="0 0 16 16"><path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1 1 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4 4 0 0 1-.128-1.287z"/>
   <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243z"/></symbol>
     <symbol id="icon-moon" viewBox="0 0 16 16"><path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/></symbol>
+    <symbol id="icon-sun" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></symbol>
     <symbol id="icon-play-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
   <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445"/></symbol>
     <symbol id="icon-printer" viewBox="0 0 16 16"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
@@ -1573,62 +2046,52 @@
   <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
   <path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5"/></symbol>
   </svg>
-  <!-- Header with Web Awesome Components -->
+  <!-- Header with Native Modern Components -->
   <header class="top-header">
     <div class="brand-group">
-      <sl-avatar label="{{ profile.name }}" initials="LA" style="--size: 34px; --border-radius: 8px;"></sl-avatar>
+      <div class="brand-avatar" aria-label="{{ profile.name }}">LA</div>
       <div class="brand-meta">
         <h1>{{ profile.name }}</h1>
         <p>{{ profile.title }}</p>
       </div>
     </div>
 
-    <!-- Center View Switcher (Web Awesome Button Group) -->
+    <!-- Center View Switcher (Native Button Group) -->
     <div class="view-switcher-group">
-      <sl-button-group label="Sélecteur de Vue">
-        <sl-tooltip content="Affichage PDF Haute Fidélité ISO (Touche V)">
-          <sl-button variant="primary" size="small" id="tabDoc" aria-label="Afficher le document PDF ISO" onclick="switchMainView('doc')">
-            <svg class="icon" slot="prefix" ><use href="#icon-file-earmark-pdf"></use></svg>
-            <span class="btn-label-doc">Document ISO</span>
-          </sl-button>
-        </sl-tooltip>
-        <sl-tooltip content="Affichage Portfolio Web Interactif (Touche V)">
-          <sl-button variant="default" size="small" id="tabWeb" aria-label="Afficher la vue web interactive" onclick="switchMainView('web')">
-            <svg class="icon" slot="prefix" ><use href="#icon-grid-3x3-gap"></use></svg>
-            <span class="btn-label-web">Vue Interactive</span>
-          </sl-button>
-        </sl-tooltip>
-      </sl-button-group>
+      <div class="btn-group" role="group" aria-label="Sélecteur de Vue">
+        <button type="button" class="btn btn-sm btn-primary active" id="tabDoc" aria-label="Afficher le document PDF ISO" data-tooltip="Affichage PDF Haute Fidélité ISO (Touche V)" onclick="switchMainView('doc')">
+          <svg class="icon"><use href="#icon-file-earmark-pdf"></use></svg>
+          <span class="btn-label-doc">Document ISO</span>
+        </button>
+        <button type="button" class="btn btn-sm btn-default" id="tabWeb" aria-label="Afficher la vue web interactive" data-tooltip="Affichage Portfolio Web Interactif (Touche V)" onclick="switchMainView('web')">
+          <svg class="icon"><use href="#icon-grid-3x3-gap"></use></svg>
+          <span class="btn-label-web">Vue Interactive</span>
+        </button>
+      </div>
     </div>
 
-    <!-- Smart Search Trigger (Web Awesome Button) -->
-    <sl-tooltip content="Recherche Floue & Sémantique (Ctrl + K)">
-      <sl-button variant="default" size="small" aria-label="Rechercher des compétences, projets et technologies" onclick="openPalette()" class="search-trigger-btn">
-        <svg class="icon" slot="prefix" ><use href="#icon-search"></use></svg>
-        <span class="search-label">Smart Search...</span>
-        <kbd class="search-shortcut-kbd">Ctrl K</kbd>
-      </sl-button>
-    </sl-tooltip>
+    <!-- Smart Search Trigger (Native Button) -->
+    <button type="button" class="btn btn-default btn-sm search-trigger-btn" aria-label="Rechercher des compétences, projets et technologies" data-tooltip="Recherche Floue & Sémantique (Ctrl + K)" onclick="openPalette()">
+      <svg class="icon"><use href="#icon-search"></use></svg>
+      <span class="search-label">Smart Search...</span>
+      <kbd class="search-shortcut-kbd">Ctrl K</kbd>
+    </button>
 
-    <!-- Actions (Web Awesome Buttons & Tooltips) -->
+    <!-- Actions (Native Buttons & Tooltips) -->
     <div class="actions-group">
-      <sl-tooltip content="Basculer Thème Sombre / Clair (T)">
-        <sl-icon-button id="themeToggleBtn" name="moon" label="Changer de thème" aria-label="Changer de thème sombre/clair" onclick="toggleTheme()"></sl-icon-button>
-      </sl-tooltip>
+      <button type="button" class="btn btn-icon btn-ghost" id="themeToggleBtn" aria-label="Changer de thème sombre/clair" data-tooltip="Basculer Thème (T)" onclick="toggleTheme()">
+        <svg class="icon" style="font-size:1.1rem;"><use id="themeIconUse" href="#icon-moon"></use></svg>
+      </button>
 
-      <sl-tooltip content="Imprimer le CV PDF (P)">
-        <sl-button variant="default" size="small" aria-label="Imprimer le CV au format PDF" onclick="printResume()" class="btn-print">
-          <svg class="icon" slot="prefix" ><use href="#icon-printer"></use></svg>
-          <span class="btn-label-print">Imprimer</span>
-        </sl-button>
-      </sl-tooltip>
+      <button type="button" class="btn btn-default btn-sm btn-print" aria-label="Imprimer le CV au format PDF" data-tooltip="Imprimer le CV PDF (P)" onclick="printResume()">
+        <svg class="icon"><use href="#icon-printer"></use></svg>
+        <span class="btn-label-print">Imprimer</span>
+      </button>
 
-      <sl-tooltip content="Télécharger le PDF Typst (D)">
-        <sl-button variant="primary" size="small" aria-label="Télécharger le CV PDF" href="{{ pdf_filename }}" download class="btn-download">
-          <svg class="icon" slot="prefix" ><use href="#icon-download"></use></svg>
-          <span class="btn-label-download">Télécharger PDF</span>
-        </sl-button>
-      </sl-tooltip>
+      <a class="btn btn-primary btn-sm btn-download" aria-label="Télécharger le CV PDF" data-tooltip="Télécharger le PDF Typst (D)" href="{{ pdf_filename }}" download>
+        <svg class="icon"><use href="#icon-download"></use></svg>
+        <span class="btn-label-download">Télécharger PDF</span>
+      </a>
     </div>
   </header>
 
@@ -1641,10 +2104,10 @@
       <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud', event)" title="Filtrer Cloud & DevOps (Shift+Clic pour cumuler)">☁️ Cloud & DevOps</button>
       <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai', event)" title="Filtrer IA & Agents (Shift+Clic pour cumuler)">🤖 IA & Agents</button>
       <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig', event)" title="Filtrer SIG & Géomatique (Shift+Clic pour cumuler)">🗺️ SIG & Géomatique</button>
-      <sl-button variant="primary" size="small" pill style="--sl-color-primary-600:#0284c7;" onclick="goToMediaSection()">
-        <svg class="icon" slot="prefix" ><use href="#icon-play-circle"></use></svg>
-        🎬 Démos, Médias & Talks
-      </sl-button>
+      <button type="button" class="btn btn-primary btn-sm btn-pill" style="background:#0284c7; border-color:#0284c7;" onclick="goToMediaSection()">
+        <svg class="icon"><use href="#icon-play-circle"></use></svg>
+        <span>🎬 Démos, Médias & Talks</span>
+      </button>
     </div>
 
     <div class="contact-chips">
@@ -1706,7 +2169,7 @@
               <div class="exp-role">{{ exp.role }}</div>
               <div class="exp-company">{{ exp.company }} <span style="font-size:0.8rem; color:var(--text-dim); font-weight:normal;">({{ exp.location }})</span></div>
             </div>
-            <sl-badge variant="neutral" pill style="font-family:'JetBrains Mono',monospace;">{{ exp.dates }}</sl-badge>
+            <span class="badge-pill">{{ exp.dates }}</span>
           </div>
 
           <div class="exp-summary">{{ exp.summary }}</div>
@@ -1736,10 +2199,10 @@
           {% if exp.links %}
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:1rem;">
             {% for l in exp.links %}
-            <sl-button variant="default" size="small" href="{{ l.url }}" target="_blank" rel="noopener noreferrer">
-              <svg class="icon" slot="prefix" ><use href="#icon-{{ 'file-earmark-slides' if l.icon == 'slides' else ('github' if l.icon == 'github' else 'link-45deg') }}"></use></svg>
-              {{ l.label }}
-            </sl-button>
+            <a class="btn btn-sm btn-ghost" href="{{ l.url }}" target="_blank" rel="noopener noreferrer">
+              <svg class="icon"><use href="#icon-{{ 'file-earmark-slides' if l.icon == 'slides' else ('github' if l.icon == 'github' else 'link-45deg') }}"></use></svg>
+              <span>{{ l.label }}</span>
+            </a>
             {% endfor %}
           </div>
           {% endif %}
@@ -1772,15 +2235,15 @@
               {% else %}
               <div class="project-media-main" id="media-main-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-title="{{ proj.title | e }}" onclick="openImageModalByElem(this)">
                 <span class="media-badge-overlay" id="media-badge-{{ proj_idx }}">{{ '🔥 DÉMO ANIMÉE' if proj.media.type == 'gif' else '📸 CAPTURE R&D' }}</span>
-                <img id="media-img-{{ proj_idx }}" src="{{ proj.media.src }}" alt="{{ proj.title }}" loading="lazy" decoding="async" width="800" height="450">
+                <img id="media-img-{{ proj_idx }}" src="{{ proj.media.src }}{{ '?v=' ~ build_id if not proj.media.src.startswith('http') else '' }}" alt="{{ proj.title }}" loading="lazy" decoding="async" width="800" height="450">
                 <div class="media-zoom-overlay"><svg class="icon" ><use href="#icon-zoom-in"></use></svg><span>Agrandir</span></div>
               </div>
               {% if proj.media.gallery %}
               <div class="media-gallery-thumbs">
                 {% for g in proj.media.gallery %}
-                <sl-button variant="{{ 'primary' if loop.first else 'default' }}" size="small" class="media-thumb-btn-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-src="{{ g.src }}" data-label="{{ g.label }}" onclick="switchCardMediaByElem(this)">
+                <button type="button" class="btn btn-sm {{ 'btn-primary' if loop.first else 'btn-default' }} media-thumb-btn-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-src="{{ g.src }}{{ '?v=' ~ build_id if not g.src.startswith('http') else '' }}" data-label="{{ g.label }}" onclick="switchCardMediaByElem(this)">
                   {{ g.label }}
-                </sl-button>
+                </button>
                 {% endfor %}
               </div>
               {% endif %}
@@ -1800,20 +2263,20 @@
             <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
               {% for l in proj.links %}
               {% if l.icon == 'slides' %}
-              <sl-button variant="default" size="small" onclick="openMediaModal('{{ l.url }}', '{{ l.label }}')">
-                <svg class="icon" slot="prefix" ><use href="#icon-file-earmark-slides"></use></svg>
-                {{ l.label }}
-              </sl-button>
+              <button type="button" class="btn btn-sm btn-default" onclick="openMediaModal('{{ l.url }}', '{{ l.label }}')">
+                <svg class="icon"><use href="#icon-file-earmark-slides"></use></svg>
+                <span>{{ l.label }}</span>
+              </button>
               {% elif l.icon == 'video' %}
-              <sl-button variant="primary" size="small" onclick="openMediaModal('https://www.youtube.com/embed/aaim2oCGedk', '{{ l.label }}')">
-                <svg class="icon" slot="prefix" ><use href="#icon-play-circle"></use></svg>
-                {{ l.label }}
-              </sl-button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="openMediaModal('https://www.youtube.com/embed/aaim2oCGedk', '{{ l.label }}')">
+                <svg class="icon"><use href="#icon-play-circle"></use></svg>
+                <span>{{ l.label }}</span>
+              </button>
               {% else %}
-              <sl-button variant="default" size="small" href="{{ l.url }}" target="_blank" rel="noopener noreferrer">
-                <svg class="icon" slot="prefix" ><use href="#icon-{{ 'github' if l.icon == 'github' else 'link-45deg' }}"></use></svg>
-                {{ l.label }}
-              </sl-button>
+              <a class="btn btn-sm btn-ghost" href="{{ l.url }}" target="_blank" rel="noopener noreferrer">
+                <svg class="icon"><use href="#icon-{{ 'github' if l.icon == 'github' else 'link-45deg' }}"></use></svg>
+                <span>{{ l.label }}</span>
+              </a>
               {% endif %}
               {% endfor %}
             </div>
@@ -1864,7 +2327,7 @@
               <div class="exp-role">{{ edu.degree }}</div>
               <div class="exp-company">{{ edu.institution }}</div>
             </div>
-            <sl-badge variant="neutral" pill style="font-family:'JetBrains Mono',monospace;">{{ edu.dates }}</sl-badge>
+            <span class="badge-pill">{{ edu.dates }}</span>
           </div>
           <div class="exp-summary">{{ edu.description }}</div>
           {% if edu.publication %}
@@ -1872,10 +2335,10 @@
             <div>
               📖 <strong>Publication CGF</strong> : <em>{{ edu.publication.title }}</em> ({{ edu.publication.journal }})
             </div>
-            <sl-button variant="default" size="small" href="{{ edu.publication.url }}" target="_blank">
-              <svg class="icon" slot="prefix" ><use href="#icon-box-arrow-up-right"></use></svg>
-              Consulter
-            </sl-button>
+            <a class="btn btn-sm btn-default" href="{{ edu.publication.url }}" target="_blank" rel="noopener noreferrer">
+              <svg class="icon"><use href="#icon-box-arrow-up-right"></use></svg>
+              <span>Consulter</span>
+            </a>
           </div>
           {% endif %}
         </div>
@@ -1890,33 +2353,29 @@
   <main id="viewDocument">
     <div class="doc-controls">
       <!-- Mode Selection -->
-      <sl-button-group label="Mode d'affichage PDF">
-        <sl-button variant="default" size="small" id="btnModeSingle" onclick="setDocMode('single')">Page Simple</sl-button>
-        <sl-button variant="primary" size="small" id="btnModeDual" onclick="setDocMode('dual')">Double Page</sl-button>
-        <sl-button variant="default" size="small" id="btnModeContinuous" onclick="setDocMode('continuous')">Continu</sl-button>
-      </sl-button-group>
+      <div class="btn-group" role="group" aria-label="Mode d'affichage PDF">
+        <button type="button" class="btn btn-sm" id="btnModeSingle" onclick="setDocMode('single')">Page Simple</button>
+        <button type="button" class="btn btn-sm active" id="btnModeDual" onclick="setDocMode('dual')">Double Page</button>
+        <button type="button" class="btn btn-sm" id="btnModeContinuous" onclick="setDocMode('continuous')">Continu</button>
+      </div>
 
       <!-- Pagination Group (Single Page Mode) -->
-      <sl-button-group id="singlePageNav" label="Pagination PDF" style="display:none;">
-        <sl-button variant="default" size="small" id="btnPrevPage" onclick="prevDocPage()" aria-label="Page précédente" title="Page précédente (Flèche Gauche / Page Up)">
-          <svg class="icon" slot="prefix"><use href="#icon-chevron-left"></use></svg>
-        </sl-button>
-        <sl-button variant="default" size="small" disabled style="pointer-events:none;">
-          <span id="lblPageNum" style="font-family:'JetBrains Mono',monospace; font-weight:600;">Page 1 / 2</span>
-        </sl-button>
-        <sl-button variant="default" size="small" id="btnNextPage" onclick="nextDocPage()" aria-label="Page suivante" title="Page suivante (Flèche Droite / Page Down)">
-          <svg class="icon" slot="suffix"><use href="#icon-chevron-right"></use></svg>
-        </sl-button>
-      </sl-button-group>
+      <div class="btn-group" id="singlePageNav" role="group" aria-label="Pagination PDF" style="display:none;">
+        <button type="button" class="btn btn-sm" id="btnPrevPage" onclick="prevDocPage()" aria-label="Page précédente" data-tooltip="Page précédente (Flèche Gauche / Page Up)">
+          <svg class="icon"><use href="#icon-chevron-left"></use></svg>
+        </button>
+        <span class="btn-group-label" id="lblPageNum">Page 1 / 2</span>
+        <button type="button" class="btn btn-sm" id="btnNextPage" onclick="nextDocPage()" aria-label="Page suivante" data-tooltip="Page suivante (Flèche Droite / Page Down)">
+          <svg class="icon"><use href="#icon-chevron-right"></use></svg>
+        </button>
+      </div>
 
       <!-- Zoom Controls -->
-      <sl-button-group label="Zoom PDF">
-        <sl-button variant="default" size="small" onclick="zoomDoc(-0.1)" title="Zoom arrière (-)">-</sl-button>
-        <sl-button variant="default" size="small" disabled style="pointer-events:none;">
-          <span id="lblZoom" style="font-family:'JetBrains Mono',monospace;">100%</span>
-        </sl-button>
-        <sl-button variant="default" size="small" onclick="zoomDoc(0.1)" title="Zoom avant (+)">+</sl-button>
-      </sl-button-group>
+      <div class="btn-group" role="group" aria-label="Zoom PDF">
+        <button type="button" class="btn btn-sm" onclick="zoomDoc(-0.1)" data-tooltip="Zoom arrière (-)">-</button>
+        <span class="btn-group-label" id="lblZoom">100%</span>
+        <button type="button" class="btn btn-sm" onclick="zoomDoc(0.1)" data-tooltip="Zoom avant (+)">+</button>
+      </div>
     </div>
 
     <div class="pages-wrapper mode-dual" id="pagesWrapper">
@@ -1946,20 +2405,20 @@
             </p>
           </div>
         </div>
-        <sl-button variant="primary" size="small" pill>
-          Ouvrir la Vue Interactive (V)
-          <svg class="icon" slot="suffix" ><use href="#icon-arrow-right"></use></svg>
-        </sl-button>
+        <button type="button" class="btn btn-primary btn-sm btn-pill" onclick="switchMainView('web')">
+          <span>Ouvrir la Vue Interactive (V)</span>
+          <svg class="icon"><use href="#icon-arrow-right"></use></svg>
+        </button>
       </div>
     </div>
   </main>
 
   <!-- ========================================================
-       MODALS & DIALOGS (Web Awesome Dialogs)
+       MODALS & DIALOGS (Native HTML5 Dialogs)
        ======================================================== -->
   
   <!-- Smart Command Palette Dialog -->
-  <sl-dialog id="cmdPaletteDialog" class="cmd-palette-dialog" no-header>
+  <dialog id="cmdPaletteDialog" class="cmd-palette-dialog" aria-label="Palette de recherche">
     <div class="palette-header-box">
       <div class="palette-search-wrapper">
         <svg class="icon palette-search-icon"><use href="#icon-search"></use></svg>
@@ -1974,17 +2433,36 @@
       <span>↑↓ pour naviguer &bull; Entrée pour sélectionner</span>
       <span>Recherche Sémantique & Fuzzy</span>
     </div>
-  </sl-dialog>
+  </dialog>
 
   <!-- Media Modal Dialog (Slides / YouTube) -->
-  <sl-dialog id="mediaModalDialog" class="media-dialog" label="Aperçu Multimédia">
-    <iframe id="mediaModalFrame" src="" allowfullscreen></iframe>
-  </sl-dialog>
+  <dialog id="mediaModalDialog" class="media-dialog" aria-label="Aperçu Multimédia">
+    <div class="dialog-header">
+      <h3 id="mediaModalTitle">Aperçu Multimédia</h3>
+      <button type="button" class="dialog-close-btn" onclick="closeMediaModal()" aria-label="Fermer">✕</button>
+    </div>
+    <div class="dialog-body">
+      <iframe id="mediaModalFrame" src="" allowfullscreen></iframe>
+    </div>
+  </dialog>
 
-  <!-- Image Lightbox Modal Dialog -->
-  <sl-dialog id="imageModalDialog" class="image-dialog" no-header>
-    <img id="imageModalImg" src="" alt="Aperçu Grand Format">
-  </sl-dialog>
+  <!-- Image Lightbox Modal Dialog with Multi-Resource Gallery Navigation -->
+  <dialog id="imageModalDialog" class="image-dialog" aria-label="Aperçu Grand Format">
+    <div class="image-dialog-wrapper">
+      <button type="button" class="dialog-close-floating" onclick="closeImageModal()" aria-label="Fermer">✕</button>
+      
+      <div class="lightbox-image-container">
+        <button type="button" id="lightboxPrevBtn" class="lightbox-nav-btn lightbox-prev-btn" onclick="prevLightboxImage(event)" aria-label="Image précédente (Flèche Gauche)">‹</button>
+        <img id="imageModalImg" src="" alt="Aperçu Grand Format">
+        <button type="button" id="lightboxNextBtn" class="lightbox-nav-btn lightbox-next-btn" onclick="nextLightboxImage(event)" aria-label="Image suivante (Flèche Droite)">›</button>
+      </div>
+
+      <div class="lightbox-bottom-bar">
+        <div id="imageModalCaption" class="lightbox-caption"></div>
+        <div id="lightboxThumbs" class="lightbox-thumbs"></div>
+      </div>
+    </div>
+  </dialog>
 
   <script>
     const RESUME_DATA = {{ resume_json | safe }};
@@ -2265,27 +2743,33 @@
       return results.map(r => r.item);
     }
 
-    // 3. Palette UI Functions (Using Web Awesome Dialog)
+    // 3. Palette UI Functions (Using Native HTML5 Dialog)
     function openPalette() {
       if (searchIndex.length === 0) {
         searchIndex = buildSearchIndex();
       }
       const dialog = document.getElementById('cmdPaletteDialog');
-      dialog.show();
-      setTimeout(() => {
-        const input = document.getElementById('paletteSearchInput');
-        if (input) {
-          input.value = '';
-          input.focus();
+      if (dialog) {
+        if (!dialog.open) {
+          dialog.showModal();
         }
-      }, 100);
-      selectedPaletteIndex = 0;
-      handlePaletteSearch('');
+        setTimeout(() => {
+          const input = document.getElementById('paletteSearchInput');
+          if (input) {
+            input.value = '';
+            input.focus();
+          }
+        }, 50);
+        selectedPaletteIndex = 0;
+        handlePaletteSearch('');
+      }
     }
 
     function closePalette() {
       const dialog = document.getElementById('cmdPaletteDialog');
-      if (dialog) dialog.hide();
+      if (dialog && dialog.open) {
+        dialog.close();
+      }
     }
 
     function handlePaletteSearch(val) {
@@ -2384,8 +2868,28 @@
       });
     }
 
-    // Keyboard navigation in palette
+    // Keyboard navigation in palette, lightbox, and document
     document.addEventListener('keydown', (e) => {
+      const imageDialog = document.getElementById('imageModalDialog');
+      if (imageDialog && imageDialog.open) {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          prevLightboxImage();
+          return;
+        }
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          nextLightboxImage();
+          return;
+        }
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeImageModal();
+          return;
+        }
+        return;
+      }
+
       const dialog = document.getElementById('cmdPaletteDialog');
       const isPaletteOpen = dialog && dialog.open;
 
@@ -2419,7 +2923,7 @@
         return;
       }
 
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SL-INPUT') return;
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       if (e.key === 'v' || e.key === 'V') switchMainView(currentMainView === 'doc' ? 'web' : 'doc');
       if (e.key === 't' || e.key === 'T') toggleTheme();
       if (e.key === 'p' || e.key === 'P') {
@@ -2502,8 +3006,13 @@
       const unscaledViewport = page.getViewport({ scale: 1.0 });
       const isMobile = window.innerWidth <= 860;
       const vDoc = document.getElementById('viewDocument');
-      const maxAvail = vDoc ? Math.max(280, vDoc.clientWidth - 24) : (window.innerWidth - 32);
-      const baseWidth = isMobile ? Math.min(840, maxAvail) : 840;
+      const maxAvail = vDoc ? Math.max(280, vDoc.clientWidth - 32) : (window.innerWidth - 32);
+      let baseWidth = 840;
+      if (docMode === 'dual' && !isMobile) {
+        baseWidth = Math.min(840, Math.max(340, Math.floor((maxAvail - 32) / 2)));
+      } else if (isMobile) {
+        baseWidth = Math.min(840, maxAvail);
+      }
       const targetWidth = Math.round(baseWidth * docZoom);
       const scaleFactor = targetWidth / unscaledViewport.width;
       const viewport = page.getViewport({ scale: scaleFactor });
@@ -2589,9 +3098,17 @@
       const wrapper = document.getElementById('pagesWrapper');
       wrapper.className = 'pages-wrapper mode-' + mode;
 
-      document.getElementById('btnModeSingle').setAttribute('variant', mode === 'single' ? 'primary' : 'default');
-      document.getElementById('btnModeDual').setAttribute('variant', mode === 'dual' ? 'primary' : 'default');
-      document.getElementById('btnModeContinuous').setAttribute('variant', mode === 'continuous' ? 'primary' : 'default');
+      const btnSingle = document.getElementById('btnModeSingle');
+      const btnDual = document.getElementById('btnModeDual');
+      const btnContinuous = document.getElementById('btnModeContinuous');
+
+      [btnSingle, btnDual, btnContinuous].forEach(b => {
+        if (b) b.classList.remove('active', 'btn-primary');
+      });
+
+      if (mode === 'single' && btnSingle) btnSingle.classList.add('active', 'btn-primary');
+      if (mode === 'dual' && btnDual) btnDual.classList.add('active', 'btn-primary');
+      if (mode === 'continuous' && btnContinuous) btnContinuous.classList.add('active', 'btn-primary');
 
       const pageNav = document.getElementById('singlePageNav');
       if (pageNav) {
@@ -2660,16 +3177,28 @@
       if (view === 'doc') {
         vDoc.style.display = 'flex';
         vWeb.style.display = 'none';
-        tabDoc.setAttribute('variant', 'primary');
-        tabWeb.setAttribute('variant', 'default');
+        if (tabDoc) {
+          tabDoc.classList.add('active', 'btn-primary');
+          tabDoc.classList.remove('btn-default');
+        }
+        if (tabWeb) {
+          tabWeb.classList.remove('active', 'btn-primary');
+          tabWeb.classList.add('btn-default');
+        }
         if (!pdfDoc) {
           loadPDF();
         }
       } else {
         vDoc.style.display = 'none';
         vWeb.style.display = 'block';
-        tabDoc.setAttribute('variant', 'default');
-        tabWeb.setAttribute('variant', 'primary');
+        if (tabDoc) {
+          tabDoc.classList.remove('active', 'btn-primary');
+          tabDoc.classList.add('btn-default');
+        }
+        if (tabWeb) {
+          tabWeb.classList.add('active', 'btn-primary');
+          tabWeb.classList.remove('btn-default');
+        }
       }
     }
 
@@ -2788,12 +3317,15 @@
       }
     }
 
-    // 7. Media & Image Modals (Web Awesome Dialogs)
+    // 7. Media & Image Modals (Native HTML5 Dialogs)
     function openMediaModal(url, title) {
       const dialog = document.getElementById('mediaModalDialog');
-      dialog.label = title || 'Aperçu Multimédia';
+      const titleEl = document.getElementById('mediaModalTitle');
+      if (titleEl) titleEl.innerText = title || 'Aperçu Multimédia';
       document.getElementById('mediaModalFrame').src = url;
-      dialog.show();
+      if (dialog && !dialog.open) {
+        dialog.showModal();
+      }
     }
 
     function openMediaModalByElem(el) {
@@ -2803,19 +3335,120 @@
     }
 
     function closeMediaModal() {
-      if (document.activeElement && typeof document.activeElement.blur === 'function') {
-        document.activeElement.blur();
-      }
       const dialog = document.getElementById('mediaModalDialog');
-      if (dialog) dialog.hide();
+      if (dialog && dialog.open) {
+        dialog.close();
+      }
       document.getElementById('mediaModalFrame').src = '';
     }
 
-    function openImageModal(src, title) {
+    let currentLightboxCardIdx = null;
+    let currentLightboxGallery = [];
+    let currentLightboxIndex = 0;
+
+    function openImageModal(src, title, cardIdx) {
       const dialog = document.getElementById('imageModalDialog');
-      dialog.label = title || 'Aperçu Grand Format';
-      document.getElementById('imageModalImg').src = src;
-      dialog.show();
+      currentLightboxCardIdx = cardIdx;
+      currentLightboxGallery = [];
+      currentLightboxIndex = 0;
+
+      // Extract all gallery options from project card thumbnail buttons if available
+      if (cardIdx) {
+        const buttons = document.querySelectorAll(`.media-thumb-btn-${cardIdx}`);
+        if (buttons.length > 0) {
+          buttons.forEach((b, idx) => {
+            const itemSrc = b.getAttribute('data-src');
+            const itemLabel = b.getAttribute('data-label') || title || `Vue ${idx + 1}`;
+            currentLightboxGallery.push({ src: itemSrc, label: itemLabel, btn: b });
+            if (itemSrc === src) {
+              currentLightboxIndex = idx;
+            }
+          });
+        }
+      }
+
+      if (currentLightboxGallery.length === 0) {
+        currentLightboxGallery.push({ src: src, label: title || 'Aperçu Grand Format', btn: null });
+        currentLightboxIndex = 0;
+      }
+
+      updateLightboxView();
+
+      if (dialog && !dialog.open) {
+        document.body.style.overflow = 'hidden';
+        dialog.showModal();
+      }
+    }
+
+    function updateLightboxView() {
+      const img = document.getElementById('imageModalImg');
+      const caption = document.getElementById('imageModalCaption');
+      const prevBtn = document.getElementById('lightboxPrevBtn');
+      const nextBtn = document.getElementById('lightboxNextBtn');
+      const thumbsBox = document.getElementById('lightboxThumbs');
+
+      const item = currentLightboxGallery[currentLightboxIndex];
+      if (!item) return;
+
+      if (img) {
+        img.src = item.src;
+        img.alt = item.label;
+      }
+
+      const hasMultiple = currentLightboxGallery.length > 1;
+      if (prevBtn) prevBtn.style.display = hasMultiple ? 'flex' : 'none';
+      if (nextBtn) nextBtn.style.display = hasMultiple ? 'flex' : 'none';
+
+      if (caption) {
+        if (hasMultiple) {
+          caption.innerHTML = `<span>${item.label}</span> <span class="lightbox-counter">${currentLightboxIndex + 1} / ${currentLightboxGallery.length}</span>`;
+          caption.style.display = 'flex';
+        } else {
+          caption.innerHTML = `<span>${item.label}</span>`;
+          caption.style.display = item.label ? 'flex' : 'none';
+        }
+      }
+
+      if (thumbsBox) {
+        if (hasMultiple) {
+          thumbsBox.innerHTML = '';
+          thumbsBox.style.display = 'flex';
+          currentLightboxGallery.forEach((it, idx) => {
+            const thumbBtn = document.createElement('button');
+            thumbBtn.type = 'button';
+            thumbBtn.className = 'lightbox-thumb-pill' + (idx === currentLightboxIndex ? ' active' : '');
+            thumbBtn.innerText = it.label;
+            thumbBtn.onclick = (e) => {
+              e.stopPropagation();
+              setLightboxIndex(idx);
+            };
+            thumbsBox.appendChild(thumbBtn);
+          });
+        } else {
+          thumbsBox.style.display = 'none';
+        }
+      }
+
+      // Sync background project card active thumbnail button
+      if (currentLightboxCardIdx && item.btn) {
+        switchCardMedia(currentLightboxCardIdx, item.src, item.label, item.btn);
+      }
+    }
+
+    function setLightboxIndex(newIdx) {
+      if (currentLightboxGallery.length <= 1) return;
+      currentLightboxIndex = (newIdx + currentLightboxGallery.length) % currentLightboxGallery.length;
+      updateLightboxView();
+    }
+
+    function prevLightboxImage(event) {
+      if (event) event.stopPropagation();
+      setLightboxIndex(currentLightboxIndex - 1);
+    }
+
+    function nextLightboxImage(event) {
+      if (event) event.stopPropagation();
+      setLightboxIndex(currentLightboxIndex + 1);
     }
 
     function openImageModalByElem(el) {
@@ -2823,17 +3456,18 @@
       const title = el.getAttribute('data-title');
       const img = document.getElementById(`media-img-${cardIdx}`);
       if (img) {
-        openImageModal(img.src, title);
+        openImageModal(img.src, title, cardIdx);
       }
     }
 
     function closeImageModal() {
-      if (document.activeElement && typeof document.activeElement.blur === 'function') {
-        document.activeElement.blur();
-      }
       const dialog = document.getElementById('imageModalDialog');
-      if (dialog) dialog.hide();
-      document.getElementById('imageModalImg').src = '';
+      if (dialog && dialog.open) {
+        dialog.close();
+      }
+      document.body.style.overflow = '';
+      const img = document.getElementById('imageModalImg');
+      if (img) img.src = '';
     }
 
     function switchCardMedia(cardIdx, src, label, btn) {
@@ -2845,8 +3479,12 @@
       if (btn) {
         const parent = btn.parentElement;
         if (parent) {
-          parent.querySelectorAll(`.media-thumb-btn-${cardIdx}`).forEach(b => b.setAttribute('variant', 'default'));
-          btn.setAttribute('variant', 'primary');
+          parent.querySelectorAll(`.media-thumb-btn-${cardIdx}`).forEach(b => {
+            b.classList.remove('btn-primary');
+            b.classList.add('btn-default');
+          });
+          btn.classList.remove('btn-default');
+          btn.classList.add('btn-primary');
         }
       }
     }
@@ -2870,27 +3508,30 @@
 
     function applyTheme(theme) {
       const html = document.documentElement;
+      const iconUse = document.getElementById('themeIconUse');
       const btn = document.getElementById('themeToggleBtn');
       if (theme === 'light') {
-        html.classList.remove('sl-theme-dark', 'dark');
-        html.classList.add('sl-theme-light', 'light');
+        html.classList.remove('dark', 'sl-theme-dark');
+        html.classList.add('light', 'sl-theme-light');
+        if (iconUse) iconUse.setAttribute('href', '#icon-sun');
         if (btn) {
-          btn.setAttribute('name', 'sun');
-          btn.setAttribute('title', 'Passer en mode sombre');
+          btn.setAttribute('data-tooltip', 'Passer en mode sombre (T)');
+          btn.setAttribute('aria-label', 'Passer en mode sombre');
         }
       } else {
-        html.classList.remove('sl-theme-light', 'light');
-        html.classList.add('sl-theme-dark', 'dark');
+        html.classList.remove('light', 'sl-theme-light');
+        html.classList.add('dark', 'sl-theme-dark');
+        if (iconUse) iconUse.setAttribute('href', '#icon-moon');
         if (btn) {
-          btn.setAttribute('name', 'moon');
-          btn.setAttribute('title', 'Passer en mode clair');
+          btn.setAttribute('data-tooltip', 'Passer en mode clair (T)');
+          btn.setAttribute('aria-label', 'Passer en mode clair');
         }
       }
     }
 
     function toggleTheme() {
-      const isCurrentlyLight = document.documentElement.classList.contains('sl-theme-light');
-      const newTheme = isCurrentlyLight ? 'dark' : 'light';
+      const current = document.documentElement.classList.contains('light') ? 'light' : 'dark';
+      const newTheme = (current === 'light') ? 'dark' : 'light';
       applyTheme(newTheme);
       localStorage.setItem('cv_theme', newTheme);
     }
@@ -2954,21 +3595,16 @@
           btn.setAttribute('href', `https://yoyonel.github.io/CV_resume/${PDF_URL}`);
         });
       }
-      document.querySelectorAll('sl-dialog').forEach(dialog => {
-        dialog.addEventListener('sl-hide', () => {
-          if (document.activeElement && typeof document.activeElement.blur === 'function') {
-            document.activeElement.blur();
-          }
-          if (dialog.shadowRoot && dialog.shadowRoot.activeElement) {
-            try { dialog.shadowRoot.activeElement.blur(); } catch (err) {}
-          }
-        });
-        dialog.addEventListener('sl-after-hide', () => {
-          if (document.activeElement && typeof document.activeElement.blur === 'function') {
-            document.activeElement.blur();
-          }
+
+      // Close dialog when clicking backdrop
+      document.querySelectorAll('dialog').forEach(d => {
+        d.addEventListener('click', e => {
+          const rect = d.getBoundingClientRect();
+          const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+          if (!isInDialog) d.close();
         });
       });
+
       switchMainView('doc');
       setDocMode('dual');
       if ('requestIdleCallback' in window) {
@@ -2982,14 +3618,6 @@
       document.addEventListener('DOMContentLoaded', init);
     } else {
       init();
-    }
-  </script>
-  <script type="module">
-    const loadShoelace = () => import('./assets/vendor/shoelace/shoelace.bundle.min.js');
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(loadShoelace);
-    } else {
-      window.addEventListener('load', loadShoelace);
     }
   </script>
 </body>
