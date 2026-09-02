@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = []
-# ///
 """Automated Static HTML & Inline JavaScript Syntax Validator.
 
 Parses generated dist/index.html and ensures:

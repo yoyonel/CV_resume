@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = [
-#   "jinja2>=3.1.0",
-#   "typst>=0.15.0",
-# ]
-# ///
 """Build script for the static GitHub Pages resume site powered by Typst & PDF.js ISO engine."""
 
 import json
 import re
 import shutil
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import cast
 
@@ -386,7 +380,7 @@ def build_site(output_dir: Path | None = None) -> Path:
     with open(output_typ_path, "w", encoding="utf-8") as f:
         f.write(rendered_typ)
 
-    current_year = datetime.now(tz=timezone.utc).year
+    current_year = datetime.now(tz=UTC).year
     pdf_year_path = (
         root_dir
         / "data"
@@ -425,7 +419,7 @@ def build_site(output_dir: Path | None = None) -> Path:
     site_env.filters["tech_family"] = get_tech_family
     site_env.filters["highlight_kw"] = highlight_keywords
     html_tpl = site_env.get_template("index.html.j2")
-    build_id = int(datetime.now(tz=timezone.utc).timestamp())
+    build_id = int(datetime.now(tz=UTC).timestamp())
     rendered_html = html_tpl.render(
         profile=profile,
         pdf_filename=dist_pdf_name,
@@ -440,9 +434,20 @@ def build_site(output_dir: Path | None = None) -> Path:
     with open(index_html_path, "w", encoding="utf-8") as f:
         f.write(html_content)
 
+    # 5. Build static ADR Documentation
+    try:
+        try:
+            from scripts.build_adr import build_adr_docs
+        except ImportError:
+            from build_adr import build_adr_docs
+        build_adr_docs(output_dir / "adr" / "index.html")
+    except Exception as e:
+        print(f"  - ADR docs build note: {e}")
+
     print(f"✓ Rich & ISO PDF Static Site built in: {output_dir}")
     print(f"  - HTML: {index_html_path}")
     print(f"  - PDF:  {output_dir / dist_pdf_name}")
+    print(f"  - ADR:  {output_dir / 'adr' / 'index.html'}")
     print(f"  - SVGs: {len(svg_raw_pages)} vector pages in assets/")
     print(f"  - PNGs: {len(png_pages)} preview images in assets/")
     return output_dir

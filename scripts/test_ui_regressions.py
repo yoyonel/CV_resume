@@ -102,17 +102,17 @@ def test_ui_issues():
         input_info = page.evaluate("""() => {
             const slInput = document.getElementById('paletteSearchInput');
             if (!slInput) return { exists: false };
-            
+
             const rect = slInput.getBoundingClientRect();
             const style = window.getComputedStyle(slInput);
             const isCustomDefined = customElements.get(slInput.tagName.toLowerCase()) !== undefined;
-            
+
             // Check if real native input exists (either directly or in shadow DOM)
             let nativeInput = slInput.tagName === 'INPUT' ? slInput : null;
             if (!nativeInput && slInput.shadowRoot) {
                 nativeInput = slInput.shadowRoot.querySelector('input');
             }
-            
+
             return {
                 exists: true,
                 tagName: slInput.tagName,

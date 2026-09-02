@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = []
-# ///
 """Automated link validator for CV_resume static website, PDF and source templates."""
 
 import argparse

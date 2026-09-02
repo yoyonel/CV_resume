@@ -1,5 +1,5 @@
 import argparse
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
@@ -34,7 +34,7 @@ def main():
 
     next_num = max_num + 1
     num_str = f"{next_num:04d}"
-    today_str = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d")
+    today_str = datetime.now(tz=UTC).strftime("%Y-%m-%d")
     slug = (
         args.title.strip().lower().replace(" ", "_").replace("-", "_").replace("/", "_")
     )

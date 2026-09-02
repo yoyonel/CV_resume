@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = [
-#     "playwright",
-# ]
-# ///
 """Automated Console & Runtime Error Verification Suite.
 
 Exhaustively exercises the static application across multiple viewports and
