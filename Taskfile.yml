@@ -22,7 +22,7 @@ tasks:
   lint:python:
     desc: Lint Python scripts with ruff
     cmds:
-      - ruff check {{.PYTHON_SCRIPTS}}
+      - uv run ruff check {{.PYTHON_SCRIPTS}}
 
   lint:types:
     desc: Type check Python scripts with pyright
@@ -72,7 +72,7 @@ tasks:
   fmt:python:
     desc: Format Python scripts with ruff
     cmds:
-      - ruff format {{.PYTHON_SCRIPTS}}
+      - uv run ruff format {{.PYTHON_SCRIPTS}}
 
   # --- WATCH & LIVE PREVIEW ---
   watch:
@@ -111,7 +111,7 @@ tasks:
   links:check:
     desc: Check and validate all hyperlinks across static site, PDF and sources
     cmds:
-      - python3 scripts/check_links.py
+      - uv run python3 scripts/check_links.py
 
   check:links:
     desc: Alias for links:check
@@ -122,51 +122,51 @@ tasks:
   pre-commit:install:
     desc: Install pre-commit git hooks
     cmds:
-      - pre-commit install
+      - uv run pre-commit install
 
   pre-commit:run:
     desc: Run all pre-commit hooks manually on all files
     cmds:
-      - pre-commit run --all-files
+      - uv run pre-commit run --all-files
 
   # --- LIGHTHOUSE PERFORMANCE AUDITS ---
   audit:local:
     desc: Run local Lighthouse audit (Mobile & Desktop) against dist/
     cmds:
       - task: site:build
-      - python3 scripts/audit_lighthouse.py --serve dist --mode all
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode all
 
   audit:local:mobile:
     desc: Run local Mobile Lighthouse audit against dist/
     cmds:
       - task: site:build
-      - python3 scripts/audit_lighthouse.py --serve dist --mode mobile
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode mobile
 
   audit:local:desktop:
     desc: Run local Desktop Lighthouse audit against dist/
     cmds:
       - task: site:build
-      - python3 scripts/audit_lighthouse.py --serve dist --mode desktop
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode desktop
 
   audit:prod:
     desc: Run Lighthouse audit (Mobile & Desktop) on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode all
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode all
 
   audit:prod:mobile:
     desc: Run Mobile Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode mobile
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode mobile
 
   audit:prod:desktop:
     desc: Run Desktop Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop
 
   tunnel:
     desc: Start Cloudflare Quick Tunnel on local dist/ for third-party remote testing (PageSpeed Insights, etc.)
     cmds:
-      - python3 scripts/tunnel.py
+      - uv run python3 scripts/tunnel.py
 
   site:check:console:
     desc: Automated runtime console and exception verification with Playwright
@@ -183,7 +183,7 @@ tasks:
     desc: Automated static HTML and inline JavaScript syntax validation
     cmds:
       - task: site:build
-      - python3 scripts/check_html_syntax.py
+      - uv run python3 scripts/check_html_syntax.py
 
   check:html:
     desc: Alias for site:check:html
@@ -245,7 +245,7 @@ tasks:
   adr:new:
     desc: "Scaffold a new Architecture Decision Record (e.g. task adr:new -- 'My Decision Title')"
     cmds:
-      - python3 scripts/create_adr.py {{.CLI_ARGS}}
+      - uv run python3 scripts/create_adr.py {{.CLI_ARGS}}
 
   adr:build:
     desc: "Build static HTML documentation for all ADRs using adr-viewer into dist/adr/index.html"
@@ -261,7 +261,7 @@ tasks:
     desc: "List all Architecture Decision Records"
     cmds:
       - |
-        python3 -c '
+        uv run python3 -c '
         import re
         from pathlib import Path
         adrs = sorted([f for f in Path("docs").glob("*.md") if re.search(r"_adr_\d{4}_", f.name)])
