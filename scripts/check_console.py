@@ -121,8 +121,8 @@ def run_console_checks(target_url: str | None = None) -> int:
             )
             page.goto(base_url, wait_until="networkidle")
             page.wait_for_timeout(1000)
-            assert page.locator("#viewInteractive").is_visible(), (
-                "Interactive view should be visible on load"
+            assert page.locator("#viewDocument").is_visible(), (
+                "Document ISO view should be visible on load"
             )
             print(" ✓ OK")
 
@@ -133,7 +133,11 @@ def run_console_checks(target_url: str | None = None) -> int:
             page.wait_for_timeout(200)
             print(" ✓ OK")
 
-            print("  ⏳ [3/8] Testing Domain Filters...", end="", flush=True)
+            print(
+                "  ⏳ [3/8] Testing Domain Filters in Web View...", end="", flush=True
+            )
+            page.evaluate("switchMainView('web')")
+            page.wait_for_timeout(200)
             for domain in [
                 "graphics",
                 "backend",
@@ -250,20 +254,20 @@ def run_console_checks(target_url: str | None = None) -> int:
             attach_listeners(mobile_page, "Mobile")
             mobile_page.goto(base_url, wait_until="networkidle")
             mobile_page.wait_for_timeout(1000)
-            assert mobile_page.locator("#viewInteractive").is_visible(), (
-                "Interactive view should be visible on mobile"
+            assert mobile_page.locator("#viewDocument").is_visible(), (
+                "Document ISO view should be visible by default on mobile"
             )
             print(" ✓ OK")
 
             print(
-                "  ⏳ [9/9] Testing Mobile PDF Switch & Rendering...",
+                "  ⏳ [9/9] Testing Mobile Web Switch & Rendering...",
                 end="",
                 flush=True,
             )
-            mobile_page.evaluate("switchMainView('doc')")
-            mobile_page.wait_for_timeout(2500)
-            assert mobile_page.locator("#viewDocument").is_visible(), (
-                "Document view should be visible on mobile"
+            mobile_page.evaluate("switchMainView('web')")
+            mobile_page.wait_for_timeout(1500)
+            assert mobile_page.locator("#viewInteractive").is_visible(), (
+                "Interactive view should be visible on mobile"
             )
             mobile_page.close()
             print(" ✓ OK")

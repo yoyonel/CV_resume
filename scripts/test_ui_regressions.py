@@ -252,9 +252,9 @@ def test_ui_issues():
         print(
             "\n  🔍 [Test 4/4] Checking Document ISO Single Page Navigation Controls (Next/Prev & Keyboard)..."
         )
-        # Switch to Document view
-        page.click("#tabDoc")
-        page.wait_for_timeout(1000)
+        # Switch to Single Page Mode to test single page pagination controls
+        page.click("#btnModeSingle")
+        page.wait_for_timeout(600)
 
         # Check that page 1 is active
         p1_active = page.evaluate(

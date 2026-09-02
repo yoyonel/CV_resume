@@ -201,6 +201,17 @@ tasks:
     cmds:
       - task: site:check:ui
 
+  site:check:print:
+    desc: Automated @media print & PDF layout validation with Playwright
+    cmds:
+      - task: site:build
+      - uv run --with playwright python3 scripts/test_print_rendering.py
+
+  check:print:
+    desc: Verify zero print layout regressions
+    cmds:
+      - task: site:check:print
+
   site:check:bot:
     desc: Run guided exploratory bot to test all app features, state transitions and track history
     cmds:
@@ -232,7 +243,7 @@ tasks:
 
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + site build + html check + mobile check + console check + UI check + link check)
+    desc: Full validation suite (lint + site build + html check + mobile check + console check + UI check + print check + link check)
     cmds:
       - task: lint
       - task: site:build
@@ -240,7 +251,9 @@ tasks:
       - task: check:mobile
       - task: check:console
       - task: check:ui
+      - task: check:print
       - task: links:check
       - echo "All checks passed successfully!"
+
 
 

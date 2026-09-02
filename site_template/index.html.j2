@@ -335,7 +335,7 @@
        VIEW 1: DOCUMENT ISO PDF
        ======================================================== */
     #viewDocument {
-      display: none;
+      display: flex;
       flex-direction: column;
       align-items: center;
       padding: 1.5rem 1rem 3.5rem;
@@ -367,6 +367,8 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
     }
 
     .pages-wrapper.mode-continuous {
@@ -396,6 +398,10 @@
       overflow: hidden;
       box-sizing: border-box;
       margin: 0 auto;
+    }
+
+    .print-vector-page {
+      display: none;
     }
 
     .pdf-page-container canvas {
@@ -431,7 +437,7 @@
        VIEW 2: INTERACTIVE PORTFOLIO & WEB APP
        ======================================================== */
     #viewInteractive {
-      display: block;
+      display: none;
       max-width: 1100px;
       margin: 0 auto;
       padding: 2rem 1.5rem 5rem;
@@ -1402,9 +1408,139 @@
         font-size: 0.74rem;
       }
     }
+
+    /* ========================================================
+       PRINT STYLES & EXCLUSIVE DOCUMENT ISO A4/LETTER RENDERING
+       ======================================================== */
+    @page {
+      size: auto;
+      margin: 0;
+    }
+
+    @media print {
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      html, body {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        background-image: none !important;
+        color: #0f172a !important;
+        overflow: visible !important;
+      }
+
+      /* ALWAYS Hide ALL UI Navigation, Dialogs, Banner & Interactive View in Print */
+      header.top-header,
+      .filter-bar,
+      .doc-controls,
+      .page-tag,
+      #singlePageNav,
+      .search-trigger-btn,
+      .search-shortcut-kbd,
+      .view-switcher-group,
+      .actions-group,
+      sl-dialog,
+      .cmd-palette-dialog,
+      .media-dialog,
+      .image-dialog,
+      .media-zoom-overlay,
+      .video-play-btn,
+      .media-gallery-thumbs,
+      .media-badge-overlay,
+      #themeToggleBtn,
+      .btn-print,
+      .btn-download,
+      #viewDocument .hero-card,
+      #viewInteractive {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* ALWAYS Print Document ISO: 2 clean A4/Letter pages in sequence */
+      #viewDocument {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+      }
+
+      #viewDocument .pages-wrapper {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        transform: none !important;
+        min-height: auto !important;
+      }
+
+      #viewDocument .pdf-page-container,
+      #pageContainer1,
+      #pageContainer2 {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        position: relative !important;
+        width: 100vw !important;
+        max-width: 100% !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        overflow: hidden !important;
+      }
+
+      #pageContainer1 {
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+
+      #pageContainer2 {
+        page-break-before: always !important;
+        break-before: page !important;
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+
+      .pdf-page-container canvas,
+      .pdf-page-container .textLayer {
+        display: none !important;
+      }
+
+      .print-vector-page {
+        display: block !important;
+        width: auto !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: contain !important;
+        margin: 0 auto !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+    }
   </style>
 </head>
-<body>
+<body data-view="doc">
   <!-- Native SVG Symbol Sprite (0ms JS Overhead, Instant Vector Icons) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
     <symbol id="icon-arrow-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></symbol>
@@ -1451,13 +1587,13 @@
     <div class="view-switcher-group">
       <sl-button-group label="Sélecteur de Vue">
         <sl-tooltip content="Affichage PDF Haute Fidélité ISO (Touche V)">
-          <sl-button variant="default" size="small" id="tabDoc" aria-label="Afficher le document PDF ISO" onclick="switchMainView('doc')">
+          <sl-button variant="primary" size="small" id="tabDoc" aria-label="Afficher le document PDF ISO" onclick="switchMainView('doc')">
             <svg class="icon" slot="prefix" ><use href="#icon-file-earmark-pdf"></use></svg>
             <span class="btn-label-doc">Document ISO</span>
           </sl-button>
         </sl-tooltip>
         <sl-tooltip content="Affichage Portfolio Web Interactif (Touche V)">
-          <sl-button variant="primary" size="small" id="tabWeb" aria-label="Afficher la vue web interactive" onclick="switchMainView('web')">
+          <sl-button variant="default" size="small" id="tabWeb" aria-label="Afficher la vue web interactive" onclick="switchMainView('web')">
             <svg class="icon" slot="prefix" ><use href="#icon-grid-3x3-gap"></use></svg>
             <span class="btn-label-web">Vue Interactive</span>
           </sl-button>
@@ -1480,8 +1616,8 @@
         <sl-icon-button id="themeToggleBtn" name="moon" label="Changer de thème" aria-label="Changer de thème sombre/clair" onclick="toggleTheme()"></sl-icon-button>
       </sl-tooltip>
 
-      <sl-tooltip content="Imprimer au format A4 (P)">
-        <sl-button variant="default" size="small" aria-label="Imprimer le CV au format A4" onclick="window.print()" class="btn-print">
+      <sl-tooltip content="Imprimer le CV PDF (P)">
+        <sl-button variant="default" size="small" aria-label="Imprimer le CV au format PDF" onclick="printResume()" class="btn-print">
           <svg class="icon" slot="prefix" ><use href="#icon-printer"></use></svg>
           <span class="btn-label-print">Imprimer</span>
         </sl-button>
@@ -1755,13 +1891,13 @@
     <div class="doc-controls">
       <!-- Mode Selection -->
       <sl-button-group label="Mode d'affichage PDF">
-        <sl-button variant="primary" size="small" id="btnModeSingle" onclick="setDocMode('single')">Page Simple</sl-button>
-        <sl-button variant="default" size="small" id="btnModeDual" onclick="setDocMode('dual')">Double Page</sl-button>
+        <sl-button variant="default" size="small" id="btnModeSingle" onclick="setDocMode('single')">Page Simple</sl-button>
+        <sl-button variant="primary" size="small" id="btnModeDual" onclick="setDocMode('dual')">Double Page</sl-button>
         <sl-button variant="default" size="small" id="btnModeContinuous" onclick="setDocMode('continuous')">Continu</sl-button>
       </sl-button-group>
 
       <!-- Pagination Group (Single Page Mode) -->
-      <sl-button-group id="singlePageNav" label="Pagination PDF">
+      <sl-button-group id="singlePageNav" label="Pagination PDF" style="display:none;">
         <sl-button variant="default" size="small" id="btnPrevPage" onclick="prevDocPage()" aria-label="Page précédente" title="Page précédente (Flèche Gauche / Page Up)">
           <svg class="icon" slot="prefix"><use href="#icon-chevron-left"></use></svg>
         </sl-button>
@@ -1783,14 +1919,16 @@
       </sl-button-group>
     </div>
 
-    <div class="pages-wrapper mode-single" id="pagesWrapper">
+    <div class="pages-wrapper mode-dual" id="pagesWrapper">
       <div class="pdf-page-container active" id="pageContainer1">
         <div class="page-tag">PAGE 01 / 02</div>
+        <img class="print-vector-page" src="assets/cv-page-1.svg" alt="Curriculum Vitae Lionel ATTY Page 1" loading="eager" />
         <canvas id="canvasPage1" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer1"></div>
       </div>
-      <div class="pdf-page-container" id="pageContainer2">
+      <div class="pdf-page-container active" id="pageContainer2">
         <div class="page-tag">PAGE 02 / 02</div>
+        <img class="print-vector-page" src="assets/cv-page-2.svg" alt="Curriculum Vitae Lionel ATTY Page 2" loading="eager" />
         <canvas id="canvasPage2" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer2"></div>
       </div>
@@ -1852,9 +1990,9 @@
     const RESUME_DATA = {{ resume_json | safe }};
     const PDF_URL = "{{ pdf_filename }}";
     let pdfDoc = null;
-    let currentMainView = 'web';
+    let currentMainView = 'doc';
     let docZoom = 1.0;
-    let docMode = 'single';
+    let docMode = 'dual';
     let docPageNum = 1;
     let activeDomains = new Set(['all']);
     let activeTechs = new Set();
@@ -1922,7 +2060,7 @@
         { title: "Ouvrir LinkedIn (lionel-atty-6a55b748)", icon: "🔗", cat: "Actions", meta: "Contact", action: () => { window.open('https://www.linkedin.com/in/lionel-atty-6a55b748/', '_blank'); }, keywords: "linkedin profil reseau contact lionel atty" },
         { title: "Ouvrir GitHub (yoyonel)", icon: "🐙", cat: "Actions", meta: "Contact", action: () => { window.open('https://github.com/yoyonel', '_blank'); }, keywords: "github code repos yoyonel" },
         { title: "Télécharger le PDF haute fidélité Typst", icon: "📥", cat: "Actions", meta: "Livrable", action: () => { const a = document.createElement('a'); a.href = PDF_URL; a.download = '{{ pdf_filename }}'; document.body.appendChild(a); a.click(); a.remove(); }, keywords: "download telecharger pdf typst resume cv" },
-        { title: "Imprimer le CV au format A4", icon: "🖨️", cat: "Actions", meta: "Print", action: () => window.print(), keywords: "print imprimer a4 papier" },
+        { title: "Imprimer le CV au format A4", icon: "🖨️", cat: "Actions", meta: "Print", action: () => printResume(), keywords: "print imprimer a4 papier pdf" },
         { title: "Changer de thème (Sombre / Clair)", icon: "🌓", cat: "Actions", meta: "Thème", action: () => toggleTheme(), keywords: "theme sombre clair dark light mode nuit jour" },
       ];
       actions.forEach(a => idx.push({ ...a, score: 0 }));
@@ -2284,7 +2422,10 @@
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SL-INPUT') return;
       if (e.key === 'v' || e.key === 'V') switchMainView(currentMainView === 'doc' ? 'web' : 'doc');
       if (e.key === 't' || e.key === 'T') toggleTheme();
-      if (e.key === 'p' || e.key === 'P') window.print();
+      if (e.key === 'p' || e.key === 'P') {
+        e.preventDefault();
+        printResume();
+      }
 
       // Page Navigation shortcuts in Document ISO view
       if (currentMainView === 'doc' && docMode === 'single') {
@@ -2510,6 +2651,7 @@
     // 5. View Switcher (Document ↔ Interactive Web)
     function switchMainView(view) {
       currentMainView = view;
+      document.body.setAttribute('data-view', view);
       const vDoc = document.getElementById('viewDocument');
       const vWeb = document.getElementById('viewInteractive');
       const tabDoc = document.getElementById('tabDoc');
@@ -2764,6 +2906,39 @@
       }, 150);
     });
 
+    // Print handler: ensure both ISO pages are pre-rendered before triggering print dialog
+    async function printResume() {
+      if (!pdfDoc) {
+        await loadPDF();
+      }
+      await Promise.all([
+        renderDocPage(1, 'canvasPage1', 'textLayer1'),
+        renderDocPage(2, 'canvasPage2', 'textLayer2')
+      ]);
+      window.print();
+    }
+
+    // Print event listeners: ensure both ISO pages and images are pre-rendered before print dialog
+    window.addEventListener('beforeprint', async () => {
+      if (!pdfDoc) {
+        await loadPDF();
+      }
+      await Promise.all([
+        renderDocPage(1, 'canvasPage1', 'textLayer1'),
+        renderDocPage(2, 'canvasPage2', 'textLayer2')
+      ]);
+    });
+
+    window.addEventListener('afterprint', () => {
+      if (currentMainView === 'doc') {
+        if (docMode === 'single') {
+          updateDocSingle();
+        } else {
+          renderDocPages();
+        }
+      }
+    });
+
     // Init
     function init() {
       applyTheme(getPreferredTheme());
@@ -2794,7 +2969,8 @@
           }
         });
       });
-      switchMainView('web');
+      switchMainView('doc');
+      setDocMode('dual');
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => { searchIndex = buildSearchIndex(); });
       } else {
