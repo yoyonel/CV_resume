@@ -3,8 +3,8 @@
 *Date d'horodatage : 2026-08-29T16:29:00+02:00*  
 *Auteur : Lionel ATTY (Antigravity Assistant)*  
 *Fichiers sources associés :*
-- Template Web : [`site_template/index.html.j2`](file:///home/latty/Prog/__PERSO__/CV_resume/site_template/index.html.j2)
-- Script de compilation & Modèle de données : [`scripts/build_site.py`](file:///home/latty/Prog/__PERSO__/CV_resume/scripts/build_site.py)
+- Template Web : [`site_template/index.html.j2`](../site_template/index.html.j2)
+- Script de compilation & Modèle de données : [`scripts/build_site.py`](../scripts/build_site.py)
 
 ---
 

@@ -1,10 +1,13 @@
 # ADR 0001: Migration vers une Architecture 100% Native HTML5/CSS3 (Zéro Framework UI Externe)
 
-* **Statut** : Accepté (Accepted)
-* **Date** : 2026-09-02
-* **Auteurs** : Lionel ATTY & Antigravity Assistant
-* **Décideurs** : Lionel ATTY
-* **Contexte Technique** : Frontend Web Statique du CV / Portfolio (Jinja2, Typst, PDF.js)
+## Status
+
+Accepted
+
+- **Date** : 2026-09-02
+- **Auteurs** : Lionel ATTY & Antigravity Assistant
+- **Décideurs** : Lionel ATTY
+- **Contexte Technique** : Frontend Web Statique du CV / Portfolio (Jinja2, Typst, PDF.js)
 
 ---
 

@@ -27,7 +27,7 @@ tasks:
   lint:types:
     desc: Type check Python scripts with pyright
     cmds:
-      - uv run --with pyright --with typst --with jinja2 --with playwright pyright {{.PYTHON_SCRIPTS}}
+      - uv run --with pyright --with typst --with jinja2 --with playwright --with adr-viewer pyright {{.PYTHON_SCRIPTS}}
 
   lint:json:
     desc: Validate JSON syntax and structure
@@ -240,6 +240,49 @@ tasks:
     desc: Alias for test:bot:surge
     cmds:
       - task: test:bot:surge
+
+  # --- ARCHITECTURE DECISION RECORDS (ADR) ---
+  adr:new:
+    desc: "Scaffold a new Architecture Decision Record (e.g. task adr:new -- 'My Decision Title')"
+    cmds:
+      - python3 scripts/create_adr.py {{.CLI_ARGS}}
+
+  adr:build:
+    desc: "Build static HTML documentation for all ADRs using adr-viewer into dist/adr/index.html"
+    cmds:
+      - uv run --with adr-viewer python3 scripts/build_adr.py {{.CLI_ARGS}}
+
+  adr:serve:
+    desc: "Start interactive local preview of ADRs with automatic free port detection"
+    cmds:
+      - uv run --with adr-viewer python3 scripts/serve_adr.py {{.CLI_ARGS}}
+
+  adr:list:
+    desc: "List all Architecture Decision Records"
+    cmds:
+      - |
+        python3 -c '
+        import re
+        from pathlib import Path
+        adrs = sorted([f for f in Path("docs").glob("*.md") if re.search(r"_adr_\d{4}_", f.name)])
+        print(f"\n📂 Architecture Decision Records ({len(adrs)} documents found):")
+        print("-" * 80)
+        for a in adrs:
+            lines = [l.strip() for l in a.read_text(encoding="utf-8").splitlines() if l.strip()]
+            title = lines[0].replace("#", "").strip() if lines else a.name
+            status = "Unknown"
+            for i, l in enumerate(lines):
+                if l.lower() in ("## status", "# status"):
+                    if i + 1 < len(lines):
+                        status = lines[i+1].replace("*", "").strip()
+                    break
+                elif "status" in l.lower() or "statut" in l.lower():
+                    status = l.split(":", 1)[-1].strip().replace("*", "")
+                    break
+            print(f"  • {a.name:<52} | [{status:<10}] | {title}")
+        print("-" * 80)
+        '
+    silent: true
 
   # --- VALIDATION SUITE ---
   check:
