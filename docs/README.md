@@ -12,6 +12,7 @@ Ce dossier centralise les **Architecture Decision Records (ADR)**, les guides d'
 graph TD
     subgraph ADR ["Architecture Decision Records"]
         ADR0001["<b>ADR 0001</b><br>Native HTML5/CSS Zero-Dependency UI<br><i>(Accepted - 2026-09-02)</i>"]
+        ADR0002["<b>ADR 0002</b><br>Harmonisation Outillage & Pipeline CI/Local ISO<br><i>(Accepted - 2026-09-02)</i>"]
     end
 
     subgraph Fixes ["Résolutions Techniques & UI"]
@@ -24,12 +25,14 @@ graph TD
 
     ADR0001 -->|Implémente| FIX01
     ADR0001 -.->|Outillage| GUIDE01
+    ADR0002 -->|Standardise| GUIDE01
 
     classDef accepted fill:#0284c7,stroke:#38bdf8,stroke-width:2px,color:#ffffff;
     classDef fix fill:#10b981,stroke:#34d399,stroke-width:2px,color:#ffffff;
     classDef guide fill:#6366f1,stroke:#818cf8,stroke-width:2px,color:#ffffff;
 
     class ADR0001 accepted;
+    class ADR0002 accepted;
     class FIX01 fix;
     class GUIDE01 guide;
 ```
@@ -41,6 +44,7 @@ graph TD
 | ID | Date | Titre & Lien | Statut | Résumé de la Décision |
 | :---: | :---: | :--- | :---: | :--- |
 | **0001** | 2026-09-02 | [ADR 0001 : Native HTML5/CSS Zero-Dependency UI](2026-09-02_adr_0001_native_html5_css_zero_dependency_ui.md) | `Accepted` | Remplacement de la dépendance Shoelace (-34.5k LOC) par une UI 100% native HTML5 (`<dialog>`, `<button>`, SVG sprites). |
+| **0002** | 2026-09-02 | [ADR 0002 : Harmonisation Outillage & Pipeline CI/Local ISO](2026-09-02_adr_0002_harmonisation_outillage_et_pipeline_ci_local_iso.md) | `Accepted` | Single Source of Truth (`pyproject.toml`), suppression des flags `--with` inline, et exécution `task check` en CI via `arduino/setup-task@v2`. |
 
 ---
 
