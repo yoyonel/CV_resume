@@ -27,6 +27,12 @@ jobs:
         run: |
           echo "buildyear=$(date +'%Y')" >> $GITHUB_OUTPUT
 
+      - name: Install Taskfile runner
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
         with:
@@ -37,25 +43,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Lint and Validate (Ruff & Jinja AST)
-        run: |
-          uvx ruff check scripts/
-          uv run --with jinja2 python -c '
-          from jinja2 import Environment
-          templates = [
-              "pandoc_resume/resume.md.j2",
-              "pandoc_resume/sections/00_header.md.j2",
-              "typst_resume/resume.typ.j2",
-              "site_template/index.html.j2",
-          ]
-          for t in templates:
-              with open(t, "r", encoding="utf-8") as f:
-                  Environment().parse(f.read())
-              print(f"  [OK] Jinja AST: {t}")
-          '
+      - name: Sync Dependencies via uv
+        run: uv sync
+
+      - name: Lint and Validate (Taskfile Lint)
+        run: task lint
 
       - name: Compile Modern Typst Resume
-        run: uv run scripts/compile_typst.py
+        run: task lint:typst
 
       - name: Render Pandoc Markdown Template
         run: uv run scripts/render_resume.py
