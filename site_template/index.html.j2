@@ -91,7 +91,7 @@
       color: var(--text-main);
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+      transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1), box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
       user-select: none;
       line-height: 1.2;
       box-sizing: border-box;
@@ -344,7 +344,6 @@
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     /* Fixed Glass Navbar */
@@ -456,7 +455,7 @@
       border: 1px solid rgba(255, 255, 255, 0.22);
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.15s ease-in-out;
+      transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       user-select: none;
     }
     html.light .filter-tag {
@@ -503,7 +502,7 @@
       color: #f1f5f9;
       border: 1px solid rgba(255, 255, 255, 0.18);
       text-decoration: none;
-      transition: all 0.15s ease-in-out;
+      transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       box-sizing: border-box;
       height: 32px;
     }
@@ -908,7 +907,7 @@
       font-size: 0.78rem;
       font-weight: 600;
       color: var(--text-main);
-      transition: all 0.15s ease;
+      transition: transform 0.15s ease;
     }
 
     .pipeline-step:hover {
@@ -943,7 +942,7 @@
       color: #e2e8f0;
       border: 1px solid rgba(255, 255, 255, 0.18);
       cursor: pointer;
-      transition: all 0.15s ease-in-out;
+      transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       user-select: none;
       text-decoration: none;
     }
@@ -1020,7 +1019,7 @@
       line-height: 1.25;
       margin: 0.05rem 1px;
       vertical-align: baseline;
-      transition: all 0.15s ease;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
       cursor: pointer;
       border: 1px solid transparent;
     }
@@ -1379,7 +1378,7 @@
       cursor: pointer;
       color: var(--text-main);
       font-size: 0.85rem;
-      transition: all 0.1s ease;
+      transition: transform 0.1s ease;
       gap: 0.75rem;
     }
 
@@ -1517,7 +1516,7 @@
       padding: 0.2rem 0.45rem;
       border-radius: 4px;
       line-height: 1;
-      transition: all 0.15s ease;
+      transition: transform 0.15s ease;
     }
 
     .dialog-close-btn:hover {
@@ -1619,7 +1618,7 @@
       font-size: 1.8rem;
       cursor: pointer;
       z-index: 10;
-      transition: all 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
+      transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1), box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
       padding: 0;
       line-height: 1;
       user-select: none;
@@ -1686,7 +1685,7 @@
       font-size: 0.75rem;
       font-family: inherit;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .lightbox-thumb-pill:hover {
@@ -1720,7 +1719,7 @@
       font-size: 1rem;
       cursor: pointer;
       z-index: 10;
-      transition: all 0.15s ease;
+      transition: transform 0.15s ease;
       padding: 0;
       line-height: 1;
     }
@@ -2925,12 +2924,24 @@
         return;
       }
 
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-      if (e.key === 'v' || e.key === 'V') switchMainView(currentMainView === 'doc' ? 'web' : 'doc');
-      if (e.key === 't' || e.key === 'T') toggleTheme();
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+      if (e.repeat) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+      if (e.key === 'v' || e.key === 'V') {
+        e.preventDefault();
+        switchMainView(currentMainView === 'doc' ? 'web' : 'doc');
+        return;
+      }
+      if (e.key === 't' || e.key === 'T') {
+        e.preventDefault();
+        toggleTheme();
+        return;
+      }
       if (e.key === 'p' || e.key === 'P') {
         e.preventDefault();
         printResume();
+        return;
       }
 
       // Page Navigation shortcuts in Document ISO view
