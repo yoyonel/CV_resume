@@ -659,6 +659,33 @@
       border-radius: 4px;
     }
 
+    .pdf-page-container .annotationLayer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 10;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .pdf-page-container .annotationLayer a.pdf-link {
+      position: absolute;
+      pointer-events: auto;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background-color 0.15s ease, outline 0.15s ease;
+      outline: none;
+      z-index: 11;
+      display: block;
+      text-decoration: none;
+    }
+
+    .pdf-page-container .annotationLayer a.pdf-link:hover {
+      background-color: rgba(2, 132, 199, 0.16);
+      outline: 1.5px dashed var(--accent, #0284c7);
+    }
+
     .page-tag {
       position: absolute;
       top: -20px;
@@ -742,7 +769,7 @@
       letter-spacing: 0.05em;
     }
 
-    /* Section Headers */
+    /* Section Headers & Collapsible Controls */
     .section-title {
       font-size: 1.25rem;
       font-weight: 700;
@@ -753,13 +780,61 @@
       color: var(--text-main);
     }
 
-    .section-title::before {
-      content: '';
-      display: inline-block;
-      width: 14px;
-      height: 4px;
+    .section-collapse-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem 0.2rem 0;
+      border-radius: 6px;
+      user-select: none;
+      text-align: left;
+      transition: color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .section-collapse-btn:hover {
+      color: var(--accent);
+    }
+
+    .collapse-icon-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--border-color);
+      color: var(--accent);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    html.light .collapse-icon-box {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .section-collapse-btn:hover .collapse-icon-box {
       background: var(--accent);
-      border-radius: 2px;
+      color: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.4);
+    }
+
+    .section-collapsible-content {
+      transition: opacity 0.2s ease;
+    }
+
+    .section-collapsible-content.collapsed {
+      display: none !important;
     }
 
     /* Connected Timeline Cards (Web Awesome Cards) */
@@ -2023,6 +2098,8 @@
   <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></symbol>
     <symbol id="icon-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
   <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/></symbol>
+    <symbol id="icon-dash" viewBox="0 0 16 16"><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></symbol>
     <symbol id="icon-envelope" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/></symbol>
     <symbol id="icon-file-earmark-pdf" viewBox="0 0 16 16"><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
   <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/></symbol>
@@ -2159,8 +2236,15 @@
     </div>
 
     <!-- Experiences Timeline (Web Awesome Cards) -->
-    <h3 class="section-title">Expériences Professionnelles</h3>
-    <div class="timeline-container">
+    <h3 class="section-title">
+      <button type="button" class="section-collapse-btn" aria-expanded="true" aria-controls="section-experiences" onclick="toggleSection('section-experiences', this)">
+        <span class="collapse-icon-box" aria-hidden="true">
+          <svg class="icon collapse-icon"><use href="#icon-dash"></use></svg>
+        </span>
+        <span>Expériences Professionnelles</span>
+      </button>
+    </h3>
+    <div class="timeline-container section-collapsible-content" id="section-experiences">
       {% for exp in resume_data.experiences %}
       <div class="exp-wrapper" data-id="{{ exp.id }}" data-domains="{{ exp.domains | join(',') }}" style="position:relative;">
         <div class="exp-node"></div>
@@ -2213,8 +2297,15 @@
     </div>
 
     <!-- Media, Projects & Talks (Web Awesome Cards & Carousels) -->
-    <h3 class="section-title" id="section-projects">Projets R&D, Talks & Conférences</h3>
-    <div class="projects-grid">
+    <h3 class="section-title" id="section-projects-title">
+      <button type="button" class="section-collapse-btn" aria-expanded="true" aria-controls="section-projects" onclick="toggleSection('section-projects', this)">
+        <span class="collapse-icon-box" aria-hidden="true">
+          <svg class="icon collapse-icon"><use href="#icon-dash"></use></svg>
+        </span>
+        <span>Projets R&D, Talks & Conférences</span>
+      </button>
+    </h3>
+    <div class="projects-grid section-collapsible-content" id="section-projects">
       {% for proj in resume_data.projects_and_talks %}
       {% set proj_idx = loop.index %}
       <div class="project-wrapper" data-domain="{{ proj.domain }}" data-domains="{{ proj.domains | join(',') if proj.domains else proj.domain }}" style="height:100%;">
@@ -2289,8 +2380,15 @@
     </div>
 
     <!-- Skills Categorized (Web Awesome Cards) -->
-    <h3 class="section-title">Grille de Compétences & Technologies</h3>
-    <div class="skills-grid">
+    <h3 class="section-title">
+      <button type="button" class="section-collapse-btn" aria-expanded="true" aria-controls="section-skills" onclick="toggleSection('section-skills', this)">
+        <span class="collapse-icon-box" aria-hidden="true">
+          <svg class="icon collapse-icon"><use href="#icon-dash"></use></svg>
+        </span>
+        <span>Grille de Compétences & Technologies</span>
+      </button>
+    </h3>
+    <div class="skills-grid section-collapsible-content" id="section-skills">
       {% for cat in resume_data.skills_categories %}
       <div class="skill-wrapper" data-domain="{{ cat.domain }}">
         <div class="wa-skill-card" id="skill-{{ loop.index }}">
@@ -2317,8 +2415,15 @@
     </div>
 
     <!-- Formation & Diplômes (Web Awesome Cards) -->
-    <h3 class="section-title">Formation & Diplômes</h3>
-    <div class="timeline-container">
+    <h3 class="section-title">
+      <button type="button" class="section-collapse-btn" aria-expanded="true" aria-controls="section-education" onclick="toggleSection('section-education', this)">
+        <span class="collapse-icon-box" aria-hidden="true">
+          <svg class="icon collapse-icon"><use href="#icon-dash"></use></svg>
+        </span>
+        <span>Formation & Diplômes</span>
+      </button>
+    </h3>
+    <div class="timeline-container section-collapsible-content" id="section-education">
       {% for edu in resume_data.education %}
       <div class="exp-wrapper" data-domain="{{ edu.domain }}" style="position:relative;">
         <div class="exp-node"></div>
@@ -2385,12 +2490,14 @@
         <img class="print-vector-page" src="assets/cv-page-1.svg" alt="Curriculum Vitae Lionel ATTY Page 1" loading="lazy" decoding="async" />
         <canvas id="canvasPage1" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer1"></div>
+        <div class="annotationLayer" id="annotationLayer1"></div>
       </div>
       <div class="pdf-page-container active" id="pageContainer2">
         <div class="page-tag">PAGE 02 / 02</div>
         <img class="print-vector-page" src="assets/cv-page-2.svg" alt="Curriculum Vitae Lionel ATTY Page 2" loading="lazy" decoding="async" />
         <canvas id="canvasPage2" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer2"></div>
+        <div class="annotationLayer" id="annotationLayer2"></div>
       </div>
     </div>
 
@@ -2537,10 +2644,11 @@
         { title: "Copier Email (lionel.atty@gmail.com)", icon: "✉️", cat: "Actions", meta: "Contact", action: () => { navigator.clipboard.writeText('lionel.atty@gmail.com'); alert('Email copié dans le presse-papier !'); }, keywords: "email mail contact lionel atty" },
         { title: "Copier Téléphone (+33 6 01 59 00 23)", icon: "📞", cat: "Actions", meta: "Contact", action: () => { navigator.clipboard.writeText('+33 6 01 59 00 23'); alert('Téléphone copié !'); }, keywords: "telephone phone portable tel contact" },
         { title: "Ouvrir LinkedIn (lionel-atty-6a55b748)", icon: "🔗", cat: "Actions", meta: "Contact", action: () => { window.open('https://www.linkedin.com/in/lionel-atty-6a55b748/', '_blank'); }, keywords: "linkedin profil reseau contact lionel atty" },
-        { title: "Ouvrir GitHub (yoyonel)", icon: "🐙", cat: "Actions", meta: "Contact", action: () => { window.open('https://github.com/yoyonel', '_blank'); }, keywords: "github code repos yoyonel" },
         { title: "Télécharger le PDF haute fidélité Typst", icon: "📥", cat: "Actions", meta: "Livrable", action: () => { const a = document.createElement('a'); a.href = PDF_URL; a.download = '{{ pdf_filename }}'; document.body.appendChild(a); a.click(); a.remove(); }, keywords: "download telecharger pdf typst resume cv" },
         { title: "Imprimer le CV au format A4", icon: "🖨️", cat: "Actions", meta: "Print", action: () => printResume(), keywords: "print imprimer a4 papier pdf" },
         { title: "Changer de thème (Sombre / Clair)", icon: "🌓", cat: "Actions", meta: "Thème", action: () => toggleTheme(), keywords: "theme sombre clair dark light mode nuit jour" },
+        { title: "Replier toutes les sections", icon: "➖", cat: "Actions", meta: "Vue Web", action: () => { switchMainView('web'); collapseAllSections(); }, keywords: "replier fermer reduire masquer sections collapse fold all" },
+        { title: "Déplier toutes les sections", icon: "➕", cat: "Actions", meta: "Vue Web", action: () => { switchMainView('web'); expandAllSections(); }, keywords: "deplier ouvrir afficher tout sections expand unfold all" },
       ];
       actions.forEach(a => idx.push({ ...a, score: 0 }));
 
@@ -3003,7 +3111,7 @@
     let renderTasks = {};
     let zoomDebounceTimer = null;
 
-    async function renderDocPage(pageNum, canvasId, textLayerId) {
+    async function renderDocPage(pageNum, canvasId, textLayerId, annotationLayerId) {
       if (!pdfDoc) return;
       const onScreenCanvas = document.getElementById(canvasId);
       if (!onScreenCanvas) return;
@@ -3017,6 +3125,7 @@
       const page = await pdfDoc.getPage(pageNum);
       const onScreenCtx = onScreenCanvas.getContext('2d');
       const textLayerDiv = document.getElementById(textLayerId);
+      const annotationLayerDiv = document.getElementById(annotationLayerId);
 
       const unscaledViewport = page.getViewport({ scale: 1.0 });
       const isMobile = window.innerWidth <= 860;
@@ -3072,6 +3181,7 @@
       onScreenCanvas.height = bufferH;
       onScreenCtx.drawImage(offscreenCanvas, 0, 0);
 
+      // --- TEXT LAYER (Text Selection) ---
       if (textLayerDiv) {
         if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
         if (currentMainView !== 'doc') return;
@@ -3092,6 +3202,48 @@
           });
         } catch (_) {}
       }
+
+      // --- ANNOTATION LAYER (Clickable Hyperlinks) ---
+      if (annotationLayerDiv) {
+        if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
+        if (currentMainView !== 'doc') return;
+        annotationLayerDiv.innerHTML = '';
+        annotationLayerDiv.style.width = Math.floor(viewport.width) + 'px';
+        annotationLayerDiv.style.height = Math.floor(viewport.height) + 'px';
+
+        try {
+          const annotations = await page.getAnnotations();
+          if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
+          if (currentMainView !== 'doc' || getComputedStyle(annotationLayerDiv).display === 'none') return;
+
+          for (const ann of annotations) {
+            const url = ann.url || ann.unsafeUrl;
+            if (ann.subtype === 'Link' && url) {
+              const rect = viewport.convertToViewportRectangle(ann.rect);
+              const minX = Math.min(rect[0], rect[2]);
+              const maxX = Math.max(rect[0], rect[2]);
+              const minY = Math.min(rect[1], rect[3]);
+              const maxY = Math.max(rect[1], rect[3]);
+
+              const a = document.createElement('a');
+              a.className = 'pdf-link';
+              a.href = url;
+              a.target = '_blank';
+              a.rel = 'noopener noreferrer';
+              a.title = url;
+              a.setAttribute('aria-label', `Ouvrir le lien ${url}`);
+              a.style.left = `${minX}px`;
+              a.style.top = `${minY}px`;
+              a.style.width = `${Math.max(2, maxX - minX)}px`;
+              a.style.height = `${Math.max(2, maxY - minY)}px`;
+
+              annotationLayerDiv.appendChild(a);
+            }
+          }
+        } catch (err) {
+          console.warn('Could not render PDF annotations', err);
+        }
+      }
     }
 
     async function renderDocPages() {
@@ -3101,14 +3253,14 @@
       }
       if (docMode === 'single') {
         if (docPageNum === 1) {
-          await renderDocPage(1, 'canvasPage1', 'textLayer1');
+          await renderDocPage(1, 'canvasPage1', 'textLayer1', 'annotationLayer1');
         } else {
-          await renderDocPage(2, 'canvasPage2', 'textLayer2');
+          await renderDocPage(2, 'canvasPage2', 'textLayer2', 'annotationLayer2');
         }
       } else {
         await Promise.all([
-          renderDocPage(1, 'canvasPage1', 'textLayer1'),
-          renderDocPage(2, 'canvasPage2', 'textLayer2')
+          renderDocPage(1, 'canvasPage1', 'textLayer1', 'annotationLayer1'),
+          renderDocPage(2, 'canvasPage2', 'textLayer2', 'annotationLayer2')
         ]);
       }
     }
@@ -3222,11 +3374,116 @@
       }
     }
 
+    // 5. Collapsible Section Management with localStorage Persistence
+    const SECTION_IDS = ['section-experiences', 'section-projects', 'section-skills', 'section-education'];
+
+    function saveCollapsedState() {
+      try {
+        const collapsedIds = [];
+        SECTION_IDS.forEach(id => {
+          const content = document.getElementById(id);
+          if (content && content.classList.contains('collapsed')) {
+            collapsedIds.push(id);
+          }
+        });
+        localStorage.setItem('cv_collapsed_sections', JSON.stringify(collapsedIds));
+      } catch (_) {}
+    }
+
+    function restoreCollapsedState() {
+      try {
+        const saved = localStorage.getItem('cv_collapsed_sections');
+        if (!saved) return;
+        const collapsedIds = new Set(JSON.parse(saved));
+        SECTION_IDS.forEach(id => {
+          const content = document.getElementById(id);
+          const btn = document.querySelector(`[aria-controls="${id}"]`);
+          const shouldCollapse = collapsedIds.has(id);
+          if (content) {
+            content.classList.toggle('collapsed', shouldCollapse);
+          }
+          if (btn) {
+            btn.setAttribute('aria-expanded', shouldCollapse ? 'false' : 'true');
+            const icon = btn.querySelector('.collapse-icon use');
+            if (icon) {
+              icon.setAttribute('href', shouldCollapse ? '#icon-plus' : '#icon-dash');
+            }
+          }
+        });
+      } catch (_) {}
+    }
+
+    function expandSection(sectionId) {
+      const content = document.getElementById(sectionId);
+      if (!content) return;
+      if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        const btn = document.querySelector(`[aria-controls="${sectionId}"]`);
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'true');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-dash');
+        }
+        saveCollapsedState();
+      }
+    }
+
+    function toggleSection(sectionId, btn) {
+      const content = document.getElementById(sectionId);
+      if (!content) return;
+      const isCollapsed = content.classList.contains('collapsed');
+      if (isCollapsed) {
+        content.classList.remove('collapsed');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'true');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-dash');
+        }
+      } else {
+        content.classList.add('collapsed');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-plus');
+        }
+      }
+      saveCollapsedState();
+    }
+
+    function collapseAllSections() {
+      SECTION_IDS.forEach(id => {
+        const content = document.getElementById(id);
+        const btn = document.querySelector(`[aria-controls="${id}"]`);
+        if (content) content.classList.add('collapsed');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-plus');
+        }
+      });
+      saveCollapsedState();
+    }
+
+    function expandAllSections() {
+      SECTION_IDS.forEach(id => {
+        const content = document.getElementById(id);
+        const btn = document.querySelector(`[aria-controls="${id}"]`);
+        if (content) content.classList.remove('collapsed');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'true');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-dash');
+        }
+      });
+      saveCollapsedState();
+    }
+
     function goToMediaSection() {
       switchMainView('web');
       filterByDomain('all');
+      expandSection('section-projects');
       setTimeout(() => {
-        const el = document.getElementById('section-projects');
+        const el = document.getElementById('section-projects-title') || document.getElementById('section-projects');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     }
@@ -3617,6 +3874,7 @@
     // Init
     function init() {
       applyTheme(getPreferredTheme());
+      restoreCollapsedState();
       if (window.matchMedia) {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
           if (!localStorage.getItem('cv_theme')) {
