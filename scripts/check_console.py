@@ -122,11 +122,48 @@ def run_console_checks(target_url: str | None = None) -> int:
             )
             print(" ✓ OK")
 
-            print("  ⏳ [2/8] Testing Theme Toggle...", end="", flush=True)
-            page.evaluate("toggleTheme()")
-            page.wait_for_timeout(200)
-            page.evaluate("toggleTheme()")
-            page.wait_for_timeout(200)
+            print(
+                "  ⏳ [2/8] Testing Theme Toggle (Keyboard 'T' & Button Click)...",
+                end="",
+                flush=True,
+            )
+            initial_theme = page.evaluate(
+                "() => document.documentElement.classList.contains('light') ? 'light' : 'dark'"
+            )
+
+            # 1. Keyboard 't'
+            page.keyboard.press("t")
+            page.wait_for_timeout(150)
+            theme_after_t = page.evaluate(
+                "() => document.documentElement.classList.contains('light') ? 'light' : 'dark'"
+            )
+            assert theme_after_t != initial_theme, (
+                f"Pressing 't' should toggle theme (was {initial_theme}, got {theme_after_t})"
+            )
+
+            # 2. Keyboard 'T' (uppercase)
+            page.keyboard.press("Shift+T")
+            page.wait_for_timeout(150)
+            theme_after_shift_t = page.evaluate(
+                "() => document.documentElement.classList.contains('light') ? 'light' : 'dark'"
+            )
+            assert theme_after_shift_t == initial_theme, (
+                "Pressing 'Shift+T' should toggle theme back"
+            )
+
+            # 3. Button Click
+            page.locator("#themeToggleBtn").click()
+            page.wait_for_timeout(150)
+            theme_after_click = page.evaluate(
+                "() => document.documentElement.classList.contains('light') ? 'light' : 'dark'"
+            )
+            assert theme_after_click != initial_theme, (
+                "Clicking #themeToggleBtn should toggle theme"
+            )
+
+            # 4. Restore original theme
+            page.locator("#themeToggleBtn").click()
+            page.wait_for_timeout(100)
             print(" ✓ OK")
 
             print(
