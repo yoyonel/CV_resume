@@ -71,6 +71,12 @@ jobs:
           echo "Testing live deployment: $PREVIEW_URL"
           uv run --with playwright scripts/check_console.py --url "$PREVIEW_URL"
 
+      - name: Verify Live Print Rendering & Non-Blank Visual Guard
+        run: |
+          PREVIEW_URL="${{ steps.deploy_surge.outputs.preview_url }}"
+          echo "Testing live print rendering on: $PREVIEW_URL"
+          uv run python3 scripts/test_print_rendering.py --url "$PREVIEW_URL"
+
       - name: Install Lighthouse CLI
         run: npm install -g lighthouse
 
@@ -122,6 +128,7 @@ jobs:
               '- ✅ Typst Compilation & ISO PDF Generation',
               '- ✅ Mobile Responsive Layout (Playwright - 5 viewports)',
               '- ✅ Zero Runtime Console Errors Guard (Playwright)',
+              '- ✅ Exclusive Vector Print & Visual Non-Blank Pixel Guard (Playwright & Pillow)',
               '- ✅ Lighthouse Performance & SEO Quality Gates (Mobile & Desktop >= 80/100)',
               '- ✅ Autonomous Exploratory Bot (1-minute Chaos Monkey & Session Tracking)',
               '- ✅ 50 Hyperlinks Health Check'
