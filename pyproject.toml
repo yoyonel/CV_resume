@@ -9,6 +9,7 @@ dependencies = [
     "typst>=0.11.0",
     "playwright>=1.40.0",
     "adr-viewer>=1.4.0",
+    "pillow>=10.0.0",
 ]
 
 [dependency-groups]

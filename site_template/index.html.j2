@@ -2994,16 +2994,18 @@
 
     async function renderDocPage(pageNum, canvasId, textLayerId) {
       if (!pdfDoc) return;
+      const onScreenCanvas = document.getElementById(canvasId);
+      if (!onScreenCanvas) return;
+      const container = onScreenCanvas.closest('.pdf-page-container');
+      if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
+
       if (renderTasks[pageNum]) {
         try { renderTasks[pageNum].cancel(); } catch (e) {}
       }
 
       const page = await pdfDoc.getPage(pageNum);
-      const onScreenCanvas = document.getElementById(canvasId);
       const onScreenCtx = onScreenCanvas.getContext('2d');
       const textLayerDiv = document.getElementById(textLayerId);
-      const container = onScreenCanvas.closest('.pdf-page-container');
-      if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
 
       const unscaledViewport = page.getViewport({ scale: 1.0 });
       const isMobile = window.innerWidth <= 860;
@@ -3061,18 +3063,23 @@
 
       if (textLayerDiv) {
         if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
+        if (currentMainView !== 'doc') return;
         textLayerDiv.innerHTML = '';
         textLayerDiv.style.width = Math.floor(viewport.width) + 'px';
         textLayerDiv.style.height = Math.floor(viewport.height) + 'px';
         textLayerDiv.style.setProperty('--scale-factor', String(viewport.scale));
         const textContent = await page.getTextContent();
         if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
-        pdfjsLib.renderTextLayer({
-          textContentSource: textContent,
-          container: textLayerDiv,
-          viewport: viewport,
-          textDivs: []
-        });
+        if (currentMainView !== 'doc' || getComputedStyle(textLayerDiv).display === 'none') return;
+        textLayerDiv.style.setProperty('--scale-factor', String(viewport.scale));
+        try {
+          pdfjsLib.renderTextLayer({
+            textContentSource: textContent,
+            container: textLayerDiv,
+            viewport: viewport,
+            textDivs: []
+          });
+        } catch (_) {}
       }
     }
 
@@ -3546,27 +3553,44 @@
       }, 150);
     });
 
-    // Print handler: ensure both ISO pages are pre-rendered before triggering print dialog
+    // Preload & decode vector SVG pages for print
+    async function preloadPrintPages() {
+      const imgs = Array.from(document.querySelectorAll('.print-vector-page'));
+      await Promise.all(imgs.map(async img => {
+        if (!img.src) return;
+        img.loading = 'eager';
+        if ('decode' in img) {
+          try {
+            await img.decode();
+          } catch (_) {}
+        }
+        if (!img.complete || img.naturalWidth === 0) {
+          await new Promise(resolve => {
+            img.addEventListener('load', resolve, { once: true });
+            img.addEventListener('error', resolve, { once: true });
+            setTimeout(resolve, 2000);
+          });
+        }
+      }));
+    }
+
+    // Print handler: ensure both vector pages are fully loaded and decoded before triggering print dialog
     async function printResume() {
-      if (!pdfDoc) {
-        await loadPDF();
+      const btn = document.querySelector('.btn-print');
+      if (btn) btn.style.opacity = '0.6';
+      try {
+        await preloadPrintPages();
+      } finally {
+        if (btn) btn.style.opacity = '';
       }
-      await Promise.all([
-        renderDocPage(1, 'canvasPage1', 'textLayer1'),
-        renderDocPage(2, 'canvasPage2', 'textLayer2')
-      ]);
       window.print();
     }
 
-    // Print event listeners: ensure both ISO pages and images are pre-rendered before print dialog
-    window.addEventListener('beforeprint', async () => {
-      if (!pdfDoc) {
-        await loadPDF();
-      }
-      await Promise.all([
-        renderDocPage(1, 'canvasPage1', 'textLayer1'),
-        renderDocPage(2, 'canvasPage2', 'textLayer2')
-      ]);
+    // Print event listeners: preload print images when triggered via Ctrl+P / Cmd+P
+    window.addEventListener('beforeprint', () => {
+      document.querySelectorAll('.print-vector-page').forEach(img => {
+        img.loading = 'eager';
+      });
     });
 
     window.addEventListener('afterprint', () => {
