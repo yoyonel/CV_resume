@@ -2994,16 +2994,18 @@
 
     async function renderDocPage(pageNum, canvasId, textLayerId) {
       if (!pdfDoc) return;
+      const onScreenCanvas = document.getElementById(canvasId);
+      if (!onScreenCanvas) return;
+      const container = onScreenCanvas.closest('.pdf-page-container');
+      if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
+
       if (renderTasks[pageNum]) {
         try { renderTasks[pageNum].cancel(); } catch (e) {}
       }
 
       const page = await pdfDoc.getPage(pageNum);
-      const onScreenCanvas = document.getElementById(canvasId);
       const onScreenCtx = onScreenCanvas.getContext('2d');
       const textLayerDiv = document.getElementById(textLayerId);
-      const container = onScreenCanvas.closest('.pdf-page-container');
-      if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
 
       const unscaledViewport = page.getViewport({ scale: 1.0 });
       const isMobile = window.innerWidth <= 860;
@@ -3061,18 +3063,23 @@
 
       if (textLayerDiv) {
         if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
+        if (currentMainView !== 'doc') return;
         textLayerDiv.innerHTML = '';
         textLayerDiv.style.width = Math.floor(viewport.width) + 'px';
         textLayerDiv.style.height = Math.floor(viewport.height) + 'px';
         textLayerDiv.style.setProperty('--scale-factor', String(viewport.scale));
         const textContent = await page.getTextContent();
         if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
-        pdfjsLib.renderTextLayer({
-          textContentSource: textContent,
-          container: textLayerDiv,
-          viewport: viewport,
-          textDivs: []
-        });
+        if (currentMainView !== 'doc' || getComputedStyle(textLayerDiv).display === 'none') return;
+        textLayerDiv.style.setProperty('--scale-factor', String(viewport.scale));
+        try {
+          pdfjsLib.renderTextLayer({
+            textContentSource: textContent,
+            container: textLayerDiv,
+            viewport: viewport,
+            textDivs: []
+          });
+        } catch (_) {}
       }
     }
 
