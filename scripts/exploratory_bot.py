@@ -485,7 +485,6 @@ def run_bot(
     fail_on_warn: bool = False,
 ) -> int:
     try:
-        from playwright.sync_api import Error as PlaywrightError
         from playwright.sync_api import sync_playwright
     except ImportError:
         print(
@@ -525,11 +524,13 @@ def run_bot(
     start_perf = time.perf_counter()
 
     try:
+        from scripts.common import get_playwright_launch_args
+    except ImportError:
+        from common import get_playwright_launch_args
+
+    try:
         with sync_playwright() as p:
-            try:
-                browser = p.chromium.launch(executable_path="/usr/bin/chromium")
-            except (PlaywrightError, OSError):
-                browser = p.chromium.launch()
+            browser = p.chromium.launch(**get_playwright_launch_args())
 
             page = browser.new_page(viewport={"width": 1280, "height": 800})
 

@@ -12,6 +12,11 @@ import threading
 
 from playwright.sync_api import sync_playwright
 
+try:
+    from scripts.common import get_playwright_launch_args
+except ImportError:
+    from common import get_playwright_launch_args
+
 
 class StaticServer:
     def __init__(self, directory: str = "dist"):
@@ -39,7 +44,7 @@ def test_ui_issues():
     print("=" * 80)
 
     with StaticServer() as base_url, sync_playwright() as p:
-        browser = p.chromium.launch(executable_path="/usr/bin/chromium")
+        browser = p.chromium.launch(**get_playwright_launch_args())
         page = browser.new_page(viewport={"width": 1280, "height": 800})
         page.goto(base_url, wait_until="networkidle")
         page.wait_for_timeout(1000)
@@ -529,18 +534,51 @@ def test_ui_issues():
         else:
             print("    ✓ OK: Clicking #lightboxPrevBtn returned to Image 1 in gallery")
 
+        # Check body overflow is locked when open
+        body_overflow_open = page.evaluate("document.body.style.overflow")
+        if body_overflow_open != "hidden":
+            err = f"❌ Test 7 Failed: document.body.style.overflow is '{body_overflow_open}', expected 'hidden' when lightbox is open"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                "    ✓ OK: document.body.style.overflow is 'hidden' while Lightbox is open"
+            )
+
         # Test Escape to close
         page.keyboard.press("Escape")
         page.wait_for_timeout(250)
         lightbox_closed = page.evaluate(
             "!document.getElementById('imageModalDialog').open"
         )
-        if not lightbox_closed:
-            err = "❌ Test 7 Failed: Pressing Escape did not close the Lightbox"
+        body_overflow_closed = page.evaluate("document.body.style.overflow")
+        if not lightbox_closed or body_overflow_closed != "":
+            err = f"❌ Test 7 Failed: Escape close issue (open={not lightbox_closed}, body.overflow='{body_overflow_closed}')"
             errors.append(err)
             print(f"    {err}")
         else:
-            print("    ✓ OK: Pressing Escape successfully closed Lightbox dialog")
+            print(
+                "    ✓ OK: Pressing Escape closed Lightbox and restored body scroll (overflow='')"
+            )
+
+        # Test Backdrop Click & scroll restoration
+        odin_main.click()
+        page.wait_for_timeout(250)
+        # Click on dialog backdrop (top-left outside the dialog box)
+        page.mouse.click(10, 10)
+        page.wait_for_timeout(250)
+        lightbox_backdrop_closed = page.evaluate(
+            "!document.getElementById('imageModalDialog').open"
+        )
+        body_overflow_backdrop = page.evaluate("document.body.style.overflow")
+        if not lightbox_backdrop_closed or body_overflow_backdrop != "":
+            err = f"❌ Test 7 Failed: Backdrop click close issue (open={not lightbox_backdrop_closed}, body.overflow='{body_overflow_backdrop}')"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                "    ✓ OK: Backdrop click closed Lightbox and restored body scroll (overflow='')"
+            )
 
         browser.close()
 

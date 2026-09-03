@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: lint-python
         name: Lint Python scripts (ruff)
-        entry: ruff check scripts/
+        entry: uv run ruff check scripts/
         language: system
         pass_filenames: false
         stages: [pre-commit]
@@ -39,7 +39,7 @@ repos:
 
       - id: check-links
         name: Check and validate hyperlinks
-        entry: python3 scripts/check_links.py
+        entry: uv run python3 scripts/check_links.py
         language: system
         pass_filenames: false
         stages: [pre-commit]

@@ -32,3 +32,20 @@ def process_profile_data(profile: dict[str, Any]) -> dict[str, Any]:
             end = item.get("end_year") or current_year
             item["years"] = max(1, end - item["start_year"])
     return profile
+
+
+def get_playwright_launch_args(**kwargs: Any) -> dict[str, Any]:
+    """Detect available system Chromium or fallback to Playwright default browser."""
+    import os
+    import shutil
+
+    custom_path = os.environ.get("PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH")
+    if custom_path and os.path.exists(custom_path):
+        return {"executable_path": custom_path, **kwargs}
+    for candidate in ("/usr/bin/chromium", "/usr/bin/chromium-browser"):
+        if os.path.exists(candidate):
+            return {"executable_path": candidate, **kwargs}
+    system_bin = shutil.which("chromium") or shutil.which("chromium-browser")
+    if system_bin:
+        return {"executable_path": system_bin, **kwargs}
+    return kwargs

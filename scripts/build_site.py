@@ -436,13 +436,10 @@ def build_site(output_dir: Path | None = None) -> Path:
 
     # 5. Build static ADR Documentation
     try:
-        try:
-            from scripts.build_adr import build_adr_docs
-        except ImportError:
-            from build_adr import build_adr_docs
-        build_adr_docs(output_dir / "adr" / "index.html")
-    except Exception as e:
-        print(f"  - ADR docs build note: {e}")
+        from scripts.build_adr import build_adr_docs
+    except ImportError:
+        from build_adr import build_adr_docs
+    build_adr_docs(output_dir / "adr" / "index.html")
 
     print(f"✓ Rich & ISO PDF Static Site built in: {output_dir}")
     print(f"  - HTML: {index_html_path}")

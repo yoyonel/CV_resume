@@ -55,7 +55,7 @@
       --header-height: 60px;
     }
 
-    html.light, html.sl-theme-light {
+    html.light {
       --bg-canvas: #f8fafc;
       --bg-ambient: radial-gradient(circle at 50% -20%, rgba(2, 132, 199, 0.08) 0%, transparent 60%);
       --bg-header: rgba(255, 255, 255, 0.92);
@@ -130,7 +130,7 @@
       border-color: var(--border-color);
       color: var(--text-main);
     }
-    html.light .btn-default, html.sl-theme-light .btn-default {
+    html.light .btn-default {
       background: #f1f5f9;
       border-color: #cbd5e1;
       color: #334155;
@@ -145,7 +145,7 @@
       background: rgba(255, 255, 255, 0.06);
       color: var(--text-main);
     }
-    html.light .btn-ghost:hover, html.sl-theme-light .btn-ghost:hover {
+    html.light .btn-ghost:hover {
       background: #f1f5f9;
       color: #0f172a;
     }
@@ -196,18 +196,18 @@
       box-shadow: 0 1px 6px rgba(2, 132, 199, 0.35);
     }
 
-    html.light .btn-group, html.sl-theme-light .btn-group {
+    html.light .btn-group {
       background: #f1f5f9;
       border-color: #cbd5e1;
     }
-    html.light .btn-group .btn, html.sl-theme-light .btn-group .btn {
+    html.light .btn-group .btn {
       color: #475569;
     }
-    html.light .btn-group .btn:hover, html.sl-theme-light .btn-group .btn:hover {
+    html.light .btn-group .btn:hover {
       background: rgba(0, 0, 0, 0.05);
       color: #0f172a;
     }
-    html.light .btn-group .btn.active, html.sl-theme-light .btn-group .btn.active {
+    html.light .btn-group .btn.active {
       background: #0284c7;
       color: #ffffff;
     }
@@ -299,7 +299,7 @@
       transform: translateY(0);
     }
 
-    html.light [data-tooltip]::after, html.sl-theme-light [data-tooltip]::after {
+    html.light [data-tooltip]::after {
       background: #1e293b;
       color: #ffffff;
       border-color: rgba(0, 0, 0, 0.15);
@@ -427,7 +427,7 @@
     .filter-bar::-webkit-scrollbar {
       display: none;
     }
-    html.sl-theme-light .filter-bar {
+    html.light .filter-bar {
       background: rgba(248, 250, 252, 0.85);
     }
 
@@ -457,13 +457,13 @@
       transition: all 0.15s ease-in-out;
       user-select: none;
     }
-    html.sl-theme-light .filter-tag {
+    html.light .filter-tag {
       background: #f1f5f9;
       color: #1e293b;
       border: 1px solid #cbd5e1;
     }
     .filter-tag.active {
-      background: var(--sl-color-primary-600, #0284c7) !important;
+      background: var(--accent, #0284c7) !important;
       color: #ffffff !important;
       border-color: #38bdf8 !important;
       box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
@@ -473,7 +473,7 @@
       border-color: #38bdf8;
       color: #ffffff;
     }
-    html.sl-theme-light .filter-tag:hover:not(.active) {
+    html.light .filter-tag:hover:not(.active) {
       background: #e0f2fe;
       border-color: #0284c7;
       color: #0284c7;
@@ -505,13 +505,13 @@
       box-sizing: border-box;
       height: 32px;
     }
-    html.sl-theme-light .contact-chip {
+    html.light .contact-chip {
       background: #f8fafc;
       color: #334155;
       border: 1px solid #cbd5e1;
     }
     .contact-chip:hover {
-      background: var(--sl-color-primary-600, #0284c7);
+      background: var(--accent, #0284c7);
       color: #ffffff;
       border-color: #38bdf8;
     }
@@ -536,7 +536,7 @@
       margin-left: 0.5rem;
       user-select: none;
     }
-    html.sl-theme-light .search-shortcut-kbd {
+    html.light .search-shortcut-kbd {
       background: #f1f5f9;
       color: #475569;
       border-color: #cbd5e1;
@@ -945,13 +945,13 @@
       user-select: none;
       text-decoration: none;
     }
-    html.sl-theme-light .tech-tag-item {
+    html.light .tech-tag-item {
       background: #f1f5f9;
       color: #334155;
       border-color: #cbd5e1;
     }
     .tech-tag-item.active {
-      background: var(--sl-color-primary-600, #0284c7) !important;
+      background: var(--accent, #0284c7) !important;
       color: #ffffff !important;
       border-color: #38bdf8 !important;
       box-shadow: 0 0 8px rgba(56, 189, 248, 0.35);
@@ -969,7 +969,7 @@
       border-color: rgba(96, 165, 250, 0.45) !important;
       color: #93c5fd !important;
     }
-    html.sl-theme-light .family-core {
+    html.light .family-core {
       background: #eff6ff !important;
       border-color: #bfdbfe !important;
       color: #1e3a8a !important;
@@ -980,7 +980,7 @@
       border-color: rgba(52, 211, 153, 0.45) !important;
       color: #6ee7b7 !important;
     }
-    html.sl-theme-light .family-infra {
+    html.light .family-infra {
       background: #f0fdf4 !important;
       border-color: #bbf7d0 !important;
       color: #164e3a !important;
@@ -991,7 +991,7 @@
       border-color: rgba(251, 191, 36, 0.45) !important;
       color: #fde68a !important;
     }
-    html.sl-theme-light .family-ai {
+    html.light .family-ai {
       background: #fefce8 !important;
       border-color: #fef08a !important;
       color: #714513 !important;
@@ -1002,7 +1002,7 @@
       border-color: rgba(255, 255, 255, 0.22) !important;
       color: #e2e8f0 !important;
     }
-    html.sl-theme-light .family-tools {
+    html.light .family-tools {
       background: #f8fafc !important;
       border-color: #cbd5e1 !important;
       color: #374151 !important;
@@ -1309,7 +1309,7 @@
       border-color: var(--accent);
       box-shadow: 0 0 0 2px var(--accent-glow);
     }
-    html.light .palette-search-wrapper, html.sl-theme-light .palette-search-wrapper {
+    html.light .palette-search-wrapper {
       background: #ffffff;
       border-color: #cbd5e1;
     }
@@ -1347,7 +1347,7 @@
       cursor: pointer;
       user-select: none;
     }
-    html.light .palette-esc-kbd, html.sl-theme-light .palette-esc-kbd {
+    html.light .palette-esc-kbd {
       background: #f1f5f9;
       color: #475569;
       border-color: #cbd5e1;
@@ -3465,9 +3465,6 @@
       if (dialog && dialog.open) {
         dialog.close();
       }
-      document.body.style.overflow = '';
-      const img = document.getElementById('imageModalImg');
-      if (img) img.src = '';
     }
 
     function switchCardMedia(cardIdx, src, label, btn) {
@@ -3511,16 +3508,16 @@
       const iconUse = document.getElementById('themeIconUse');
       const btn = document.getElementById('themeToggleBtn');
       if (theme === 'light') {
-        html.classList.remove('dark', 'sl-theme-dark');
-        html.classList.add('light', 'sl-theme-light');
+        html.classList.remove('dark');
+        html.classList.add('light');
         if (iconUse) iconUse.setAttribute('href', '#icon-sun');
         if (btn) {
           btn.setAttribute('data-tooltip', 'Passer en mode sombre (T)');
           btn.setAttribute('aria-label', 'Passer en mode sombre');
         }
       } else {
-        html.classList.remove('light', 'sl-theme-light');
-        html.classList.add('dark', 'sl-theme-dark');
+        html.classList.remove('light');
+        html.classList.add('dark');
         if (iconUse) iconUse.setAttribute('href', '#icon-moon');
         if (btn) {
           btn.setAttribute('data-tooltip', 'Passer en mode clair (T)');
@@ -3596,8 +3593,19 @@
         });
       }
 
-      // Close dialog when clicking backdrop
+      // Dialog lifecycle & backdrop click handling
       document.querySelectorAll('dialog').forEach(d => {
+        d.addEventListener('close', () => {
+          document.body.style.overflow = '';
+          if (d.id === 'imageModalDialog') {
+            const img = document.getElementById('imageModalImg');
+            if (img) img.src = '';
+          } else if (d.id === 'mediaModalDialog') {
+            const frame = document.getElementById('mediaModalFrame');
+            if (frame) frame.src = '';
+          }
+        });
+
         d.addEventListener('click', e => {
           const rect = d.getBoundingClientRect();
           const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);

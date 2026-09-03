@@ -9,6 +9,11 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
+try:
+    from scripts.common import get_playwright_launch_args
+except ImportError:
+    from common import get_playwright_launch_args
+
 
 class StaticServer:
     def __init__(self, directory: str = "dist"):
@@ -41,7 +46,7 @@ def test_print_rendering():
     errors = []
 
     with StaticServer() as base_url, sync_playwright() as p:
-        browser = p.chromium.launch(executable_path="/usr/bin/chromium")
+        browser = p.chromium.launch(**get_playwright_launch_args())
         page = browser.new_page(viewport={"width": 1440, "height": 900})
         page.goto(base_url, wait_until="networkidle")
         page.wait_for_timeout(1500)
