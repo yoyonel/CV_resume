@@ -577,10 +577,137 @@ def test_ui_issues():
             err = f"❌ Test 7 Failed: Backdrop click close issue (open={not lightbox_backdrop_closed}, body.overflow='{body_overflow_backdrop}')"
             errors.append(err)
             print(f"    {err}")
+        # =========================================================================
+        # ISSUE 8: Interactive PDF Document Hyperlinks & Annotation Layer Verification
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 8] Checking Document ISO view interactive hyperlinks & annotation layer..."
+        )
+        page.evaluate("switchMainView('doc')")
+        page.evaluate("setDocMode('dual')")
+        page.wait_for_timeout(1500)
+
+        links1 = page.locator("#annotationLayer1 a.pdf-link").all()
+        links2 = page.locator("#annotationLayer2 a.pdf-link").all()
+
+        if len(links1) == 0 or len(links2) == 0:
+            err = f"❌ Test 8 Failed: Annotation layers missing links (Page 1: {len(links1)}, Page 2: {len(links2)})"
+            errors.append(err)
+            print(f"    {err}")
         else:
             print(
-                "    ✓ OK: Backdrop click closed Lightbox and restored body scroll (overflow='')"
+                f"    ✓ OK: Found {len(links1)} interactive links on Page 1 and {len(links2)} on Page 2"
             )
+
+            # Check specific links (LI3DS and FOSS4G)
+            li3ds = page.locator("#annotationLayer2 a.pdf-link[href*='LI3DS']").first
+            foss4g = page.locator("#annotationLayer2 a.pdf-link[href*='foss4g']").first
+
+            if not li3ds.is_visible() or not foss4g.is_visible():
+                err = "❌ Test 8 Failed: Target hyperlinks (LI3DS or FOSS4G) not visible in annotationLayer"
+                errors.append(err)
+                print(f"    {err}")
+            else:
+                print(
+                    f"    ✓ OK: Verified live target hyperlinks: LI3DS ({li3ds.get_attribute('href')}) and FOSS4G ({foss4g.get_attribute('href')})"
+                )
+
+        # =========================================================================
+        # ISSUE 9: Collapsible Sections & Keyboard / Click Toggle Verification
+        # =========================================================================
+        print("\n  🔍 [Test 9] Checking Interactive Web View collapsible sections...")
+        page.evaluate("switchMainView('web')")
+        page.wait_for_timeout(300)
+
+        # Test collapse / expand on Experiences section
+        exp_btn = page.locator(
+            "button.section-collapse-btn[aria-controls='section-experiences']"
+        )
+        exp_content = page.locator("#section-experiences")
+
+        assert exp_btn.get_attribute("aria-expanded") == "true"
+        assert exp_content.is_visible()
+
+        # Click to collapse
+        exp_btn.click()
+        page.wait_for_timeout(200)
+        assert exp_btn.get_attribute("aria-expanded") == "false"
+        assert not exp_content.is_visible()
+        print(
+            "    ✓ OK: Clicking section button collapsed Experiences timeline (aria-expanded='false')"
+        )
+
+        # Click to expand
+        exp_btn.click()
+        page.wait_for_timeout(200)
+        assert exp_btn.get_attribute("aria-expanded") == "true"
+        assert exp_content.is_visible()
+        print(
+            "    ✓ OK: Clicking section button expanded Experiences timeline (aria-expanded='true')"
+        )
+
+        # Test collapseAllSections and expandAllSections
+        page.evaluate("collapseAllSections()")
+        page.wait_for_timeout(200)
+        all_collapsed = page.evaluate("""() => {
+            const ids = ['section-experiences', 'section-projects', 'section-skills', 'section-education'];
+            return ids.every(id => document.getElementById(id).classList.contains('collapsed'));
+        }""")
+        assert all_collapsed, "All 4 sections must be collapsed"
+        print(
+            "    ✓ OK: collapseAllSections() successfully collapsed all 4 portfolio sections"
+        )
+
+        page.evaluate("expandAllSections()")
+        page.wait_for_timeout(200)
+        all_expanded = page.evaluate("""() => {
+            const ids = ['section-experiences', 'section-projects', 'section-skills', 'section-education'];
+            return ids.every(id => !document.getElementById(id).classList.contains('collapsed'));
+        }""")
+        assert all_expanded, "All 4 sections must be expanded"
+        print(
+            "    ✓ OK: expandAllSections() successfully expanded all 4 portfolio sections"
+        )
+
+        # Test reload persistence (F5 / Ctrl+R)
+        page.locator(
+            "button.section-collapse-btn[aria-controls='section-experiences']"
+        ).click()
+        page.locator(
+            "button.section-collapse-btn[aria-controls='section-skills']"
+        ).click()
+        page.wait_for_timeout(200)
+
+        # Reload page
+        page.reload(wait_until="networkidle")
+        page.wait_for_timeout(300)
+
+        # Verify persisted state
+        exp_collapsed = page.evaluate(
+            "document.getElementById('section-experiences').classList.contains('collapsed')"
+        )
+        skills_collapsed = page.evaluate(
+            "document.getElementById('section-skills').classList.contains('collapsed')"
+        )
+        proj_collapsed = page.evaluate(
+            "document.getElementById('section-projects').classList.contains('collapsed')"
+        )
+        edu_collapsed = page.evaluate(
+            "document.getElementById('section-education').classList.contains('collapsed')"
+        )
+
+        assert exp_collapsed and skills_collapsed, (
+            "Experiences and Skills must remain collapsed after reload"
+        )
+        assert not proj_collapsed and not edu_collapsed, (
+            "Projects and Education must remain expanded after reload"
+        )
+        print(
+            "    ✓ OK: Section collapse states successfully persisted and restored across full page reload (F5 / Ctrl+R)"
+        )
+
+        # Restore all to expanded
+        page.evaluate("expandAllSections()")
 
         browser.close()
 
