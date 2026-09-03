@@ -117,8 +117,8 @@ def run_console_checks(target_url: str | None = None) -> int:
             )
             page.goto(base_url, wait_until="networkidle")
             page.wait_for_timeout(1000)
-            assert page.locator("#viewDocument").is_visible(), (
-                "Document ISO view should be visible on load"
+            assert page.locator("#viewInteractive").is_visible(), (
+                "Interactive Web view should be visible on load"
             )
             print(" ✓ OK")
 
@@ -253,20 +253,20 @@ def run_console_checks(target_url: str | None = None) -> int:
             attach_listeners(mobile_page, "Mobile")
             mobile_page.goto(base_url, wait_until="networkidle")
             mobile_page.wait_for_timeout(1000)
-            assert mobile_page.locator("#viewDocument").is_visible(), (
-                "Document ISO view should be visible by default on mobile"
+            assert mobile_page.locator("#viewInteractive").is_visible(), (
+                "Interactive view should be visible by default on mobile"
             )
             print(" ✓ OK")
 
             print(
-                "  ⏳ [9/9] Testing Mobile Web Switch & Rendering...",
+                "  ⏳ [9/9] Testing Mobile Document ISO Switch & Rendering...",
                 end="",
                 flush=True,
             )
-            mobile_page.evaluate("switchMainView('web')")
+            mobile_page.evaluate("switchMainView('doc')")
             mobile_page.wait_for_timeout(1500)
-            assert mobile_page.locator("#viewInteractive").is_visible(), (
-                "Interactive view should be visible on mobile"
+            assert mobile_page.locator("#viewDocument").is_visible(), (
+                "Document ISO view should be visible on mobile"
             )
             mobile_page.close()
             print(" ✓ OK")

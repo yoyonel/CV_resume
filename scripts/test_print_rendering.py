@@ -52,43 +52,46 @@ def test_print_rendering():
         page.wait_for_timeout(1500)
 
         # ---------------------------------------------------------------------
-        # TEST 1: Default Arrival on Site -> Document ISO in Double Page Mode
+        # TEST 1: Default Startup (Web Interactive) & Switch to Document ISO
         # ---------------------------------------------------------------------
         print(
-            "\n  📄 [Test 1/3] Verifying default site startup (Document ISO in Double Page mode)..."
+            "\n  📄 [Test 1/3] Verifying default site startup (Web Interactive) and Document ISO switch..."
         )
-        is_doc_visible = page.locator("#viewDocument").is_visible()
         is_web_visible = page.locator("#viewInteractive").is_visible()
-        tab_doc_class = page.locator("#tabDoc").get_attribute("class") or ""
-        btn_dual_class = page.locator("#btnModeDual").get_attribute("class") or ""
+        is_doc_visible = page.locator("#viewDocument").is_visible()
+        tab_web_class = page.locator("#tabWeb").get_attribute("class") or ""
 
-        if not is_doc_visible:
-            err = "❌ Default view should be #viewDocument but it is not visible!"
+        if not is_web_visible:
+            err = "❌ Default view should be #viewInteractive but it is not visible!"
             errors.append(err)
             print(f"    {err}")
         else:
-            print("    ✓ Default view is #viewDocument (visible)")
+            print("    ✓ Default view is #viewInteractive (visible)")
 
-        if is_web_visible:
-            err = "❌ #viewInteractive should be hidden by default but is visible!"
+        if is_doc_visible:
+            err = "❌ #viewDocument should be hidden by default but is visible!"
             errors.append(err)
             print(f"    {err}")
         else:
-            print("    ✓ #viewInteractive is hidden by default")
+            print("    ✓ #viewDocument is hidden by default")
 
-        if "active" not in tab_doc_class and "btn-primary" not in tab_doc_class:
-            err = f"❌ #tabDoc should have class 'active' or 'btn-primary' by default (got '{tab_doc_class}')"
+        if "active" not in tab_web_class and "btn-primary" not in tab_web_class:
+            err = f"❌ #tabWeb should have class 'active' or 'btn-primary' by default (got '{tab_web_class}')"
             errors.append(err)
             print(f"    {err}")
         else:
-            print("    ✓ #tabDoc is active ('btn-primary')")
+            print("    ✓ #tabWeb is active ('btn-primary')")
 
-        if "active" not in btn_dual_class and "btn-primary" not in btn_dual_class:
-            err = f"❌ #btnModeDual should have class 'active' or 'btn-primary' by default (got '{btn_dual_class}')"
+        # Switch to Document ISO view
+        page.locator("#tabDoc").click()
+        page.wait_for_timeout(1000)
+        is_doc_visible_after = page.locator("#viewDocument").is_visible()
+        if not is_doc_visible_after:
+            err = "❌ Clicking #tabDoc did not switch to #viewDocument!"
             errors.append(err)
             print(f"    {err}")
         else:
-            print("    ✓ #btnModeDual is active ('btn-primary')")
+            print("    ✓ Switched to #viewDocument successfully")
 
         # ---------------------------------------------------------------------
         # TEST 2: Print from Document ISO View (A4 & US Letter)

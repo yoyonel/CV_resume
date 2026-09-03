@@ -6,6 +6,8 @@
   <title>{{ profile.name }} — CV Senior Développeur & Architecte (HTML5 & Typst)</title>
   <meta name="description" content="CV & Portfolio interactif de {{ profile.name }} — {{ profile.title }} ({{ profile.specialties }}). Composants Web Natifs et Rendu ISO Typst.">
   <meta name="author" content="{{ profile.name }}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yoyonel.github.io/CV_resume/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -2381,13 +2383,13 @@
     <div class="pages-wrapper mode-dual" id="pagesWrapper">
       <div class="pdf-page-container active" id="pageContainer1">
         <div class="page-tag">PAGE 01 / 02</div>
-        <img class="print-vector-page" src="assets/cv-page-1.svg" alt="Curriculum Vitae Lionel ATTY Page 1" loading="eager" />
+        <img class="print-vector-page" src="assets/cv-page-1.svg" alt="Curriculum Vitae Lionel ATTY Page 1" loading="lazy" decoding="async" />
         <canvas id="canvasPage1" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer1"></div>
       </div>
       <div class="pdf-page-container active" id="pageContainer2">
         <div class="page-tag">PAGE 02 / 02</div>
-        <img class="print-vector-page" src="assets/cv-page-2.svg" alt="Curriculum Vitae Lionel ATTY Page 2" loading="eager" />
+        <img class="print-vector-page" src="assets/cv-page-2.svg" alt="Curriculum Vitae Lionel ATTY Page 2" loading="lazy" decoding="async" />
         <canvas id="canvasPage2" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer2"></div>
       </div>
@@ -3613,8 +3615,7 @@
         });
       });
 
-      switchMainView('doc');
-      setDocMode('dual');
+      switchMainView('web');
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => { searchIndex = buildSearchIndex(); });
       } else {
