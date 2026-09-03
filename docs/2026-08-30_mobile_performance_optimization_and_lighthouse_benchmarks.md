@@ -78,7 +78,7 @@ Lors de l'audit Lighthouse initial de l'application statique CV / Portfolio, les
   - Dimensionnement explicite des images de preview (`width="800" height="450" decoding="async"`).
   - Containment strict de `sl-icon` (`display: inline-block; width: 1em; height: 1em;`) ramenant le CLS mobile à **0.000**.
 - **Outillage d'Audit Automatisé Intégré** :
-  - Création du script CLI [`scripts/audit_lighthouse.py`](file:///home/latty/Prog/__PERSO__/CV_resume/scripts/audit_lighthouse.py).
+  - Création du script CLI [`scripts/audit_lighthouse.py`](../scripts/audit_lighthouse.py).
   - Tâches Taskfile / Makefile : `task audit:local` et `task audit:prod` (avec variantes `:mobile` et `:desktop`).
 
 ---

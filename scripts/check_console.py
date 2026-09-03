@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = [
-#     "playwright",
-# ]
-# ///
 """Automated Console & Runtime Error Verification Suite.
 
 Exhaustively exercises the static application across multiple viewports and
@@ -39,7 +34,6 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 def run_console_checks(target_url: str | None = None) -> int:
     try:
-        from playwright.sync_api import Error as PlaywrightError
         from playwright.sync_api import sync_playwright
     except ImportError:
         print(
@@ -106,11 +100,13 @@ def run_console_checks(target_url: str | None = None) -> int:
         )
 
     try:
+        from scripts.common import get_playwright_launch_args
+    except ImportError:
+        from common import get_playwright_launch_args
+
+    try:
         with sync_playwright() as p:
-            try:
-                browser = p.chromium.launch(executable_path="/usr/bin/chromium")
-            except (PlaywrightError, OSError):
-                browser = p.chromium.launch()
+            browser = p.chromium.launch(**get_playwright_launch_args())
 
             # Test 1: Desktop Viewport Exhaustive Lifecycle
             page = browser.new_page(viewport={"width": 1280, "height": 800})
@@ -122,7 +118,7 @@ def run_console_checks(target_url: str | None = None) -> int:
             page.goto(base_url, wait_until="networkidle")
             page.wait_for_timeout(1000)
             assert page.locator("#viewInteractive").is_visible(), (
-                "Interactive view should be visible on load"
+                "Interactive Web view should be visible on load"
             )
             print(" ✓ OK")
 
@@ -133,7 +129,11 @@ def run_console_checks(target_url: str | None = None) -> int:
             page.wait_for_timeout(200)
             print(" ✓ OK")
 
-            print("  ⏳ [3/8] Testing Domain Filters...", end="", flush=True)
+            print(
+                "  ⏳ [3/8] Testing Domain Filters in Web View...", end="", flush=True
+            )
+            page.evaluate("switchMainView('web')")
+            page.wait_for_timeout(200)
             for domain in [
                 "graphics",
                 "backend",
@@ -226,9 +226,12 @@ def run_console_checks(target_url: str | None = None) -> int:
                 window.print = () => {};
                 window.open = () => {};
                 const elements = document.querySelectorAll(
-                    'button, sl-button, sl-icon-button, .filter-tag, .tech-tag-item, .tech-kw'
+                    'button, .btn, .filter-tag, .tech-tag-item, .tech-kw'
                 );
                 elements.forEach(el => {
+                    if (el.tagName === 'A') {
+                        el.addEventListener('click', e => e.preventDefault(), { capture: true, once: true });
+                    }
                     el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
                 });
                 return elements.length;
@@ -251,19 +254,19 @@ def run_console_checks(target_url: str | None = None) -> int:
             mobile_page.goto(base_url, wait_until="networkidle")
             mobile_page.wait_for_timeout(1000)
             assert mobile_page.locator("#viewInteractive").is_visible(), (
-                "Interactive view should be visible on mobile"
+                "Interactive view should be visible by default on mobile"
             )
             print(" ✓ OK")
 
             print(
-                "  ⏳ [9/9] Testing Mobile PDF Switch & Rendering...",
+                "  ⏳ [9/9] Testing Mobile Document ISO Switch & Rendering...",
                 end="",
                 flush=True,
             )
             mobile_page.evaluate("switchMainView('doc')")
-            mobile_page.wait_for_timeout(2500)
+            mobile_page.wait_for_timeout(1500)
             assert mobile_page.locator("#viewDocument").is_visible(), (
-                "Document view should be visible on mobile"
+                "Document ISO view should be visible on mobile"
             )
             mobile_page.close()
             print(" ✓ OK")

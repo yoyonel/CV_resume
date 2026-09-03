@@ -3,7 +3,7 @@
 **Date** : 2026-08-31  
 **Auteur** : Yohan ATTY  
 **Branche** : `fix/pdfjs-scale-factor-warning`  
-**Composants** : [`scripts/exploratory_bot.py`](file:///home/latty/Prog/__PERSO__/CV_resume/scripts/exploratory_bot.py), [`.github/workflows/pr-preview.yml`](file:///home/latty/Prog/__PERSO__/CV_resume/.github/workflows/pr-preview.yml), [`Taskfile.yml`](file:///home/latty/Prog/__PERSO__/CV_resume/Taskfile.yml)
+**Composants** : [`scripts/exploratory_bot.py`](../scripts/exploratory_bot.py), [`.github/workflows/pr-preview.yml`](../.github/workflows/pr-preview.yml), [`Taskfile.yml`](../Taskfile.yml)
 
 ---
 

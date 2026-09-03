@@ -4,28 +4,28 @@ repos:
     hooks:
       - id: lint-python
         name: Lint Python scripts (ruff)
-        entry: ruff check scripts/
+        entry: uv run ruff check scripts/
         language: system
         pass_filenames: false
         stages: [pre-commit]
 
       - id: lint-types
         name: Type check Python scripts (pyright)
-        entry: uv run --with pyright --with typst --with jinja2 --with playwright pyright scripts/
+        entry: uv run pyright scripts/
         language: system
         pass_filenames: false
         stages: [pre-commit]
 
       - id: format-python
         name: Check Python format (ruff)
-        entry: ruff format --check scripts/
+        entry: uv run ruff format --check scripts/
         language: system
         pass_filenames: false
         stages: [pre-commit]
 
       - id: lint-jinja
         name: Validate Jinja2 templates AST
-        entry: bash -c "uv run --with jinja2 python -c 'from jinja2 import Environment; [Environment().parse(open(t, \"r\", encoding=\"utf-8\").read()) for t in [\"pandoc_resume/resume.md.j2\", \"pandoc_resume/sections/00_header.md.j2\", \"typst_resume/resume.typ.j2\", \"site_template/index.html.j2\"]]'"
+        entry: bash -c "uv run python -c 'from jinja2 import Environment; [Environment().parse(open(t, \"r\", encoding=\"utf-8\").read()) for t in [\"pandoc_resume/resume.md.j2\", \"pandoc_resume/sections/00_header.md.j2\", \"typst_resume/resume.typ.j2\", \"site_template/index.html.j2\"]]'"
         language: system
         pass_filenames: false
         stages: [pre-commit]
@@ -39,7 +39,7 @@ repos:
 
       - id: check-links
         name: Check and validate hyperlinks
-        entry: python3 scripts/check_links.py
+        entry: uv run python3 scripts/check_links.py
         language: system
         pass_filenames: false
         stages: [pre-commit]

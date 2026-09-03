@@ -1,24 +1,20 @@
 """Shared profile processing and helper functions for CV resume scripts."""
 
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from typing import Any
 
 
 def calculate_age(birthdate_val: str | date | datetime) -> int:
     """Calculate integer age in years from a birthdate string or date/datetime object."""
     if isinstance(birthdate_val, str):
-        bdate = (
-            datetime.strptime(birthdate_val, "%Y-%m-%d")
-            .replace(tzinfo=timezone.utc)
-            .date()
-        )
+        bdate = datetime.strptime(birthdate_val, "%Y-%m-%d").replace(tzinfo=UTC).date()
     elif isinstance(birthdate_val, (datetime, date)):
         bdate = (
             birthdate_val if isinstance(birthdate_val, date) else birthdate_val.date()
         )
     else:
         raise TypeError(f"Unsupported birthdate format: {type(birthdate_val)}")
-    today = datetime.now(tz=timezone.utc).date()
+    today = datetime.now(tz=UTC).date()
     return (
         today.year - bdate.year - ((today.month, today.day) < (bdate.month, bdate.day))
     )
@@ -26,7 +22,7 @@ def calculate_age(birthdate_val: str | date | datetime) -> int:
 
 def process_profile_data(profile: dict[str, Any]) -> dict[str, Any]:
     """Enrich profile dictionary with calculated age, escaped email, and skill seniority."""
-    current_year = datetime.now(tz=timezone.utc).year
+    current_year = datetime.now(tz=UTC).year
     if "birthdate" in profile:
         profile["age"] = calculate_age(profile["birthdate"])
     if "email" in profile:
@@ -36,3 +32,20 @@ def process_profile_data(profile: dict[str, Any]) -> dict[str, Any]:
             end = item.get("end_year") or current_year
             item["years"] = max(1, end - item["start_year"])
     return profile
+
+
+def get_playwright_launch_args(**kwargs: Any) -> dict[str, Any]:
+    """Detect available system Chromium or fallback to Playwright default browser."""
+    import os
+    import shutil
+
+    custom_path = os.environ.get("PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH")
+    if custom_path and os.path.exists(custom_path):
+        return {"executable_path": custom_path, **kwargs}
+    for candidate in ("/usr/bin/chromium", "/usr/bin/chromium-browser"):
+        if os.path.exists(candidate):
+            return {"executable_path": candidate, **kwargs}
+    system_bin = shutil.which("chromium") or shutil.which("chromium-browser")
+    if system_bin:
+        return {"executable_path": system_bin, **kwargs}
+    return kwargs
