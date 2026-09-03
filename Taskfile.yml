@@ -131,37 +131,37 @@ tasks:
 
   # --- LIGHTHOUSE PERFORMANCE AUDITS ---
   audit:local:
-    desc: Run local Lighthouse audit (Mobile & Desktop) against dist/
+    desc: Run local Lighthouse audit (Mobile & Desktop) against dist/ (min threshold >= 80/100)
     cmds:
       - task: site:build
-      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode all
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode all {{.CLI_ARGS}}
 
   audit:local:mobile:
-    desc: Run local Mobile Lighthouse audit against dist/
+    desc: Run local Mobile Lighthouse audit against dist/ (min threshold >= 80/100)
     cmds:
       - task: site:build
-      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode mobile
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode mobile {{.CLI_ARGS}}
 
   audit:local:desktop:
-    desc: Run local Desktop Lighthouse audit against dist/
+    desc: Run local Desktop Lighthouse audit against dist/ (min threshold >= 80/100)
     cmds:
       - task: site:build
-      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode desktop
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode desktop {{.CLI_ARGS}}
 
   audit:prod:
     desc: Run Lighthouse audit (Mobile & Desktop) on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode all
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode all {{.CLI_ARGS}}
 
   audit:prod:mobile:
     desc: Run Mobile Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode mobile
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode mobile {{.CLI_ARGS}}
 
   audit:prod:desktop:
     desc: Run Desktop Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop {{.CLI_ARGS}}
 
   tunnel:
     desc: Start Cloudflare Quick Tunnel on local dist/ for third-party remote testing (PageSpeed Insights, etc.)

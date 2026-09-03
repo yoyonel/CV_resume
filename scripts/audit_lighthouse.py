@@ -49,9 +49,41 @@ def audit_url(url: str, mode: str, output_path: str) -> dict:
     else:
         cmd.append("--preset=desktop")
 
-    subprocess.run(" ".join(cmd), shell=True, check=True, capture_output=True)
+    res = subprocess.run(" ".join(cmd), shell=True, capture_output=True, text=True)
+    if res.returncode != 0:
+        print(f"Lighthouse error output:\n{res.stderr}", file=sys.stderr)
+        raise RuntimeError(f"Lighthouse command failed with exit code {res.returncode}")
+
     with open(output_path, "r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def append_github_step_summary(data: dict, title: str) -> None:
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
+    categories = data.get("categories", {})
+
+    lines = [
+        f"### 📊 Lighthouse Audit : {title}",
+        "",
+        "| Catégorie | Score | Statut |",
+        "| :--- | :---: | :---: |",
+    ]
+    for cat_key in ["performance", "accessibility", "best-practices", "seo"]:
+        if cat_key in categories:
+            cat = categories[cat_key]
+            score = round(cat.get("score", 0) * 100)
+            badge = "🟢 PASS (>= 80)" if score >= 80 else "🔴 FAIL (< 80)"
+            lines.append(
+                f"| **{cat.get('title', cat_key)}** | **{score}/100** | {badge} |"
+            )
+    lines.append("")
+    try:
+        with open(summary_path, "a", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+    except Exception:
+        pass
 
 
 def print_report_card(data: dict, title: str) -> None:
@@ -82,7 +114,61 @@ def print_report_card(data: dict, title: str) -> None:
         if key in audits:
             val = audits[key].get("displayValue", "N/A")
             print(f"    • {label:<32}: {val}")
+
+    failed_audits = []
+    for k, v in audits.items():
+        score = v.get("score")
+        if (
+            score is not None
+            and score < 0.9
+            and v.get("title")
+            and k not in [m[0] for m in metrics]
+        ):
+            disp = f" - {v.get('displayValue')}" if v.get("displayValue") else ""
+            failed_audits.append((k, v.get("title", ""), score, disp))
+
+    lcp_elem = audits.get("largest-contentful-paint-element", {})
+    lcp_items = lcp_elem.get("details", {}).get("items", [])
+    if lcp_items:
+        node = lcp_items[0].get("node", {})
+        snippet = node.get("snippet", "")
+        if snippet:
+            print(f"    • LCP Element: {snippet[:80]}")
+
+    if failed_audits:
+        print("--------------------------------------------------------")
+        print("  ⚠️ Opportunities & Diagnostics (< 90) :")
+        for k, title, sc, disp in failed_audits:
+            print(f"    • [{round(sc * 100):>2}/100] {title}{disp}")
+            # Print item snippets if available
+            items = audits.get(k, {}).get("details", {}).get("items", [])
+            if isinstance(items, list):
+                for it in items[:2]:
+                    if isinstance(it, dict):
+                        snip = (
+                            it.get("node", {}).get("snippet")
+                            or it.get("url")
+                            or it.get("label")
+                        )
+                        if snip:
+                            print(f"        -> {str(snip)[:80]}")
+
     print("========================================================\n")
+
+
+def check_score_thresholds(data: dict, min_score: int, mode_label: str) -> list[str]:
+    categories = data.get("categories", {})
+    failures = []
+    for cat_key in ["performance", "accessibility", "best-practices", "seo"]:
+        if cat_key in categories:
+            cat = categories[cat_key]
+            score = round(cat.get("score", 0) * 100)
+            title = cat.get("title", cat_key)
+            if score < min_score:
+                failures.append(
+                    f"[{mode_label}] {title}: {score}/100 (seuil minimal requis: {min_score}/100)"
+                )
+    return failures
 
 
 def main() -> None:
@@ -107,6 +193,12 @@ def main() -> None:
         help="Directory to serve locally before auditing",
     )
     parser.add_argument("--port", type=int, default=8008, help="Port for local server")
+    parser.add_argument(
+        "--min-score",
+        type=int,
+        default=80,
+        help="Minimal score threshold for all categories (default: 80)",
+    )
 
     args = parser.parse_args()
     server = None
@@ -125,6 +217,8 @@ def main() -> None:
     else:
         url = args.url
 
+    all_failures: list[str] = []
+
     with tempfile.TemporaryDirectory() as tmpdir:
         modes = ["mobile", "desktop"] if args.mode == "all" else [args.mode]
 
@@ -134,9 +228,27 @@ def main() -> None:
                 print(f"⏳ Running Lighthouse {m.upper()} audit on: {url} ...")
                 report_data = audit_url(url, m, report_path)
                 print_report_card(report_data, f"{url} [{m.upper()}]")
+                append_github_step_summary(report_data, f"{url} [{m.upper()}]")
+                if args.min_score > 0:
+                    failures = check_score_thresholds(
+                        report_data, args.min_score, m.upper()
+                    )
+                    all_failures.extend(failures)
         finally:
             if server:
                 server.shutdown()
+
+    if all_failures:
+        print("=" * 60)
+        print("❌ LIGHTHOUSE AUDIT GATES FAILED (Scores under minimal threshold):")
+        for f in all_failures:
+            print(f"  • {f}")
+        print("=" * 60)
+        sys.exit(1)
+    elif args.min_score > 0:
+        print(
+            f"🎉 ALL LIGHTHOUSE CATEGORIES PASSED MINIMUM THRESHOLD (>= {args.min_score}/100)!\n"
+        )
 
 
 if __name__ == "__main__":
