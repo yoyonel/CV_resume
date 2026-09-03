@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = [
-#     "playwright",
-# ]
-# ///
 """Autonomous Guided Exploratory E2E Testing Bot (Chaos Monkey & History Tracker).
 
 Explores the CV / Portfolio application with a pseudo-random guided walk,
@@ -382,7 +377,7 @@ class ExploratoryBot:
 
         log_entry = BotStepLog(
             step=step_idx,
-            time_iso=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            time_iso=datetime.datetime.now(datetime.UTC).isoformat(),
             action=action_type,
             description=description,
             target=target_name,
@@ -399,9 +394,7 @@ class ExploratoryBot:
 
 def generate_reports(report: BotSessionReport) -> tuple[Path, Path]:
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    timestamp_slug = datetime.datetime.now(datetime.timezone.utc).strftime(
-        "%Y%m%d_%H%M%S"
-    )
+    timestamp_slug = datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H%M%S")
     jsonl_path = REPORTS_DIR / f"session_{timestamp_slug}_seed{report.seed}.jsonl"
     md_path = REPORTS_DIR / f"session_{timestamp_slug}_seed{report.seed}.md"
 
@@ -414,13 +407,13 @@ def generate_reports(report: BotSessionReport) -> tuple[Path, Path]:
     # 2. Markdown Human Report
     md_content = f"""# 🤖 Rapport d'Exploration E2E (Guided Chaos Monkey)
 
-**Date de Session** : {report.start_time}  
-**Graine Aléatoire (Seed)** : `{report.seed}`  
-**URL Cible** : `{report.target_url}`  
-**Durée Totale** : {report.total_duration_sec:.2f}s  
+**Date de Session** : {report.start_time}
+**Graine Aléatoire (Seed)** : `{report.seed}`
+**URL Cible** : `{report.target_url}`
+**Durée Totale** : {report.total_duration_sec:.2f}s
 **Statut Global** : {"🟢 PASS (Zéro Erreur)" if report.failed_steps == 0 else "🔴 FAIL (" + str(report.failed_steps) + " échecs)"}
 
-> 🔁 **Commande de Rejeu Déterministe** :  
+> 🔁 **Commande de Rejeu Déterministe** :
 > `task test:bot -- --seed {report.seed} --steps {report.total_steps}`
 
 ---
@@ -492,7 +485,6 @@ def run_bot(
     fail_on_warn: bool = False,
 ) -> int:
     try:
-        from playwright.sync_api import Error as PlaywrightError
         from playwright.sync_api import sync_playwright
     except ImportError:
         print(
@@ -528,15 +520,17 @@ def run_bot(
     print(f"  🎯 Target: {base_url}")
     print("=" * 80)
 
-    start_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    start_iso = datetime.datetime.now(datetime.UTC).isoformat()
     start_perf = time.perf_counter()
 
     try:
+        from scripts.common import get_playwright_launch_args
+    except ImportError:
+        from common import get_playwright_launch_args
+
+    try:
         with sync_playwright() as p:
-            try:
-                browser = p.chromium.launch(executable_path="/usr/bin/chromium")
-            except (PlaywrightError, OSError):
-                browser = p.chromium.launch()
+            browser = p.chromium.launch(**get_playwright_launch_args())
 
             page = browser.new_page(viewport={"width": 1280, "height": 800})
 
@@ -614,7 +608,7 @@ def run_bot(
         if httpd:
             httpd.shutdown()
 
-    end_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    end_iso = datetime.datetime.now(datetime.UTC).isoformat()
     total_duration = time.perf_counter() - start_perf
 
     passed = sum(1 for s in bot.step_logs if s.status == "PASS")

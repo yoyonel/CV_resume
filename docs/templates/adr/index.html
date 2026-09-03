@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ config.project_title }}</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #131b2e;
+      --surface-hover: #1c2742;
+      --surface-active: #243254;
+      --border: #243254;
+      --border-focus: #38bdf8;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --primary-glow: rgba(56, 189, 248, 0.15);
+      
+      --status-accepted-bg: rgba(16, 185, 129, 0.15);
+      --status-accepted-text: #34d399;
+      --status-accepted-border: rgba(16, 185, 129, 0.4);
+      
+      --status-pending-bg: rgba(245, 158, 11, 0.15);
+      --status-pending-text: #fbbf24;
+      --status-pending-border: rgba(245, 158, 11, 0.4);
+      
+      --status-superseded-bg: rgba(148, 163, 184, 0.15);
+      --status-superseded-text: #94a3b8;
+      --status-superseded-border: rgba(148, 163, 184, 0.3);
+      
+      --status-deprecated-bg: rgba(239, 68, 68, 0.15);
+      --status-deprecated-text: #f87171;
+      --status-deprecated-border: rgba(239, 68, 68, 0.4);
+      
+      --radius: 12px;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-hover: #f1f5f9;
+      --surface-active: #e2e8f0;
+      --border: #cbd5e1;
+      --border-focus: #0284c7;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-glow: rgba(2, 132, 199, 0.12);
+      
+      --status-accepted-bg: rgba(16, 185, 129, 0.12);
+      --status-accepted-text: #047857;
+      --status-accepted-border: rgba(16, 185, 129, 0.4);
+      
+      --status-pending-bg: rgba(245, 158, 11, 0.12);
+      --status-pending-text: #b45309;
+      --status-pending-border: rgba(245, 158, 11, 0.4);
+      
+      --status-superseded-bg: rgba(100, 116, 139, 0.12);
+      --status-superseded-text: #475569;
+      --status-superseded-border: rgba(100, 116, 139, 0.3);
+      
+      --status-deprecated-bg: rgba(239, 68, 68, 0.12);
+      --status-deprecated-text: #b91c1c;
+      --status-deprecated-border: rgba(239, 68, 68, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2.5rem 1.5rem 4rem;
+      min-height: 100vh;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-title-box {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .header-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .header-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--primary);
+    }
+
+    /* Search & Filter Bar */
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.6rem 1rem 0.6rem 2.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--surface);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      transition: all 0.15s ease;
+    }
+
+    .filter-pill:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+
+    .filter-pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    /* ADR Cards */
+    .adr-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .adr-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .adr-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .adr-header {
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      cursor: pointer;
+      user-select: none;
+      background: var(--surface);
+      transition: background-color 0.15s;
+    }
+
+    .adr-header:hover {
+      background: var(--surface-hover);
+    }
+
+    .adr-title-box {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex: 1;
+    }
+
+    .adr-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .adr-card.superseded .adr-title {
+      text-decoration: line-through;
+      color: var(--text-dim);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .badge-accepted {
+      background: var(--status-accepted-bg);
+      color: var(--status-accepted-text);
+      border: 1px solid var(--status-accepted-border);
+    }
+
+    .badge-pending {
+      background: var(--status-pending-bg);
+      color: var(--status-pending-text);
+      border: 1px solid var(--status-pending-border);
+    }
+
+    .badge-superseded {
+      background: var(--status-superseded-bg);
+      color: var(--status-superseded-text);
+      border: 1px solid var(--status-superseded-border);
+    }
+
+    .badge-deprecated {
+      background: var(--status-deprecated-bg);
+      color: var(--status-deprecated-text);
+      border: 1px solid var(--status-deprecated-border);
+    }
+
+    .badge-unknown {
+      background: var(--surface-active);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .chevron {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .adr-card.expanded .chevron {
+      transform: rotate(180deg);
+    }
+
+    .adr-body {
+      display: none;
+      padding: 1.5rem 1.75rem;
+      border-top: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.1);
+      font-size: 0.95rem;
+    }
+
+    .adr-card.expanded .adr-body {
+      display: block;
+    }
+
+    /* Markdown Typography */
+    .adr-body h1 { display: none; } /* already in card header */
+    .adr-body h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 1.5rem 0 0.75rem;
+      color: var(--primary);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.35rem;
+    }
+    .adr-body h2:first-child { margin-top: 0; }
+    .adr-body h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 1.2rem 0 0.5rem;
+      color: var(--text);
+    }
+    .adr-body p { margin-bottom: 0.85rem; }
+    .adr-body ul, .adr-body ol {
+      margin: 0.5rem 0 1rem 1.5rem;
+    }
+    .adr-body li { margin-bottom: 0.35rem; }
+    .adr-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.5rem 0;
+    }
+    .adr-body code {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      background: var(--surface-active);
+      color: var(--primary);
+    }
+    .adr-body pre {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      padding: 1rem;
+      border-radius: 8px;
+      background: var(--surface-active);
+      overflow-x: auto;
+      margin: 1rem 0;
+      border: 1px solid var(--border);
+    }
+    .adr-body pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+    .adr-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    .adr-body th, .adr-body td {
+      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .adr-body th {
+      background: var(--surface-active);
+      font-weight: 600;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-dim);
+      font-size: 1rem;
+      display: none;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <header class="header">
+      <div class="header-title-box">
+        <span class="header-icon">🧭</span>
+        <div>
+          <h1 class="header-title">{{ config.project_title }}</h1>
+          <p class="header-subtitle">Architecture Decision Records &bull; Registre des Décisions Techniques</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn" onclick="toggleAllCards()" id="btnExpandAll" title="Tout déplier / replier">
+          <span>↕</span> <span>Tout Déplier</span>
+        </button>
+        <button type="button" class="btn" onclick="toggleTheme()" id="btnThemeToggle" title="Basculer thème Clair/Sombre">
+          <span id="themeIcon">☀️</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="controls-bar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Filtrer les ADRs par mot-clé, décision..." oninput="filterAdrs()">
+      </div>
+
+      <div class="filter-pills">
+        <button type="button" class="filter-pill active" data-filter="all" onclick="setFilter('all', this)">Tous (<span id="countAll">{{ config.records | length }}</span>)</button>
+        <button type="button" class="filter-pill" data-filter="accepted" onclick="setFilter('accepted', this)">Acceptés (<span id="countAccepted">0</span>)</button>
+        <button type="button" class="filter-pill" data-filter="pending" onclick="setFilter('pending', this)">Proposés (<span id="countPending">0</span>)</button>
+        <button type="button" class="filter-pill" data-filter="superseded" onclick="setFilter('superseded', this)">Remplacés (<span id="countSuperseded">0</span>)</button>
+      </div>
+    </div>
+
+    <main class="adr-list" id="adrList">
+      {% for adr in config.records %}
+      <article class="adr-card {{ adr.status }}" data-status="{{ adr.status }}" data-title="{{ adr.title | lower }}">
+        <div class="adr-header" onclick="toggleCard(this.parentElement)">
+          <div class="adr-title-box">
+            <span class="badge badge-{{ adr.status }}">
+              {% if adr.status == 'accepted' %}✓ ACCEPTÉ
+              {% elif adr.status == 'pending' %}⏳ PROPOSÉ
+              {% elif adr.status == 'superseded' %}↩ REMPLACÉ
+              {% elif adr.status == 'deprecated' %}✕ DÉPRÉCIÉ
+              {% else %}• {{ adr.status | upper }}
+              {% endif %}
+            </span>
+            <h2 class="adr-title">{{ adr.title }}</h2>
+          </div>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="adr-body">
+          {{ adr.body | safe }}
+        </div>
+      </article>
+      {% endfor %}
+
+      <div class="empty-state" id="emptyState">
+        Aucun ADR ne correspond à votre recherche.
+      </div>
+    </main>
+
+    <footer class="footer">
+      Généré avec <strong>ADR Viewer</strong> &bull; Documentation Architecture CV_resume
+    </footer>
+
+  </div>
+
+  <script>
+    let activeFilter = 'all';
+
+    function initCounts() {
+      const cards = document.querySelectorAll('.adr-card');
+      let counts = { all: cards.length, accepted: 0, pending: 0, superseded: 0 };
+      
+      cards.forEach(c => {
+        const s = c.dataset.status;
+        if (counts[s] !== undefined) counts[s]++;
+      });
+
+      document.getElementById('countAll').textContent = counts.all;
+      document.getElementById('countAccepted').textContent = counts.accepted;
+      document.getElementById('countPending').textContent = counts.pending;
+      document.getElementById('countSuperseded').textContent = counts.superseded;
+    }
+
+    function toggleCard(card) {
+      card.classList.toggle('expanded');
+    }
+
+    function toggleAllCards() {
+      const cards = document.querySelectorAll('.adr-card:not([style*="display: none"])');
+      const allExpanded = Array.from(cards).every(c => c.classList.contains('expanded'));
+      cards.forEach(c => c.classList.toggle('expanded', !allExpanded));
+      document.getElementById('btnExpandAll').innerHTML = allExpanded ? '<span>↕</span> <span>Tout Déplier</span>' : '<span>↕</span> <span>Tout Replier</span>';
+    }
+
+    function setFilter(status, elem) {
+      activeFilter = status;
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      elem.classList.add('active');
+      filterAdrs();
+    }
+
+    function filterAdrs() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const cards = document.querySelectorAll('.adr-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.dataset.title || '';
+        const bodyText = card.querySelector('.adr-body').textContent.toLowerCase();
+        const status = card.dataset.status;
+
+        const matchesStatus = (activeFilter === 'all') || (status === activeFilter);
+        const matchesQuery = !query || title.includes(query) || bodyText.includes(query);
+
+        if (matchesStatus && matchesQuery) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      document.getElementById('emptyState').style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('adr-theme', newTheme);
+    }
+
+    // Init theme from storage
+    const savedTheme = localStorage.getItem('adr-theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    initCounts();
+  </script>
+</body>
+</html>

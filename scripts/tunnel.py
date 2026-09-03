@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = []
-# ///
 """Instant Public Staging Tunnel for testing local dev with third-party remote services (PageSpeed Insights, WebPageTest, etc.)."""
 
 import argparse

@@ -21,6 +21,6 @@ __pycache__/
 *.py[cod]
 .venv/
 dist/
-reports/mobile_previews/
-reports/bot_sessions/
+# Reports & previews
+reports/
 

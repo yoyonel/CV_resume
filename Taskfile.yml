@@ -22,12 +22,12 @@ tasks:
   lint:python:
     desc: Lint Python scripts with ruff
     cmds:
-      - ruff check {{.PYTHON_SCRIPTS}}
+      - uv run ruff check {{.PYTHON_SCRIPTS}}
 
   lint:types:
     desc: Type check Python scripts with pyright
     cmds:
-      - uv run --with pyright --with typst --with jinja2 --with playwright pyright {{.PYTHON_SCRIPTS}}
+      - uv run pyright {{.PYTHON_SCRIPTS}}
 
   lint:json:
     desc: Validate JSON syntax and structure
@@ -39,7 +39,7 @@ tasks:
     desc: Validate Jinja2 templates AST parsing
     cmds:
       - |
-        uv run --with jinja2 python -c '
+        uv run python -c '
         from jinja2 import Environment
         templates = [
             "pandoc_resume/resume.md.j2",
@@ -72,7 +72,7 @@ tasks:
   fmt:python:
     desc: Format Python scripts with ruff
     cmds:
-      - ruff format {{.PYTHON_SCRIPTS}}
+      - uv run ruff format {{.PYTHON_SCRIPTS}}
 
   # --- WATCH & LIVE PREVIEW ---
   watch:
@@ -100,7 +100,7 @@ tasks:
   site:check:mobile:
     desc: Automated mobile responsiveness & zero-overflow validation with Playwright
     cmds:
-      - uv run --with playwright scripts/check_mobile.py
+      - uv run scripts/check_mobile.py
 
   check:mobile:
     desc: Alias for site:check:mobile
@@ -111,7 +111,7 @@ tasks:
   links:check:
     desc: Check and validate all hyperlinks across static site, PDF and sources
     cmds:
-      - python3 scripts/check_links.py
+      - uv run python3 scripts/check_links.py
 
   check:links:
     desc: Alias for links:check
@@ -122,57 +122,57 @@ tasks:
   pre-commit:install:
     desc: Install pre-commit git hooks
     cmds:
-      - pre-commit install
+      - uv run pre-commit install
 
   pre-commit:run:
     desc: Run all pre-commit hooks manually on all files
     cmds:
-      - pre-commit run --all-files
+      - uv run pre-commit run --all-files
 
   # --- LIGHTHOUSE PERFORMANCE AUDITS ---
   audit:local:
-    desc: Run local Lighthouse audit (Mobile & Desktop) against dist/
+    desc: Run local Lighthouse audit (Mobile & Desktop) against dist/ (min threshold >= 80/100)
     cmds:
       - task: site:build
-      - python3 scripts/audit_lighthouse.py --serve dist --mode all
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode all {{.CLI_ARGS}}
 
   audit:local:mobile:
-    desc: Run local Mobile Lighthouse audit against dist/
+    desc: Run local Mobile Lighthouse audit against dist/ (min threshold >= 80/100)
     cmds:
       - task: site:build
-      - python3 scripts/audit_lighthouse.py --serve dist --mode mobile
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode mobile {{.CLI_ARGS}}
 
   audit:local:desktop:
-    desc: Run local Desktop Lighthouse audit against dist/
+    desc: Run local Desktop Lighthouse audit against dist/ (min threshold >= 80/100)
     cmds:
       - task: site:build
-      - python3 scripts/audit_lighthouse.py --serve dist --mode desktop
+      - uv run python3 scripts/audit_lighthouse.py --serve dist --mode desktop {{.CLI_ARGS}}
 
   audit:prod:
     desc: Run Lighthouse audit (Mobile & Desktop) on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode all
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode all {{.CLI_ARGS}}
 
   audit:prod:mobile:
     desc: Run Mobile Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode mobile
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode mobile {{.CLI_ARGS}}
 
   audit:prod:desktop:
     desc: Run Desktop Lighthouse audit on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop
+      - uv run python3 scripts/audit_lighthouse.py --url https://yoyonel.github.io/CV_resume/ --mode desktop {{.CLI_ARGS}}
 
   tunnel:
     desc: Start Cloudflare Quick Tunnel on local dist/ for third-party remote testing (PageSpeed Insights, etc.)
     cmds:
-      - python3 scripts/tunnel.py
+      - uv run python3 scripts/tunnel.py
 
   site:check:console:
     desc: Automated runtime console and exception verification with Playwright
     cmds:
       - task: site:build
-      - uv run --with playwright scripts/check_console.py
+      - uv run scripts/check_console.py
 
   check:console:
     desc: Verify zero runtime exceptions or console errors
@@ -183,7 +183,7 @@ tasks:
     desc: Automated static HTML and inline JavaScript syntax validation
     cmds:
       - task: site:build
-      - python3 scripts/check_html_syntax.py
+      - uv run python3 scripts/check_html_syntax.py
 
   check:html:
     desc: Alias for site:check:html
@@ -194,45 +194,78 @@ tasks:
     desc: Automated UI regression verification (Ctrl K, search input, tooltip clipping, galleries)
     cmds:
       - task: site:build
-      - uv run --with playwright scripts/test_ui_regressions.py
+      - uv run scripts/test_ui_regressions.py
 
   check:ui:
     desc: Verify zero UI layout regressions
     cmds:
       - task: site:check:ui
 
+  site:check:print:
+    desc: Automated @media print & PDF layout validation with Playwright
+    cmds:
+      - task: site:build
+      - uv run python3 scripts/test_print_rendering.py
+
+  check:print:
+    desc: Verify zero print layout regressions
+    cmds:
+      - task: site:check:print
+
   site:check:bot:
     desc: Run guided exploratory bot to test all app features, state transitions and track history
     cmds:
       - task: site:build
-      - uv run --with playwright scripts/exploratory_bot.py {{.CLI_ARGS}}
+      - uv run scripts/exploratory_bot.py {{.CLI_ARGS}}
 
   test:bot:
     desc: Run guided exploratory bot on local build (e.g. task test:bot -- --steps 100 --seed 42)
     cmds:
       - task: site:build
-      - uv run --with playwright scripts/exploratory_bot.py {{.CLI_ARGS}}
+      - uv run scripts/exploratory_bot.py {{.CLI_ARGS}}
 
   test:bot:prod:
     desc: Run guided exploratory bot on PROD (https://yoyonel.github.io/CV_resume/)
     cmds:
-      - uv run --with playwright scripts/exploratory_bot.py --url https://yoyonel.github.io/CV_resume/ {{.CLI_ARGS}}
+      - uv run scripts/exploratory_bot.py --url https://yoyonel.github.io/CV_resume/ {{.CLI_ARGS}}
 
   test:bot:surge:
     desc: Run guided exploratory bot on Surge Preview (pass URL=... or defaults to current PR preview)
     vars:
       SURGE_URL: '{{.URL | default "https://yoyonel-cv-resume-pr-10.surge.sh"}}'
     cmds:
-      - uv run --with playwright scripts/exploratory_bot.py --url {{.SURGE_URL}} {{.CLI_ARGS}}
+      - uv run scripts/exploratory_bot.py --url {{.SURGE_URL}} {{.CLI_ARGS}}
 
   test:bot:preview:
     desc: Alias for test:bot:surge
     cmds:
       - task: test:bot:surge
 
+  # --- ARCHITECTURE DECISION RECORDS (ADR) ---
+  adr:new:
+    desc: "Scaffold a new Architecture Decision Record (e.g. task adr:new -- 'My Decision Title')"
+    cmds:
+      - uv run python3 scripts/create_adr.py {{.CLI_ARGS}}
+
+  adr:build:
+    desc: "Build static HTML documentation for all ADRs using adr-viewer into dist/adr/index.html"
+    cmds:
+      - uv run python3 scripts/build_adr.py {{.CLI_ARGS}}
+
+  adr:serve:
+    desc: "Start interactive local preview of ADRs with automatic free port detection"
+    cmds:
+      - uv run python3 scripts/serve_adr.py {{.CLI_ARGS}}
+
+  adr:list:
+    desc: "List all Architecture Decision Records"
+    cmds:
+      - uv run python3 scripts/build_adr.py --list
+    silent: true
+
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + site build + html check + mobile check + console check + UI check + link check)
+    desc: Full validation suite (lint + site build + html check + mobile check + console check + UI check + print check + link check)
     cmds:
       - task: lint
       - task: site:build
@@ -240,7 +273,9 @@ tasks:
       - task: check:mobile
       - task: check:console
       - task: check:ui
+      - task: check:print
       - task: links:check
       - echo "All checks passed successfully!"
+
 
 

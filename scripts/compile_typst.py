@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = [
-#   "jinja2>=3.1.0",
-#   "typst>=0.15.0",
-# ]
-# ///
 import json
 import os
 import sys

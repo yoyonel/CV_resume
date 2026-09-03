@@ -3,7 +3,7 @@
 **Date** : 2026-08-31  
 **Auteur** : Yohan ATTY  
 **Branche** : `fix/devtools-issues-and-image-aspect-ratio`  
-**Composants impactés** : [`site_template/index.html.j2`](file:///home/latty/Prog/__PERSO__/CV_resume/site_template/index.html.j2)
+**Composants impactés** : [`site_template/index.html.j2`](../site_template/index.html.j2)
 
 ---
 

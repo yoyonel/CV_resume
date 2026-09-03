@@ -26,6 +26,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Taskfile runner
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
         with:
@@ -36,23 +42,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Build Static Site with Typst
-        run: uv run scripts/build_site.py
-
-      - name: Verify Static HTML & Inline JS Syntax
-        run: python3 scripts/check_html_syntax.py
-
-      - name: Verify All Hyperlinks
-        run: python3 scripts/check_links.py
+      - name: Sync Dependencies via uv
+        run: uv sync
 
       - name: Install Playwright Browsers
-        run: uv run --with playwright playwright install --with-deps chromium
+        run: uv run playwright install --with-deps chromium
 
-      - name: Verify Zero Runtime Console Errors
-        run: uv run --with playwright scripts/check_console.py
+      - name: Run Full Quality & Verification Suite (Task Check)
+        run: task check
 
       - name: Run Guided Exploratory Bot (Local Build)
-        run: uv run --with playwright scripts/exploratory_bot.py --duration 30
+        run: task test:bot -- --duration 30
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

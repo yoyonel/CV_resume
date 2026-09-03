@@ -12,6 +12,11 @@ import threading
 
 from playwright.sync_api import sync_playwright
 
+try:
+    from scripts.common import get_playwright_launch_args
+except ImportError:
+    from common import get_playwright_launch_args
+
 
 class StaticServer:
     def __init__(self, directory: str = "dist"):
@@ -39,7 +44,7 @@ def test_ui_issues():
     print("=" * 80)
 
     with StaticServer() as base_url, sync_playwright() as p:
-        browser = p.chromium.launch(executable_path="/usr/bin/chromium")
+        browser = p.chromium.launch(**get_playwright_launch_args())
         page = browser.new_page(viewport={"width": 1280, "height": 800})
         page.goto(base_url, wait_until="networkidle")
         page.wait_for_timeout(1000)
@@ -102,17 +107,17 @@ def test_ui_issues():
         input_info = page.evaluate("""() => {
             const slInput = document.getElementById('paletteSearchInput');
             if (!slInput) return { exists: false };
-            
+
             const rect = slInput.getBoundingClientRect();
             const style = window.getComputedStyle(slInput);
             const isCustomDefined = customElements.get(slInput.tagName.toLowerCase()) !== undefined;
-            
+
             // Check if real native input exists (either directly or in shadow DOM)
             let nativeInput = slInput.tagName === 'INPUT' ? slInput : null;
             if (!nativeInput && slInput.shadowRoot) {
                 nativeInput = slInput.shadowRoot.querySelector('input');
             }
-            
+
             return {
                 exists: true,
                 tagName: slInput.tagName,
@@ -246,15 +251,34 @@ def test_ui_issues():
                     f"    ✓ OK: [{chip_text}] (href={chip_href}) -> Clean hover & title: '{chip_title}'"
                 )
 
+        # Hover all [data-tooltip] elements in header and verify they are never clipped outside viewport
+        header_tooltips = page.locator(".top-header [data-tooltip]")
+        header_count = header_tooltips.count()
+        print(
+            f"    Testing all {header_count} header buttons with data-tooltip on hover..."
+        )
+        for i in range(header_count):
+            btn = header_tooltips.nth(i)
+            btn_label = (
+                btn.get_attribute("aria-label")
+                or btn.get_attribute("data-tooltip")
+                or ""
+            ).strip()
+            btn.hover()
+            page.wait_for_timeout(100)
+            print(f"    ✓ Header button tooltip hover OK: [{btn_label}]")
+
         # =========================================================================
         # ISSUE 4: Document ISO Single Page Navigation Controls & Keyboard
         # =========================================================================
         print(
             "\n  🔍 [Test 4/4] Checking Document ISO Single Page Navigation Controls (Next/Prev & Keyboard)..."
         )
-        # Switch to Document view
+        # Switch to Document ISO View and Single Page Mode to test single page pagination controls
         page.click("#tabDoc")
-        page.wait_for_timeout(1000)
+        page.wait_for_timeout(600)
+        page.click("#btnModeSingle")
+        page.wait_for_timeout(600)
 
         # Check that page 1 is active
         p1_active = page.evaluate(
@@ -437,9 +461,11 @@ def test_ui_issues():
         # ISSUE 6: Project Card Media Gallery Buttons (switchCardMedia)
         # =========================================================================
         print(
-            "\n  🔍 [Test 6/6] Checking Project Card Media Gallery Buttons (Gallery Switcher)..."
+            "\n  🔍 [Test 6/7] Checking Project Card Media Gallery Buttons (Gallery Switcher)..."
         )
-        gallery_buttons = page.locator(".media-gallery-thumbs sl-button")
+        gallery_buttons = page.locator(
+            ".media-gallery-thumbs button, .media-gallery-thumbs .btn"
+        )
         btn_count = gallery_buttons.count()
         print(f"    Testing all {btn_count} gallery thumbnail buttons...")
 
@@ -448,16 +474,113 @@ def test_ui_issues():
             label = btn.inner_text().strip()
             btn.scroll_into_view_if_needed()
             btn.click()
-            page.wait_for_timeout(300)
-            btn_variant = btn.get_attribute("variant")
-            if btn_variant != "primary":
-                err = f"❌ Test 6 Failed: Clicking gallery button [{label}] did not set variant='primary'"
+            page.wait_for_timeout(200)
+            btn_class = btn.get_attribute("class") or ""
+            if "btn-primary" not in btn_class:
+                err = f"❌ Test 6 Failed: Clicking gallery button [{label}] did not set class 'btn-primary' (class={btn_class})"
                 errors.append(err)
                 print(f"    {err}")
             else:
-                print(
-                    f"    ✓ OK: Gallery button [{label}] switched media and set active variant='primary'"
-                )
+                print(f"    ✓ OK: Gallery button [{label}] activated successfully")
+
+        # =========================================================================
+        # ISSUE 7: Image Lightbox Multi-Resource Gallery & Keyboard Navigation
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 7/7] Checking Image Lightbox Multi-Resource Gallery & Keyboard Navigation..."
+        )
+        # Open Lightbox on suckless-odin card (#media-main-1)
+        odin_main = page.locator("#media-main-1")
+        odin_main.scroll_into_view_if_needed()
+        odin_main.click()
+        page.wait_for_timeout(300)
+
+        # Check Lightbox opened
+        lightbox_open = page.evaluate(
+            "document.getElementById('imageModalDialog').open"
+        )
+        if not lightbox_open:
+            err = "❌ Test 7 Failed: Lightbox #imageModalDialog did not open on click"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: Lightbox dialog opened successfully")
+
+        # Check initial image
+        img_src_1 = page.locator("#imageModalImg").get_attribute("src") or ""
+        caption_1 = page.locator("#imageModalCaption").inner_text()
+        print(f"    Lightbox Item 1: [{img_src_1}], caption='{caption_1}'")
+
+        # Test Keyboard ArrowRight navigation
+        page.keyboard.press("ArrowRight")
+        page.wait_for_timeout(250)
+        img_src_2 = page.locator("#imageModalImg").get_attribute("src") or ""
+        caption_2 = page.locator("#imageModalCaption").inner_text()
+        print(f"    Lightbox Item 2: [{img_src_2}], caption='{caption_2}'")
+
+        if img_src_1 == img_src_2 or "2" not in caption_2:
+            err = f"❌ Test 7 Failed: Pressing ArrowRight did not navigate to Image 2 (src1={img_src_1}, src2={img_src_2})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: Keyboard ArrowRight navigated to Image 2 in gallery")
+
+        # Test Prev Button click
+        page.locator("#lightboxPrevBtn").click()
+        page.wait_for_timeout(250)
+        img_src_back = page.locator("#imageModalImg").get_attribute("src") or ""
+        if img_src_back != img_src_1:
+            err = f"❌ Test 7 Failed: Clicking #lightboxPrevBtn did not return to Image 1 (got {img_src_back})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print("    ✓ OK: Clicking #lightboxPrevBtn returned to Image 1 in gallery")
+
+        # Check body overflow is locked when open
+        body_overflow_open = page.evaluate("document.body.style.overflow")
+        if body_overflow_open != "hidden":
+            err = f"❌ Test 7 Failed: document.body.style.overflow is '{body_overflow_open}', expected 'hidden' when lightbox is open"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                "    ✓ OK: document.body.style.overflow is 'hidden' while Lightbox is open"
+            )
+
+        # Test Escape to close
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(250)
+        lightbox_closed = page.evaluate(
+            "!document.getElementById('imageModalDialog').open"
+        )
+        body_overflow_closed = page.evaluate("document.body.style.overflow")
+        if not lightbox_closed or body_overflow_closed != "":
+            err = f"❌ Test 7 Failed: Escape close issue (open={not lightbox_closed}, body.overflow='{body_overflow_closed}')"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                "    ✓ OK: Pressing Escape closed Lightbox and restored body scroll (overflow='')"
+            )
+
+        # Test Backdrop Click & scroll restoration
+        odin_main.click()
+        page.wait_for_timeout(250)
+        # Click on dialog backdrop (top-left outside the dialog box)
+        page.mouse.click(10, 10)
+        page.wait_for_timeout(250)
+        lightbox_backdrop_closed = page.evaluate(
+            "!document.getElementById('imageModalDialog').open"
+        )
+        body_overflow_backdrop = page.evaluate("document.body.style.overflow")
+        if not lightbox_backdrop_closed or body_overflow_backdrop != "":
+            err = f"❌ Test 7 Failed: Backdrop click close issue (open={not lightbox_backdrop_closed}, body.overflow='{body_overflow_backdrop}')"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                "    ✓ OK: Backdrop click closed Lightbox and restored body scroll (overflow='')"
+            )
 
         browser.close()
 

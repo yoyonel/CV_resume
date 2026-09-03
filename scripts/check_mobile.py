@@ -1,18 +1,10 @@
 #!/usr/bin/env python3
-# /// script
-# dependencies = [
-#   "jinja2>=3.1.0",
-#   "playwright>=1.40.0",
-#   "typst>=0.15.0",
-# ]
-# ///
 """Automated mobile responsiveness & zero-overflow validation using Playwright."""
 
 import sys
 from pathlib import Path
 
 try:
-    from playwright.sync_api import Error as PlaywrightError
     from playwright.sync_api import sync_playwright
 except ImportError:
     print(
@@ -20,6 +12,11 @@ except ImportError:
         file=sys.stderr,
     )
     sys.exit(1)
+
+try:
+    from scripts.common import get_playwright_launch_args
+except ImportError:
+    from common import get_playwright_launch_args
 
 from build_site import build_site
 
@@ -50,10 +47,7 @@ def run_mobile_checks() -> int:
     failures = 0
 
     with sync_playwright() as p:
-        try:
-            browser = p.chromium.launch(executable_path="/usr/bin/chromium")
-        except (PlaywrightError, OSError):
-            browser = p.chromium.launch()
+        browser = p.chromium.launch(**get_playwright_launch_args())
 
         for name, w, h, label in VIEWPORTS:
             page = browser.new_page(viewport={"width": w, "height": h})
