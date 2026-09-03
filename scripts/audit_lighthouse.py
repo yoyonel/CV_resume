@@ -156,17 +156,24 @@ def print_report_card(data: dict, title: str) -> None:
     print("========================================================\n")
 
 
-def check_score_thresholds(data: dict, min_score: int, mode_label: str) -> list[str]:
+def check_score_thresholds(
+    data: dict, min_score: int, mode_label: str, target_url: str = ""
+) -> list[str]:
     categories = data.get("categories", {})
     failures = []
+    is_surge_preview = "surge.sh" in target_url
+
     for cat_key in ["performance", "accessibility", "best-practices", "seo"]:
         if cat_key in categories:
             cat = categories[cat_key]
             score = round(cat.get("score", 0) * 100)
             title = cat.get("title", cat_key)
-            if score < min_score:
+            # Surge.sh free tier automatically injects 'X-Robots-Tag: noindex' header on previews,
+            # which caps Lighthouse SEO score to ~69 due to provider header.
+            cat_min = 65 if (cat_key == "seo" and is_surge_preview) else min_score
+            if score < cat_min:
                 failures.append(
-                    f"[{mode_label}] {title}: {score}/100 (seuil minimal requis: {min_score}/100)"
+                    f"[{mode_label}] {title}: {score}/100 (seuil minimal requis: {cat_min}/100)"
                 )
     return failures
 
@@ -231,7 +238,7 @@ def main() -> None:
                 append_github_step_summary(report_data, f"{url} [{m.upper()}]")
                 if args.min_score > 0:
                     failures = check_score_thresholds(
-                        report_data, args.min_score, m.upper()
+                        report_data, args.min_score, m.upper(), target_url=url
                     )
                     all_failures.extend(failures)
         finally:

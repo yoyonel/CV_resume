@@ -434,7 +434,14 @@ def build_site(output_dir: Path | None = None) -> Path:
     with open(index_html_path, "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    # 5. Build static ADR Documentation
+    # 5. Generate robots.txt
+    robots_path = output_dir / "robots.txt"
+    with open(robots_path, "w", encoding="utf-8") as f:
+        f.write(
+            "User-agent: *\nAllow: /\nSitemap: https://yoyonel.github.io/CV_resume/sitemap.xml\n"
+        )
+
+    # 6. Build static ADR Documentation
     try:
         from scripts.build_adr import build_adr_docs
     except ImportError:
