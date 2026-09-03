@@ -1,11 +1,13 @@
 import argparse
 import socket
 import sys
-from pathlib import Path
 
-from adr_viewer.parse import parse_adr_files
-from adr_viewer.render import generate_content
 from adr_viewer.server import run_server
+
+try:
+    from scripts.build_adr import load_adrs_and_render
+except ImportError:
+    from build_adr import load_adrs_and_render
 
 
 def find_free_port(start_port: int = 8088, max_attempts: int = 20) -> int:
@@ -17,7 +19,7 @@ def find_free_port(start_port: int = 8088, max_attempts: int = 20) -> int:
     return start_port
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Serve interactive ADR viewer locally."
     )
@@ -36,11 +38,10 @@ def main():
 
     port = args.port if args.port is not None else find_free_port(8088)
 
-    pattern = "docs/*.md" if args.all_docs else "docs/*_adr_[0-9][0-9][0-9][0-9]_*.md"
-    adrs = parse_adr_files(pattern)
+    adrs, content = load_adrs_and_render(all_docs=args.all_docs)
 
     if not adrs:
-        print(f"⚠️  Aucun ADR trouvé avec le pattern : {pattern}")
+        print("⚠️  Aucun ADR trouvé.")
         sys.exit(1)
 
     print("=" * 80)
@@ -48,15 +49,13 @@ def main():
     print("=" * 80)
     print(f"  • ADRs chargés : {len(adrs)}")
     for a in adrs:
-        print(f"    - [{a.status.upper():<8}] {a.title}")
+        status_str = getattr(a, "status", "UNKNOWN").upper()
+        title_str = getattr(a, "title", "Sans titre")
+        print(f"    - [{status_str:<8}] {title_str}")
     print(f"\n  🚀 Serveur démarré sur : http://localhost:{port}/")
     print("  (Appuyez sur Ctrl+C pour arrêter le serveur)")
     print("=" * 80)
 
-    root_dir = Path(__file__).resolve().parent.parent
-    tpl_dir = str(root_dir / "docs" / "templates" / "adr")
-
-    content = generate_content(adrs, tpl_dir, "CV_resume Architecture Decision Records")
     run_server(content, port)
 
 

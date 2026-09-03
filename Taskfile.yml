@@ -260,28 +260,7 @@ tasks:
   adr:list:
     desc: "List all Architecture Decision Records"
     cmds:
-      - |
-        uv run python3 -c '
-        import re
-        from pathlib import Path
-        adrs = sorted([f for f in Path("docs").glob("*.md") if re.search(r"_adr_\d{4}_", f.name)])
-        print(f"\n📂 Architecture Decision Records ({len(adrs)} documents found):")
-        print("-" * 80)
-        for a in adrs:
-            lines = [l.strip() for l in a.read_text(encoding="utf-8").splitlines() if l.strip()]
-            title = lines[0].replace("#", "").strip() if lines else a.name
-            status = "Unknown"
-            for i, l in enumerate(lines):
-                if l.lower() in ("## status", "# status"):
-                    if i + 1 < len(lines):
-                        status = lines[i+1].replace("*", "").strip()
-                    break
-                elif "status" in l.lower() or "statut" in l.lower():
-                    status = l.split(":", 1)[-1].strip().replace("*", "")
-                    break
-            print(f"  • {a.name:<52} | [{status:<10}] | {title}")
-        print("-" * 80)
-        '
+      - uv run python3 scripts/build_adr.py --list
     silent: true
 
   # --- VALIDATION SUITE ---
