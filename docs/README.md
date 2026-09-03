@@ -56,7 +56,7 @@ Le `Taskfile.yml` intègre des commandes dédiées à la gestion des ADRs :
 | :--- | :--- |
 | `task adr:new -- "Titre de la décision"` | Génère un nouveau fichier ADR numéroté et pré-rempli dans `docs/`. |
 | `task adr:build` | Génère la documentation statique navigable des ADRs dans `dist/adr/index.html`. |
-| `task adr:serve` | Lance le serveur local interactif de prévisualisation des ADRs sur `http://localhost:8080`. |
+| `task adr:serve` | Lance le serveur local interactif de prévisualisation des ADRs sur `http://localhost:8088` (détection automatique du premier port libre). |
 | `task adr:list` | Liste tous les ADRs existants avec leur statut. |
 
 ---

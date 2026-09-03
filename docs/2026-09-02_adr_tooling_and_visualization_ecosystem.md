@@ -68,10 +68,29 @@ graph TD
     class ADR0001 accepted;
 ```
 
-### Intégration Taskfile suggérée :
+### Intégration Taskfile & Outillage Adopté
+
+Toutes les dépendances sont déclarées dans `pyproject.toml` (ADR 0002). L'outillage dédié comprend :
+
 ```yaml
-  docs:adr:
-    desc: "Générer la documentation statique des ADRs via adr-viewer"
+  adr:new:
+    desc: "Créer un nouvel Architecture Decision Record"
     cmds:
-      - uv run --with adr-viewer adr-viewer --adr-path docs/ --output dist/adr/index.html
+      - uv run python scripts/create_adr.py {{.CLI_ARGS}}
+
+  adr:build:
+    desc: "Générer la documentation statique navigable des ADRs"
+    cmds:
+      - uv run python scripts/build_adr.py
+
+  adr:serve:
+    desc: "Lancer le visualiseur interactif local avec détection automatique de port libre"
+    cmds:
+      - uv run python scripts/serve_adr.py {{.CLI_ARGS}}
+
+  adr:list:
+    desc: "Lister tous les Architecture Decision Records"
+    cmds:
+      - uv run python scripts/build_adr.py --list
 ```
+
