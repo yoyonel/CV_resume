@@ -431,8 +431,9 @@ def test_ui_issues():
             )
 
         # 5. Tech badge click and toggle
-        first_tech = page.locator(".tech-tag-item").first
-        first_tech_text = first_tech.inner_text().strip().lower()
+        first_tech = page.locator("#section-skills .tech-tag-item").first
+        first_tech_text = (first_tech.text_content() or "").strip().lower()
+        first_tech.scroll_into_view_if_needed()
         first_tech.click()
         page.wait_for_timeout(300)
         tech_active_1 = page.evaluate("Array.from(activeTechs)")
@@ -708,6 +709,93 @@ def test_ui_issues():
 
         # Restore all to expanded
         page.evaluate("expandAllSections()")
+
+        # =========================================================================
+        # ISSUE 10: Experience Card Collapsible Tags Accordion Verification
+        # =========================================================================
+        print("\n  🔍 [Test 10] Checking Experience Card collapsible tags accordion...")
+        first_details = page.locator("#exp-letsignit .exp-tags-details").first
+        first_summary = page.locator("#exp-letsignit .exp-tags-summary").first
+
+        assert not first_details.evaluate("el => el.open"), (
+            "Tags details must be closed by default"
+        )
+        print(
+            "    ✓ OK: Experience tags accordion is collapsed by default (open=false)"
+        )
+
+        # Click summary to expand
+        first_summary.click()
+        page.wait_for_timeout(200)
+        assert first_details.evaluate("el => el.open"), (
+            "Tags details must be open after clicking summary"
+        )
+        print("    ✓ OK: Clicking summary expanded tags accordion (open=true)")
+
+        # Click summary to re-collapse
+        first_summary.click()
+        page.wait_for_timeout(200)
+        assert not first_details.evaluate("el => el.open")
+        print("    ✓ OK: Clicking summary re-collapsed tags accordion")
+
+        # Test auto-expansion on tech filter click
+        page.evaluate("filterByTech('Python 3.13')")
+        page.wait_for_timeout(200)
+        assert first_details.evaluate("el => el.open"), (
+            "Filtering by 'Python 3.13' must auto-expand matching tags accordion"
+        )
+        print(
+            "    ✓ OK: filterByTech('Python 3.13') successfully auto-expanded matching card tags accordion"
+        )
+        # =========================================================================
+        # ISSUE 11: Multi-Media Card Drag & Swipe (Red Zone) Verification
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 11] Checking Project Card Media drag and swipe (Red Zone)..."
+        )
+        # Scroll to rust-firework (or first multi-image card)
+        media_box = page.locator("#media-main-1")
+        media_box.scroll_into_view_if_needed()
+        page.wait_for_timeout(200)
+
+        # Get initial active image src
+        initial_img_src = page.locator("#media-img-1").get_attribute("src")
+
+        # Perform mouse drag left on media_box (simulate swipe left)
+        box = media_box.bounding_box()
+        assert box is not None, "Media box must be visible"
+        center_x = box["x"] + box["width"] / 2
+        center_y = box["y"] + box["height"] / 2
+
+        page.mouse.move(center_x + 80, center_y)
+        page.mouse.down()
+        page.mouse.move(center_x - 80, center_y, steps=5)
+        page.mouse.up()
+        page.wait_for_timeout(300)
+
+        # Verify image changed
+        new_img_src = page.locator("#media-img-1").get_attribute("src")
+        assert new_img_src != initial_img_src, (
+            f"Image must change after drag left (was {initial_img_src}, got {new_img_src})"
+        )
+        print(
+            "    ✓ OK: Mouse drag / swipe left on image area successfully switched to next image"
+        )
+
+        # Perform mouse drag right on media_box (simulate swipe right)
+        page.mouse.move(center_x - 80, center_y)
+        page.mouse.down()
+        page.mouse.move(center_x + 80, center_y, steps=5)
+        page.mouse.up()
+        page.wait_for_timeout(300)
+
+        reverted_img_src = page.locator("#media-img-1").get_attribute("src")
+        assert reverted_img_src == initial_img_src, (
+            f"Image must revert after drag right (was {new_img_src}, got {reverted_img_src})"
+        )
+        print(
+            "    ✓ OK: Mouse drag / swipe right on image area successfully switched back to initial image"
+        )
 
         browser.close()
 
