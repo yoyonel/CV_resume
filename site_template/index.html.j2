@@ -996,7 +996,75 @@
       font-weight: bold;
     }
 
-    /* Tags Palette */
+    /* Tags Palette & Collapsible Details */
+    .exp-tags-details {
+      margin-top: 0.85rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-card-subtle);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      overflow: hidden;
+    }
+
+    .exp-tags-details[open] {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    html.light .exp-tags-details[open] {
+      background: rgba(2, 132, 199, 0.04);
+      border-color: rgba(2, 132, 199, 0.3);
+    }
+
+    .exp-tags-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      list-style: none;
+      transition: color 0.15s ease;
+    }
+
+    .exp-tags-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .exp-tags-summary:hover {
+      color: var(--accent);
+    }
+
+    .exp-tags-summary-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .exp-tags-summary-label .icon {
+      color: var(--accent);
+      font-size: 0.85rem;
+    }
+
+    .exp-tags-chevron {
+      font-size: 0.75rem;
+      transition: transform 0.2s ease;
+      color: var(--text-dim);
+    }
+
+    .exp-tags-details[open] .exp-tags-chevron {
+      transform: rotate(90deg);
+      color: var(--accent);
+    }
+
+    .exp-tags-details .tags-container {
+      padding: 0 0.85rem 0.85rem 0.85rem;
+      margin-top: 0.25rem;
+    }
+
     .tags-container {
       display: flex;
       flex-wrap: wrap;
@@ -1202,6 +1270,17 @@
       align-items: center;
       justify-content: center;
       background: #060911;
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .project-media-main.has-multi-media {
+      cursor: grab;
+    }
+
+    .project-media-main.is-dragging {
+      cursor: grabbing !important;
     }
 
     .project-media-main img {
@@ -1210,6 +1289,7 @@
       aspect-ratio: 16 / 9;
       object-fit: cover;
       transition: transform 0.3s ease;
+      pointer-events: none;
     }
 
     .project-media-main:hover img {
@@ -1222,6 +1302,7 @@
       left: 8px;
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       padding: 0.2rem 0.55rem;
       border-radius: 4px;
       font-size: 0.68rem;
@@ -1267,19 +1348,100 @@
       transform: scale(1.15);
     }
 
+    .media-card-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      cursor: pointer;
+      z-index: 4;
+      padding: 0;
+      line-height: 1;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.15s ease, background 0.15s ease;
+      user-select: none;
+    }
+
+    .project-media-box:hover .media-card-nav-btn {
+      opacity: 0.9;
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .project-media-box .media-card-nav-btn {
+        opacity: 0.85;
+      }
+    }
+
+    .media-card-nav-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .media-card-prev {
+      left: 6px;
+    }
+
+    .media-card-next {
+      right: 6px;
+    }
+
     .media-gallery-thumbs {
       display: flex;
+      flex-wrap: nowrap;
       gap: 0.35rem;
-      padding: 0.4rem;
+      padding: 0.4rem 0.5rem;
       background: var(--bg-card-subtle);
       border-top: 1px solid var(--border-color);
       overflow-x: auto;
+      overflow-y: hidden;
       max-width: 100%;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      touch-action: pan-x;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+      cursor: grab;
+      user-select: none;
     }
+
+    .media-gallery-thumbs.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+    }
+
+    .media-gallery-thumbs .btn {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
     .media-gallery-thumbs::-webkit-scrollbar {
-      display: none;
+      height: 4px;
+      display: block;
+    }
+
+    .media-gallery-thumbs::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .media-gallery-thumbs::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    .media-gallery-thumbs::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
     }
 
     /* Skills Categorized Grid */
@@ -1747,11 +1909,28 @@
       display: flex;
       align-items: center;
       gap: 0.45rem;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x;
+      padding: 0.25rem 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .lightbox-thumbs.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
     }
 
     .lightbox-thumb-pill {
+      flex-shrink: 0;
+      white-space: nowrap;
       background: rgba(30, 41, 59, 0.8);
       color: #94a3b8;
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -2275,11 +2454,22 @@
           </div>
           {% endif %}
 
-          <div class="tags-container">
-            {% for t in exp.tags %}
-            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
-            {% endfor %}
-          </div>
+          {% if exp.tags %}
+          <details class="exp-tags-details">
+            <summary class="exp-tags-summary">
+              <span class="exp-tags-summary-label">
+                <svg class="icon"><use href="#icon-tools"></use></svg>
+                <span>Stack technique ({{ exp.tags | length }})</span>
+              </span>
+              <svg class="icon exp-tags-chevron"><use href="#icon-chevron-right"></use></svg>
+            </summary>
+            <div class="tags-container">
+              {% for t in exp.tags %}
+              <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
+              {% endfor %}
+            </div>
+          </details>
+          {% endif %}
 
           {% if exp.links %}
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:1rem;">
@@ -2328,10 +2518,14 @@
               <div class="project-media-main" id="media-main-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-title="{{ proj.title | e }}" onclick="openImageModalByElem(this)">
                 <span class="media-badge-overlay" id="media-badge-{{ proj_idx }}">{{ '🔥 DÉMO ANIMÉE' if proj.media.type == 'gif' else '📸 CAPTURE R&D' }}</span>
                 <img id="media-img-{{ proj_idx }}" src="{{ proj.media.src }}{{ '?v=' ~ build_id if not proj.media.src.startswith('http') else '' }}" alt="{{ proj.title }}" loading="lazy" decoding="async" width="800" height="450">
+                {% if proj.media.gallery and proj.media.gallery | length > 1 %}
+                <button type="button" class="media-card-nav-btn media-card-prev" onclick="cycleCardMediaByEvent(event, '{{ proj_idx }}', -1)" aria-label="Image précédente (Glisser à droite)">‹</button>
+                <button type="button" class="media-card-nav-btn media-card-next" onclick="cycleCardMediaByEvent(event, '{{ proj_idx }}', 1)" aria-label="Image suivante (Glisser à gauche)">›</button>
+                {% endif %}
                 <div class="media-zoom-overlay"><svg class="icon" ><use href="#icon-zoom-in"></use></svg><span>Agrandir</span></div>
               </div>
               {% if proj.media.gallery %}
-              <div class="media-gallery-thumbs">
+              <div class="media-gallery-thumbs" id="media-thumbs-{{ proj_idx }}">
                 {% for g in proj.media.gallery %}
                 <button type="button" class="btn btn-sm {{ 'btn-primary' if loop.first else 'btn-default' }} media-thumb-btn-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-src="{{ g.src }}{{ '?v=' ~ build_id if not g.src.startswith('http') else '' }}" data-label="{{ g.label }}" onclick="switchCardMediaByElem(this)">
                   {{ g.label }}
@@ -2345,11 +2539,22 @@
           </div>
 
           <div style="margin-top:auto;">
-            <div class="tags-container" style="margin-bottom:0.85rem;">
-              {% for t in proj.tags %}
-              <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
-              {% endfor %}
-            </div>
+            {% if proj.tags %}
+            <details class="exp-tags-details" style="margin-bottom:0.85rem;">
+              <summary class="exp-tags-summary">
+                <span class="exp-tags-summary-label">
+                  <svg class="icon"><use href="#icon-tools"></use></svg>
+                  <span>Stack technique ({{ proj.tags | length }})</span>
+                </span>
+                <svg class="icon exp-tags-chevron"><use href="#icon-chevron-right"></use></svg>
+              </summary>
+              <div class="tags-container">
+                {% for t in proj.tags %}
+                <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
+                {% endfor %}
+              </div>
+            </details>
+            {% endif %}
 
             {% if proj.links %}
             <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
@@ -3573,6 +3778,10 @@
       document.querySelectorAll('.tech-tag-item, .tech-kw').forEach(t => {
         const match = activeTechs.has(t.innerText.toLowerCase().trim());
         t.classList.toggle('active', match);
+        if (match && hasActiveTech) {
+          const details = t.closest('.exp-tags-details');
+          if (details) details.open = true;
+        }
       });
 
       let firstMatch = null;
@@ -3583,13 +3792,21 @@
           const textContent = card.innerText.toLowerCase();
           const matchesAny = Array.from(activeTechs).some(tech => textContent.includes(tech));
           card.classList.toggle('highlight', matchesAny);
-          if (matchesAny && !firstMatch) {
-            firstMatch = card;
+          if (matchesAny) {
+            const details = card.querySelector('.exp-tags-details');
+            if (details) details.open = true;
+            if (!firstMatch) {
+              firstMatch = card;
+            }
           }
         }
       });
 
       if (firstMatch) {
+        const parentCollapsible = firstMatch.closest('.section-collapsible-content');
+        if (parentCollapsible && parentCollapsible.id) {
+          expandSection(parentCollapsible.id);
+        }
         firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
@@ -3622,6 +3839,178 @@
     let currentLightboxCardIdx = null;
     let currentLightboxGallery = [];
     let currentLightboxIndex = 0;
+    let hasSwipedGlobal = false;
+
+    function getCardGalleryItems(cardIdx) {
+      const buttons = document.querySelectorAll(`.media-thumb-btn-${cardIdx}`);
+      return Array.from(buttons).map((b, idx) => ({
+        idx: idx,
+        src: b.getAttribute('data-src'),
+        label: b.getAttribute('data-label') || '',
+        btn: b,
+        active: b.classList.contains('btn-primary')
+      }));
+    }
+
+    function cycleCardMedia(cardIdx, direction) {
+      const items = getCardGalleryItems(cardIdx);
+      if (items.length <= 1) return;
+      let activeIdx = items.findIndex(it => it.active);
+      if (activeIdx === -1) activeIdx = 0;
+      let nextIdx = (activeIdx + direction + items.length) % items.length;
+      const nextItem = items[nextIdx];
+      switchCardMedia(cardIdx, nextItem.src, nextItem.label, nextItem.btn);
+    }
+
+    function cycleCardMediaByEvent(event, cardIdx, direction) {
+      if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
+      cycleCardMedia(cardIdx, direction);
+    }
+
+    function attachSwipeHandler(el, onSwipeLeft, onSwipeRight) {
+      if (!el || el._hasSwipeHandler) return;
+      el._hasSwipeHandler = true;
+      let startX = 0;
+      let startY = 0;
+      let startTime = 0;
+      let isPointerDown = false;
+      let hasDragged = false;
+      const minDistance = 25;
+      const maxPerpendicular = 90;
+      const maxTime = 1000;
+
+      function onStart(x, y) {
+        startX = x;
+        startY = y;
+        startTime = Date.now();
+        isPointerDown = true;
+        hasDragged = false;
+        el.classList.add('is-dragging');
+      }
+
+      function onMove(x, y, e) {
+        if (!isPointerDown) return;
+        const deltaX = x - startX;
+        const deltaY = y - startY;
+        if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
+          hasDragged = true;
+          if (e && e.cancelable && e.type !== 'mousemove') {
+            e.preventDefault();
+          }
+        }
+      }
+
+      function onEnd(x, y) {
+        if (!isPointerDown) return;
+        isPointerDown = false;
+        el.classList.remove('is-dragging');
+        const deltaX = x - startX;
+        const deltaY = y - startY;
+        const elapsed = Date.now() - startTime;
+
+        if (elapsed <= maxTime && Math.abs(deltaX) >= minDistance && Math.abs(deltaY) <= maxPerpendicular) {
+          hasSwipedGlobal = true;
+          setTimeout(() => { hasSwipedGlobal = false; }, 300);
+          if (deltaX < 0 && onSwipeLeft) {
+            onSwipeLeft();
+          } else if (deltaX > 0 && onSwipeRight) {
+            onSwipeRight();
+          }
+        }
+      }
+
+      // Touch events (Mobile)
+      el.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        onStart(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
+
+      el.addEventListener('touchmove', (e) => {
+        if (e.touches.length !== 1) return;
+        onMove(e.touches[0].clientX, e.touches[0].clientY, e);
+      }, { passive: false });
+
+      el.addEventListener('touchend', (e) => {
+        if (e.changedTouches.length === 0) return;
+        onEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+      }, { passive: true });
+
+      el.addEventListener('touchcancel', () => {
+        isPointerDown = false;
+        el.classList.remove('is-dragging');
+      }, { passive: true });
+
+      // Mouse drag events (Desktop)
+      el.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        onStart(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isPointerDown) {
+          onMove(e.clientX, e.clientY, e);
+        }
+      });
+
+      window.addEventListener('mouseup', (e) => {
+        if (isPointerDown) {
+          onEnd(e.clientX, e.clientY);
+        }
+      });
+
+      // Capture click to prevent opening modal when swiping/dragging
+      el.addEventListener('click', (e) => {
+        if (hasSwipedGlobal || hasDragged) {
+          e.stopPropagation();
+          e.preventDefault();
+          hasDragged = false;
+        }
+      }, true);
+    }
+
+    function attachDragToScroll(container) {
+      if (!container || container._hasDragScroll) return;
+      container._hasDragScroll = true;
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      let hasDragged = false;
+
+      container.addEventListener('mousedown', (e) => {
+        isDown = true;
+        hasDragged = false;
+        container.classList.add('is-dragging');
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDown) {
+          isDown = false;
+          container.classList.remove('is-dragging');
+        }
+      });
+
+      container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        if (Math.abs(walk) > 5) hasDragged = true;
+        container.scrollLeft = scrollLeft - walk;
+      });
+
+      container.addEventListener('click', (e) => {
+        if (hasDragged) {
+          e.stopPropagation();
+          e.preventDefault();
+          hasDragged = false;
+        }
+      }, true);
+    }
 
     function openImageModal(src, title, cardIdx) {
       const dialog = document.getElementById('imageModalDialog');
@@ -3650,6 +4039,17 @@
       }
 
       updateLightboxView();
+
+      const lightboxContainer = document.querySelector('.lightbox-image-container');
+      if (lightboxContainer && !lightboxContainer._hasSwipe) {
+        lightboxContainer._hasSwipe = true;
+        attachSwipeHandler(lightboxContainer, () => nextLightboxImage(), () => prevLightboxImage());
+      }
+
+      const thumbsBox = document.getElementById('lightboxThumbs');
+      if (thumbsBox) {
+        attachDragToScroll(thumbsBox);
+      }
 
       if (dialog && !dialog.open) {
         document.body.style.overflow = 'hidden';
@@ -3701,6 +4101,10 @@
             };
             thumbsBox.appendChild(thumbBtn);
           });
+          const activePill = thumbsBox.querySelector('.lightbox-thumb-pill.active');
+          if (activePill) {
+            activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          }
         } else {
           thumbsBox.style.display = 'none';
         }
@@ -3729,6 +4133,7 @@
     }
 
     function openImageModalByElem(el) {
+      if (hasSwipedGlobal) return;
       const cardIdx = el.getAttribute('data-card-idx');
       const title = el.getAttribute('data-title');
       const img = document.getElementById(`media-img-${cardIdx}`);
@@ -3759,6 +4164,7 @@
           });
           btn.classList.remove('btn-default');
           btn.classList.add('btn-primary');
+          btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }
       }
     }
@@ -3768,6 +4174,23 @@
       const src = btn.getAttribute('data-src');
       const label = btn.getAttribute('data-label') || '';
       switchCardMedia(cardIdx, src, label, btn);
+    }
+
+    function initMediaGalleries() {
+      document.querySelectorAll('.project-media-main').forEach(el => {
+        const cardIdx = el.getAttribute('data-card-idx');
+        if (cardIdx) {
+          const buttons = document.querySelectorAll(`.media-thumb-btn-${cardIdx}`);
+          if (buttons.length > 1) {
+            el.classList.add('has-multi-media');
+            attachSwipeHandler(el, () => cycleCardMedia(cardIdx, 1), () => cycleCardMedia(cardIdx, -1));
+          }
+        }
+      });
+
+      document.querySelectorAll('.media-gallery-thumbs').forEach(container => {
+        attachDragToScroll(container);
+      });
     }
 
     // 8. Theme Management (prefers-color-scheme with localStorage override)
@@ -3909,6 +4332,7 @@
       });
 
       switchMainView('web');
+      initMediaGalleries();
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => { searchIndex = buildSearchIndex(); });
       } else {
