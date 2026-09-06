@@ -17,6 +17,7 @@ graph TD
 
     subgraph Fixes ["Résolutions Techniques & UI"]
         FIX01["<b>Bug Fixes & Lightbox</b><br>Double Page, Lightbox Centering & Multi-Gallery<br><i>(Resolved - 2026-09-02)</i>"]
+        FIX02["<b>Slider & Sections Fixes</b><br>Layout Shift, Confinement & Drag/Swipe Navigation<br><i>(Resolved - 2026-09-06)</i>"]
     end
 
     subgraph Guides ["Guides & Outillage"]
@@ -24,6 +25,7 @@ graph TD
     end
 
     ADR0001 -->|Implémente| FIX01
+    ADR0001 -->|Implémente| FIX02
     ADR0001 -.->|Outillage| GUIDE01
     ADR0002 -->|Standardise| GUIDE01
 
@@ -34,6 +36,7 @@ graph TD
     class ADR0001 accepted;
     class ADR0002 accepted;
     class FIX01 fix;
+    class FIX02 fix;
     class GUIDE01 guide;
 ```
 
@@ -63,6 +66,7 @@ Le `Taskfile.yml` intègre des commandes dédiées à la gestion des ADRs :
 
 ## 📂 Autres Documents Techniques
 
+- **[2026-09-06_fix_media_slider_overflow_and_responsive_layout_shift.md](2026-09-06_fix_media_slider_overflow_and_responsive_layout_shift.md)** : Résolution du layout shift du slider média, navigation drag & swipe unifiée, boutons de navigation et couverture de tests d'intégration E2E (11/11).
 - **[2026-09-02_fix_lightbox_gallery_and_double_page_rendering.md](2026-09-02_fix_lightbox_gallery_and_double_page_rendering.md)** : Résolution des régressions Double Page, Lightbox centering, navigation multi-ressources et cache HTTP.
 - **[2026-09-02_adr_tooling_and_visualization_ecosystem.md](2026-09-02_adr_tooling_and_visualization_ecosystem.md)** : Étude complète de l'écosystème d'outillage, formats (Nygard, MADR) et visualiseurs web ADR.
 - **[2026-08-28_modernisation_cv_typst.md](2026-08-28_modernisation_cv_typst.md)** : Architecture du moteur de rendu Typst et de la charte graphique moderne.

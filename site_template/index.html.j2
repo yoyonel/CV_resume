@@ -259,6 +259,9 @@
       font-weight: 500;
       border-radius: 6px;
       white-space: nowrap;
+      max-width: min(220px, 90vw);
+      text-overflow: ellipsis;
+      overflow: hidden;
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
@@ -330,8 +333,9 @@
 
     html, body {
       width: 100%;
-      max-width: 100vw;
-      overflow-x: hidden;
+      max-width: 100%;
+      overflow-x: clip;
+      overscroll-behavior-x: none;
     }
 
     body {
@@ -363,15 +367,16 @@
       padding: 0 1.5rem;
       gap: 1rem;
       box-sizing: border-box;
-      max-width: 100vw;
+      max-width: 100%;
       width: 100%;
+      overflow: hidden;
     }
 
     .brand-group {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      min-width: 220px;
+      min-width: 0;
     }
 
     .brand-meta h1 {
@@ -422,8 +427,10 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       gap: 1rem;
-      max-width: 100vw;
+      max-width: 100%;
       width: 100%;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x pan-y;
     }
     .filter-bar::-webkit-scrollbar {
       display: none;
@@ -705,6 +712,8 @@
       margin: 0 auto;
       padding: 2rem 1.5rem 5rem;
       width: 100%;
+      box-sizing: border-box;
+      overflow-x: clip;
     }
 
     /* Hero / Summary Banner (Web Awesome Card) */
@@ -1256,6 +1265,7 @@
       background: #000;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       max-width: 100%;
+      contain: paint;
     }
 
     .project-media-main {
@@ -1273,6 +1283,7 @@
       touch-action: pan-y;
       user-select: none;
       -webkit-user-select: none;
+      contain: paint;
     }
 
     .project-media-main.has-multi-media {
@@ -1414,6 +1425,7 @@
       scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
       cursor: grab;
       user-select: none;
+      overscroll-behavior-x: contain;
     }
 
     .media-gallery-thumbs.is-dragging {
@@ -2053,6 +2065,14 @@
       }
       #viewInteractive {
         padding: 1.25rem 0.75rem 4rem;
+      }
+      .projects-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+      }
+      .skills-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
       }
       .hero-card {
         margin-bottom: 1.5rem;
@@ -4026,7 +4046,7 @@
             const itemSrc = b.getAttribute('data-src');
             const itemLabel = b.getAttribute('data-label') || title || `Vue ${idx + 1}`;
             currentLightboxGallery.push({ src: itemSrc, label: itemLabel, btn: b });
-            if (itemSrc === src) {
+            if (b.classList.contains('btn-primary') || (src && (itemSrc === src || src.endsWith(itemSrc) || itemSrc.endsWith(src)))) {
               currentLightboxIndex = idx;
             }
           });
@@ -4103,7 +4123,8 @@
           });
           const activePill = thumbsBox.querySelector('.lightbox-thumb-pill.active');
           if (activePill) {
-            activePill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            const targetLeft = activePill.offsetLeft - (thumbsBox.clientWidth - activePill.offsetWidth) / 2;
+            thumbsBox.scrollTo({ left: targetLeft, behavior: 'smooth' });
           }
         } else {
           thumbsBox.style.display = 'none';
@@ -4138,7 +4159,7 @@
       const title = el.getAttribute('data-title');
       const img = document.getElementById(`media-img-${cardIdx}`);
       if (img) {
-        openImageModal(img.src, title, cardIdx);
+        openImageModal(img.getAttribute('src') || img.src, title, cardIdx);
       }
     }
 
@@ -4164,7 +4185,8 @@
           });
           btn.classList.remove('btn-default');
           btn.classList.add('btn-primary');
-          btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          const targetLeft = btn.offsetLeft - (parent.clientWidth - btn.offsetWidth) / 2;
+          parent.scrollTo({ left: targetLeft, behavior: 'smooth' });
         }
       }
     }

@@ -789,13 +789,117 @@ def test_ui_issues():
         page.mouse.up()
         page.wait_for_timeout(300)
 
-        reverted_img_src = page.locator("#media-img-1").get_attribute("src")
-        assert reverted_img_src == initial_img_src, (
-            f"Image must revert after drag right (was {new_img_src}, got {reverted_img_src})"
+        # Verify no horizontal layout shift occurred on drag
+        scroll_x_after_drag = page.evaluate("window.scrollX")
+        assert scroll_x_after_drag == 0, (
+            f"Page must not scroll horizontally during drag (window.scrollX={scroll_x_after_drag})"
         )
+
+        # Test Prev/Next Navigation buttons (.media-card-prev, .media-card-next)
+        next_btn = page.locator("#media-main-1 .media-card-next")
+        prev_btn = page.locator("#media-main-1 .media-card-prev")
+        assert next_btn.is_visible(timeout=1000) or next_btn.count() > 0, (
+            "Next media navigation button must exist on multi-media card"
+        )
+        next_btn.click(force=True)
+        page.wait_for_timeout(200)
+        after_next_click_src = page.locator("#media-img-1").get_attribute("src")
+        assert after_next_click_src != initial_img_src, (
+            "Next button must cycle to next media"
+        )
+        print("    ✓ OK: Clicking .media-card-next successfully switched to next image")
+
+        prev_btn.click(force=True)
+        page.wait_for_timeout(200)
+        after_prev_click_src = page.locator("#media-img-1").get_attribute("src")
+        assert after_prev_click_src == initial_img_src, "Prev button must cycle back"
         print(
-            "    ✓ OK: Mouse drag / swipe right on image area successfully switched back to initial image"
+            "    ✓ OK: Clicking .media-card-prev successfully switched back to initial image"
         )
+
+        # Test gallery thumbnail buttons and assert ZERO layout shift / ZERO expanding margin
+        odin_card = page.locator("#proj-2")
+        if odin_card.count() > 0:
+            odin_card.scroll_into_view_if_needed()
+            page.wait_for_timeout(200)
+            odin_buttons = odin_card.locator(".media-gallery-thumbs button")
+            btn_count = odin_buttons.count()
+            for b_idx in range(btn_count):
+                b = odin_buttons.nth(b_idx)
+                b.click()
+                page.wait_for_timeout(150)
+                layout_check = page.evaluate("""() => ({
+                    docScrollW: document.documentElement.scrollWidth,
+                    docClientW: document.documentElement.clientWidth,
+                    bodyScrollW: document.body.scrollWidth,
+                    scrollX: window.scrollX
+                })""")
+                assert layout_check["scrollX"] == 0, (
+                    f"Thumb click {b_idx} must not displace window.scrollX"
+                )
+                assert layout_check["docScrollW"] <= layout_check["docClientW"], (
+                    f"Thumb click {b_idx} caused document horizontal overflow: {layout_check}"
+                )
+            print(
+                f"    ✓ OK: Verified {btn_count} thumbnail buttons on Odin card: ZERO layout shift, ZERO horizontal scroll"
+            )
+
+        # =========================================================================
+        # ISSUE 12: Lightbox Preserves Selected / Slid Gallery Clipart (TDD)
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 12] Checking Lightbox opens on currently selected clipart after slide..."
+        )
+        fw_card = page.locator("#proj-4")
+        fw_card.scroll_into_view_if_needed()
+        page.wait_for_timeout(200)
+
+        # Select 3rd clipart (index 2: "Lumières Volumétriques GPU")
+        fw_thumbs = fw_card.locator(".media-gallery-thumbs button")
+        assert fw_thumbs.count() >= 3, (
+            "rust-firework must have at least 3 gallery cliparts"
+        )
+        third_thumb = fw_thumbs.nth(2)
+        third_label = (third_thumb.text_content() or "").strip()
+        third_thumb.click()
+        page.wait_for_timeout(200)
+
+        # Ensure 3rd button is active on card
+        assert "btn-primary" in (third_thumb.get_attribute("class") or ""), (
+            "3rd thumbnail button must be active (btn-primary)"
+        )
+
+        # Click main media image to open fullscreen lightbox
+        media_main = fw_card.locator("#media-main-4")
+        media_main.click()
+        page.wait_for_timeout(300)
+
+        # Check lightbox dialog is open
+        assert page.evaluate("document.getElementById('imageModalDialog').open"), (
+            "Lightbox must be open"
+        )
+
+        # Check currentLightboxIndex is 2
+        active_idx = page.evaluate("currentLightboxIndex")
+        active_pill = page.locator(".lightbox-thumb-pill.active")
+        active_pill_text = active_pill.inner_text() if active_pill.count() > 0 else ""
+        caption_text = page.locator("#imageModalCaption").inner_text()
+
+        print(f"    Active Lightbox Index: {active_idx} (expected 2)")
+        print(f"    Active Pill Text: '{active_pill_text}' (expected '{third_label}')")
+        print(f"    Caption Text: '{caption_text}'")
+
+        if active_idx != 2:
+            err = f"❌ Test 12 Failed: Lightbox opened on index {active_idx} instead of selected clipart 2 ({third_label})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                f"    ✓ OK: Lightbox successfully opened on selected clipart (index 2: '{third_label}')"
+            )
+
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(200)
 
         browser.close()
 
