@@ -898,6 +898,65 @@ def test_ui_issues():
                 f"    ✓ OK: Lightbox successfully opened on selected clipart (index 2: '{third_label}')"
             )
 
+        # =========================================================================
+        # ISSUE 13: Fullscreen Lightbox Drag and Swipe Navigation (TDD)
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 13] Checking Fullscreen Lightbox drag & swipe navigation..."
+        )
+        # Modal is currently open from Test 12. Ensure it is open.
+        assert page.evaluate("document.getElementById('imageModalDialog').open"), (
+            "Lightbox must still be open for Test 13"
+        )
+
+        lightbox_box = page.locator(".lightbox-image-container").bounding_box()
+        assert lightbox_box is not None, "Lightbox image container must be visible"
+
+        initial_lb_idx = page.evaluate("currentLightboxIndex")
+        total_items = page.evaluate("currentLightboxGallery.length")
+        assert total_items > 1, (
+            f"Expected multi-image gallery in Lightbox, got {total_items}"
+        )
+
+        center_x = lightbox_box["x"] + lightbox_box["width"] / 2
+        center_y = lightbox_box["y"] + lightbox_box["height"] / 2
+
+        # Drag left: swipe left -> next image
+        page.mouse.move(center_x + 100, center_y)
+        page.mouse.down()
+        page.mouse.move(center_x - 100, center_y, steps=5)
+        page.mouse.up()
+        page.wait_for_timeout(300)
+
+        idx_after_left = page.evaluate("currentLightboxIndex")
+        expected_next = (initial_lb_idx + 1) % total_items
+
+        if idx_after_left != expected_next:
+            err = f"❌ Test 13 Failed: Drag left on fullscreen Lightbox did not advance image (expected {expected_next}, got {idx_after_left})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                f"    ✓ OK: Drag left on fullscreen Lightbox advanced image from {initial_lb_idx} to {idx_after_left}"
+            )
+
+        # Drag right: swipe right -> previous image
+        page.mouse.move(center_x - 100, center_y)
+        page.mouse.down()
+        page.mouse.move(center_x + 100, center_y, steps=5)
+        page.mouse.up()
+        page.wait_for_timeout(300)
+
+        idx_after_right = page.evaluate("currentLightboxIndex")
+        if idx_after_right != initial_lb_idx:
+            err = f"❌ Test 13 Failed: Drag right on fullscreen Lightbox did not return to previous image (expected {initial_lb_idx}, got {idx_after_right})"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                f"    ✓ OK: Drag right on fullscreen Lightbox navigated back to image {idx_after_right}"
+            )
+
         page.keyboard.press("Escape")
         page.wait_for_timeout(200)
 

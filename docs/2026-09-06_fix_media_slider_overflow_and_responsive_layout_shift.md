@@ -105,6 +105,7 @@ La suite de tests [`scripts/test_ui_regressions.py`](scripts/test_ui_regressions
 9. Repliement/dépliement des sections, clavier et persistance au reload (F5)
 10. Accordéon repliable de la stack technique des fiches
 11. Drag & Swipe des médias de projet, flèches de navigation, et zéro layout shift sur clics de vignettes
-12. **Préservation et synchronisation de la clipart active lors de l'ouverture plein écran Lightbox (TDD)**
+12. Préservation et synchronisation de la clipart active lors de l'ouverture plein écran Lightbox (TDD)
+13. **Navigation Drag & Swipe en vue Fullscreen Lightbox (TDD)** : support complet du glisser à la souris (desktop avec curseur `grab`/`grabbing`) et du geste tactile (mobile), avec désactivation du drag natif navigateur (`draggable="false"`, `pointer-events: none`, `dragstart` intercepté).
 
-Validation globale `task check` : 100% vert (0 erreurs, 0 avertissements).
+Validation globale `task check` : 100% vert (0 erreurs, 0 avertissements, 13/13 tests UI).
