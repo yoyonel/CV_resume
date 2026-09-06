@@ -1834,6 +1834,17 @@
       justify-content: center;
       max-width: 92vw;
       max-height: 82vh;
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .lightbox-image-container.has-multi-media {
+      cursor: grab;
+    }
+
+    .lightbox-image-container.has-multi-media.is-dragging {
+      cursor: grabbing !important;
     }
 
     dialog.image-dialog img {
@@ -1846,6 +1857,9 @@
       box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.15);
       display: block;
       user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
     }
 
     .lightbox-nav-btn {
@@ -2786,7 +2800,7 @@
       
       <div class="lightbox-image-container">
         <button type="button" id="lightboxPrevBtn" class="lightbox-nav-btn lightbox-prev-btn" onclick="prevLightboxImage(event)" aria-label="Image précédente (Flèche Gauche)">‹</button>
-        <img id="imageModalImg" src="" alt="Aperçu Grand Format">
+        <img id="imageModalImg" src="" alt="Aperçu Grand Format" draggable="false">
         <button type="button" id="lightboxNextBtn" class="lightbox-nav-btn lightbox-next-btn" onclick="nextLightboxImage(event)" aria-label="Image suivante (Flèche Droite)">›</button>
       </div>
 
@@ -3942,9 +3956,15 @@
         }
       }
 
+      // Prevent HTML5 native image drag
+      el.addEventListener('dragstart', (e) => {
+        e.preventDefault();
+      });
+
       // Touch events (Mobile)
       el.addEventListener('touchstart', (e) => {
         if (e.touches.length !== 1) return;
+        if (e.target.closest('button')) return;
         onStart(e.touches[0].clientX, e.touches[0].clientY);
       }, { passive: true });
 
@@ -3966,6 +3986,7 @@
       // Mouse drag events (Desktop)
       el.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return;
+        if (e.target.closest('button')) return;
         onStart(e.clientX, e.clientY);
       });
 
@@ -4061,9 +4082,16 @@
       updateLightboxView();
 
       const lightboxContainer = document.querySelector('.lightbox-image-container');
-      if (lightboxContainer && !lightboxContainer._hasSwipe) {
-        lightboxContainer._hasSwipe = true;
-        attachSwipeHandler(lightboxContainer, () => nextLightboxImage(), () => prevLightboxImage());
+      if (lightboxContainer) {
+        if (currentLightboxGallery.length > 1) {
+          lightboxContainer.classList.add('has-multi-media');
+        } else {
+          lightboxContainer.classList.remove('has-multi-media');
+        }
+        if (!lightboxContainer._hasSwipe) {
+          lightboxContainer._hasSwipe = true;
+          attachSwipeHandler(lightboxContainer, () => nextLightboxImage(), () => prevLightboxImage());
+        }
       }
 
       const thumbsBox = document.getElementById('lightboxThumbs');
