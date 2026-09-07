@@ -708,6 +708,67 @@ def test_ui_issues():
             "    ✓ OK: expandAllSections() successfully expanded all 4 portfolio sections"
         )
 
+        # Test interactive #btnCollapseAll button
+        collapse_all_btn = page.locator("#btnCollapseAll")
+        assert collapse_all_btn.is_visible(), "#btnCollapseAll button must be visible"
+        collapse_all_btn.click()
+        page.wait_for_timeout(200)
+        assert page.evaluate("areAllSectionsCollapsed()"), (
+            "Clicking #btnCollapseAll must collapse all 4 sections"
+        )
+        assert "active" in (collapse_all_btn.get_attribute("class") or ""), (
+            "#btnCollapseAll must have 'active' class when all sections are collapsed"
+        )
+        print(
+            "    ✓ OK: Clicking #btnCollapseAll collapsed all 4 sections and marked button active"
+        )
+
+        # Test interactive #btnExpandAll button
+        expand_all_btn = page.locator("#btnExpandAll")
+        assert expand_all_btn.is_visible(), "#btnExpandAll button must be visible"
+        expand_all_btn.click()
+        page.wait_for_timeout(200)
+        assert page.evaluate("areAllSectionsExpanded()"), (
+            "Clicking #btnExpandAll must expand all 4 sections"
+        )
+        assert "active" in (expand_all_btn.get_attribute("class") or ""), (
+            "#btnExpandAll must have 'active' class when all sections are expanded"
+        )
+        print(
+            "    ✓ OK: Clicking #btnExpandAll expanded all 4 sections and marked button active"
+        )
+
+        # Verify dynamic tooltip label reflects DOM section count
+        sec_count = page.evaluate("getCollapsibleSections().length")
+        assert f"les {sec_count} sections" in (
+            expand_all_btn.get_attribute("data-tooltip") or ""
+        ), (
+            f"Expected data-tooltip on #btnExpandAll to contain 'les {sec_count} sections'"
+        )
+        assert f"les {sec_count} sections" in (
+            collapse_all_btn.get_attribute("data-tooltip") or ""
+        ), (
+            f"Expected data-tooltip on #btnCollapseAll to contain 'les {sec_count} sections'"
+        )
+        print(
+            f"    ✓ OK: Dynamic tooltips reflect DOM count ({sec_count} sections): '{expand_all_btn.get_attribute('data-tooltip')}'"
+        )
+
+        # Test keyboard shortcut 'c'
+        page.keyboard.press("c")
+        page.wait_for_timeout(200)
+        assert page.evaluate("areAllSectionsCollapsed()"), (
+            "Pressing 'c' must collapse all 4 sections when initially expanded"
+        )
+        page.keyboard.press("c")
+        page.wait_for_timeout(200)
+        assert page.evaluate("areAllSectionsExpanded()"), (
+            "Pressing 'c' must re-expand all 4 sections when all collapsed"
+        )
+        print(
+            "    ✓ OK: Keyboard shortcut 'C' toggles all 4 sections collapse/expand state"
+        )
+
         # Test reload persistence (F5 / Ctrl+R)
         page.locator(
             "button.section-collapse-btn[aria-controls='section-experiences']"

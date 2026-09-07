@@ -79,9 +79,16 @@ Lors de l'interaction avec le sélecteur de prévisualisations/galeries multimé
 - **Boutons Précédent / Suivant (`.media-card-prev`, `.media-card-next`)** :
   - Flèches discrètes avec hover glow (`‹` / `›`) pour naviguer sans dépendre uniquement du geste.
 
-### C. Sections Repliables & Accordéon Stack Technique
+### C. Sections Repliables, Contrôle Global Compact & Accordéon Stack Technique
 
-- Sections portfolio repliables avec persistance locale (`cv_collapsed_sections` dans `localStorage`).
+- Sections portfolio repliables individuellement avec découverte dynamique dans le DOM (`.section-collapsible-content[id]`) et persistance locale (`cv_collapsed_sections` dans `localStorage`).
+- **Contrôles globaux "Tout déplier" / "Tout replier" ultra-compacts & dynamiques** :
+  - Intégrés directement sur la ligne d'en-tête du premier bloc ("Expériences Professionnelles") via `.sections-quick-controls` et `justify-content: space-between`.
+  - Zéro ligne/barre supplémentaire, zéro marge superflue, préservation stricte de la compacité verticale de la page.
+  - **Découverte automatique et calcul dynamique du nombre de sections** : aucun ID ni décompte en dur. L'ajout futur de n'importe quelle section (`.section-collapsible-content[id]`) met automatiquement à jour le décompte, les tooltips dynamiques (`Déplier les X sections`, `Replier les X sections (Touche C)`) et la persistance.
+  - Boutons interactifs `#btnExpandAll` et `#btnCollapseAll` avec surbrillance `.active` reflétant l'état courant de l'ensemble des sections.
+  - Raccourci clavier dédié `C` permettant d'alterner instantanément entre replier et déplier l'ensemble des sections.
+  - Actions intégrées également dans la Command Palette (`Ctrl + K`).
 - Accordéon `<details class="exp-tags-details">` pour les listes de technologies avec auto-dépliage lors des filtrages.
 
 ### D. Unification du breakpoint 1 colonne à 860px

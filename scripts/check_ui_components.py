@@ -104,6 +104,8 @@ def check_dynamic_ui_tokens() -> list[str]:
                 ("#themeToggleBtn", "Basculer Thème (T)"),
                 (".btn-print", "Imprimer le CV PDF (P)"),
                 (".btn-download", "Télécharger le PDF Typst (D)"),
+                ("#btnExpandAll", "Déplier les 4 sections"),
+                ("#btnCollapseAll", "Replier les 4 sections (Touche C)"),
             ]
 
             # 1. Dark Theme Audit
