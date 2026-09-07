@@ -106,6 +106,7 @@ La suite de tests [`scripts/test_ui_regressions.py`](scripts/test_ui_regressions
 10. Accordéon repliable de la stack technique des fiches
 11. Drag & Swipe des médias de projet, flèches de navigation, et zéro layout shift sur clics de vignettes
 12. Préservation et synchronisation de la clipart active lors de l'ouverture plein écran Lightbox (TDD)
-13. **Navigation Drag & Swipe en vue Fullscreen Lightbox (TDD)** : support complet du glisser à la souris (desktop avec curseur `grab`/`grabbing`) et du geste tactile (mobile), avec désactivation du drag natif navigateur (`draggable="false"`, `pointer-events: none`, `dragstart` intercepté).
+13. Navigation Drag & Swipe en vue Fullscreen Lightbox (TDD) : support complet du glisser à la souris (desktop avec curseur `grab`/`grabbing`) et du geste tactile (mobile), avec désactivation du drag natif navigateur (`draggable="false"`, `pointer-events: none`, `dragstart` intercepté).
+14. **Auto-dépliage des sections et navigation fluide via Smart Search (TDD)** : lors de la sélection d'un résultat (expérience, projet, compétence, formation) dans la Command Palette (`Ctrl+K`), la section parente repliée est automatiquement dépliée (`expandSection`), l'accordéon éventuel ouvert, et l'élément ciblé est amené au centre du viewport avec surbrillance animée temporaire (`navigateToElement`). De même, le filtrage par domaine (`filterByDomain`) auto-déplie désormais les sections contenant des fiches correspondantes.
 
-Validation globale `task check` : 100% vert (0 erreurs, 0 avertissements, 13/13 tests UI).
+Validation globale `task check` : 100% vert (0 erreurs, 0 avertissements, 14/14 tests UI).

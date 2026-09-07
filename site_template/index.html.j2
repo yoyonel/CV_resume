@@ -2666,7 +2666,7 @@
       {% for edu in resume_data.education %}
       <div class="exp-wrapper" data-domain="{{ edu.domain }}" style="position:relative;">
         <div class="exp-node"></div>
-        <div class="wa-exp-card">
+        <div class="wa-exp-card" id="edu-{{ loop.index }}">
           <div class="exp-header">
             <div>
               <div class="exp-role">{{ edu.degree }}</div>
@@ -2901,18 +2901,7 @@
           cat: "Expériences",
           meta: exp.dates,
           keywords: fullContent,
-          action: () => {
-            switchMainView('web');
-            filterByDomain('all');
-            setTimeout(() => {
-              const el = document.getElementById(`exp-${exp.id}`);
-              if (el) {
-                el.classList.add('highlight');
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => el.classList.remove('highlight'), 3000);
-              }
-            }, 100);
-          }
+          action: () => navigateToElement(`exp-${exp.id}`)
         });
       });
 
@@ -2926,18 +2915,7 @@
           cat: "Projets & Talks",
           meta: proj.dates,
           keywords: fullContent,
-          action: () => {
-            switchMainView('web');
-            filterByDomain('all');
-            setTimeout(() => {
-              const el = document.getElementById(`proj-${i+1}`);
-              if (el) {
-                el.classList.add('highlight');
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => el.classList.remove('highlight'), 3000);
-              }
-            }, 100);
-          }
+          action: () => navigateToElement(`proj-${i+1}`)
         });
       });
 
@@ -2951,18 +2929,7 @@
           cat: "Compétences",
           meta: "Stack",
           keywords: cat.title + " " + tagNames.join(" "),
-          action: () => {
-            switchMainView('web');
-            filterByDomain('all');
-            setTimeout(() => {
-              const el = document.getElementById(`skill-${i+1}`);
-              if (el) {
-                el.classList.add('highlight');
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => el.classList.remove('highlight'), 3000);
-              }
-            }, 100);
-          }
+          action: () => navigateToElement(`skill-${i+1}`)
         });
 
         // Index each tag individually
@@ -2982,7 +2949,7 @@
       });
 
       // E. Education & Research
-      RESUME_DATA.education.forEach(edu => {
+      RESUME_DATA.education.forEach((edu, i) => {
         const pubText = edu.publication ? `${edu.publication.title} ${edu.publication.journal} ${edu.publication.authors}` : "";
         idx.push({
           title: `${edu.degree} (${edu.institution})`,
@@ -2991,10 +2958,7 @@
           cat: "Formation & Recherche",
           meta: edu.dates,
           keywords: `${edu.degree} ${edu.institution} ${edu.description} ${pubText}`,
-          action: () => {
-            switchMainView('web');
-            filterByDomain('all');
-          }
+          action: () => navigateToElement(`edu-${i+1}`)
         });
       });
 
@@ -3717,6 +3681,34 @@
       saveCollapsedState();
     }
 
+    function navigateToElement(target) {
+      switchMainView('web');
+      filterByDomain('all');
+      setTimeout(() => {
+        const el = (typeof target === 'string') ? document.getElementById(target) : target;
+        if (!el) return;
+
+        // 1. Auto-expand parent collapsible section if collapsed
+        const parentSection = el.closest('.section-collapsible-content');
+        if (parentSection && parentSection.id) {
+          expandSection(parentSection.id);
+        }
+
+        // 2. Open parent <details> (e.g. tech tags accordion) if closed
+        const parentDetails = el.closest('details');
+        if (parentDetails) {
+          parentDetails.open = true;
+        }
+
+        // 3. Highlight and scroll smoothly into view
+        requestAnimationFrame(() => {
+          el.classList.add('highlight');
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => el.classList.remove('highlight'), 3000);
+        });
+      }, 50);
+    }
+
     function goToMediaSection() {
       switchMainView('web');
       filterByDomain('all');
@@ -3724,7 +3716,7 @@
       setTimeout(() => {
         const el = document.getElementById('section-projects-title') || document.getElementById('section-projects');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+      }, 50);
     }
 
     // 6. Domain & Tech Filtering (Support Normal Click + Shift/Ctrl Multi-Selection)
@@ -3784,6 +3776,19 @@
         const match = isAll || activeDomains.has(d);
         card.style.display = match ? 'block' : 'none';
       });
+
+      // Auto-expand sections that contain matching cards when filtering by domain
+      if (!isAll) {
+        ['section-experiences', 'section-projects', 'section-skills'].forEach(sId => {
+          const sec = document.getElementById(sId);
+          if (sec) {
+            const hasVisibleCard = Array.from(sec.querySelectorAll('.exp-wrapper, .project-wrapper, .skill-wrapper')).some(card => card.style.display !== 'none');
+            if (hasVisibleCard) {
+              expandSection(sId);
+            }
+          }
+        });
+      }
     }
 
     function filterByTech(techName, event) {
