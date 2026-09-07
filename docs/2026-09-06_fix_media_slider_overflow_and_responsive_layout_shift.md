@@ -89,22 +89,35 @@ Lors de l'interaction avec le sélecteur de prévisualisations/galeries multimé
 - Extension du repli 1 colonne (`grid-template-columns: minmax(0, 1fr)`) jusqu'au breakpoint tablette de 860px pour `.projects-grid` et `.skills-grid`.
 - Header compacté dynamiquement sous 860px (`.brand-group { min-width: 0; }`, masquage des labels textuels au profit des icônes et tooltips).
 
-### E. Élimination des débordements et artefacts de rognage du Header
+### E. Système Universel de Tooltip Web Flottant (Restauration ISO & Zéro Rognage)
 
-- **Problème identifié** : Les boutons du bandeau supérieur (`header.top-header`) utilisaient des info-bulles basées sur des pseudo-éléments CSS (`[data-tooltip]::after`). Positionnées en `top: calc(100% + 10px)` à l'intérieur d'un conteneur en hauteur contrainte (`60px` / `64px`) avec `overflow: hidden;`, ces info-bulles dépassaient la limite basse du header et se retrouvaient tronquées, laissant apparaître une fine bande sombre (artefact de 7.5px) à cheval sur la bordure inférieure et le conteneur adjacent (`.filter-bar`).
-- **Correction appliquée** :
-  - Suppression complète des pseudo-éléments `::before` et `::after` pour les infobulles du header (`display: none !important; content: none !important;`).
-  - Remplacement par l'attribut HTML5 standard et accessible `title="..."` pour tous les boutons d'action du header (`#btn-iso-pdf`, `#btn-web-app`, `#search-trigger`, `#theme-toggle`, `#btn-print`, téléchargement PDF). Les info-bulles natives sont rendues par le gestionnaire de fenêtres du système en dehors du flux DOM, éliminant tout risque de chevauchement, de layout shift ou de rognage par `overflow: hidden`.
-  - Ajout de `contain: paint;` sur `header.top-header`.
+- **Problème identifié** : Les boutons du bandeau supérieur (`header.top-header`) utilisaient des info-bulles pseudo-éléments CSS (`[data-tooltip]::after`) qui étaient tronquées par `overflow: hidden` sur le header. Une première tentative de contournement via l'attribut HTML standard `title="..."` avait provoqué une régression visuelle majeure : affichage du tooltip natif et brut de l'OS (boîte noire rectangulaire, police système sans serif, absence d'arrondis et d'ombres portées), brisant l'harmonie graphique ISO avec le reste de l'application.
+- **Solution définitive appliquée** :
+  - Mise en place d'un composant flottant universel `#web-tooltip` rattaché directement à `document.body` (`position: fixed; z-index: 999999; pointer-events: none;`).
+  - Totalement affranchi de tout conteneur parent : **impossible à rogner** par `overflow: hidden`, `overflow: clip` ou `contain: paint`.
+  - Restauration stricte des design tokens ISO legacy : coins arrondis (`border-radius: 6px`), fond sombre translucide (`#0f172a` en thème sombre / `#1e293b` en thème clair), bordure subtile (`1px solid rgba(255,255,255,0.12)`), ombre portée (`box-shadow: 0 4px 14px rgba(0,0,0,0.4)`), typographie fine et animation douce (`opacity` / `scale`).
+  - Positionnement intelligent auto-adaptatif : placé en dessous pour les éléments hauts du viewport (`rect.top < 70px`), placé au-dessus ailleurs, avec recentrage horizontal et marge de sécurité par rapport aux bords d'écran.
+  - Détection universelle par délégation d'événements : actif au survol souris (`mouseenter` / `mouseleave`) et au focus clavier (`focusin` / `focusout`), masquage immédiat sur défilement (`scroll`) ou touche `Escape`.
+  - Suppression de tout attribut `title` sur les éléments interactifs (`data-tooltip` exclusif) pour empêcher le déclenchement de l'infobulle système brute de l'OS.
 
 ---
 
-## 4. Vérification et Suite de Tests E2E (15 Tests)
+## 4. Vérification, Suite de Tests & Checker Automatisé
 
-La suite de tests [`scripts/test_ui_regressions.py`](scripts/test_ui_regressions.py) couvre désormais l'intégralité des fonctionnalités :
+### A. Nouveau Vérificateur d'Homogénéité Web Components (`scripts/check_ui_components.py`)
+Intégré directement dans la commande `task check` (`task check:components`) et dans la CI :
+1. **Garde statique (Zéro reliquat Web Awesome)** : vérifie l'absence totale de balises orphelines `<sl-*>` et de scripts/liens Shoelace dans les templates et le site compilé.
+2. **Garde dynamique Playwright (Design Tokens & Accessibilité)** :
+   - Audite tous les boutons du header (`#tabDoc`, `#tabWeb`, `#search-trigger`, `#themeToggleBtn`, `.btn-print`, `.btn-download`) et les chips de contact.
+   - Contrôle que chaque élément possède un attribut `data-tooltip` et **aucun** attribut `title` brut.
+   - Simule le survol et le focus clavier : valide en temps réel les styles calculés du tooltip flottant (`position: fixed`, `borderRadius >= 6px`, présence de `boxShadow`, couleurs de fond `#0f172a` / `#1e293b`).
+   - Valide le masquage au départ du curseur (`mouseleave`).
+
+### B. Suite de Tests E2E (15 Tests)
+La suite de tests [`scripts/test_ui_regressions.py`](scripts/test_ui_regressions.py) couvre l'intégralité des fonctionnalités :
 1. Centrage et ajustement du Lightbox image unique
 2. Navigation flèches et raccourcis clavier Lightbox multi-ressources
-3. Navigation par vignettes de galerie
+3. Navigation par vignettes de galerie et chips de contact (tooltips riches)
 4. Bascule dynamique de thèmes sombre/clair
 5. Accessibilité clavier générale
 6. Alignement DOM du Text Layer PDF
@@ -114,8 +127,8 @@ La suite de tests [`scripts/test_ui_regressions.py`](scripts/test_ui_regressions
 10. Accordéon repliable de la stack technique des fiches
 11. Drag & Swipe des médias de projet, flèches de navigation, et zéro layout shift sur clics de vignettes
 12. Préservation et synchronisation de la clipart active lors de l'ouverture plein écran Lightbox (TDD)
-13. Navigation Drag & Swipe en vue Fullscreen Lightbox (TDD) : support complet du glisser à la souris (desktop avec curseur `grab`/`grabbing`) et du geste tactile (mobile), avec désactivation du drag natif navigateur (`draggable="false"`, `pointer-events: none`, `dragstart` intercepté).
-14. **Auto-dépliage des sections et navigation fluide via Smart Search (TDD)** : lors de la sélection d'un résultat (expérience, projet, compétence, formation) dans la Command Palette (`Ctrl+K`), la section parente repliée est automatiquement dépliée (`expandSection`), l'accordéon éventuel ouvert, et l'élément ciblé est amené au centre du viewport avec surbrillance animée temporaire (`navigateToElement`). De même, le filtrage par domaine (`filterByDomain`) auto-déplie désormais les sections contenant des fiches correspondantes.
-15. **Verrouillage strict de frontière Header & zéro recouvrement (TDD)** : validation systématique sur 3 viewports (desktop 1440x900, tablette 768x1024, mobile 375x812), sur les thèmes clair et sombre, et sous états d'interaction (focus, hover, click). Inspection géométrique vérifiant l'absence de tout pseudo-élément visible ou tronqué (`::after`, `::before`), l'absence d'artefact de rognage, et l'étanchéité absolue de la ligne de démarcation sous le header (`elementFromPoint` sous `header.bottom`).
+13. Navigation Drag & Swipe en vue Fullscreen Lightbox (TDD)
+14. Auto-dépliage des sections et navigation fluide via Smart Search (TDD)
+15. Verrouillage strict de frontière Header & zéro recouvrement (TDD) sur 3 viewports et 2 thèmes.
 
-Validation globale `task check` : 100% vert (0 erreurs, 0 avertissements, 15/15 tests UI).
+Validation globale `task check` : 100% vert (0 erreurs, 0 avertissements, 15/15 tests UI, audit de conformité composants web 100% vert).
