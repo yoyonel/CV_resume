@@ -241,54 +241,57 @@
       box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
     }
 
-    /* Native CSS Tooltip System */
+    /* ========================================================
+       FLOATING WEB TOOLTIP SYSTEM (100% ISO DESIGN TOKENS)
+       ======================================================== */
     [data-tooltip] {
-      position: relative;
+      /* Base anchor */
     }
 
-    [data-tooltip]::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%) translateY(4px);
-      padding: 0.35rem 0.65rem;
-      background: #0f172a;
-      color: #f8fafc;
-      font-size: 0.72rem;
-      font-weight: 500;
-      border-radius: 6px;
-      white-space: nowrap;
-      max-width: min(220px, 90vw);
-      text-overflow: ellipsis;
-      overflow: hidden;
-      pointer-events: none;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.15s cubic-bezier(0.2, 0.8, 0.4, 1), transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      z-index: 1000;
-    }
-
-    [data-tooltip]:hover::after,
-    [data-tooltip]:focus-visible::after {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* Header items must NEVER generate pseudo-element tooltips (prevents clipping & border overlap bugs) */
-    .top-header [data-tooltip]::after,
-    .top-header [data-tooltip]::before {
+    /* Disable legacy pseudo-element tooltips to prevent clipping / overflow shifts */
+    [data-tooltip]::after,
+    [data-tooltip]::before {
       display: none !important;
       content: none !important;
     }
 
-    html.light [data-tooltip]::after {
+    .web-tooltip {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 999999;
+      padding: 0.35rem 0.65rem;
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1.25;
+      border-radius: 6px;
+      white-space: nowrap;
+      max-width: min(320px, 90vw);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 0) scale(0.96);
+      transition: opacity 0.15s cubic-bezier(0.2, 0.8, 0.4, 1), transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
+    }
+
+    .web-tooltip.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    html.light .web-tooltip {
       background: #1e293b;
       color: #ffffff;
       border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     }
 
     /* Badge Pill */
@@ -2332,11 +2335,11 @@
     <!-- Center View Switcher (Native Button Group) -->
     <div class="view-switcher-group">
       <div class="btn-group" role="group" aria-label="Sélecteur de Vue">
-        <button type="button" class="btn btn-sm btn-primary active" id="tabDoc" aria-label="Afficher le document PDF ISO" title="Affichage PDF Haute Fidélité ISO (Touche V)" onclick="switchMainView('doc')">
+        <button type="button" class="btn btn-sm btn-primary active" id="tabDoc" aria-label="Afficher le document PDF ISO" data-tooltip="Affichage PDF Haute Fidélité ISO (Touche V)" onclick="switchMainView('doc')">
           <svg class="icon"><use href="#icon-file-earmark-pdf"></use></svg>
           <span class="btn-label-doc">Document ISO</span>
         </button>
-        <button type="button" class="btn btn-sm btn-default" id="tabWeb" aria-label="Afficher la vue web interactive" title="Affichage Portfolio Web Interactif (Touche V)" onclick="switchMainView('web')">
+        <button type="button" class="btn btn-sm btn-default" id="tabWeb" aria-label="Afficher la vue web interactive" data-tooltip="Affichage Portfolio Web Interactif (Touche V)" onclick="switchMainView('web')">
           <svg class="icon"><use href="#icon-grid-3x3-gap"></use></svg>
           <span class="btn-label-web">Vue Interactive</span>
         </button>
@@ -2344,7 +2347,7 @@
     </div>
 
     <!-- Smart Search Trigger (Native Button) -->
-    <button type="button" class="btn btn-default btn-sm search-trigger-btn" aria-label="Rechercher des compétences, projets et technologies" title="Recherche Floue & Sémantique (Ctrl + K)" onclick="openPalette()">
+    <button type="button" class="btn btn-default btn-sm search-trigger-btn" aria-label="Rechercher des compétences, projets et technologies" data-tooltip="Recherche Floue & Sémantique (Ctrl + K)" onclick="openPalette()">
       <svg class="icon"><use href="#icon-search"></use></svg>
       <span class="search-label">Smart Search...</span>
       <kbd class="search-shortcut-kbd">Ctrl K</kbd>
@@ -2352,16 +2355,16 @@
 
     <!-- Actions (Native Buttons & Tooltips) -->
     <div class="actions-group">
-      <button type="button" class="btn btn-icon btn-ghost" id="themeToggleBtn" aria-label="Changer de thème sombre/clair" title="Basculer Thème (T)" onclick="toggleTheme()">
+      <button type="button" class="btn btn-icon btn-ghost" id="themeToggleBtn" aria-label="Changer de thème sombre/clair" data-tooltip="Basculer Thème (T)" onclick="toggleTheme()">
         <svg class="icon" style="font-size:1.1rem;"><use id="themeIconUse" href="#icon-moon"></use></svg>
       </button>
 
-      <button type="button" class="btn btn-default btn-sm btn-print" aria-label="Imprimer le CV au format PDF" title="Imprimer le CV PDF (P)" onclick="printResume()">
+      <button type="button" class="btn btn-default btn-sm btn-print" aria-label="Imprimer le CV au format PDF" data-tooltip="Imprimer le CV PDF (P)" onclick="printResume()">
         <svg class="icon"><use href="#icon-printer"></use></svg>
         <span class="btn-label-print">Imprimer</span>
       </button>
 
-      <a class="btn btn-primary btn-sm btn-download" aria-label="Télécharger le CV PDF" title="Télécharger le PDF Typst (D)" href="{{ pdf_filename }}" download>
+      <a class="btn btn-primary btn-sm btn-download" aria-label="Télécharger le CV PDF" data-tooltip="Télécharger le PDF Typst (D)" href="{{ pdf_filename }}" download>
         <svg class="icon"><use href="#icon-download"></use></svg>
         <span class="btn-label-download">Télécharger PDF</span>
       </a>
@@ -2371,12 +2374,12 @@
   <!-- Filter & Contact Bar -->
   <div class="filter-bar">
     <div class="domain-filters">
-      <button type="button" class="filter-tag active" data-domain="all" onclick="filterByDomain('all', event)" title="Afficher tous les domaines">Tous</button>
-      <button type="button" class="filter-tag" data-domain="backend" onclick="filterByDomain('backend', event)" title="Filtrer Python & Backend (Shift+Clic pour cumuler)">🐍 Python & Backend</button>
-      <button type="button" class="filter-tag" data-domain="graphics" onclick="filterByDomain('graphics', event)" title="Filtrer C++ & 3D Temps-Réel (Shift+Clic pour cumuler)">🎮 C++ & 3D Temps-Réel</button>
-      <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud', event)" title="Filtrer Cloud & DevOps (Shift+Clic pour cumuler)">☁️ Cloud & DevOps</button>
-      <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai', event)" title="Filtrer IA & Agents (Shift+Clic pour cumuler)">🤖 IA & Agents</button>
-      <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig', event)" title="Filtrer SIG & Géomatique (Shift+Clic pour cumuler)">🗺️ SIG & Géomatique</button>
+      <button type="button" class="filter-tag active" data-domain="all" onclick="filterByDomain('all', event)" data-tooltip="Afficher tous les domaines">Tous</button>
+      <button type="button" class="filter-tag" data-domain="backend" onclick="filterByDomain('backend', event)" data-tooltip="Filtrer Python & Backend (Shift+Clic pour cumuler)">🐍 Python & Backend</button>
+      <button type="button" class="filter-tag" data-domain="graphics" onclick="filterByDomain('graphics', event)" data-tooltip="Filtrer C++ & 3D Temps-Réel (Shift+Clic pour cumuler)">🎮 C++ & 3D Temps-Réel</button>
+      <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud', event)" data-tooltip="Filtrer Cloud & DevOps (Shift+Clic pour cumuler)">☁️ Cloud & DevOps</button>
+      <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai', event)" data-tooltip="Filtrer IA & Agents (Shift+Clic pour cumuler)">🤖 IA & Agents</button>
+      <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig', event)" data-tooltip="Filtrer SIG & Géomatique (Shift+Clic pour cumuler)">🗺️ SIG & Géomatique</button>
       <button type="button" class="btn btn-primary btn-sm btn-pill" style="background:#0284c7; border-color:#0284c7;" onclick="goToMediaSection()">
         <svg class="icon"><use href="#icon-play-circle"></use></svg>
         <span>🎬 Démos, Médias & Talks</span>
@@ -2384,19 +2387,19 @@
     </div>
 
     <div class="contact-chips">
-      <a href="mailto:{{ profile.email }}" class="contact-chip" title="Envoyer un email ({{ profile.email }})">
+      <a href="mailto:{{ profile.email }}" class="contact-chip" data-tooltip="Envoyer un email ({{ profile.email }})">
         <svg class="icon" ><use href="#icon-envelope"></use></svg>
         <span>{{ profile.email }}</span>
       </a>
-      <a href="tel:{{ profile.phone | replace(' ', '') }}" class="contact-chip" title="Appeler ({{ profile.phone }})">
+      <a href="tel:{{ profile.phone | replace(' ', '') }}" class="contact-chip" data-tooltip="Appeler ({{ profile.phone }})">
         <svg class="icon" ><use href="#icon-telephone"></use></svg>
         <span>{{ profile.phone }}</span>
       </a>
-      <a href="https://github.com/yoyonel" target="_blank" rel="noopener noreferrer" class="contact-chip" title="Profil GitHub">
+      <a href="https://github.com/yoyonel" target="_blank" rel="noopener noreferrer" class="contact-chip" data-tooltip="Profil GitHub">
         <svg class="icon" ><use href="#icon-github"></use></svg>
         <span>GitHub</span>
       </a>
-      <a href="{{ profile.linkedin | default('https://www.linkedin.com/in/lionel-atty-6a55b748/') }}" target="_blank" rel="noopener noreferrer" class="contact-chip" title="Profil LinkedIn">
+      <a href="{{ profile.linkedin | default('https://www.linkedin.com/in/lionel-atty-6a55b748/') }}" target="_blank" rel="noopener noreferrer" class="contact-chip" data-tooltip="Profil LinkedIn">
         <svg class="icon" ><use href="#icon-linkedin"></use></svg>
         <span>LinkedIn</span>
       </a>
@@ -4249,18 +4252,18 @@
         html.classList.add('light');
         if (iconUse) iconUse.setAttribute('href', '#icon-sun');
         if (btn) {
-          btn.setAttribute('title', 'Passer en mode sombre (T)');
+          btn.setAttribute('data-tooltip', 'Passer en mode sombre (T)');
           btn.setAttribute('aria-label', 'Passer en mode sombre');
-          btn.removeAttribute('data-tooltip');
+          btn.removeAttribute('title');
         }
       } else {
         html.classList.remove('light');
         html.classList.add('dark');
         if (iconUse) iconUse.setAttribute('href', '#icon-moon');
         if (btn) {
-          btn.setAttribute('title', 'Passer en mode clair (T)');
+          btn.setAttribute('data-tooltip', 'Passer en mode clair (T)');
           btn.setAttribute('aria-label', 'Passer en mode clair');
-          btn.removeAttribute('data-tooltip');
+          btn.removeAttribute('title');
         }
       }
     }
@@ -4372,11 +4375,99 @@
 
       switchMainView('web');
       initMediaGalleries();
+      initWebTooltip();
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => { searchIndex = buildSearchIndex(); });
       } else {
         setTimeout(() => { searchIndex = buildSearchIndex(); }, 100);
       }
+    }
+
+    // Universal Floating Web Tooltip System (Zero Framework, 100% ISO Web Tokens)
+    function initWebTooltip() {
+      let tooltipEl = document.getElementById('web-tooltip');
+      if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.id = 'web-tooltip';
+        tooltipEl.className = 'web-tooltip';
+        tooltipEl.setAttribute('role', 'tooltip');
+        tooltipEl.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(tooltipEl);
+      }
+
+      let activeTarget = null;
+
+      function showTooltip(target) {
+        if (!target) return;
+        const text = target.getAttribute('data-tooltip');
+        if (!text) return;
+
+        activeTarget = target;
+        tooltipEl.textContent = text;
+        tooltipEl.setAttribute('aria-hidden', 'false');
+
+        const rect = target.getBoundingClientRect();
+        const tooltipRect = tooltipEl.getBoundingClientRect();
+        const gap = 8;
+
+        // Placement: if close to top of viewport (e.g. header), place below target
+        let top;
+        if (rect.top < 70 || (rect.top - tooltipRect.height - gap) < 0) {
+          top = rect.bottom + gap;
+        } else {
+          top = rect.top - tooltipRect.height - gap;
+        }
+
+        // Horizontal centering on target
+        let left = rect.left + rect.width / 2;
+        const halfW = tooltipRect.width / 2;
+        const margin = 10;
+        if (left - halfW < margin) {
+          left = halfW + margin;
+        } else if (left + halfW > window.innerWidth - margin) {
+          left = window.innerWidth - margin - halfW;
+        }
+
+        tooltipEl.style.top = `${Math.round(top)}px`;
+        tooltipEl.style.left = `${Math.round(left)}px`;
+        tooltipEl.classList.add('is-visible');
+      }
+
+      function hideTooltip() {
+        activeTarget = null;
+        if (tooltipEl) {
+          tooltipEl.classList.remove('is-visible');
+          tooltipEl.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      document.addEventListener('mouseenter', e => {
+        const target = e.target && e.target.closest && e.target.closest('[data-tooltip]');
+        if (target) showTooltip(target);
+      }, true);
+
+      document.addEventListener('mouseleave', e => {
+        const target = e.target && e.target.closest && e.target.closest('[data-tooltip]');
+        if (target && target === activeTarget) hideTooltip();
+      }, true);
+
+      document.addEventListener('focusin', e => {
+        const target = e.target && e.target.closest && e.target.closest('[data-tooltip]');
+        if (target) showTooltip(target);
+      }, true);
+
+      document.addEventListener('focusout', e => {
+        const target = e.target && e.target.closest && e.target.closest('[data-tooltip]');
+        if (target && target === activeTarget) hideTooltip();
+      }, true);
+
+      window.addEventListener('scroll', () => {
+        if (activeTarget) hideTooltip();
+      }, { passive: true });
+
+      window.addEventListener('keydown', e => {
+        if (e.key === 'Escape') hideTooltip();
+      });
     }
 
     if (document.readyState === 'loading') {

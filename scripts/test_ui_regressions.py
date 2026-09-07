@@ -216,12 +216,14 @@ def test_ui_issues():
 
         for i in range(chip_count):
             chip_elem = contact_chips.nth(i)
-            chip_title = chip_elem.get_attribute("title")
+            chip_tooltip = chip_elem.get_attribute(
+                "data-tooltip"
+            ) or chip_elem.get_attribute("title")
             chip_href = chip_elem.get_attribute("href")
             chip_text = chip_elem.inner_text().strip()
 
-            if not chip_title:
-                err = f"❌ Test 3 Failed: Contact chip [{chip_text}] lacks accessible native title attribute"
+            if not chip_tooltip:
+                err = f"❌ Test 3 Failed: Contact chip [{chip_text}] lacks data-tooltip attribute"
                 errors.append(err)
                 print(f"    {err}")
 
@@ -248,7 +250,7 @@ def test_ui_issues():
                 print(f"    {err}")
             else:
                 print(
-                    f"    ✓ OK: [{chip_text}] (href={chip_href}) -> Clean hover & title: '{chip_title}'"
+                    f"    ✓ OK: [{chip_text}] (href={chip_href}) -> Clean hover & tooltip: '{chip_tooltip}'"
                 )
 
         # Check all header interactive elements on hover: verify ZERO clipped slivers or pseudo-elements protruding past header bottom
