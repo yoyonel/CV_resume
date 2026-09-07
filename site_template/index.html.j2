@@ -767,11 +767,35 @@
     .section-title {
       font-size: 1.25rem;
       font-weight: 700;
-      margin: 3rem 0 1.5rem;
+      margin: 2.5rem 0 1.2rem;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 0.65rem;
       color: var(--text-main);
+    }
+
+    .section-title:first-of-type {
+      margin-top: 1.6rem;
+    }
+
+    /* Compact Sections Global Controls (Integrated into First Header) */
+    .sections-quick-controls {
+      display: inline-flex;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .sections-quick-controls .btn-group .btn {
+      padding: 0.2rem 0.55rem;
+      font-size: 0.74rem;
+      font-family: inherit;
+    }
+
+    @media (max-width: 540px) {
+      .collapse-btn-text {
+        display: none;
+      }
     }
 
     .section-collapse-btn {
@@ -2441,6 +2465,19 @@
         </span>
         <span>Expériences Professionnelles</span>
       </button>
+
+      <div class="sections-quick-controls">
+        <div class="btn-group" role="group" aria-label="Affichage global des sections">
+          <button type="button" class="btn btn-sm btn-default" id="btnExpandAll" onclick="expandAllSections()" data-tooltip="Déplier toutes les sections">
+            <svg class="icon"><use href="#icon-plus"></use></svg>
+            <span class="collapse-btn-text">Tout déplier</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-default" id="btnCollapseAll" onclick="collapseAllSections()" data-tooltip="Replier toutes les sections (Touche C)">
+            <svg class="icon"><use href="#icon-dash"></use></svg>
+            <span class="collapse-btn-text">Tout replier</span>
+          </button>
+        </div>
+      </div>
     </h3>
     <div class="timeline-container section-collapsible-content" id="section-experiences">
       {% for exp in resume_data.experiences %}
@@ -3239,6 +3276,11 @@
         printResume();
         return;
       }
+      if (currentMainView === 'web' && (e.key === 'c' || e.key === 'C')) {
+        e.preventDefault();
+        toggleAllSections();
+        return;
+      }
 
       // Page Navigation shortcuts in Document ISO view
       if (currentMainView === 'doc' && docMode === 'single') {
@@ -3562,16 +3604,17 @@
       }
     }
 
-    // 5. Collapsible Section Management with localStorage Persistence
-    const SECTION_IDS = ['section-experiences', 'section-projects', 'section-skills', 'section-education'];
+    // 5. Collapsible Section Management with Dynamic DOM Discovery & localStorage Persistence
+    function getCollapsibleSections() {
+      return Array.from(document.querySelectorAll('.section-collapsible-content[id]'));
+    }
 
     function saveCollapsedState() {
       try {
         const collapsedIds = [];
-        SECTION_IDS.forEach(id => {
-          const content = document.getElementById(id);
-          if (content && content.classList.contains('collapsed')) {
-            collapsedIds.push(id);
+        getCollapsibleSections().forEach(content => {
+          if (content.classList.contains('collapsed')) {
+            collapsedIds.push(content.id);
           }
         });
         localStorage.setItem('cv_collapsed_sections', JSON.stringify(collapsedIds));
@@ -3583,13 +3626,11 @@
         const saved = localStorage.getItem('cv_collapsed_sections');
         if (!saved) return;
         const collapsedIds = new Set(JSON.parse(saved));
-        SECTION_IDS.forEach(id => {
-          const content = document.getElementById(id);
+        getCollapsibleSections().forEach(content => {
+          const id = content.id;
           const btn = document.querySelector(`[aria-controls="${id}"]`);
           const shouldCollapse = collapsedIds.has(id);
-          if (content) {
-            content.classList.toggle('collapsed', shouldCollapse);
-          }
+          content.classList.toggle('collapsed', shouldCollapse);
           if (btn) {
             btn.setAttribute('aria-expanded', shouldCollapse ? 'false' : 'true');
             const icon = btn.querySelector('.collapse-icon use');
@@ -3598,7 +3639,46 @@
             }
           }
         });
+        updateSectionControlsState();
       } catch (_) {}
+    }
+
+    function areAllSectionsCollapsed() {
+      const sections = getCollapsibleSections();
+      if (sections.length === 0) return false;
+      return sections.every(content => content.classList.contains('collapsed'));
+    }
+
+    function areAllSectionsExpanded() {
+      const sections = getCollapsibleSections();
+      if (sections.length === 0) return false;
+      return sections.every(content => !content.classList.contains('collapsed'));
+    }
+
+    function updateSectionControlsState() {
+      const expandBtn = document.getElementById('btnExpandAll');
+      const collapseBtn = document.getElementById('btnCollapseAll');
+      if (!expandBtn || !collapseBtn) return;
+
+      const sections = getCollapsibleSections();
+      const count = sections.length;
+      const countLabel = count > 0 ? `les ${count} sections` : 'toutes les sections';
+      expandBtn.setAttribute('data-tooltip', `Déplier ${countLabel}`);
+      collapseBtn.setAttribute('data-tooltip', `Replier ${countLabel} (Touche C)`);
+
+      const allExpanded = areAllSectionsExpanded();
+      const allCollapsed = areAllSectionsCollapsed();
+
+      expandBtn.classList.toggle('active', allExpanded);
+      collapseBtn.classList.toggle('active', allCollapsed);
+    }
+
+    function toggleAllSections() {
+      if (areAllSectionsCollapsed()) {
+        expandAllSections();
+      } else {
+        collapseAllSections();
+      }
     }
 
     function expandSection(sectionId) {
@@ -3613,6 +3693,7 @@
           if (icon) icon.setAttribute('href', '#icon-dash');
         }
         saveCollapsedState();
+        updateSectionControlsState();
       }
     }
 
@@ -3636,13 +3717,13 @@
         }
       }
       saveCollapsedState();
+      updateSectionControlsState();
     }
 
     function collapseAllSections() {
-      SECTION_IDS.forEach(id => {
-        const content = document.getElementById(id);
-        const btn = document.querySelector(`[aria-controls="${id}"]`);
-        if (content) content.classList.add('collapsed');
+      getCollapsibleSections().forEach(content => {
+        content.classList.add('collapsed');
+        const btn = document.querySelector(`[aria-controls="${content.id}"]`);
         if (btn) {
           btn.setAttribute('aria-expanded', 'false');
           const icon = btn.querySelector('.collapse-icon use');
@@ -3650,13 +3731,13 @@
         }
       });
       saveCollapsedState();
+      updateSectionControlsState();
     }
 
     function expandAllSections() {
-      SECTION_IDS.forEach(id => {
-        const content = document.getElementById(id);
-        const btn = document.querySelector(`[aria-controls="${id}"]`);
-        if (content) content.classList.remove('collapsed');
+      getCollapsibleSections().forEach(content => {
+        content.classList.remove('collapsed');
+        const btn = document.querySelector(`[aria-controls="${content.id}"]`);
         if (btn) {
           btn.setAttribute('aria-expanded', 'true');
           const icon = btn.querySelector('.collapse-icon use');
@@ -3664,6 +3745,7 @@
         }
       });
       saveCollapsedState();
+      updateSectionControlsState();
     }
 
     function navigateToElement(target) {
@@ -4374,6 +4456,7 @@
       });
 
       switchMainView('web');
+      updateSectionControlsState();
       initMediaGalleries();
       initWebTooltip();
       if ('requestIdleCallback' in window) {
