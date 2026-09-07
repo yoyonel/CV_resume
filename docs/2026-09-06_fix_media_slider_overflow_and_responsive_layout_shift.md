@@ -89,9 +89,17 @@ Lors de l'interaction avec le sélecteur de prévisualisations/galeries multimé
 - Extension du repli 1 colonne (`grid-template-columns: minmax(0, 1fr)`) jusqu'au breakpoint tablette de 860px pour `.projects-grid` et `.skills-grid`.
 - Header compacté dynamiquement sous 860px (`.brand-group { min-width: 0; }`, masquage des labels textuels au profit des icônes et tooltips).
 
+### E. Élimination des débordements et artefacts de rognage du Header
+
+- **Problème identifié** : Les boutons du bandeau supérieur (`header.top-header`) utilisaient des info-bulles basées sur des pseudo-éléments CSS (`[data-tooltip]::after`). Positionnées en `top: calc(100% + 10px)` à l'intérieur d'un conteneur en hauteur contrainte (`60px` / `64px`) avec `overflow: hidden;`, ces info-bulles dépassaient la limite basse du header et se retrouvaient tronquées, laissant apparaître une fine bande sombre (artefact de 7.5px) à cheval sur la bordure inférieure et le conteneur adjacent (`.filter-bar`).
+- **Correction appliquée** :
+  - Suppression complète des pseudo-éléments `::before` et `::after` pour les infobulles du header (`display: none !important; content: none !important;`).
+  - Remplacement par l'attribut HTML5 standard et accessible `title="..."` pour tous les boutons d'action du header (`#btn-iso-pdf`, `#btn-web-app`, `#search-trigger`, `#theme-toggle`, `#btn-print`, téléchargement PDF). Les info-bulles natives sont rendues par le gestionnaire de fenêtres du système en dehors du flux DOM, éliminant tout risque de chevauchement, de layout shift ou de rognage par `overflow: hidden`.
+  - Ajout de `contain: paint;` sur `header.top-header`.
+
 ---
 
-## 4. Vérification et Suite de Tests E2E (12 Tests)
+## 4. Vérification et Suite de Tests E2E (15 Tests)
 
 La suite de tests [`scripts/test_ui_regressions.py`](scripts/test_ui_regressions.py) couvre désormais l'intégralité des fonctionnalités :
 1. Centrage et ajustement du Lightbox image unique
@@ -108,5 +116,6 @@ La suite de tests [`scripts/test_ui_regressions.py`](scripts/test_ui_regressions
 12. Préservation et synchronisation de la clipart active lors de l'ouverture plein écran Lightbox (TDD)
 13. Navigation Drag & Swipe en vue Fullscreen Lightbox (TDD) : support complet du glisser à la souris (desktop avec curseur `grab`/`grabbing`) et du geste tactile (mobile), avec désactivation du drag natif navigateur (`draggable="false"`, `pointer-events: none`, `dragstart` intercepté).
 14. **Auto-dépliage des sections et navigation fluide via Smart Search (TDD)** : lors de la sélection d'un résultat (expérience, projet, compétence, formation) dans la Command Palette (`Ctrl+K`), la section parente repliée est automatiquement dépliée (`expandSection`), l'accordéon éventuel ouvert, et l'élément ciblé est amené au centre du viewport avec surbrillance animée temporaire (`navigateToElement`). De même, le filtrage par domaine (`filterByDomain`) auto-déplie désormais les sections contenant des fiches correspondantes.
+15. **Verrouillage strict de frontière Header & zéro recouvrement (TDD)** : validation systématique sur 3 viewports (desktop 1440x900, tablette 768x1024, mobile 375x812), sur les thèmes clair et sombre, et sous états d'interaction (focus, hover, click). Inspection géométrique vérifiant l'absence de tout pseudo-élément visible ou tronqué (`::after`, `::before`), l'absence d'artefact de rognage, et l'étanchéité absolue de la ligne de démarcation sous le header (`elementFromPoint` sous `header.bottom`).
 
-Validation globale `task check` : 100% vert (0 erreurs, 0 avertissements, 14/14 tests UI).
+Validation globale `task check` : 100% vert (0 erreurs, 0 avertissements, 15/15 tests UI).

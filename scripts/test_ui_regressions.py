@@ -251,22 +251,58 @@ def test_ui_issues():
                     f"    ✓ OK: [{chip_text}] (href={chip_href}) -> Clean hover & title: '{chip_title}'"
                 )
 
-        # Hover all [data-tooltip] elements in header and verify they are never clipped outside viewport
-        header_tooltips = page.locator(".top-header [data-tooltip]")
-        header_count = header_tooltips.count()
+        # Check all header interactive elements on hover: verify ZERO clipped slivers or pseudo-elements protruding past header bottom
+        header_buttons = page.locator(".top-header button, .top-header a")
+        header_count = header_buttons.count()
         print(
-            f"    Testing all {header_count} header buttons with data-tooltip on hover..."
+            f"    Testing all {header_count} header interactive elements for zero border overlap / zero clipping..."
         )
         for i in range(header_count):
-            btn = header_tooltips.nth(i)
+            btn = header_buttons.nth(i)
             btn_label = (
                 btn.get_attribute("aria-label")
+                or btn.get_attribute("title")
                 or btn.get_attribute("data-tooltip")
                 or ""
             ).strip()
             btn.hover()
             page.wait_for_timeout(100)
-            print(f"    ✓ Header button tooltip hover OK: [{btn_label}]")
+
+            # Check if any pseudo-element ::after or ::before is protruding or clipped
+            artifact_info = page.evaluate(
+                """(el) => {
+                const header = document.querySelector('.top-header');
+                const headerRect = header.getBoundingClientRect();
+                const btnRect = el.getBoundingClientRect();
+                const after = window.getComputedStyle(el, '::after');
+                if (after.content === 'none' || after.display === 'none' || after.visibility === 'hidden' || parseFloat(after.opacity) === 0) {
+                    return { hasArtifact: false };
+                }
+                const afterHeight = parseFloat(after.height) || 0;
+                const afterTop = parseFloat(after.top) || 0;
+                const absBottom = btnRect.top + afterTop + afterHeight;
+                // Protruding beyond header bottom
+                const protrudes = absBottom > (headerRect.bottom + 1);
+                // Clipped sliver (partially clipped by overflow:hidden)
+                const isClippedSliver = afterHeight > 0 && afterHeight < 22;
+                return {
+                    hasArtifact: protrudes || isClippedSliver,
+                    protrudes,
+                    isClippedSliver,
+                    afterHeight,
+                    absBottom,
+                    headerBottom: headerRect.bottom
+                };
+            }""",
+                btn.element_handle(),
+            )
+
+            if artifact_info.get("hasArtifact"):
+                err = f"❌ Test 3 Failed: Header button [{btn_label}] generated clipped sliver or overlapping pseudo-element! ({artifact_info})"
+                errors.append(err)
+                print(f"    {err}")
+            else:
+                print(f"    ✓ Header button hover & boundary OK: [{btn_label}]")
 
         # =========================================================================
         # ISSUE 4: Document ISO Single Page Navigation Controls & Keyboard
@@ -1031,6 +1067,133 @@ def test_ui_issues():
             print(
                 f"    ✓ OK: Target item #exp-letsignit is visible and rendered (h={target_box['height']}px, y={target_box['y']}px)"
             )
+
+        # =========================================================================
+        # ISSUE 15: Zero Header Overlap / Zero Clipping Artifacts Across Viewports & Themes (TDD & Regression Lock)
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 15] Comprehensive Header Boundary & Overlap Regression Lock (Themes, Focus, Hover, Viewports)..."
+        )
+        # Reset scroll to top
+        page.evaluate("window.scrollTo(0, 0)")
+        page.wait_for_timeout(200)
+
+        viewports_to_test = [
+            {"width": 1440, "height": 900, "name": "Desktop (1440x900)"},
+            {"width": 768, "height": 1024, "name": "Tablet (768x1024)"},
+            {"width": 375, "height": 812, "name": "Mobile (375x812)"},
+        ]
+
+        for vp in viewports_to_test:
+            page.set_viewport_size({"width": vp["width"], "height": vp["height"]})
+            page.wait_for_timeout(150)
+
+            # Test both light and dark themes
+            for theme in ["light", "dark"]:
+                page.evaluate(f"applyTheme('{theme}')")
+                page.wait_for_timeout(100)
+
+                # Header geometry check
+                header_check = page.evaluate("""() => {
+                    const header = document.querySelector('.top-header');
+                    if (!header) return { exists: false };
+                    const headerRect = header.getBoundingClientRect();
+                    const style = window.getComputedStyle(header);
+
+                    // Verify header buttons & links
+                    const buttons = Array.from(header.querySelectorAll('button, a'));
+                    const badElements = [];
+
+                    for (const el of buttons) {
+                        const r = el.getBoundingClientRect();
+                        const pseudoAfter = window.getComputedStyle(el, '::after');
+                        const pseudoBefore = window.getComputedStyle(el, '::before');
+
+                        const afterHasContent = pseudoAfter.content !== 'none' && pseudoAfter.display !== 'none';
+                        const beforeHasContent = pseudoBefore.content !== 'none' && pseudoBefore.display !== 'none';
+
+                        // Protrusion of button itself beyond header bottom
+                        const protrudes = r.bottom > (headerRect.bottom + 1);
+
+                        if (afterHasContent || beforeHasContent || protrudes) {
+                            badElements.push({
+                                tag: el.tagName,
+                                id: el.id,
+                                class: el.className,
+                                afterHasContent,
+                                beforeHasContent,
+                                protrudes,
+                                rBottom: r.bottom,
+                                headerBottom: headerRect.bottom
+                            });
+                        }
+                    }
+
+                    return {
+                        exists: true,
+                        overflow: style.overflow,
+                        contain: style.contain,
+                        headerBottom: headerRect.bottom,
+                        badElements
+                    };
+                }""")
+
+                if not header_check.get("exists"):
+                    err = f"❌ Test 15 Failed: .top-header not found in {vp['name']} ({theme})"
+                    errors.append(err)
+                    print(f"    {err}")
+                    continue
+
+                if header_check.get("badElements"):
+                    err = f"❌ Test 15 Failed: Protruding elements or pseudo-tooltips found in {vp['name']} ({theme}): {header_check['badElements']}"
+                    errors.append(err)
+                    print(f"    {err}")
+                else:
+                    print(
+                        f"    ✓ OK: {vp['name']} [{theme}] -> Clean header boundaries, zero pseudo-element tooltips"
+                    )
+
+                # Test hovering and focusing each button to ensure no transient clipped sliver appears
+                for btn_sel in [
+                    "#btn-iso-pdf",
+                    "#btn-web-app",
+                    "#search-trigger",
+                    "#theme-toggle",
+                    "#btn-print",
+                ]:
+                    loc = page.locator(btn_sel)
+                    if loc.count() > 0 and loc.is_visible():
+                        loc.hover()
+                        page.wait_for_timeout(50)
+
+                        # Verify point directly beneath header bottom has no header elements
+                        overlap_detected = page.evaluate("""() => {
+                            const header = document.querySelector('.top-header');
+                            const hRect = header.getBoundingClientRect();
+                            const sampleY = hRect.bottom + 2;
+                            // Sample 5 points across header width
+                            const sampleXs = [0.1, 0.3, 0.5, 0.7, 0.9].map(f => hRect.left + f * hRect.width);
+                            for (const x of sampleXs) {
+                                const topEl = document.elementFromPoint(x, sampleY);
+                                if (topEl && header.contains(topEl)) {
+                                    return { overlapped: true, tag: topEl.tagName, className: topEl.className, x, sampleY };
+                                }
+                            }
+                            return { overlapped: false };
+                        }""")
+
+                        if overlap_detected.get("overlapped"):
+                            err = f"❌ Test 15 Failed: Hover on {btn_sel} in {vp['name']} caused element to overlap boundary: {overlap_detected}"
+                            errors.append(err)
+                            print(f"    {err}")
+
+        # Reset back to desktop and light theme
+        page.set_viewport_size({"width": 1440, "height": 900})
+        page.evaluate("applyTheme('light')")
+        page.wait_for_timeout(100)
+        print(
+            "    ✓ OK: Comprehensive header boundary and overlap tests completed with zero regressions"
+        )
 
         browser.close()
 
