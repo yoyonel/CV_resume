@@ -960,6 +960,78 @@ def test_ui_issues():
         page.keyboard.press("Escape")
         page.wait_for_timeout(200)
 
+        # =========================================================================
+        # ISSUE 14: Smart Search Auto-Expands Collapsed Sections & Navigates (TDD)
+        # =========================================================================
+        print(
+            "\n  🔍 [Test 14] Checking Smart Search auto-expands collapsed section and scrolls to result..."
+        )
+        # 1. Switch to Web view and collapse all 4 sections
+        page.evaluate("switchMainView('web')")
+        page.evaluate("collapseAllSections()")
+        page.wait_for_timeout(200)
+
+        # Verify all sections are collapsed
+        sections_state = page.evaluate("""() => ({
+            exp: document.getElementById('section-experiences').classList.contains('collapsed'),
+            proj: document.getElementById('section-projects').classList.contains('collapsed'),
+            skills: document.getElementById('section-skills').classList.contains('collapsed'),
+            edu: document.getElementById('section-education').classList.contains('collapsed')
+        })""")
+        assert all(sections_state.values()), (
+            f"All sections must be collapsed: {sections_state}"
+        )
+        print("    ✓ OK: Verified all 4 sections are initially collapsed")
+
+        # 2. Open Smart Search Palette
+        page.keyboard.press("Control+k")
+        page.wait_for_timeout(200)
+        assert page.evaluate("document.getElementById('cmdPaletteDialog').open"), (
+            "Command Palette must be open"
+        )
+
+        # 3. Type 'ign' into search input
+        search_input = page.locator("#paletteSearchInput")
+        search_input.fill("ign")
+        page.wait_for_timeout(300)
+
+        # 4. Click first result (LETSIGNIT)
+        first_item = page.locator("#paletteResults .palette-item").first
+        first_title = first_item.locator(".palette-item-title").inner_text()
+        print(f"    Clicking search result: '{first_title}'")
+        first_item.click()
+        page.wait_for_timeout(400)
+
+        # 5. Verify palette is closed
+        assert not page.evaluate("document.getElementById('cmdPaletteDialog').open"), (
+            "Command Palette must be closed after selection"
+        )
+
+        # 6. Verify section-experiences is auto-expanded
+        exp_collapsed = page.evaluate(
+            "document.getElementById('section-experiences').classList.contains('collapsed')"
+        )
+        if exp_collapsed:
+            err = "❌ Test 14 Failed: section-experiences remained collapsed after selecting experience from Smart Search"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                "    ✓ OK: section-experiences was automatically expanded upon selecting search result"
+            )
+
+        # 7. Verify target element is visible in layout
+        target_card = page.locator("#exp-letsignit")
+        target_box = target_card.bounding_box()
+        if target_box is None or target_box["height"] == 0:
+            err = "❌ Test 14 Failed: Selected item #exp-letsignit is not visible in DOM layout"
+            errors.append(err)
+            print(f"    {err}")
+        else:
+            print(
+                f"    ✓ OK: Target item #exp-letsignit is visible and rendered (h={target_box['height']}px, y={target_box['y']}px)"
+            )
+
         browser.close()
 
         print("\n" + "=" * 80)
