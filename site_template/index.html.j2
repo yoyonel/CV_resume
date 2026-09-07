@@ -770,7 +770,6 @@
       margin: 2.5rem 0 1.2rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 0.65rem;
       color: var(--text-main);
     }
@@ -779,23 +778,23 @@
       margin-top: 1.6rem;
     }
 
-    /* Compact Sections Global Controls (Integrated into First Header) */
+    /* Header Integrated Sections Global Controls (Iconified) */
     .sections-quick-controls {
       display: inline-flex;
       align-items: center;
-      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    body[data-view="doc"] .sections-quick-controls {
+      display: none !important;
     }
 
     .sections-quick-controls .btn-group .btn {
-      padding: 0.2rem 0.55rem;
-      font-size: 0.74rem;
-      font-family: inherit;
-    }
-
-    @media (max-width: 540px) {
-      .collapse-btn-text {
-        display: none;
-      }
+      padding: 0.25rem 0.55rem;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .section-collapse-btn {
@@ -2379,6 +2378,17 @@
 
     <!-- Actions (Native Buttons & Tooltips) -->
     <div class="actions-group">
+      <div class="sections-quick-controls" id="sectionsQuickControls">
+        <div class="btn-group" role="group" aria-label="Affichage global des sections">
+          <button type="button" class="btn btn-sm btn-default" id="btnExpandAll" onclick="expandAllSections()" data-tooltip="Déplier toutes les sections" aria-label="Déplier toutes les sections">
+            <svg class="icon"><use href="#icon-plus"></use></svg>
+          </button>
+          <button type="button" class="btn btn-sm btn-default" id="btnCollapseAll" onclick="collapseAllSections()" data-tooltip="Replier toutes les sections (Touche C)" aria-label="Replier toutes les sections">
+            <svg class="icon"><use href="#icon-dash"></use></svg>
+          </button>
+        </div>
+      </div>
+
       <button type="button" class="btn btn-icon btn-ghost" id="themeToggleBtn" aria-label="Changer de thème sombre/clair" data-tooltip="Basculer Thème (T)" onclick="toggleTheme()">
         <svg class="icon" style="font-size:1.1rem;"><use id="themeIconUse" href="#icon-moon"></use></svg>
       </button>
@@ -2465,19 +2475,6 @@
         </span>
         <span>Expériences Professionnelles</span>
       </button>
-
-      <div class="sections-quick-controls">
-        <div class="btn-group" role="group" aria-label="Affichage global des sections">
-          <button type="button" class="btn btn-sm btn-default" id="btnExpandAll" onclick="expandAllSections()" data-tooltip="Déplier toutes les sections">
-            <svg class="icon"><use href="#icon-plus"></use></svg>
-            <span class="collapse-btn-text">Tout déplier</span>
-          </button>
-          <button type="button" class="btn btn-sm btn-default" id="btnCollapseAll" onclick="collapseAllSections()" data-tooltip="Replier toutes les sections (Touche C)">
-            <svg class="icon"><use href="#icon-dash"></use></svg>
-            <span class="collapse-btn-text">Tout replier</span>
-          </button>
-        </div>
-      </div>
     </h3>
     <div class="timeline-container section-collapsible-content" id="section-experiences">
       {% for exp in resume_data.experiences %}
@@ -4493,9 +4490,9 @@
         const tooltipRect = tooltipEl.getBoundingClientRect();
         const gap = 8;
 
-        // Placement: if close to top of viewport (e.g. header), place below target
+        // Placement: if close to top of viewport (e.g. header & sticky bars), place below target
         let top;
-        if (rect.top < 70 || (rect.top - tooltipRect.height - gap) < 0) {
+        if (rect.top < 150 || (rect.top - tooltipRect.height - gap) < 104) {
           top = rect.bottom + gap;
         } else {
           top = rect.top - tooltipRect.height - gap;
