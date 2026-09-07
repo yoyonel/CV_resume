@@ -82,9 +82,11 @@ Lors de l'interaction avec le sélecteur de prévisualisations/galeries multimé
 ### C. Sections Repliables, Contrôle Global Compact & Accordéon Stack Technique
 
 - Sections portfolio repliables individuellement avec découverte dynamique dans le DOM (`.section-collapsible-content[id]`) et persistance locale (`cv_collapsed_sections` dans `localStorage`).
-- **Contrôles globaux "Tout déplier" / "Tout replier" ultra-compacts & dynamiques** :
-  - Intégrés directement sur la ligne d'en-tête du premier bloc ("Expériences Professionnelles") via `.sections-quick-controls` et `justify-content: space-between`.
-  - Zéro ligne/barre supplémentaire, zéro marge superflue, préservation stricte de la compacité verticale de la page.
+- **Contrôles globaux "Tout déplier" / "Tout replier" épinglés dans le Header (`header.top-header`)** :
+  - Intégrés directement dans le bandeau de navigation fixe (`.top-header .actions-group`) aux côtés du commutateur de thème, d'impression et de téléchargement.
+  - **100% iconifié et symbolique** : boutons compacts avec icônes natives (`#icon-plus` / `#icon-dash`), zéro encombrement textuel, parfaite adaptation responsive (du grand écran au mobile 360px).
+  - Épinglé en permanence en haut d'écran sans créer de ligne superflue ni recouvrir le contenu des cartes lors du défilement.
+  - Masqué automatiquement en vue Document ISO (`body[data-view="doc"] .sections-quick-controls { display: none; }`).
   - **Découverte automatique et calcul dynamique du nombre de sections** : aucun ID ni décompte en dur. L'ajout futur de n'importe quelle section (`.section-collapsible-content[id]`) met automatiquement à jour le décompte, les tooltips dynamiques (`Déplier les X sections`, `Replier les X sections (Touche C)`) et la persistance.
   - Boutons interactifs `#btnExpandAll` et `#btnCollapseAll` avec surbrillance `.active` reflétant l'état courant de l'ensemble des sections.
   - Raccourci clavier dédié `C` permettant d'alterner instantanément entre replier et déplier l'ensemble des sections.
