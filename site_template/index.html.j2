@@ -278,30 +278,11 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Position header tooltips BELOW elements so they stay fully inside viewport */
-    .top-header [data-tooltip]::after {
-      bottom: auto;
-      top: calc(100% + 10px);
-      transform: translateX(-50%) translateY(-4px);
-    }
-
-    .top-header [data-tooltip]:hover::after,
-    .top-header [data-tooltip]:focus-visible::after {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* Rightmost buttons in header don't overflow right edge */
-    .top-header .actions-group [data-tooltip]:last-child::after {
-      left: auto;
-      right: 0;
-      transform: translateY(-4px);
-    }
-
-    .top-header .actions-group [data-tooltip]:last-child:hover::after,
-    .top-header .actions-group [data-tooltip]:last-child:focus-visible::after {
-      transform: translateY(0);
+    /* Header items must NEVER generate pseudo-element tooltips (prevents clipping & border overlap bugs) */
+    .top-header [data-tooltip]::after,
+    .top-header [data-tooltip]::before {
+      display: none !important;
+      content: none !important;
     }
 
     html.light [data-tooltip]::after {
@@ -370,6 +351,7 @@
       max-width: 100%;
       width: 100%;
       overflow: hidden;
+      contain: paint;
     }
 
     .brand-group {
@@ -2350,11 +2332,11 @@
     <!-- Center View Switcher (Native Button Group) -->
     <div class="view-switcher-group">
       <div class="btn-group" role="group" aria-label="Sélecteur de Vue">
-        <button type="button" class="btn btn-sm btn-primary active" id="tabDoc" aria-label="Afficher le document PDF ISO" data-tooltip="Affichage PDF Haute Fidélité ISO (Touche V)" onclick="switchMainView('doc')">
+        <button type="button" class="btn btn-sm btn-primary active" id="tabDoc" aria-label="Afficher le document PDF ISO" title="Affichage PDF Haute Fidélité ISO (Touche V)" onclick="switchMainView('doc')">
           <svg class="icon"><use href="#icon-file-earmark-pdf"></use></svg>
           <span class="btn-label-doc">Document ISO</span>
         </button>
-        <button type="button" class="btn btn-sm btn-default" id="tabWeb" aria-label="Afficher la vue web interactive" data-tooltip="Affichage Portfolio Web Interactif (Touche V)" onclick="switchMainView('web')">
+        <button type="button" class="btn btn-sm btn-default" id="tabWeb" aria-label="Afficher la vue web interactive" title="Affichage Portfolio Web Interactif (Touche V)" onclick="switchMainView('web')">
           <svg class="icon"><use href="#icon-grid-3x3-gap"></use></svg>
           <span class="btn-label-web">Vue Interactive</span>
         </button>
@@ -2362,7 +2344,7 @@
     </div>
 
     <!-- Smart Search Trigger (Native Button) -->
-    <button type="button" class="btn btn-default btn-sm search-trigger-btn" aria-label="Rechercher des compétences, projets et technologies" data-tooltip="Recherche Floue & Sémantique (Ctrl + K)" onclick="openPalette()">
+    <button type="button" class="btn btn-default btn-sm search-trigger-btn" aria-label="Rechercher des compétences, projets et technologies" title="Recherche Floue & Sémantique (Ctrl + K)" onclick="openPalette()">
       <svg class="icon"><use href="#icon-search"></use></svg>
       <span class="search-label">Smart Search...</span>
       <kbd class="search-shortcut-kbd">Ctrl K</kbd>
@@ -2370,16 +2352,16 @@
 
     <!-- Actions (Native Buttons & Tooltips) -->
     <div class="actions-group">
-      <button type="button" class="btn btn-icon btn-ghost" id="themeToggleBtn" aria-label="Changer de thème sombre/clair" data-tooltip="Basculer Thème (T)" onclick="toggleTheme()">
+      <button type="button" class="btn btn-icon btn-ghost" id="themeToggleBtn" aria-label="Changer de thème sombre/clair" title="Basculer Thème (T)" onclick="toggleTheme()">
         <svg class="icon" style="font-size:1.1rem;"><use id="themeIconUse" href="#icon-moon"></use></svg>
       </button>
 
-      <button type="button" class="btn btn-default btn-sm btn-print" aria-label="Imprimer le CV au format PDF" data-tooltip="Imprimer le CV PDF (P)" onclick="printResume()">
+      <button type="button" class="btn btn-default btn-sm btn-print" aria-label="Imprimer le CV au format PDF" title="Imprimer le CV PDF (P)" onclick="printResume()">
         <svg class="icon"><use href="#icon-printer"></use></svg>
         <span class="btn-label-print">Imprimer</span>
       </button>
 
-      <a class="btn btn-primary btn-sm btn-download" aria-label="Télécharger le CV PDF" data-tooltip="Télécharger le PDF Typst (D)" href="{{ pdf_filename }}" download>
+      <a class="btn btn-primary btn-sm btn-download" aria-label="Télécharger le CV PDF" title="Télécharger le PDF Typst (D)" href="{{ pdf_filename }}" download>
         <svg class="icon"><use href="#icon-download"></use></svg>
         <span class="btn-label-download">Télécharger PDF</span>
       </a>
@@ -4267,16 +4249,18 @@
         html.classList.add('light');
         if (iconUse) iconUse.setAttribute('href', '#icon-sun');
         if (btn) {
-          btn.setAttribute('data-tooltip', 'Passer en mode sombre (T)');
+          btn.setAttribute('title', 'Passer en mode sombre (T)');
           btn.setAttribute('aria-label', 'Passer en mode sombre');
+          btn.removeAttribute('data-tooltip');
         }
       } else {
         html.classList.remove('light');
         html.classList.add('dark');
         if (iconUse) iconUse.setAttribute('href', '#icon-moon');
         if (btn) {
-          btn.setAttribute('data-tooltip', 'Passer en mode clair (T)');
+          btn.setAttribute('title', 'Passer en mode clair (T)');
           btn.setAttribute('aria-label', 'Passer en mode clair');
+          btn.removeAttribute('data-tooltip');
         }
       }
     }
