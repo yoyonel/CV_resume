@@ -201,6 +201,17 @@ tasks:
     cmds:
       - task: site:check:ui
 
+  site:check:components:
+    desc: Automated Web Components & UI design tokens compliance check (zero WebAwesome, rich tooltips)
+    cmds:
+      - task: site:build
+      - uv run python3 scripts/check_ui_components.py
+
+  check:components:
+    desc: Alias for site:check:components
+    cmds:
+      - task: site:check:components
+
   site:check:print:
     desc: Automated @media print & PDF layout validation with Playwright
     cmds:
@@ -265,7 +276,7 @@ tasks:
 
   # --- VALIDATION SUITE ---
   check:
-    desc: Full validation suite (lint + site build + html check + mobile check + console check + UI check + print check + link check)
+    desc: Full validation suite (lint + site build + html check + mobile check + console check + UI check + components check + print check + link check)
     cmds:
       - task: lint
       - task: site:build
@@ -273,6 +284,7 @@ tasks:
       - task: check:mobile
       - task: check:console
       - task: check:ui
+      - task: check:components
       - task: check:print
       - task: links:check
       - echo "All checks passed successfully!"

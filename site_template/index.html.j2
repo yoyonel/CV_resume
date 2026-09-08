@@ -241,70 +241,57 @@
       box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
     }
 
-    /* Native CSS Tooltip System */
+    /* ========================================================
+       FLOATING WEB TOOLTIP SYSTEM (100% ISO DESIGN TOKENS)
+       ======================================================== */
     [data-tooltip] {
-      position: relative;
+      /* Base anchor */
     }
 
-    [data-tooltip]::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%) translateY(4px);
+    /* Disable legacy pseudo-element tooltips to prevent clipping / overflow shifts */
+    [data-tooltip]::after,
+    [data-tooltip]::before {
+      display: none !important;
+      content: none !important;
+    }
+
+    .web-tooltip {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 999999;
       padding: 0.35rem 0.65rem;
       background: #0f172a;
       color: #f8fafc;
-      font-size: 0.72rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.75rem;
       font-weight: 500;
+      line-height: 1.25;
       border-radius: 6px;
       white-space: nowrap;
-      pointer-events: none;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.15s cubic-bezier(0.2, 0.8, 0.4, 1), transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
+      max-width: min(320px, 90vw);
+      text-overflow: ellipsis;
+      overflow: hidden;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 0) scale(0.96);
+      transition: opacity 0.15s cubic-bezier(0.2, 0.8, 0.4, 1), transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
     }
 
-    [data-tooltip]:hover::after,
-    [data-tooltip]:focus-visible::after {
+    .web-tooltip.is-visible {
       opacity: 1;
       visibility: visible;
-      transform: translateX(-50%) translateY(0);
+      transform: translate(-50%, 0) scale(1);
     }
 
-    /* Position header tooltips BELOW elements so they stay fully inside viewport */
-    .top-header [data-tooltip]::after {
-      bottom: auto;
-      top: calc(100% + 10px);
-      transform: translateX(-50%) translateY(-4px);
-    }
-
-    .top-header [data-tooltip]:hover::after,
-    .top-header [data-tooltip]:focus-visible::after {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* Rightmost buttons in header don't overflow right edge */
-    .top-header .actions-group [data-tooltip]:last-child::after {
-      left: auto;
-      right: 0;
-      transform: translateY(-4px);
-    }
-
-    .top-header .actions-group [data-tooltip]:last-child:hover::after,
-    .top-header .actions-group [data-tooltip]:last-child:focus-visible::after {
-      transform: translateY(0);
-    }
-
-    html.light [data-tooltip]::after {
+    html.light .web-tooltip {
       background: #1e293b;
       color: #ffffff;
       border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     }
 
     /* Badge Pill */
@@ -330,8 +317,9 @@
 
     html, body {
       width: 100%;
-      max-width: 100vw;
-      overflow-x: hidden;
+      max-width: 100%;
+      overflow-x: clip;
+      overscroll-behavior-x: none;
     }
 
     body {
@@ -363,15 +351,17 @@
       padding: 0 1.5rem;
       gap: 1rem;
       box-sizing: border-box;
-      max-width: 100vw;
+      max-width: 100%;
       width: 100%;
+      overflow: hidden;
+      contain: paint;
     }
 
     .brand-group {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      min-width: 220px;
+      min-width: 0;
     }
 
     .brand-meta h1 {
@@ -422,8 +412,10 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       gap: 1rem;
-      max-width: 100vw;
+      max-width: 100%;
       width: 100%;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x pan-y;
     }
     .filter-bar::-webkit-scrollbar {
       display: none;
@@ -659,6 +651,33 @@
       border-radius: 4px;
     }
 
+    .pdf-page-container .annotationLayer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 10;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .pdf-page-container .annotationLayer a.pdf-link {
+      position: absolute;
+      pointer-events: auto;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background-color 0.15s ease, outline 0.15s ease;
+      outline: none;
+      z-index: 11;
+      display: block;
+      text-decoration: none;
+    }
+
+    .pdf-page-container .annotationLayer a.pdf-link:hover {
+      background-color: rgba(2, 132, 199, 0.16);
+      outline: 1.5px dashed var(--accent, #0284c7);
+    }
+
     .page-tag {
       position: absolute;
       top: -20px;
@@ -678,6 +697,8 @@
       margin: 0 auto;
       padding: 2rem 1.5rem 5rem;
       width: 100%;
+      box-sizing: border-box;
+      overflow-x: clip;
     }
 
     /* Hero / Summary Banner (Web Awesome Card) */
@@ -742,24 +763,95 @@
       letter-spacing: 0.05em;
     }
 
-    /* Section Headers */
+    /* Section Headers & Collapsible Controls */
     .section-title {
       font-size: 1.25rem;
       font-weight: 700;
-      margin: 3rem 0 1.5rem;
+      margin: 2.5rem 0 1.2rem;
       display: flex;
       align-items: center;
       gap: 0.65rem;
       color: var(--text-main);
     }
 
-    .section-title::before {
-      content: '';
-      display: inline-block;
-      width: 14px;
-      height: 4px;
+    .section-title:first-of-type {
+      margin-top: 1.6rem;
+    }
+
+    /* Header Integrated Sections Global Controls (Iconified) */
+    .sections-quick-controls {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    body[data-view="doc"] .sections-quick-controls {
+      display: none !important;
+    }
+
+    .sections-quick-controls .btn-group .btn {
+      padding: 0.25rem 0.55rem;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-collapse-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem 0.2rem 0;
+      border-radius: 6px;
+      user-select: none;
+      text-align: left;
+      transition: color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .section-collapse-btn:hover {
+      color: var(--accent);
+    }
+
+    .collapse-icon-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--border-color);
+      color: var(--accent);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    html.light .collapse-icon-box {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .section-collapse-btn:hover .collapse-icon-box {
       background: var(--accent);
-      border-radius: 2px;
+      color: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.4);
+    }
+
+    .section-collapsible-content {
+      transition: opacity 0.2s ease;
+    }
+
+    .section-collapsible-content.collapsed {
+      display: none !important;
     }
 
     /* Connected Timeline Cards (Web Awesome Cards) */
@@ -921,7 +1013,75 @@
       font-weight: bold;
     }
 
-    /* Tags Palette */
+    /* Tags Palette & Collapsible Details */
+    .exp-tags-details {
+      margin-top: 0.85rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-card-subtle);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      overflow: hidden;
+    }
+
+    .exp-tags-details[open] {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    html.light .exp-tags-details[open] {
+      background: rgba(2, 132, 199, 0.04);
+      border-color: rgba(2, 132, 199, 0.3);
+    }
+
+    .exp-tags-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      list-style: none;
+      transition: color 0.15s ease;
+    }
+
+    .exp-tags-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .exp-tags-summary:hover {
+      color: var(--accent);
+    }
+
+    .exp-tags-summary-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .exp-tags-summary-label .icon {
+      color: var(--accent);
+      font-size: 0.85rem;
+    }
+
+    .exp-tags-chevron {
+      font-size: 0.75rem;
+      transition: transform 0.2s ease;
+      color: var(--text-dim);
+    }
+
+    .exp-tags-details[open] .exp-tags-chevron {
+      transform: rotate(90deg);
+      color: var(--accent);
+    }
+
+    .exp-tags-details .tags-container {
+      padding: 0 0.85rem 0.85rem 0.85rem;
+      margin-top: 0.25rem;
+    }
+
     .tags-container {
       display: flex;
       flex-wrap: wrap;
@@ -1113,6 +1273,7 @@
       background: #000;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       max-width: 100%;
+      contain: paint;
     }
 
     .project-media-main {
@@ -1127,6 +1288,18 @@
       align-items: center;
       justify-content: center;
       background: #060911;
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-select: none;
+      contain: paint;
+    }
+
+    .project-media-main.has-multi-media {
+      cursor: grab;
+    }
+
+    .project-media-main.is-dragging {
+      cursor: grabbing !important;
     }
 
     .project-media-main img {
@@ -1135,6 +1308,7 @@
       aspect-ratio: 16 / 9;
       object-fit: cover;
       transition: transform 0.3s ease;
+      pointer-events: none;
     }
 
     .project-media-main:hover img {
@@ -1147,6 +1321,7 @@
       left: 8px;
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       padding: 0.2rem 0.55rem;
       border-radius: 4px;
       font-size: 0.68rem;
@@ -1192,19 +1367,101 @@
       transform: scale(1.15);
     }
 
+    .media-card-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      cursor: pointer;
+      z-index: 4;
+      padding: 0;
+      line-height: 1;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.15s ease, background 0.15s ease;
+      user-select: none;
+    }
+
+    .project-media-box:hover .media-card-nav-btn {
+      opacity: 0.9;
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .project-media-box .media-card-nav-btn {
+        opacity: 0.85;
+      }
+    }
+
+    .media-card-nav-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .media-card-prev {
+      left: 6px;
+    }
+
+    .media-card-next {
+      right: 6px;
+    }
+
     .media-gallery-thumbs {
       display: flex;
+      flex-wrap: nowrap;
       gap: 0.35rem;
-      padding: 0.4rem;
+      padding: 0.4rem 0.5rem;
       background: var(--bg-card-subtle);
       border-top: 1px solid var(--border-color);
       overflow-x: auto;
+      overflow-y: hidden;
       max-width: 100%;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      touch-action: pan-x;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+      cursor: grab;
+      user-select: none;
+      overscroll-behavior-x: contain;
     }
+
+    .media-gallery-thumbs.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+    }
+
+    .media-gallery-thumbs .btn {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
     .media-gallery-thumbs::-webkit-scrollbar {
-      display: none;
+      height: 4px;
+      display: block;
+    }
+
+    .media-gallery-thumbs::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .media-gallery-thumbs::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    .media-gallery-thumbs::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
     }
 
     /* Skills Categorized Grid */
@@ -1585,6 +1842,17 @@
       justify-content: center;
       max-width: 92vw;
       max-height: 82vh;
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .lightbox-image-container.has-multi-media {
+      cursor: grab;
+    }
+
+    .lightbox-image-container.has-multi-media.is-dragging {
+      cursor: grabbing !important;
     }
 
     dialog.image-dialog img {
@@ -1597,6 +1865,9 @@
       box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.15);
       display: block;
       user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
     }
 
     .lightbox-nav-btn {
@@ -1672,11 +1943,28 @@
       display: flex;
       align-items: center;
       gap: 0.45rem;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x;
+      padding: 0.25rem 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .lightbox-thumbs.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
     }
 
     .lightbox-thumb-pill {
+      flex-shrink: 0;
+      white-space: nowrap;
       background: rgba(30, 41, 59, 0.8);
       color: #94a3b8;
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1799,6 +2087,14 @@
       }
       #viewInteractive {
         padding: 1.25rem 0.75rem 4rem;
+      }
+      .projects-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+      }
+      .skills-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
       }
       .hero-card {
         margin-bottom: 1.5rem;
@@ -2023,6 +2319,8 @@
   <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></symbol>
     <symbol id="icon-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
   <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/></symbol>
+    <symbol id="icon-dash" viewBox="0 0 16 16"><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/></symbol>
+    <symbol id="icon-plus" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></symbol>
     <symbol id="icon-envelope" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/></symbol>
     <symbol id="icon-file-earmark-pdf" viewBox="0 0 16 16"><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
   <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/></symbol>
@@ -2080,6 +2378,17 @@
 
     <!-- Actions (Native Buttons & Tooltips) -->
     <div class="actions-group">
+      <div class="sections-quick-controls" id="sectionsQuickControls">
+        <div class="btn-group" role="group" aria-label="Affichage global des sections">
+          <button type="button" class="btn btn-sm btn-default" id="btnExpandAll" onclick="expandAllSections()" data-tooltip="Déplier toutes les sections" aria-label="Déplier toutes les sections">
+            <svg class="icon"><use href="#icon-plus"></use></svg>
+          </button>
+          <button type="button" class="btn btn-sm btn-default" id="btnCollapseAll" onclick="collapseAllSections()" data-tooltip="Replier toutes les sections (Touche C)" aria-label="Replier toutes les sections">
+            <svg class="icon"><use href="#icon-dash"></use></svg>
+          </button>
+        </div>
+      </div>
+
       <button type="button" class="btn btn-icon btn-ghost" id="themeToggleBtn" aria-label="Changer de thème sombre/clair" data-tooltip="Basculer Thème (T)" onclick="toggleTheme()">
         <svg class="icon" style="font-size:1.1rem;"><use id="themeIconUse" href="#icon-moon"></use></svg>
       </button>
@@ -2099,12 +2408,12 @@
   <!-- Filter & Contact Bar -->
   <div class="filter-bar">
     <div class="domain-filters">
-      <button type="button" class="filter-tag active" data-domain="all" onclick="filterByDomain('all', event)" title="Afficher tous les domaines">Tous</button>
-      <button type="button" class="filter-tag" data-domain="backend" onclick="filterByDomain('backend', event)" title="Filtrer Python & Backend (Shift+Clic pour cumuler)">🐍 Python & Backend</button>
-      <button type="button" class="filter-tag" data-domain="graphics" onclick="filterByDomain('graphics', event)" title="Filtrer C++ & 3D Temps-Réel (Shift+Clic pour cumuler)">🎮 C++ & 3D Temps-Réel</button>
-      <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud', event)" title="Filtrer Cloud & DevOps (Shift+Clic pour cumuler)">☁️ Cloud & DevOps</button>
-      <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai', event)" title="Filtrer IA & Agents (Shift+Clic pour cumuler)">🤖 IA & Agents</button>
-      <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig', event)" title="Filtrer SIG & Géomatique (Shift+Clic pour cumuler)">🗺️ SIG & Géomatique</button>
+      <button type="button" class="filter-tag active" data-domain="all" onclick="filterByDomain('all', event)" data-tooltip="Afficher tous les domaines">Tous</button>
+      <button type="button" class="filter-tag" data-domain="backend" onclick="filterByDomain('backend', event)" data-tooltip="Filtrer Python & Backend (Shift+Clic pour cumuler)">🐍 Python & Backend</button>
+      <button type="button" class="filter-tag" data-domain="graphics" onclick="filterByDomain('graphics', event)" data-tooltip="Filtrer C++ & 3D Temps-Réel (Shift+Clic pour cumuler)">🎮 C++ & 3D Temps-Réel</button>
+      <button type="button" class="filter-tag" data-domain="cloud" onclick="filterByDomain('cloud', event)" data-tooltip="Filtrer Cloud & DevOps (Shift+Clic pour cumuler)">☁️ Cloud & DevOps</button>
+      <button type="button" class="filter-tag" data-domain="ai" onclick="filterByDomain('ai', event)" data-tooltip="Filtrer IA & Agents (Shift+Clic pour cumuler)">🤖 IA & Agents</button>
+      <button type="button" class="filter-tag" data-domain="sig" onclick="filterByDomain('sig', event)" data-tooltip="Filtrer SIG & Géomatique (Shift+Clic pour cumuler)">🗺️ SIG & Géomatique</button>
       <button type="button" class="btn btn-primary btn-sm btn-pill" style="background:#0284c7; border-color:#0284c7;" onclick="goToMediaSection()">
         <svg class="icon"><use href="#icon-play-circle"></use></svg>
         <span>🎬 Démos, Médias & Talks</span>
@@ -2112,19 +2421,19 @@
     </div>
 
     <div class="contact-chips">
-      <a href="mailto:{{ profile.email }}" class="contact-chip" title="Envoyer un email ({{ profile.email }})">
+      <a href="mailto:{{ profile.email }}" class="contact-chip" data-tooltip="Envoyer un email ({{ profile.email }})">
         <svg class="icon" ><use href="#icon-envelope"></use></svg>
         <span>{{ profile.email }}</span>
       </a>
-      <a href="tel:{{ profile.phone | replace(' ', '') }}" class="contact-chip" title="Appeler ({{ profile.phone }})">
+      <a href="tel:{{ profile.phone | replace(' ', '') }}" class="contact-chip" data-tooltip="Appeler ({{ profile.phone }})">
         <svg class="icon" ><use href="#icon-telephone"></use></svg>
         <span>{{ profile.phone }}</span>
       </a>
-      <a href="https://github.com/yoyonel" target="_blank" rel="noopener noreferrer" class="contact-chip" title="Profil GitHub">
+      <a href="https://github.com/yoyonel" target="_blank" rel="noopener noreferrer" class="contact-chip" data-tooltip="Profil GitHub">
         <svg class="icon" ><use href="#icon-github"></use></svg>
         <span>GitHub</span>
       </a>
-      <a href="{{ profile.linkedin | default('https://www.linkedin.com/in/lionel-atty-6a55b748/') }}" target="_blank" rel="noopener noreferrer" class="contact-chip" title="Profil LinkedIn">
+      <a href="{{ profile.linkedin | default('https://www.linkedin.com/in/lionel-atty-6a55b748/') }}" target="_blank" rel="noopener noreferrer" class="contact-chip" data-tooltip="Profil LinkedIn">
         <svg class="icon" ><use href="#icon-linkedin"></use></svg>
         <span>LinkedIn</span>
       </a>
@@ -2159,8 +2468,15 @@
     </div>
 
     <!-- Experiences Timeline (Web Awesome Cards) -->
-    <h3 class="section-title">Expériences Professionnelles</h3>
-    <div class="timeline-container">
+    <h3 class="section-title">
+      <button type="button" class="section-collapse-btn" aria-expanded="true" aria-controls="section-experiences" onclick="toggleSection('section-experiences', this)">
+        <span class="collapse-icon-box" aria-hidden="true">
+          <svg class="icon collapse-icon"><use href="#icon-dash"></use></svg>
+        </span>
+        <span>Expériences Professionnelles</span>
+      </button>
+    </h3>
+    <div class="timeline-container section-collapsible-content" id="section-experiences">
       {% for exp in resume_data.experiences %}
       <div class="exp-wrapper" data-id="{{ exp.id }}" data-domains="{{ exp.domains | join(',') }}" style="position:relative;">
         <div class="exp-node"></div>
@@ -2191,11 +2507,22 @@
           </div>
           {% endif %}
 
-          <div class="tags-container">
-            {% for t in exp.tags %}
-            <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
-            {% endfor %}
-          </div>
+          {% if exp.tags %}
+          <details class="exp-tags-details">
+            <summary class="exp-tags-summary">
+              <span class="exp-tags-summary-label">
+                <svg class="icon"><use href="#icon-tools"></use></svg>
+                <span>Stack technique ({{ exp.tags | length }})</span>
+              </span>
+              <svg class="icon exp-tags-chevron"><use href="#icon-chevron-right"></use></svg>
+            </summary>
+            <div class="tags-container">
+              {% for t in exp.tags %}
+              <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
+              {% endfor %}
+            </div>
+          </details>
+          {% endif %}
 
           {% if exp.links %}
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:1rem;">
@@ -2213,8 +2540,15 @@
     </div>
 
     <!-- Media, Projects & Talks (Web Awesome Cards & Carousels) -->
-    <h3 class="section-title" id="section-projects">Projets R&D, Talks & Conférences</h3>
-    <div class="projects-grid">
+    <h3 class="section-title" id="section-projects-title">
+      <button type="button" class="section-collapse-btn" aria-expanded="true" aria-controls="section-projects" onclick="toggleSection('section-projects', this)">
+        <span class="collapse-icon-box" aria-hidden="true">
+          <svg class="icon collapse-icon"><use href="#icon-dash"></use></svg>
+        </span>
+        <span>Projets R&D, Talks & Conférences</span>
+      </button>
+    </h3>
+    <div class="projects-grid section-collapsible-content" id="section-projects">
       {% for proj in resume_data.projects_and_talks %}
       {% set proj_idx = loop.index %}
       <div class="project-wrapper" data-domain="{{ proj.domain }}" data-domains="{{ proj.domains | join(',') if proj.domains else proj.domain }}" style="height:100%;">
@@ -2237,10 +2571,14 @@
               <div class="project-media-main" id="media-main-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-title="{{ proj.title | e }}" onclick="openImageModalByElem(this)">
                 <span class="media-badge-overlay" id="media-badge-{{ proj_idx }}">{{ '🔥 DÉMO ANIMÉE' if proj.media.type == 'gif' else '📸 CAPTURE R&D' }}</span>
                 <img id="media-img-{{ proj_idx }}" src="{{ proj.media.src }}{{ '?v=' ~ build_id if not proj.media.src.startswith('http') else '' }}" alt="{{ proj.title }}" loading="lazy" decoding="async" width="800" height="450">
+                {% if proj.media.gallery and proj.media.gallery | length > 1 %}
+                <button type="button" class="media-card-nav-btn media-card-prev" onclick="cycleCardMediaByEvent(event, '{{ proj_idx }}', -1)" aria-label="Image précédente (Glisser à droite)">‹</button>
+                <button type="button" class="media-card-nav-btn media-card-next" onclick="cycleCardMediaByEvent(event, '{{ proj_idx }}', 1)" aria-label="Image suivante (Glisser à gauche)">›</button>
+                {% endif %}
                 <div class="media-zoom-overlay"><svg class="icon" ><use href="#icon-zoom-in"></use></svg><span>Agrandir</span></div>
               </div>
               {% if proj.media.gallery %}
-              <div class="media-gallery-thumbs">
+              <div class="media-gallery-thumbs" id="media-thumbs-{{ proj_idx }}">
                 {% for g in proj.media.gallery %}
                 <button type="button" class="btn btn-sm {{ 'btn-primary' if loop.first else 'btn-default' }} media-thumb-btn-{{ proj_idx }}" data-card-idx="{{ proj_idx }}" data-src="{{ g.src }}{{ '?v=' ~ build_id if not g.src.startswith('http') else '' }}" data-label="{{ g.label }}" onclick="switchCardMediaByElem(this)">
                   {{ g.label }}
@@ -2254,11 +2592,22 @@
           </div>
 
           <div style="margin-top:auto;">
-            <div class="tags-container" style="margin-bottom:0.85rem;">
-              {% for t in proj.tags %}
-              <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
-              {% endfor %}
-            </div>
+            {% if proj.tags %}
+            <details class="exp-tags-details" style="margin-bottom:0.85rem;">
+              <summary class="exp-tags-summary">
+                <span class="exp-tags-summary-label">
+                  <svg class="icon"><use href="#icon-tools"></use></svg>
+                  <span>Stack technique ({{ proj.tags | length }})</span>
+                </span>
+                <svg class="icon exp-tags-chevron"><use href="#icon-chevron-right"></use></svg>
+              </summary>
+              <div class="tags-container">
+                {% for t in proj.tags %}
+                <span class="tech-tag-item family-{{ t | tech_family }}" onclick="filterByTech('{{ t }}', event)">{{ t }}</span>
+                {% endfor %}
+              </div>
+            </details>
+            {% endif %}
 
             {% if proj.links %}
             <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
@@ -2289,8 +2638,15 @@
     </div>
 
     <!-- Skills Categorized (Web Awesome Cards) -->
-    <h3 class="section-title">Grille de Compétences & Technologies</h3>
-    <div class="skills-grid">
+    <h3 class="section-title">
+      <button type="button" class="section-collapse-btn" aria-expanded="true" aria-controls="section-skills" onclick="toggleSection('section-skills', this)">
+        <span class="collapse-icon-box" aria-hidden="true">
+          <svg class="icon collapse-icon"><use href="#icon-dash"></use></svg>
+        </span>
+        <span>Grille de Compétences & Technologies</span>
+      </button>
+    </h3>
+    <div class="skills-grid section-collapsible-content" id="section-skills">
       {% for cat in resume_data.skills_categories %}
       <div class="skill-wrapper" data-domain="{{ cat.domain }}">
         <div class="wa-skill-card" id="skill-{{ loop.index }}">
@@ -2317,12 +2673,19 @@
     </div>
 
     <!-- Formation & Diplômes (Web Awesome Cards) -->
-    <h3 class="section-title">Formation & Diplômes</h3>
-    <div class="timeline-container">
+    <h3 class="section-title">
+      <button type="button" class="section-collapse-btn" aria-expanded="true" aria-controls="section-education" onclick="toggleSection('section-education', this)">
+        <span class="collapse-icon-box" aria-hidden="true">
+          <svg class="icon collapse-icon"><use href="#icon-dash"></use></svg>
+        </span>
+        <span>Formation & Diplômes</span>
+      </button>
+    </h3>
+    <div class="timeline-container section-collapsible-content" id="section-education">
       {% for edu in resume_data.education %}
       <div class="exp-wrapper" data-domain="{{ edu.domain }}" style="position:relative;">
         <div class="exp-node"></div>
-        <div class="wa-exp-card">
+        <div class="wa-exp-card" id="edu-{{ loop.index }}">
           <div class="exp-header">
             <div>
               <div class="exp-role">{{ edu.degree }}</div>
@@ -2385,12 +2748,14 @@
         <img class="print-vector-page" src="assets/cv-page-1.svg" alt="Curriculum Vitae Lionel ATTY Page 1" loading="lazy" decoding="async" />
         <canvas id="canvasPage1" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer1"></div>
+        <div class="annotationLayer" id="annotationLayer1"></div>
       </div>
       <div class="pdf-page-container active" id="pageContainer2">
         <div class="page-tag">PAGE 02 / 02</div>
         <img class="print-vector-page" src="assets/cv-page-2.svg" alt="Curriculum Vitae Lionel ATTY Page 2" loading="lazy" decoding="async" />
         <canvas id="canvasPage2" width="840" height="1188"></canvas>
         <div class="textLayer" id="textLayer2"></div>
+        <div class="annotationLayer" id="annotationLayer2"></div>
       </div>
     </div>
 
@@ -2454,7 +2819,7 @@
       
       <div class="lightbox-image-container">
         <button type="button" id="lightboxPrevBtn" class="lightbox-nav-btn lightbox-prev-btn" onclick="prevLightboxImage(event)" aria-label="Image précédente (Flèche Gauche)">‹</button>
-        <img id="imageModalImg" src="" alt="Aperçu Grand Format">
+        <img id="imageModalImg" src="" alt="Aperçu Grand Format" draggable="false">
         <button type="button" id="lightboxNextBtn" class="lightbox-nav-btn lightbox-next-btn" onclick="nextLightboxImage(event)" aria-label="Image suivante (Flèche Droite)">›</button>
       </div>
 
@@ -2537,10 +2902,11 @@
         { title: "Copier Email (lionel.atty@gmail.com)", icon: "✉️", cat: "Actions", meta: "Contact", action: () => { navigator.clipboard.writeText('lionel.atty@gmail.com'); alert('Email copié dans le presse-papier !'); }, keywords: "email mail contact lionel atty" },
         { title: "Copier Téléphone (+33 6 01 59 00 23)", icon: "📞", cat: "Actions", meta: "Contact", action: () => { navigator.clipboard.writeText('+33 6 01 59 00 23'); alert('Téléphone copié !'); }, keywords: "telephone phone portable tel contact" },
         { title: "Ouvrir LinkedIn (lionel-atty-6a55b748)", icon: "🔗", cat: "Actions", meta: "Contact", action: () => { window.open('https://www.linkedin.com/in/lionel-atty-6a55b748/', '_blank'); }, keywords: "linkedin profil reseau contact lionel atty" },
-        { title: "Ouvrir GitHub (yoyonel)", icon: "🐙", cat: "Actions", meta: "Contact", action: () => { window.open('https://github.com/yoyonel', '_blank'); }, keywords: "github code repos yoyonel" },
         { title: "Télécharger le PDF haute fidélité Typst", icon: "📥", cat: "Actions", meta: "Livrable", action: () => { const a = document.createElement('a'); a.href = PDF_URL; a.download = '{{ pdf_filename }}'; document.body.appendChild(a); a.click(); a.remove(); }, keywords: "download telecharger pdf typst resume cv" },
         { title: "Imprimer le CV au format A4", icon: "🖨️", cat: "Actions", meta: "Print", action: () => printResume(), keywords: "print imprimer a4 papier pdf" },
         { title: "Changer de thème (Sombre / Clair)", icon: "🌓", cat: "Actions", meta: "Thème", action: () => toggleTheme(), keywords: "theme sombre clair dark light mode nuit jour" },
+        { title: "Replier toutes les sections", icon: "➖", cat: "Actions", meta: "Vue Web", action: () => { switchMainView('web'); collapseAllSections(); }, keywords: "replier fermer reduire masquer sections collapse fold all" },
+        { title: "Déplier toutes les sections", icon: "➕", cat: "Actions", meta: "Vue Web", action: () => { switchMainView('web'); expandAllSections(); }, keywords: "deplier ouvrir afficher tout sections expand unfold all" },
       ];
       actions.forEach(a => idx.push({ ...a, score: 0 }));
 
@@ -2554,18 +2920,7 @@
           cat: "Expériences",
           meta: exp.dates,
           keywords: fullContent,
-          action: () => {
-            switchMainView('web');
-            filterByDomain('all');
-            setTimeout(() => {
-              const el = document.getElementById(`exp-${exp.id}`);
-              if (el) {
-                el.classList.add('highlight');
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => el.classList.remove('highlight'), 3000);
-              }
-            }, 100);
-          }
+          action: () => navigateToElement(`exp-${exp.id}`)
         });
       });
 
@@ -2579,18 +2934,7 @@
           cat: "Projets & Talks",
           meta: proj.dates,
           keywords: fullContent,
-          action: () => {
-            switchMainView('web');
-            filterByDomain('all');
-            setTimeout(() => {
-              const el = document.getElementById(`proj-${i+1}`);
-              if (el) {
-                el.classList.add('highlight');
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => el.classList.remove('highlight'), 3000);
-              }
-            }, 100);
-          }
+          action: () => navigateToElement(`proj-${i+1}`)
         });
       });
 
@@ -2604,18 +2948,7 @@
           cat: "Compétences",
           meta: "Stack",
           keywords: cat.title + " " + tagNames.join(" "),
-          action: () => {
-            switchMainView('web');
-            filterByDomain('all');
-            setTimeout(() => {
-              const el = document.getElementById(`skill-${i+1}`);
-              if (el) {
-                el.classList.add('highlight');
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => el.classList.remove('highlight'), 3000);
-              }
-            }, 100);
-          }
+          action: () => navigateToElement(`skill-${i+1}`)
         });
 
         // Index each tag individually
@@ -2635,7 +2968,7 @@
       });
 
       // E. Education & Research
-      RESUME_DATA.education.forEach(edu => {
+      RESUME_DATA.education.forEach((edu, i) => {
         const pubText = edu.publication ? `${edu.publication.title} ${edu.publication.journal} ${edu.publication.authors}` : "";
         idx.push({
           title: `${edu.degree} (${edu.institution})`,
@@ -2644,10 +2977,7 @@
           cat: "Formation & Recherche",
           meta: edu.dates,
           keywords: `${edu.degree} ${edu.institution} ${edu.description} ${pubText}`,
-          action: () => {
-            switchMainView('web');
-            filterByDomain('all');
-          }
+          action: () => navigateToElement(`edu-${i+1}`)
         });
       });
 
@@ -2943,6 +3273,11 @@
         printResume();
         return;
       }
+      if (currentMainView === 'web' && (e.key === 'c' || e.key === 'C')) {
+        e.preventDefault();
+        toggleAllSections();
+        return;
+      }
 
       // Page Navigation shortcuts in Document ISO view
       if (currentMainView === 'doc' && docMode === 'single') {
@@ -3003,7 +3338,7 @@
     let renderTasks = {};
     let zoomDebounceTimer = null;
 
-    async function renderDocPage(pageNum, canvasId, textLayerId) {
+    async function renderDocPage(pageNum, canvasId, textLayerId, annotationLayerId) {
       if (!pdfDoc) return;
       const onScreenCanvas = document.getElementById(canvasId);
       if (!onScreenCanvas) return;
@@ -3017,6 +3352,7 @@
       const page = await pdfDoc.getPage(pageNum);
       const onScreenCtx = onScreenCanvas.getContext('2d');
       const textLayerDiv = document.getElementById(textLayerId);
+      const annotationLayerDiv = document.getElementById(annotationLayerId);
 
       const unscaledViewport = page.getViewport({ scale: 1.0 });
       const isMobile = window.innerWidth <= 860;
@@ -3072,6 +3408,7 @@
       onScreenCanvas.height = bufferH;
       onScreenCtx.drawImage(offscreenCanvas, 0, 0);
 
+      // --- TEXT LAYER (Text Selection) ---
       if (textLayerDiv) {
         if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
         if (currentMainView !== 'doc') return;
@@ -3092,6 +3429,48 @@
           });
         } catch (_) {}
       }
+
+      // --- ANNOTATION LAYER (Clickable Hyperlinks) ---
+      if (annotationLayerDiv) {
+        if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
+        if (currentMainView !== 'doc') return;
+        annotationLayerDiv.innerHTML = '';
+        annotationLayerDiv.style.width = Math.floor(viewport.width) + 'px';
+        annotationLayerDiv.style.height = Math.floor(viewport.height) + 'px';
+
+        try {
+          const annotations = await page.getAnnotations();
+          if (container && (container.offsetParent === null || getComputedStyle(container).display === 'none')) return;
+          if (currentMainView !== 'doc' || getComputedStyle(annotationLayerDiv).display === 'none') return;
+
+          for (const ann of annotations) {
+            const url = ann.url || ann.unsafeUrl;
+            if (ann.subtype === 'Link' && url) {
+              const rect = viewport.convertToViewportRectangle(ann.rect);
+              const minX = Math.min(rect[0], rect[2]);
+              const maxX = Math.max(rect[0], rect[2]);
+              const minY = Math.min(rect[1], rect[3]);
+              const maxY = Math.max(rect[1], rect[3]);
+
+              const a = document.createElement('a');
+              a.className = 'pdf-link';
+              a.href = url;
+              a.target = '_blank';
+              a.rel = 'noopener noreferrer';
+              a.title = url;
+              a.setAttribute('aria-label', `Ouvrir le lien ${url}`);
+              a.style.left = `${minX}px`;
+              a.style.top = `${minY}px`;
+              a.style.width = `${Math.max(2, maxX - minX)}px`;
+              a.style.height = `${Math.max(2, maxY - minY)}px`;
+
+              annotationLayerDiv.appendChild(a);
+            }
+          }
+        } catch (err) {
+          console.warn('Could not render PDF annotations', err);
+        }
+      }
     }
 
     async function renderDocPages() {
@@ -3101,14 +3480,14 @@
       }
       if (docMode === 'single') {
         if (docPageNum === 1) {
-          await renderDocPage(1, 'canvasPage1', 'textLayer1');
+          await renderDocPage(1, 'canvasPage1', 'textLayer1', 'annotationLayer1');
         } else {
-          await renderDocPage(2, 'canvasPage2', 'textLayer2');
+          await renderDocPage(2, 'canvasPage2', 'textLayer2', 'annotationLayer2');
         }
       } else {
         await Promise.all([
-          renderDocPage(1, 'canvasPage1', 'textLayer1'),
-          renderDocPage(2, 'canvasPage2', 'textLayer2')
+          renderDocPage(1, 'canvasPage1', 'textLayer1', 'annotationLayer1'),
+          renderDocPage(2, 'canvasPage2', 'textLayer2', 'annotationLayer2')
         ]);
       }
     }
@@ -3222,13 +3601,186 @@
       }
     }
 
-    function goToMediaSection() {
+    // 5. Collapsible Section Management with Dynamic DOM Discovery & localStorage Persistence
+    function getCollapsibleSections() {
+      return Array.from(document.querySelectorAll('.section-collapsible-content[id]'));
+    }
+
+    function saveCollapsedState() {
+      try {
+        const collapsedIds = [];
+        getCollapsibleSections().forEach(content => {
+          if (content.classList.contains('collapsed')) {
+            collapsedIds.push(content.id);
+          }
+        });
+        localStorage.setItem('cv_collapsed_sections', JSON.stringify(collapsedIds));
+      } catch (_) {}
+    }
+
+    function restoreCollapsedState() {
+      try {
+        const saved = localStorage.getItem('cv_collapsed_sections');
+        if (!saved) return;
+        const collapsedIds = new Set(JSON.parse(saved));
+        getCollapsibleSections().forEach(content => {
+          const id = content.id;
+          const btn = document.querySelector(`[aria-controls="${id}"]`);
+          const shouldCollapse = collapsedIds.has(id);
+          content.classList.toggle('collapsed', shouldCollapse);
+          if (btn) {
+            btn.setAttribute('aria-expanded', shouldCollapse ? 'false' : 'true');
+            const icon = btn.querySelector('.collapse-icon use');
+            if (icon) {
+              icon.setAttribute('href', shouldCollapse ? '#icon-plus' : '#icon-dash');
+            }
+          }
+        });
+        updateSectionControlsState();
+      } catch (_) {}
+    }
+
+    function areAllSectionsCollapsed() {
+      const sections = getCollapsibleSections();
+      if (sections.length === 0) return false;
+      return sections.every(content => content.classList.contains('collapsed'));
+    }
+
+    function areAllSectionsExpanded() {
+      const sections = getCollapsibleSections();
+      if (sections.length === 0) return false;
+      return sections.every(content => !content.classList.contains('collapsed'));
+    }
+
+    function updateSectionControlsState() {
+      const expandBtn = document.getElementById('btnExpandAll');
+      const collapseBtn = document.getElementById('btnCollapseAll');
+      if (!expandBtn || !collapseBtn) return;
+
+      const sections = getCollapsibleSections();
+      const count = sections.length;
+      const countLabel = count > 0 ? `les ${count} sections` : 'toutes les sections';
+      expandBtn.setAttribute('data-tooltip', `Déplier ${countLabel}`);
+      collapseBtn.setAttribute('data-tooltip', `Replier ${countLabel} (Touche C)`);
+
+      const allExpanded = areAllSectionsExpanded();
+      const allCollapsed = areAllSectionsCollapsed();
+
+      expandBtn.classList.toggle('active', allExpanded);
+      collapseBtn.classList.toggle('active', allCollapsed);
+    }
+
+    function toggleAllSections() {
+      if (areAllSectionsCollapsed()) {
+        expandAllSections();
+      } else {
+        collapseAllSections();
+      }
+    }
+
+    function expandSection(sectionId) {
+      const content = document.getElementById(sectionId);
+      if (!content) return;
+      if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        const btn = document.querySelector(`[aria-controls="${sectionId}"]`);
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'true');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-dash');
+        }
+        saveCollapsedState();
+        updateSectionControlsState();
+      }
+    }
+
+    function toggleSection(sectionId, btn) {
+      const content = document.getElementById(sectionId);
+      if (!content) return;
+      const isCollapsed = content.classList.contains('collapsed');
+      if (isCollapsed) {
+        content.classList.remove('collapsed');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'true');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-dash');
+        }
+      } else {
+        content.classList.add('collapsed');
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-plus');
+        }
+      }
+      saveCollapsedState();
+      updateSectionControlsState();
+    }
+
+    function collapseAllSections() {
+      getCollapsibleSections().forEach(content => {
+        content.classList.add('collapsed');
+        const btn = document.querySelector(`[aria-controls="${content.id}"]`);
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-plus');
+        }
+      });
+      saveCollapsedState();
+      updateSectionControlsState();
+    }
+
+    function expandAllSections() {
+      getCollapsibleSections().forEach(content => {
+        content.classList.remove('collapsed');
+        const btn = document.querySelector(`[aria-controls="${content.id}"]`);
+        if (btn) {
+          btn.setAttribute('aria-expanded', 'true');
+          const icon = btn.querySelector('.collapse-icon use');
+          if (icon) icon.setAttribute('href', '#icon-dash');
+        }
+      });
+      saveCollapsedState();
+      updateSectionControlsState();
+    }
+
+    function navigateToElement(target) {
       switchMainView('web');
       filterByDomain('all');
       setTimeout(() => {
-        const el = document.getElementById('section-projects');
+        const el = (typeof target === 'string') ? document.getElementById(target) : target;
+        if (!el) return;
+
+        // 1. Auto-expand parent collapsible section if collapsed
+        const parentSection = el.closest('.section-collapsible-content');
+        if (parentSection && parentSection.id) {
+          expandSection(parentSection.id);
+        }
+
+        // 2. Open parent <details> (e.g. tech tags accordion) if closed
+        const parentDetails = el.closest('details');
+        if (parentDetails) {
+          parentDetails.open = true;
+        }
+
+        // 3. Highlight and scroll smoothly into view
+        requestAnimationFrame(() => {
+          el.classList.add('highlight');
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => el.classList.remove('highlight'), 3000);
+        });
+      }, 50);
+    }
+
+    function goToMediaSection() {
+      switchMainView('web');
+      filterByDomain('all');
+      expandSection('section-projects');
+      setTimeout(() => {
+        const el = document.getElementById('section-projects-title') || document.getElementById('section-projects');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+      }, 50);
     }
 
     // 6. Domain & Tech Filtering (Support Normal Click + Shift/Ctrl Multi-Selection)
@@ -3288,6 +3840,19 @@
         const match = isAll || activeDomains.has(d);
         card.style.display = match ? 'block' : 'none';
       });
+
+      // Auto-expand sections that contain matching cards when filtering by domain
+      if (!isAll) {
+        ['section-experiences', 'section-projects', 'section-skills'].forEach(sId => {
+          const sec = document.getElementById(sId);
+          if (sec) {
+            const hasVisibleCard = Array.from(sec.querySelectorAll('.exp-wrapper, .project-wrapper, .skill-wrapper')).some(card => card.style.display !== 'none');
+            if (hasVisibleCard) {
+              expandSection(sId);
+            }
+          }
+        });
+      }
     }
 
     function filterByTech(techName, event) {
@@ -3316,6 +3881,10 @@
       document.querySelectorAll('.tech-tag-item, .tech-kw').forEach(t => {
         const match = activeTechs.has(t.innerText.toLowerCase().trim());
         t.classList.toggle('active', match);
+        if (match && hasActiveTech) {
+          const details = t.closest('.exp-tags-details');
+          if (details) details.open = true;
+        }
       });
 
       let firstMatch = null;
@@ -3326,13 +3895,21 @@
           const textContent = card.innerText.toLowerCase();
           const matchesAny = Array.from(activeTechs).some(tech => textContent.includes(tech));
           card.classList.toggle('highlight', matchesAny);
-          if (matchesAny && !firstMatch) {
-            firstMatch = card;
+          if (matchesAny) {
+            const details = card.querySelector('.exp-tags-details');
+            if (details) details.open = true;
+            if (!firstMatch) {
+              firstMatch = card;
+            }
           }
         }
       });
 
       if (firstMatch) {
+        const parentCollapsible = firstMatch.closest('.section-collapsible-content');
+        if (parentCollapsible && parentCollapsible.id) {
+          expandSection(parentCollapsible.id);
+        }
         firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
@@ -3365,6 +3942,185 @@
     let currentLightboxCardIdx = null;
     let currentLightboxGallery = [];
     let currentLightboxIndex = 0;
+    let hasSwipedGlobal = false;
+
+    function getCardGalleryItems(cardIdx) {
+      const buttons = document.querySelectorAll(`.media-thumb-btn-${cardIdx}`);
+      return Array.from(buttons).map((b, idx) => ({
+        idx: idx,
+        src: b.getAttribute('data-src'),
+        label: b.getAttribute('data-label') || '',
+        btn: b,
+        active: b.classList.contains('btn-primary')
+      }));
+    }
+
+    function cycleCardMedia(cardIdx, direction) {
+      const items = getCardGalleryItems(cardIdx);
+      if (items.length <= 1) return;
+      let activeIdx = items.findIndex(it => it.active);
+      if (activeIdx === -1) activeIdx = 0;
+      let nextIdx = (activeIdx + direction + items.length) % items.length;
+      const nextItem = items[nextIdx];
+      switchCardMedia(cardIdx, nextItem.src, nextItem.label, nextItem.btn);
+    }
+
+    function cycleCardMediaByEvent(event, cardIdx, direction) {
+      if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
+      cycleCardMedia(cardIdx, direction);
+    }
+
+    function attachSwipeHandler(el, onSwipeLeft, onSwipeRight) {
+      if (!el || el._hasSwipeHandler) return;
+      el._hasSwipeHandler = true;
+      let startX = 0;
+      let startY = 0;
+      let startTime = 0;
+      let isPointerDown = false;
+      let hasDragged = false;
+      const minDistance = 25;
+      const maxPerpendicular = 90;
+      const maxTime = 1000;
+
+      function onStart(x, y) {
+        startX = x;
+        startY = y;
+        startTime = Date.now();
+        isPointerDown = true;
+        hasDragged = false;
+        el.classList.add('is-dragging');
+      }
+
+      function onMove(x, y, e) {
+        if (!isPointerDown) return;
+        const deltaX = x - startX;
+        const deltaY = y - startY;
+        if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
+          hasDragged = true;
+          if (e && e.cancelable && e.type !== 'mousemove') {
+            e.preventDefault();
+          }
+        }
+      }
+
+      function onEnd(x, y) {
+        if (!isPointerDown) return;
+        isPointerDown = false;
+        el.classList.remove('is-dragging');
+        const deltaX = x - startX;
+        const deltaY = y - startY;
+        const elapsed = Date.now() - startTime;
+
+        if (elapsed <= maxTime && Math.abs(deltaX) >= minDistance && Math.abs(deltaY) <= maxPerpendicular) {
+          hasSwipedGlobal = true;
+          setTimeout(() => { hasSwipedGlobal = false; }, 300);
+          if (deltaX < 0 && onSwipeLeft) {
+            onSwipeLeft();
+          } else if (deltaX > 0 && onSwipeRight) {
+            onSwipeRight();
+          }
+        }
+      }
+
+      // Prevent HTML5 native image drag
+      el.addEventListener('dragstart', (e) => {
+        e.preventDefault();
+      });
+
+      // Touch events (Mobile)
+      el.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        if (e.target.closest('button')) return;
+        onStart(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
+
+      el.addEventListener('touchmove', (e) => {
+        if (e.touches.length !== 1) return;
+        onMove(e.touches[0].clientX, e.touches[0].clientY, e);
+      }, { passive: false });
+
+      el.addEventListener('touchend', (e) => {
+        if (e.changedTouches.length === 0) return;
+        onEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+      }, { passive: true });
+
+      el.addEventListener('touchcancel', () => {
+        isPointerDown = false;
+        el.classList.remove('is-dragging');
+      }, { passive: true });
+
+      // Mouse drag events (Desktop)
+      el.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        if (e.target.closest('button')) return;
+        onStart(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isPointerDown) {
+          onMove(e.clientX, e.clientY, e);
+        }
+      });
+
+      window.addEventListener('mouseup', (e) => {
+        if (isPointerDown) {
+          onEnd(e.clientX, e.clientY);
+        }
+      });
+
+      // Capture click to prevent opening modal when swiping/dragging
+      el.addEventListener('click', (e) => {
+        if (hasSwipedGlobal || hasDragged) {
+          e.stopPropagation();
+          e.preventDefault();
+          hasDragged = false;
+        }
+      }, true);
+    }
+
+    function attachDragToScroll(container) {
+      if (!container || container._hasDragScroll) return;
+      container._hasDragScroll = true;
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      let hasDragged = false;
+
+      container.addEventListener('mousedown', (e) => {
+        isDown = true;
+        hasDragged = false;
+        container.classList.add('is-dragging');
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDown) {
+          isDown = false;
+          container.classList.remove('is-dragging');
+        }
+      });
+
+      container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        if (Math.abs(walk) > 5) hasDragged = true;
+        container.scrollLeft = scrollLeft - walk;
+      });
+
+      container.addEventListener('click', (e) => {
+        if (hasDragged) {
+          e.stopPropagation();
+          e.preventDefault();
+          hasDragged = false;
+        }
+      }, true);
+    }
 
     function openImageModal(src, title, cardIdx) {
       const dialog = document.getElementById('imageModalDialog');
@@ -3380,7 +4136,7 @@
             const itemSrc = b.getAttribute('data-src');
             const itemLabel = b.getAttribute('data-label') || title || `Vue ${idx + 1}`;
             currentLightboxGallery.push({ src: itemSrc, label: itemLabel, btn: b });
-            if (itemSrc === src) {
+            if (b.classList.contains('btn-primary') || (src && (itemSrc === src || src.endsWith(itemSrc) || itemSrc.endsWith(src)))) {
               currentLightboxIndex = idx;
             }
           });
@@ -3393,6 +4149,24 @@
       }
 
       updateLightboxView();
+
+      const lightboxContainer = document.querySelector('.lightbox-image-container');
+      if (lightboxContainer) {
+        if (currentLightboxGallery.length > 1) {
+          lightboxContainer.classList.add('has-multi-media');
+        } else {
+          lightboxContainer.classList.remove('has-multi-media');
+        }
+        if (!lightboxContainer._hasSwipe) {
+          lightboxContainer._hasSwipe = true;
+          attachSwipeHandler(lightboxContainer, () => nextLightboxImage(), () => prevLightboxImage());
+        }
+      }
+
+      const thumbsBox = document.getElementById('lightboxThumbs');
+      if (thumbsBox) {
+        attachDragToScroll(thumbsBox);
+      }
 
       if (dialog && !dialog.open) {
         document.body.style.overflow = 'hidden';
@@ -3444,6 +4218,11 @@
             };
             thumbsBox.appendChild(thumbBtn);
           });
+          const activePill = thumbsBox.querySelector('.lightbox-thumb-pill.active');
+          if (activePill) {
+            const targetLeft = activePill.offsetLeft - (thumbsBox.clientWidth - activePill.offsetWidth) / 2;
+            thumbsBox.scrollTo({ left: targetLeft, behavior: 'smooth' });
+          }
         } else {
           thumbsBox.style.display = 'none';
         }
@@ -3472,11 +4251,12 @@
     }
 
     function openImageModalByElem(el) {
+      if (hasSwipedGlobal) return;
       const cardIdx = el.getAttribute('data-card-idx');
       const title = el.getAttribute('data-title');
       const img = document.getElementById(`media-img-${cardIdx}`);
       if (img) {
-        openImageModal(img.src, title, cardIdx);
+        openImageModal(img.getAttribute('src') || img.src, title, cardIdx);
       }
     }
 
@@ -3502,6 +4282,8 @@
           });
           btn.classList.remove('btn-default');
           btn.classList.add('btn-primary');
+          const targetLeft = btn.offsetLeft - (parent.clientWidth - btn.offsetWidth) / 2;
+          parent.scrollTo({ left: targetLeft, behavior: 'smooth' });
         }
       }
     }
@@ -3511,6 +4293,23 @@
       const src = btn.getAttribute('data-src');
       const label = btn.getAttribute('data-label') || '';
       switchCardMedia(cardIdx, src, label, btn);
+    }
+
+    function initMediaGalleries() {
+      document.querySelectorAll('.project-media-main').forEach(el => {
+        const cardIdx = el.getAttribute('data-card-idx');
+        if (cardIdx) {
+          const buttons = document.querySelectorAll(`.media-thumb-btn-${cardIdx}`);
+          if (buttons.length > 1) {
+            el.classList.add('has-multi-media');
+            attachSwipeHandler(el, () => cycleCardMedia(cardIdx, 1), () => cycleCardMedia(cardIdx, -1));
+          }
+        }
+      });
+
+      document.querySelectorAll('.media-gallery-thumbs').forEach(container => {
+        attachDragToScroll(container);
+      });
     }
 
     // 8. Theme Management (prefers-color-scheme with localStorage override)
@@ -3534,6 +4333,7 @@
         if (btn) {
           btn.setAttribute('data-tooltip', 'Passer en mode sombre (T)');
           btn.setAttribute('aria-label', 'Passer en mode sombre');
+          btn.removeAttribute('title');
         }
       } else {
         html.classList.remove('light');
@@ -3542,6 +4342,7 @@
         if (btn) {
           btn.setAttribute('data-tooltip', 'Passer en mode clair (T)');
           btn.setAttribute('aria-label', 'Passer en mode clair');
+          btn.removeAttribute('title');
         }
       }
     }
@@ -3617,6 +4418,7 @@
     // Init
     function init() {
       applyTheme(getPreferredTheme());
+      restoreCollapsedState();
       if (window.matchMedia) {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
           if (!localStorage.getItem('cv_theme')) {
@@ -3651,11 +4453,101 @@
       });
 
       switchMainView('web');
+      updateSectionControlsState();
+      initMediaGalleries();
+      initWebTooltip();
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => { searchIndex = buildSearchIndex(); });
       } else {
         setTimeout(() => { searchIndex = buildSearchIndex(); }, 100);
       }
+    }
+
+    // Universal Floating Web Tooltip System (Zero Framework, 100% ISO Web Tokens)
+    function initWebTooltip() {
+      let tooltipEl = document.getElementById('web-tooltip');
+      if (!tooltipEl) {
+        tooltipEl = document.createElement('div');
+        tooltipEl.id = 'web-tooltip';
+        tooltipEl.className = 'web-tooltip';
+        tooltipEl.setAttribute('role', 'tooltip');
+        tooltipEl.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(tooltipEl);
+      }
+
+      let activeTarget = null;
+
+      function showTooltip(target) {
+        if (!target) return;
+        const text = target.getAttribute('data-tooltip');
+        if (!text) return;
+
+        activeTarget = target;
+        tooltipEl.textContent = text;
+        tooltipEl.setAttribute('aria-hidden', 'false');
+
+        const rect = target.getBoundingClientRect();
+        const tooltipRect = tooltipEl.getBoundingClientRect();
+        const gap = 8;
+
+        // Placement: if close to top of viewport (e.g. header & sticky bars), place below target
+        let top;
+        if (rect.top < 150 || (rect.top - tooltipRect.height - gap) < 104) {
+          top = rect.bottom + gap;
+        } else {
+          top = rect.top - tooltipRect.height - gap;
+        }
+
+        // Horizontal centering on target
+        let left = rect.left + rect.width / 2;
+        const halfW = tooltipRect.width / 2;
+        const margin = 10;
+        if (left - halfW < margin) {
+          left = halfW + margin;
+        } else if (left + halfW > window.innerWidth - margin) {
+          left = window.innerWidth - margin - halfW;
+        }
+
+        tooltipEl.style.top = `${Math.round(top)}px`;
+        tooltipEl.style.left = `${Math.round(left)}px`;
+        tooltipEl.classList.add('is-visible');
+      }
+
+      function hideTooltip() {
+        activeTarget = null;
+        if (tooltipEl) {
+          tooltipEl.classList.remove('is-visible');
+          tooltipEl.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      document.addEventListener('mouseenter', e => {
+        const target = e.target && e.target.closest && e.target.closest('[data-tooltip]');
+        if (target) showTooltip(target);
+      }, true);
+
+      document.addEventListener('mouseleave', e => {
+        const target = e.target && e.target.closest && e.target.closest('[data-tooltip]');
+        if (target && target === activeTarget) hideTooltip();
+      }, true);
+
+      document.addEventListener('focusin', e => {
+        const target = e.target && e.target.closest && e.target.closest('[data-tooltip]');
+        if (target) showTooltip(target);
+      }, true);
+
+      document.addEventListener('focusout', e => {
+        const target = e.target && e.target.closest && e.target.closest('[data-tooltip]');
+        if (target && target === activeTarget) hideTooltip();
+      }, true);
+
+      window.addEventListener('scroll', () => {
+        if (activeTarget) hideTooltip();
+      }, { passive: true });
+
+      window.addEventListener('keydown', e => {
+        if (e.key === 'Escape') hideTooltip();
+      });
     }
 
     if (document.readyState === 'loading') {
